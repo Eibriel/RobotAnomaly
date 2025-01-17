@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8faqpmagcmaa"]
+
+[ext_resource type="Script" path="res://battery_charger.gd" id="1_fsn5c"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7i2tw"]
+size = Vector3(0.5, 0.2, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qjqsg"]
+size = Vector3(0.515869, 0.21875, 0.197327)
+
+[node name="BatteryCharger" type="Node3D"]
+script = ExtResource("1_fsn5c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_7i2tw")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0883697)
+text = "0 %"
+
+[node name="BatteryArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.000336111, 0.0608027)
+collision_layer = 2
+metadata/is_battery_charger = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BatteryArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0101976)
+shape = SubResource("BoxShape3D_qjqsg")

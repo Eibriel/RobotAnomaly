@@ -1,0 +1,170 @@
+[gd_scene load_steps=10 format=3 uid="uid://cp3bk1xsmjnxj"]
+
+[ext_resource type="Script" path="res://robot.gd" id="1_0iowa"]
+[ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lloov"]
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_lacoj"]
+material = SubResource("StandardMaterial3D_lloov")
+radius = 0.1
+height = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_h7qjg"]
+height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjjcf"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h41k0"]
+size = Vector3(0.11499, 0.116272, 0.0623397)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ioch8"]
+size = Vector3(0.366211, 0.260818, 0.00749184)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4sq5"]
+radius = 0.378354
+height = 2.80419
+
+[node name="Robot" type="Node3D"]
+script = ExtResource("1_0iowa")
+
+[node name="ReflectionBall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.582718, 0.436892, -0.0147107)
+mesh = SubResource("SphereMesh_lacoj")
+skeleton = NodePath("../RobotBody")
+
+[node name="Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.244016, 0)
+mesh = SubResource("CylinderMesh_h7qjg")
+
+[node name="Stand3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.598761, -0.489134)
+visible = false
+size = Vector3(0.730469, 2.82405, 0.0257568)
+
+[node name="RobotBody" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="GlitchLabel" type="Label3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23541, -0.0175738)
+visible = false
+text = "NONE"
+font_size = 15
+
+[node name="IdLabel" type="Label3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.815804, 0.578327, 0, -0.578327, 0.815804, -0.4979, 1.07795, 0.0643131)
+visible = false
+text = "R0"
+font_size = 20
+
+[node name="Stand2" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0240527, 1.51274, -0.525807)
+visible = false
+size = Vector3(0.113037, 0.0790121, 0.0869141)
+material = SubResource("StandardMaterial3D_hjjcf")
+
+[node name="BatteryNode" type="Node3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32055, 0.145649)
+
+[node name="BatteryLabel" type="Label3D" parent="RobotBody/BatteryNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.067071, 0.00797239)
+text = "0%"
+font_size = 10
+
+[node name="BatteryArea" type="Area3D" parent="RobotBody/BatteryNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.085771, 0.0810544)
+collision_layer = 2
+metadata/is_battery = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/BatteryNode/BatteryArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0244447, -0.0780104)
+shape = SubResource("BoxShape3D_h41k0")
+
+[node name="BlockArea2" type="Area3D" parent="RobotBody/BatteryNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0772715, -0.0308072)
+collision_layer = 2
+metadata/is_robot = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/BatteryNode/BlockArea2"]
+shape = SubResource("BoxShape3D_ioch8")
+
+[node name="BatteryIndicator" type="CSGBox3D" parent="RobotBody/BatteryNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.8995e-05, -0.00370862)
+size = Vector3(0.0244141, 0.0302734, 0.0224609)
+
+[node name="RotateArea" type="Area3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559995, 0.67213, -0.134562)
+visible = false
+collision_layer = 2
+metadata/is_rotate = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/RotateArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00545126)
+shape = SubResource("BoxShape3D_h41k0")
+disabled = true
+
+[node name="RotateButton" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.560628, 0.670734, -0.139736)
+visible = false
+size = Vector3(0.113525, 0.105713, 0.0257568)
+
+[node name="ShutdownNode" type="Node3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61246, -0.123518)
+
+[node name="BlockArea" type="Area3D" parent="RobotBody/ShutdownNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0077002, 0.0481478)
+collision_layer = 2
+metadata/is_robot = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/BlockArea"]
+shape = SubResource("BoxShape3D_ioch8")
+
+[node name="IdArea" type="Area3D" parent="RobotBody/ShutdownNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0130765, -0.0110441)
+collision_layer = 2
+metadata/is_id = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/IdArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00545126)
+shape = SubResource("BoxShape3D_h41k0")
+
+[node name="Label3D" type="Label3D" parent="RobotBody/ShutdownNode"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.0183711, -0.0519184)
+visible = false
+text = "Shutdown!"
+font_size = 10
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
+aabb = AABB(-0.825695, 0, -0.85, 1.65139, 2.5, 1.7)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RobotBody"]
+collision_layer = 2
+metadata/is_robot = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18441, 0)
+shape = SubResource("CapsuleShape3D_m4sq5")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.769575, 0.0462294)
+light_energy = 0.02
+light_negative = true
+light_specular = 0.0
+distance_fade_enabled = true
+distance_fade_begin = 15.0
+omni_range = 1.65341
+omni_attenuation = 2.0
+
+[node name="robotObject" parent="RobotBody" instance=ExtResource("2_kdi4s")]
+unique_name_in_owner = true
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)

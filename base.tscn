@@ -1,0 +1,373 @@
+[gd_scene load_steps=22 format=3 uid="uid://c4utrcpde6y22"]
+
+[ext_resource type="Script" path="res://base.gd" id="1_ut1kh"]
+[ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
+[ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
+[ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="3_s5o31"]
+[ext_resource type="AudioStream" uid="uid://q0qwyv6d1uqg" path="res://sounds/TinCoin.mp3" id="4_2suhb"]
+[ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
+[ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
+inner_radius = 0.05
+outer_radius = 0.5
+rings = 32
+ring_segments = 12
+
+[sub_resource type="Sky" id="Sky_wrmds"]
+sky_material = ExtResource("3_ok30c")
+radiance_size = 2
+
+[sub_resource type="Environment" id="Environment_jucab"]
+background_mode = 2
+sky = SubResource("Sky_wrmds")
+tonemap_mode = 2
+glow_enabled = true
+fog_light_color = Color(0.33, 0.1914, 0.21681, 1)
+adjustment_brightness = 1.28
+adjustment_contrast = 1.21
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_t471m"]
+random_pitch = 1.35
+random_volume_offset_db = 2.2
+streams_count = 1
+stream_0/stream = ExtResource("4_2suhb")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_46a6v"]
+size = Vector3(1.74908, 3.88782, 2.46741)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5ho0w"]
+size = Vector3(6.33691, 7.39258, 16.1753)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ae67b"]
+size = Vector3(8.45215, 2.19482, 49.9573)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3f8e7"]
+size = Vector3(2.81738, 3.20459, 1.10767)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sqak7"]
+size = Vector3(2.81738, 3.20459, 1.52271)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rk17j"]
+size = Vector3(2.06641, 3.20459, 1.34253)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fnj5f"]
+size = Vector3(2.1275, 3.07764, 2.18982)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_he4mn"]
+size = Vector3(1.78955, 3.20459, 1.87488)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v15f4"]
+shading_mode = 0
+disable_ambient_light = true
+disable_fog = true
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_61cie"]
+material = SubResource("StandardMaterial3D_v15f4")
+flip_faces = true
+radius = 50.0
+height = 100.0
+
+[node name="Base" type="Node3D"]
+script = ExtResource("1_ut1kh")
+
+[node name="Player" parent="." instance=ExtResource("2_c28jh")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0, 28.91)
+
+[node name="InitialPosition" type="Marker3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0500393, -0.0113512, 28.9101)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InitialPosition"]
+visible = false
+mesh = SubResource("TorusMesh_vsodd")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jucab")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.810575, -0.563499, -0.15949, -0.310974, 0.18338, 0.932559, -0.496249, 0.805507, -0.323877, 0, 0, 0)
+visible = false
+light_energy = 0.5
+shadow_enabled = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="Control"]
+modulate = Color(1, 1, 1, 0.458824)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 125.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("3_s5o31")
+
+[node name="RobotIdLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "R-1"
+horizontal_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="ShiftOverLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "Shift Over!"
+horizontal_alignment = 1
+
+[node name="TaskProgressBar" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -285.0
+offset_right = 115.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PokeAudio" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_t471m")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0032987, 0.999995, 0, -0.999995, -0.0032987, -0.543751, 3.1087, -19.6072)
+shadow_enabled = true
+distance_fade_enabled = true
+spot_range = 31.3278
+spot_angle = 39.556
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.178098, 0.984013, 0, -0.984013, 0.178098, 0.866503, 3.17484, -6.77921)
+shadow_enabled = true
+distance_fade_enabled = true
+spot_range = 31.3278
+spot_angle = 39.556
+
+[node name="OfficeNode" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="OfficeWithCollision2" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
+
+[node name="OfficeWithCollision5" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0)
+
+[node name="OfficeWithCollision" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+
+[node name="OfficeWithCollision3" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1, 0)
+
+[node name="OfficeWithCollision4" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.2, 0)
+
+[node name="SideDoor" type="CSGBox3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.00614, 0, 0)
+visible = false
+size = Vector3(0.288086, 1, 1.83105)
+
+[node name="MessageLabel" type="Label3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(1.06581e-14, 0, -1, 0, 1, 0, 1, 0, 1.06581e-14, 4.22272, 1.22896, 10.8749)
+text = "10"
+font_size = 40
+
+[node name="Environment" type="Node3D" parent="OfficeNode"]
+unique_name_in_owner = true
+
+[node name="StairsNode" type="Node3D" parent="."]
+
+[node name="stairs3" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0)
+
+[node name="stairs2" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
+
+[node name="stairs" parent="StairsNode" instance=ExtResource("7_x3c38")]
+
+[node name="stairs4" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1, 0)
+
+[node name="stairs5" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.2, 0)
+
+[node name="LevelCountLabel" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.976592, 1.23869, 28.1689)
+text = "10"
+font_size = 400
+
+[node name="LevelCountLabel3" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.984096, 1.20363, -28.0575)
+text = "10"
+font_size = 400
+
+[node name="LevelCountLabel2" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, -0.14065, 1.22896, -29.6504)
+text = "10"
+font_size = 400
+
+[node name="LevelCountLabel4" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.141, 1.229, 29.65)
+text = "10"
+font_size = 400
+
+[node name="FinishArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinishArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2897, 3.90689, 10.2043)
+shape = SubResource("BoxShape3D_46a6v")
+
+[node name="ExitArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9074, 0, 0)
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.408264, 0.744858, -4.38354)
+shape = SubResource("BoxShape3D_5ho0w")
+
+[node name="InsideArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InsideArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10864, 0)
+shape = SubResource("BoxShape3D_ae67b")
+
+[node name="LoopUp" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LoopUp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.58016, -0.608527, 26.3022)
+shape = SubResource("BoxShape3D_3f8e7")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="LoopUp"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.59115, -0.608527, -26.5618)
+shape = SubResource("BoxShape3D_3f8e7")
+
+[node name="LoopDown" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LoopDown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.58016, 3.56116, 28.9497)
+shape = SubResource("BoxShape3D_sqak7")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="LoopDown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96664, 3.55746, -28.9834)
+shape = SubResource("BoxShape3D_rk17j")
+
+[node name="StartLevel" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StartLevel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.319778, 1.60833, 26.1363)
+shape = SubResource("BoxShape3D_fnj5f")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StartLevel"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121158, 1.75943, -26.3112)
+shape = SubResource("BoxShape3D_he4mn")
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87743, 0)
+size = Vector3(10.3887, 4.77147, 50.7756)
+box_projection = true
+cull_mask = 1048574
+ambient_mode = 0
+
+[node name="Sky" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_61cie")
+metadata/_edit_lock_ = true
+
+[connection signal="body_entered" from="FinishArea" to="." method="_on_finish_area_body_entered"]
+[connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_body_entered"]
+[connection signal="body_entered" from="InsideArea" to="." method="_on_inside_area_body_entered"]
+[connection signal="body_exited" from="InsideArea" to="." method="_on_inside_area_body_exited"]
+[connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]
+[connection signal="body_entered" from="LoopDown" to="." method="_on_loop_down_body_entered"]
+[connection signal="body_entered" from="StartLevel" to="." method="_on_start_level_body_entered"]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuasy1tg0paxi"]
+
+[ext_resource type="Script" path="res://section.gd" id="1_wwryk"]
+
+[node name="Section" type="Node3D"]
+script = ExtResource("1_wwryk")
+
+[node name="Robots" type="Node3D" parent="."]
+unique_name_in_owner = true

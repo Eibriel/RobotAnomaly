@@ -1,0 +1,104 @@
+[gd_scene load_steps=3 format=3 uid="uid://jk1f4qv62usy"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4sq5"]
+radius = 0.500847
+height = 2.80419
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nyxmc"]
+albedo_color = Color(0, 0, 1, 1)
+
+[node name="Robot" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 2
+metadata/is_robot = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18441, 0)
+shape = SubResource("CapsuleShape3D_m4sq5")
+disabled = true
+
+[node name="RobotBody" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Eyes" type="CSGBox3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25172, 0.366776)
+size = Vector3(0.774414, 0.113205, 0.0837097)
+material = SubResource("StandardMaterial3D_nyxmc")
+
+[node name="ExtraEyes" type="CSGBox3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.38411, 0.366776)
+visible = false
+size = Vector3(0.731445, 0.0693359, 0.0837097)
+material = SubResource("StandardMaterial3D_nyxmc")
+
+[node name="ExtraHead" type="CSGBox3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(0.668534, 0.743682, 0, -0.743682, 0.668534, 0, 0, 0, 1, 0.774734, 1.89745, -0.0708618)
+visible = false
+size = Vector3(0.541016, 0.237305, 0.472412)
+
+[node name="Smile" type="Node3D" parent="RobotBody"]
+unique_name_in_owner = true
+visible = false
+
+[node name="Eyes2" type="CSGBox3D" parent="RobotBody/Smile"]
+transform = Transform3D(0.974095, 0.226141, 0, -0.226141, 0.974095, 0, 0, 0, 1, -0.0752563, 2.05023, 0.366776)
+size = Vector3(0.152222, 0.0407715, 0.0837097)
+material = SubResource("StandardMaterial3D_nyxmc")
+
+[node name="Eyes3" type="CSGBox3D" parent="RobotBody/Smile"]
+transform = Transform3D(0.976563, -0.21523, 0, 0.21523, 0.976563, 0, 0, 0, 1, 0.075025, 2.05023, 0.366776)
+size = Vector3(0.152222, 0.0407715, 0.0837097)
+material = SubResource("StandardMaterial3D_nyxmc")
+
+[node name="Sad" type="Node3D" parent="RobotBody"]
+unique_name_in_owner = true
+visible = false
+
+[node name="Eyes2" type="CSGBox3D" parent="RobotBody/Sad"]
+transform = Transform3D(0.956661, -0.291203, 0, 0.291203, 0.956661, 0, 0, 0, 1, -0.0752563, 2.05023, 0.366776)
+size = Vector3(0.152222, 0.0407715, 0.0837097)
+material = SubResource("StandardMaterial3D_nyxmc")
+
+[node name="Eyes3" type="CSGBox3D" parent="RobotBody/Sad"]
+transform = Transform3D(0.953344, 0.301887, 0, -0.301887, 0.953344, 0, 0, 0, 1, 0.075025, 2.05023, 0.366776)
+size = Vector3(0.152222, 0.0407715, 0.0837097)
+material = SubResource("StandardMaterial3D_nyxmc")
+
+[node name="LookHand" type="CSGBox3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -0.702364, 0.711818, 0, -0.711818, -0.702364, 0.474747, 1.42502, 0.340221)
+visible = false
+size = Vector3(0.250977, 0.715881, 0.217773)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17245, -0.0708618)
+size = Vector3(1, 0.547791, 0.858276)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17268, -0.0489197)
+size = Vector3(0.6875, 1.01836, 0.867126)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8831, 0)
+size = Vector3(0.250977, 0.60144, 0.217773)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.216125, 0.350226, 0)
+size = Vector3(0.146484, 0.715881, 0.217773)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.200582, 0.350226, 0)
+size = Vector3(0.148438, 0.715881, 0.217773)
+
+[node name="Arm" type="CSGBox3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.486916, 1.27159, 0)
+size = Vector3(0.250977, 0.715881, 0.217773)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.474747, 1.27159, 0)
+size = Vector3(0.250977, 0.715881, 0.217773)
