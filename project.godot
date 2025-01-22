@@ -12,8 +12,12 @@ config_version=5
 
 config/name="Robot Depo Anomaly"
 run/main_scene="res://base.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://global.gd"
 
 [input]
 

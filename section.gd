@@ -1,9 +1,7 @@
 class_name Section
 extends Node3D
 
-signal finish
-signal exit
-signal end_day
+signal glitch_failed
 
 @export var level := 1
 @export var message := ""
@@ -30,7 +28,9 @@ func _ready() -> void:
 	else:
 		#%SectionEnd.queue_free()
 		pass
-	if scenario == -2:
+	if false:
+		setup_congrats()
+	elif scenario == -2:
 		setup_tutorial()
 	elif scenario == -1:
 		setup_congrats()
@@ -47,8 +47,9 @@ func activate() -> void:
 func setup_tutorial() -> void:
 	var r := ROBOT.instantiate()
 	r.robot_id = 10
-	r.battery_charge = 100
-	r.glitch = r.GLITCHES.RED_EYES
+	r.battery_charge = 88
+	r.set_glitch(Robot.GLITCHES.WALKS_NOT_LOOKING)
+	r.connect("anomaly_failed", on_failed_glitch)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(-1.5, 0.5, -10)
@@ -56,7 +57,7 @@ func setup_tutorial() -> void:
 	r = ROBOT.instantiate()
 	r.robot_id = 11
 	r.battery_charge = 90
-	r.glitch = r.GLITCHES.NONE
+	r.set_glitch(r.GLITCHES.NONE)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(1.5, 0.5, -10)
@@ -65,22 +66,30 @@ func setup_congrats() -> void:
 	var r := ROBOT.instantiate()
 	r.robot_id = 42
 	r.battery_charge = 100
+	r.looking_player = true
+	r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(-2, 0.5, -10)
+	r.position = Vector3(-2, 0, -10)
+	r.rotation.y = deg_to_rad(45)
+	r.remove_base()
 	#
 	r = ROBOT.instantiate()
 	r.robot_id = 24
 	r.battery_charge = 100
+	r.looking_player = true
+	r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(2, 0.5, -10)
+	r.position = Vector3(2, 0, -10)
+	r.rotation.y = deg_to_rad(-45)
+	r.remove_base()
 
 func setup_ending() -> void:
 	var r := ROBOT.instantiate()
 	r.robot_id = 666
 	r.battery_charge = 90
-	r.glitch = r.GLITCHES.RED_EYES
+	r.set_glitch(r.GLITCHES.RED_EYES)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(0, 0.5, -10)
@@ -104,6 +113,7 @@ func start_day() -> void:
 		for rx in 2:
 			for ry in 12:
 				var r := ROBOT.instantiate()
+				r.connect("anomaly_failed", on_failed_glitch)
 				r.robot_id = (rx * 6) + ry
 				r.battery_charge = 100
 				if randf() < 0.05:
@@ -135,7 +145,7 @@ func start_day() -> void:
 		Robot.GLITCHES.LIGHTS_OFF
 	]
 	if not no_anomaly.has(anomaly):
-		sr.glitch = anomaly
+		sr.set_glitch(anomaly)
 		sr.battery_charge = randi_range(80, 90)
 		
 	
@@ -147,8 +157,8 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.GRABS_BATTERY:
 		sr.battery_charge = 66
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
-		robots[robots.size()-1].glitch = anomaly
-		robots[robots.size()-2].glitch = anomaly
+		robots[robots.size()-1].set_glitch(anomaly)
+		robots[robots.size()-2].set_glitch(anomaly)
 		robots[robots.size()-1].battery_charge = randi_range(80, 90)
 		robots[robots.size()-1].battery_charge = randi_range(80, 90)
 	
@@ -188,6 +198,8 @@ func _process(delta: float) -> void:
 		#%ExitRamp.visible = false
 		#%ExitRamp.use_collision = false
 
+func on_failed_glitch() -> void:
+	glitch_failed.emit()
 
 func is_success() -> bool:
 	var success := true

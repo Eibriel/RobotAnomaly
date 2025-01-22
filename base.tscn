@@ -1,18 +1,41 @@
-[gd_scene load_steps=22 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=32 format=3 uid="uid://c4utrcpde6y22"]
 
-[ext_resource type="Script" path="res://base.gd" id="1_ut1kh"]
+[ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
 [ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="3_s5o31"]
 [ext_resource type="AudioStream" uid="uid://q0qwyv6d1uqg" path="res://sounds/TinCoin.mp3" id="4_2suhb"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
+[ext_resource type="PackedScene" uid="uid://c3wlbfn3g2ov3" path="res://objects/office_design.gltf" id="6_k3d1t"]
+[ext_resource type="PackedScene" uid="uid://c0vtvsir0cgaa" path="res://objects/office_executive.gltf" id="7_sgv64"]
 [ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
+[ext_resource type="PackedScene" uid="uid://bcqqp64co0pav" path="res://objects/office_lab.gltf" id="8_gaoim"]
+[ext_resource type="PackedScene" uid="uid://cv5l27mr2pwnm" path="res://objects/office_lobby.gltf" id="9_n73o2"]
+[ext_resource type="PackedScene" uid="uid://dmjvhlpj66cob" path="res://objects/office_marketing.gltf" id="10_cs1hs"]
+[ext_resource type="PackedScene" uid="uid://s2y8cucgny7n" path="res://objects/office_party.gltf" id="11_v7taj"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
 outer_radius = 0.5
 rings = 32
 ring_segments = 12
+
+[sub_resource type="Curve" id="Curve_k3d1t"]
+_data = [Vector2(0, 0), 0.0, 1.49357, 0, 0, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_sgv64"]
+_data = [Vector2(0, 0), 0.0, 1.38676, 0, 0, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_gaoim"]
+_data = [Vector2(0, 0), 0.0, 1.49357, 0, 0, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_n73o2"]
+curve_x = SubResource("Curve_k3d1t")
+curve_y = SubResource("Curve_sgv64")
+curve_z = SubResource("Curve_gaoim")
 
 [sub_resource type="Sky" id="Sky_wrmds"]
 sky_material = ExtResource("3_ok30c")
@@ -21,11 +44,12 @@ radiance_size = 2
 [sub_resource type="Environment" id="Environment_jucab"]
 background_mode = 2
 sky = SubResource("Sky_wrmds")
-tonemap_mode = 2
+tonemap_mode = 4
 glow_enabled = true
 fog_light_color = Color(0.33, 0.1914, 0.21681, 1)
-adjustment_brightness = 1.28
-adjustment_contrast = 1.21
+adjustment_enabled = true
+adjustment_saturation = 1.2
+adjustment_color_correction = SubResource("CurveXYZTexture_n73o2")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_t471m"]
 random_pitch = 1.35
@@ -43,13 +67,13 @@ size = Vector3(6.33691, 7.39258, 16.1753)
 size = Vector3(8.45215, 2.19482, 49.9573)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3f8e7"]
-size = Vector3(2.81738, 3.20459, 1.10767)
+size = Vector3(2.39111, 2.9646, 1.79514)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sqak7"]
-size = Vector3(2.81738, 3.20459, 1.52271)
+size = Vector3(2.81738, 3.20459, 1.60182)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rk17j"]
-size = Vector3(2.06641, 3.20459, 1.34253)
+size = Vector3(2.06641, 3.20459, 1.60938)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fnj5f"]
 size = Vector3(2.1275, 3.07764, 2.18982)
@@ -206,20 +230,6 @@ grow_vertical = 2
 [node name="PokeAudio" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_t471m")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.0032987, 0.999995, 0, -0.999995, -0.0032987, -0.543751, 3.1087, -19.6072)
-shadow_enabled = true
-distance_fade_enabled = true
-spot_range = 31.3278
-spot_angle = 39.556
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.178098, 0.984013, 0, -0.984013, 0.178098, 0.866503, 3.17484, -6.77921)
-shadow_enabled = true
-distance_fade_enabled = true
-spot_range = 31.3278
-spot_angle = 39.556
-
 [node name="OfficeNode" type="Node3D" parent="."]
 unique_name_in_owner = true
 
@@ -252,6 +262,32 @@ font_size = 40
 [node name="Environment" type="Node3D" parent="OfficeNode"]
 unique_name_in_owner = true
 
+[node name="DressingNode" type="Node3D" parent="OfficeNode"]
+
+[node name="office_design" parent="OfficeNode/DressingNode" instance=ExtResource("6_k3d1t")]
+unique_name_in_owner = true
+visible = false
+
+[node name="office_executive" parent="OfficeNode/DressingNode" instance=ExtResource("7_sgv64")]
+unique_name_in_owner = true
+visible = false
+
+[node name="office_lab" parent="OfficeNode/DressingNode" instance=ExtResource("8_gaoim")]
+unique_name_in_owner = true
+visible = false
+
+[node name="office_lobby" parent="OfficeNode/DressingNode" instance=ExtResource("9_n73o2")]
+unique_name_in_owner = true
+visible = false
+
+[node name="office_marketing" parent="OfficeNode/DressingNode" instance=ExtResource("10_cs1hs")]
+unique_name_in_owner = true
+visible = false
+
+[node name="office_party" parent="OfficeNode/DressingNode" instance=ExtResource("11_v7taj")]
+unique_name_in_owner = true
+visible = false
+
 [node name="StairsNode" type="Node3D" parent="."]
 
 [node name="stairs3" parent="StairsNode" instance=ExtResource("7_x3c38")]
@@ -268,27 +304,42 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1, 0)
 [node name="stairs5" parent="StairsNode" instance=ExtResource("7_x3c38")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.2, 0)
 
+[node name="stairs6" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="stairs7" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 4.1, 0)
+
+[node name="stairs8" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 8.2, 0)
+
+[node name="stairs9" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -4.1, 0)
+
+[node name="stairs10" parent="StairsNode" instance=ExtResource("7_x3c38")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -8.2, 0)
+
 [node name="LevelCountLabel" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.976592, 1.23869, 28.1689)
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.00536, 1.23869, 28.1689)
 text = "10"
 font_size = 400
 
 [node name="LevelCountLabel3" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.984096, 1.20363, -28.0575)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.04997, 1.20363, -28.0575)
 text = "10"
 font_size = 400
 
 [node name="LevelCountLabel2" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, -0.14065, 1.22896, -29.6504)
+transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, -0.14065, 1.22896, -30.5592)
 text = "10"
 font_size = 400
 
 [node name="LevelCountLabel4" type="Label3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.141, 1.229, 29.65)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.141, 1.229, 30.58)
 text = "10"
 font_size = 400
 
@@ -322,11 +373,11 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LoopUp"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.58016, -0.608527, 26.3022)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.42051, -0.608527, 26.5964)
 shape = SubResource("BoxShape3D_3f8e7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="LoopUp"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.59115, -0.608527, -26.5618)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.00835, -0.728522, -26.506)
 shape = SubResource("BoxShape3D_3f8e7")
 
 [node name="LoopDown" type="Area3D" parent="."]
@@ -334,11 +385,11 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LoopDown"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.58016, 3.56116, 28.9497)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0711, 3.56116, 29.3515)
 shape = SubResource("BoxShape3D_sqak7")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="LoopDown"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.96664, 3.55746, -28.9834)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.36098, 3.55746, -29.3245)
 shape = SubResource("BoxShape3D_rk17j")
 
 [node name="StartLevel" type="Area3D" parent="."]

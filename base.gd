@@ -12,7 +12,7 @@ var robots: Array[Robot] = []
 var completed_scenarios: Array[int] = []
 var selected_scenarios:Array[int] = []
 var failed_scenarios:Array[int] = []
-const scenario_count := 42
+var scenario_count := 0
 #const batch_count := 1 # 8
 
 var introduction_done := false
@@ -49,9 +49,16 @@ var current_side := SIDES.Z_PLUS
 var tonemap_tween: Tween
 
 func _ready() -> void:
+	reset_dressing()
+	$WorldEnvironment.environment.tonemap_exposure = 6.0
+	scenario_count = Robot.GLITCHES.size()
 	for s in scenario_count:
-		selected_scenarios.append(s)
+		if randf() < 0.3:
+			selected_scenarios.append(Robot.GLITCHES.NONE)
+		else:
+			selected_scenarios.append(s+1)
 	selected_scenarios.shuffle()
+	Global.player = %Player
 	load_main()
 
 func _process(delta: float) -> void:
@@ -73,17 +80,24 @@ func _process(delta: float) -> void:
 		robot_id = robot_collected.robot_id
 	%RobotIdLabel.text = "R%d - %d" % [robot_id, battery_collected]
 	%TimeLabel.text = "Day %d" % day
-	if section.anomaly == Robot.GLITCHES.LIGHTS_OFF:
-		$WorldEnvironment.environment.background_energy_multiplier = 0.1
-		if section.time > 30:
-			process_failed_queue(section.scenario)
-			load_main()
-	else:
-		$WorldEnvironment.environment.background_energy_multiplier = 1.0
-	if section.anomaly == Robot.GLITCHES.COUNTDOWN:
-		if section.time > 30:
-			process_failed_queue(section.scenario)
-			load_main()
+	
+	if false:
+		# Deprecated section.anomaly
+		if section.anomaly == Robot.GLITCHES.LIGHTS_OFF:
+			$WorldEnvironment.environment.background_energy_multiplier = 0.1
+			if section.time > 30:
+				process_failed_queue(section.scenario)
+				reset_position()
+				load_main()
+		else:
+			$WorldEnvironment.environment.background_energy_multiplier = 1.0
+		if section.anomaly == Robot.GLITCHES.COUNTDOWN:
+			print(section.time)
+			if section.time > 30:
+				print("Countdown complete!")
+				process_failed_queue(section.scenario)
+				reset_position()
+				load_main()
 		
 	#%SideDoor.visible = true
 	#%SideDoor.use_collision = true
@@ -97,6 +111,15 @@ func load_main() -> void:
 	robot_collected = null
 	#reset_position()
 	instantiate_sections(%Environment)
+
+func reset_dressing() -> void:
+	%office_design.visible = false
+	%office_executive.visible = false
+	%office_lab.visible = false
+	%office_lobby.visible = false
+	%office_marketing.visible = false
+	%office_party.visible = false
+
 
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
@@ -121,6 +144,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	
 	section = SECTION.instantiate()
 	section.level = available_scenarios_count
+	section.connect("glitch_failed", on_glitch_failed)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	if [-1, -2, -3].has(scenario):
 		%LevelCountLabel.text = "-"
@@ -133,20 +157,30 @@ func instantiate_sections(Env: Node3D) -> void:
 	section.scenario = scenario
 	#section.last_day = available_scenarios_count <= batch_count
 	var message_id := scenario_count-available_scenarios_count
-	if message_id <= 1:
+	reset_dressing()
+	prints("message_id", message_id)
+	if message_id <= 0:
 		%MessageLabel.text = "Lobby"
+		%office_lobby.visible = true
+		#%office_design.visible = true
 	elif message_id <= 8:
 		%MessageLabel.text = "Empty Room"
+		%office_lobby.visible = true
 	elif message_id <= 14:
 		%MessageLabel.text = "Design Room"
+		%office_design.visible = true
 	elif message_id <= 19:
 		%MessageLabel.text = "Lab"
+		%office_lab.visible = true
 	elif message_id <= 25:
 		%MessageLabel.text = "Marketing"
+		%office_marketing.visible = true
 	elif message_id <= 29:
 		%MessageLabel.text = "Party"
+		%office_party.visible = true
 	elif message_id >= 30:
 		%MessageLabel.text = "Executive"
+		%office_executive.visible = true
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
 	#%MessageLabel.text = MESSAGES[message_id]
@@ -183,8 +217,8 @@ func process_failed_queue(scenario: int) -> void:
 	if completed_scenarios.size() < 8:
 		selected_scenarios.append_array(completed_scenarios)
 		completed_scenarios.resize(0)
-	if not failed_scenarios.has(scenario):
-		failed_scenarios.append(scenario)
+	#if not failed_scenarios.has(scenario):
+	failed_scenarios.append(scenario)
 
 func _on_finished(success: bool, scenario: int, last: bool) -> void:
 	#prints("_on_finished")
@@ -210,8 +244,8 @@ func _on_finished(success: bool, scenario: int, last: bool) -> void:
 		load_main()
 		#print("Wrong!")
 		return
-	if not completed_scenarios.has(scenario):
-		completed_scenarios.append(scenario)
+	#if not completed_scenarios.has(scenario):
+	completed_scenarios.append(scenario)
 	#if last and completed_scenarios.size() > batch_count and completed_scenarios.size() != scenario_count:
 	#	load_main()
 	load_main()
@@ -265,9 +299,7 @@ func fire_ray() -> void:
 			task_timer = 0.0
 			current_task = TASKS.SHUT_DOWN
 		elif coll.has_meta("is_battery"):
-			task_timer = 0.0
-			current_task = TASKS.BATTERY_CHARGE
-			robot_collected = coll.get_parent().get_parent().get_parent()
+			charge_battery(coll.get_parent().get_parent().get_parent())
 			if false:
 				# If I've a battery and the charger is empty
 				if battery_collected != -1 and coll.get_parent().battery_charge == -1:
@@ -287,6 +319,7 @@ func fire_ray() -> void:
 				%Player.battery_visible(false)
 			# If I don't have a battery and the charger has
 			elif battery_collected == -1 and coll.get_parent().battery_charge != -1:
+				#battery_from_robot(coll.get_parent())
 				battery_collected = coll.get_parent().battery_charge
 				coll.get_parent().battery_charge = -1
 				%Player.battery_visible(true)
@@ -309,6 +342,15 @@ func fire_ray() -> void:
 				robot_collected = coll.get_parent().get_parent()
 			current_task = TASKS.ROTATE
 
+func charge_battery(robot: Robot) -> void:
+	# On Robot
+	if robot.power_on and robot.glitch == Robot.GLITCHES.GRABS_BATTERY:
+		robot.grab_battery()
+		return
+	task_timer = 0.0
+	current_task = TASKS.BATTERY_CHARGE
+	robot_collected = robot
+
 func shutdown_robot() -> void:
 	#print("Button!")
 	if robot_collected:
@@ -317,6 +359,9 @@ func shutdown_robot() -> void:
 		robot_collected = null
 		%Player.note_visible(false)
 
+func refresh_reflection_probe():
+	$ReflectionProbe.position.x = randf()*0.01
+	
 
 func _on_finish_area_body_entered(_body: Node3D) -> void:
 	# When player signals that the level is done
@@ -340,6 +385,7 @@ func _on_inside_area_body_entered(_body: Node3D) -> void:
 	tonemap_tween = create_tween()
 	tonemap_tween.EASE_OUT
 	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 1.0, 1.0)
+	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.0
 
 
@@ -351,6 +397,7 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 	tonemap_tween = create_tween()
 	tonemap_tween.EASE_OUT
 	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 6.0, 1.0)
+	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.9
 
 
@@ -375,6 +422,12 @@ func _on_loop_down_body_entered(body: Node3D) -> void:
 		prints("\nsuccess:", sc)
 		_on_finished(sc, section.scenario, false)
 
+
+func on_glitch_failed() -> void:
+	var sc := section.is_success()
+	prints("\nsuccess:", sc)
+	reset_position()
+	_on_finished(sc, section.scenario, false)
 
 func _on_start_level_body_entered(body: Node3D) -> void:
 	level_started = true

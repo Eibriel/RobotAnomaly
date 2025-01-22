@@ -2,7 +2,10 @@
 class_name Robot
 extends Node3D
 
-@export var glitch: GLITCHES
+signal anomaly_failed
+
+@export var glitch: GLITCHES = GLITCHES.NONE
+@export var pose: POSES = POSES.NONE
 @export var force_glitch: bool
 @export var sometimes_missing: bool
 
@@ -55,21 +58,33 @@ enum GLITCHES {
 	LIGHTS_OFF
 }
 
+enum POSES {
+	NONE,
+	CLAPPING
+}
+
 #var is_glitching := false
 #var is_glitch_visible := false
 var robot_id := 0
-
 #var is_battery_loaded := true
 var battery_charge := 0
-
 var power_on := true
+var glitch_executed := false
+var glitch_dirty := true
+var looking_player := false
+var pose_dirty := true
+var base_visible := true
+
+var snap_countdown := 0.0
+var snap_rate := 5.0
 
 var tween: Tween
-#var skeleton: Skeleton3D
 	
 #@onready var glitch_label := $GlitchLabel
 
 var robj: Dictionary
+var anim: AnimationPlayer
+var skeleton: Skeleton3D
 
 func _ready() -> void:
 	#skeleton = %robotObject.get_node("Armature/Skeleton3D") as Skeleton3D
@@ -103,11 +118,25 @@ func _ready() -> void:
 	robj["knife"] = %robotObject.get_node("Armature/Skeleton3D/Knife")
 	
 	#prints("GC", GLITCHES.size())
+	$robot_base.rotate_y(deg_to_rad(randf_range(0, 360)))
+	if randf() < 0.5:
+		$robot_base.get_node("ConcretePillar_A").visible = false
+	else:
+		$robot_base.get_node("ConcretePillar_B").visible = false
+	
+	skeleton = %robotObject.get_node("Armature/Skeleton3D") as Skeleton3D
+	
+	anim = %robotObject.get_node("AnimationPlayer") as AnimationPlayer
+	anim.get_animation("Vibrating").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Rocking").loop_mode = Animation.LOOP_LINEAR
+	#anim.get_animation("Timer").loop_mode = Animation.LOOP_LINEAR
+	#anim.play("TouchingFace")
 
 func rotate_base(delta: float) -> void:
-	%robotObject.rotate_y(deg_to_rad(80) * delta)
+	if not base_visible: return
+	%robotObject.rotate_y(deg_to_rad(120) * delta)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	%GlitchLabel.text = "%s" % GLITCHES.find_key(glitch)
 	%IdLabel.text = "R%d" % robot_id
 	%BatteryLabel.text = "%d%%" % battery_charge
@@ -122,6 +151,77 @@ func _process(_delta: float) -> void:
 	%BatteryNode.global_rotation = battery_bone.global_rotation
 	%ShutdownNode.global_position = shutdown_bone.global_position
 	%ShutdownNode.global_rotation = shutdown_bone.global_rotation
+	
+	update_snap(delta)
+	follow_head(delta)
+	update_glitch()
+	update_pose()
+	update_base()
+	update_follow(delta)
+
+func update_follow(delta: float) -> void:
+	if glitch != GLITCHES.WALKS_NOT_LOOKING: return
+	if not is_on_screen():
+		var player_pos := Global.player.global_position
+		player_pos.y = 0
+		var robot_pos: Vector3 = %RobotBody.global_position
+		robot_pos.y = 0
+		
+		var player_pos_2d := Vector2(player_pos.x, player_pos.z)
+		var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
+		var angle := robot_pos_2d.angle_to_point(player_pos_2d)
+		
+		var dir_to_player := (player_pos - robot_pos).normalized()
+		var player_pos_short := robot_pos + dir_to_player
+		
+		var new_intersection := PhysicsRayQueryParameters3D.create(robot_pos, player_pos_short, 1<<1)
+		var intersection := get_world_3d().direct_space_state.intersect_ray(new_intersection)
+		
+		if not intersection.is_empty():
+			return
+		
+		%RobotBody.global_position += dir_to_player * delta * 2.0
+		%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
+
+func update_base() -> void:
+	$BaseShadowPlane.global_position.y = 0.01
+
+func update_snap(delta: float) -> void:
+	if glitch != GLITCHES.COUNTDOWN: return
+	snap_countdown += delta
+	if snap_countdown >= snap_rate:
+		snap_countdown = 0.0
+		snap_rate *=  0.90
+		if snap_rate < 0.1:
+			snap_rate = 0.1
+			anomaly_failed.emit()
+		var speed := 1.0
+		if snap_rate < anim.get_animation("Timer").length:
+			speed = anim.get_animation("Timer").length / snap_rate
+		anim.play("Timer", -1, speed)
+		%RobotAudioPlayer.play()
+		#prints("Snap!", snap_rate, speed)
+
+func set_glitch(new_glitch: GLITCHES) -> void:
+	if new_glitch == glitch: return
+	glitch_dirty = true
+	glitch = new_glitch
+
+func set_pose(new_pose: POSES) -> void:
+	if new_pose == pose: return
+	pose_dirty = true
+	pose = new_pose
+
+func update_pose() -> void:
+	if not pose_dirty: return
+	pose_dirty = false
+	
+	if pose == POSES.CLAPPING:
+		anim.play("Clapping")
+
+func update_glitch() -> void:
+	if not glitch_dirty: return
+	glitch_dirty = false
 	#
 	robj["antena_l"].visible = true
 	robj["eye_left"].visible = true
@@ -187,7 +287,8 @@ func _process(_delta: float) -> void:
 		GLITCHES.RED_EYES:
 			robj["red_eyes"].visible = true
 		GLITCHES.FOLLOWING_EYES:
-			robj["red_eyes"].visible = true
+			#robj["red_eyes"].visible = true
+			looking_player = true
 		#GLITCHES.SMILING:
 		#	robj["red_eyes"].visible = true
 		GLITCHES.GIGGLING:
@@ -195,32 +296,24 @@ func _process(_delta: float) -> void:
 		GLITCHES.CRYING:
 			robj["red_eyes"].visible = true
 		GLITCHES.LOOKING_HAND:
-			robj["red_eyes"].visible = true
+			anim.play("LookingHand")
 		GLITCHES.TOUCHING_FACE:
-			robj["red_eyes"].visible = true
+			anim.play("TouchingFace")
 		GLITCHES.POINTING_FINGER:
 			robj["red_eyes"].visible = true
 		GLITCHES.KNIFE_HAND:
 			robj["knife"].visible = true
 		GLITCHES.ROCKING:
-			if not tween:
-				tween = create_tween()
-				tween.set_loops()
-				tween.tween_property(%RobotBody, "position:x", 0.1, 0.1)
-				tween.tween_property(%RobotBody, "position:x", 0, 0.1)
+			anim.play("Rocking")
 		GLITCHES.SHAKING:
-			if not tween:
-				tween = create_tween()
-				tween.set_loops()
-				tween.tween_property(%RobotBody, "position:x", 0.05, 0.05)
-				tween.tween_property(%RobotBody, "position:x", -0.05, 0.05)
+			anim.play("Vibrating")
 		GLITCHES.BLINKING_EYES:
 			robj["red_eyes"].visible = true
 			if not tween:
 				tween = create_tween()
 				tween.set_loops()
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
-				tween.tween_interval(0.8)
+				tween.tween_interval(0.25)
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
 				tween.tween_interval(3.0)
 		GLITCHES.PROCESSING:
@@ -229,8 +322,17 @@ func _process(_delta: float) -> void:
 				tween = create_tween()
 				tween.set_loops()
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
+				tween.tween_interval(0.1)
+				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
+				tween.tween_interval(0.12)
+				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
 				tween.tween_interval(0.2)
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
+				tween.tween_interval(0.22)
+				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
+				tween.tween_interval(0.12)
+				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
+				tween.tween_interval(0.09)
 		GLITCHES.FACING_WRONG_DIRECTION:
 			%RobotBody.rotation.y = deg_to_rad(80)
 		GLITCHES.MISSING_EYE:
@@ -240,27 +342,86 @@ func _process(_delta: float) -> void:
 		GLITCHES.DRIPPING_OIL:
 			robj["red_eyes"].visible = true
 		GLITCHES.GRAFFITY:
-			robj["knife"].visible = true
+			setup_graffity()
 		GLITCHES.BLOCKING_PATH:
 			%RobotBody.global_position = Vector3.ZERO
 		GLITCHES.COUNTDOWN:
 			%RobotBody.global_position = Vector3.ZERO
+			anim.play("Timer")
 		GLITCHES.DOOR_OPEN:
 			%RobotBody.global_position = Vector3.ZERO
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.global_position = Vector3.ZERO
 
-func remove_glitch():
-	#is_glitching = false
-	#is_glitch_visible = false
-	glitch = GLITCHES.NONE
+#func remove_glitch():
+	##is_glitching = false
+	##is_glitch_visible = false
+	#glitch = GLITCHES.NONE
+	#anim.pause()
 
-func shut_down():
+func remove_base() -> void:
+	$robot_base.visible = false
+	$BaseShadowPlane.visible = false
+	base_visible = false
+
+func follow_head(delta: float) -> void:
+	if not looking_player or not power_on:
+		skeleton.clear_bones_global_pose_override()
+		return
+	var head_id := skeleton.find_bone("head_2")
+	skeleton.set_bone_pose_scale(head_id, Vector3(2,2,2))
+	#var pos := skeleton.to_global(skeleton.get_bone_pose_position(head_id))
+	var pos := skeleton.get_bone_global_pose(head_id).origin
+	#pos = to_global(pos)
+	var player_eyes := Global.player.global_position + Vector3(0, 1.7, 0)
+	bone_look_at(head_id, pos, skeleton.to_local(player_eyes))
+	
+
+func bone_look_at(bone_index:int, bone_global_position:Vector3, target_global_position:Vector3, lerp_amount:float = 1.0):
+	var bone_transform = skeleton.get_bone_global_pose_no_override(bone_index)
+		
+	#var target_pos = to_local(target_global_position)
+	#var target_pos = target_global_position
+	#var bone_origin = bone_transform.origin
+	var bone_origin = bone_global_position
+	#bone_transform.basis = bone_transform.basis.looking_at( -(target_global_position - bone_transform.origin).normalized())
+	bone_transform.basis = bone_transform.basis.looking_at( -(target_global_position - bone_global_position).normalized())
+	# bone_transform.origin = bone_origin
+	bone_transform.origin = bone_global_position
+	skeleton.set_bone_global_pose_override(bone_index, bone_transform, lerp_amount, true)
+
+func setup_graffity() -> void:
+	print("Graffity!")
+	add_graffity(%robotObject)
+
+func add_graffity(rnode: Node) -> void:
+	for c in rnode.get_children(true):
+		if c is MeshInstance3D:
+			var mesh = c.mesh.duplicate()
+			c.mesh = mesh
+			for s in c.mesh.get_surface_count():
+				var mat := c.mesh.surface_get_material(s) as StandardMaterial3D
+				# TODO reuse materials
+				# Todo only apply on arms
+				mat = mat.duplicate(true)
+				mat.detail_enabled = true
+				mat.detail_mask = preload("res://objects/details/robot_graffity.png")
+				c.mesh.surface_set_material(s, mat)
+		add_graffity(c)
+
+func shut_down() -> void:
 	power_on = false
-	var anim := %robotObject.get_node("AnimationPlayer") as AnimationPlayer
-	anim.play("Shut_Down")
+	anim.play("Shut_Down", 1.0)
 
-func poke():
+func grab_battery() -> void:
+	if glitch_executed: return
+	glitch_executed = true
+	anim.play("GrabsBattery")
+	# TODO add looking_player
+	# when it's fixed
+	#looking_player = true
+
+func poke() -> void:
 	#$Glitch.visible = is_glitching
 	pass
 
@@ -268,4 +429,4 @@ func set_id(id: int) -> void:
 	robot_id = id
 
 func is_on_screen() -> bool:
-	return $VisibleOnScreenNotifier3D.is_on_screen()
+	return %VisibleOnScreenNotifier3D.is_on_screen()

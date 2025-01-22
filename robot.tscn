@@ -1,7 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=20 format=3 uid="uid://cp3bk1xsmjnxj"]
 
-[ext_resource type="Script" path="res://robot.gd" id="1_0iowa"]
+[ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
+[ext_resource type="PackedScene" uid="uid://u6wf76jhmt4a" path="res://objects/robot_base.gltf" id="2_yhfw1"]
+[ext_resource type="AudioStream" uid="uid://d082v84bxtv1d" path="res://sounds/snap.mp3" id="4_ru5oq"]
+[ext_resource type="Texture2D" uid="uid://bou7oymrscjod" path="res://textures/robot_shadow.png" id="5_7xofo"]
+[ext_resource type="Texture2D" uid="uid://wd2f4dka2s4c" path="res://textures/robot_base_shadow.png" id="6_yyxj1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lloov"]
 metallic = 1.0
@@ -16,6 +20,8 @@ height = 0.2
 [sub_resource type="CylinderMesh" id="CylinderMesh_h7qjg"]
 height = 0.5
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ru5oq"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjjcf"]
 albedo_color = Color(1, 0, 0, 1)
 
@@ -27,7 +33,35 @@ size = Vector3(0.366211, 0.260818, 0.00749184)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4sq5"]
 radius = 0.378354
-height = 2.80419
+height = 2.27088
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkaji"]
+transparency = 1
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+albedo_texture = ExtResource("5_7xofo")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ru5oq"]
+material = SubResource("StandardMaterial3D_bkaji")
+size = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yyxj1"]
+transparency = 1
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+albedo_texture = ExtResource("6_yyxj1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7xofo"]
+material = SubResource("StandardMaterial3D_yyxj1")
+size = Vector2(1.3, 1.3)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yyxj1"]
+height = 1.64136
+radius = 0.414551
 
 [node name="Robot" type="Node3D"]
 script = ExtResource("1_0iowa")
@@ -39,12 +73,17 @@ skeleton = NodePath("../RobotBody")
 
 [node name="Base" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.244016, 0)
+visible = false
 mesh = SubResource("CylinderMesh_h7qjg")
 
 [node name="Stand3" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.598761, -0.489134)
 visible = false
 size = Vector3(0.730469, 2.82405, 0.0257568)
+material = SubResource("StandardMaterial3D_ru5oq")
+
+[node name="robot_base" parent="." instance=ExtResource("2_yhfw1")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.797731, 0)
 
 [node name="RobotBody" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -145,26 +184,52 @@ text = "Shutdown!"
 font_size = 10
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
+unique_name_in_owner = true
 aabb = AABB(-0.825695, 0, -0.85, 1.65139, 2.5, 1.7)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RobotBody"]
 collision_layer = 2
+collision_mask = 2
 metadata/is_robot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18441, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05975, 0)
 shape = SubResource("CapsuleShape3D_m4sq5")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="RobotBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.769575, 0.0462294)
-light_energy = 0.02
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243701, 0.0462294)
+visible = false
+light_energy = 0.015
 light_negative = true
 light_specular = 0.0
 distance_fade_enabled = true
 distance_fade_begin = 15.0
-omni_range = 1.65341
-omni_attenuation = 2.0
+omni_range = 0.573438
+omni_attenuation = 2.157
 
 [node name="robotObject" parent="RobotBody" instance=ExtResource("2_kdi4s")]
 unique_name_in_owner = true
 transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+
+[node name="RobotShadowPlane" type="MeshInstance3D" parent="RobotBody/robotObject"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.00955091, 0.0097605)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ru5oq")
+skeleton = NodePath("../../..")
+
+[node name="RobotAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
+unique_name_in_owner = true
+stream = ExtResource("4_ru5oq")
+
+[node name="BaseShadowPlane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.478086, 0.012)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_7xofo")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 2
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.821167, 0.021225)
+shape = SubResource("CylinderShape3D_yyxj1")
