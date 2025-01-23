@@ -1,10 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=22 format=3 uid="uid://cp3bk1xsmjnxj"]
 
 [ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
 [ext_resource type="PackedScene" uid="uid://u6wf76jhmt4a" path="res://objects/robot_base.gltf" id="2_yhfw1"]
+[ext_resource type="PackedScene" uid="uid://cggahbp1gdgc0" path="res://radial_progress.tscn" id="3_hvhn1"]
 [ext_resource type="AudioStream" uid="uid://d082v84bxtv1d" path="res://sounds/snap.mp3" id="4_ru5oq"]
 [ext_resource type="Texture2D" uid="uid://bou7oymrscjod" path="res://textures/robot_shadow.png" id="5_7xofo"]
+[ext_resource type="AudioStream" uid="uid://ceaokvaepnyyd" path="res://sounds/heavy_steps.mp3" id="6_bkaji"]
 [ext_resource type="Texture2D" uid="uid://wd2f4dka2s4c" path="res://textures/robot_base_shadow.png" id="6_yyxj1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lloov"]
@@ -68,6 +70,7 @@ script = ExtResource("1_0iowa")
 
 [node name="ReflectionBall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.582718, 0.436892, -0.0147107)
+visible = false
 mesh = SubResource("SphereMesh_lacoj")
 skeleton = NodePath("../RobotBody")
 
@@ -112,9 +115,15 @@ material = SubResource("StandardMaterial3D_hjjcf")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32055, 0.145649)
 
+[node name="BatteryRadialProgress" parent="RobotBody/BatteryNode" instance=ExtResource("3_hvhn1")]
+unique_name_in_owner = true
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0.0515747, -0.0030508)
+value = 100.0
+
 [node name="BatteryLabel" type="Label3D" parent="RobotBody/BatteryNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.067071, 0.00797239)
+visible = false
 text = "0%"
 font_size = 10
 
@@ -138,6 +147,7 @@ shape = SubResource("BoxShape3D_ioch8")
 [node name="BatteryIndicator" type="CSGBox3D" parent="RobotBody/BatteryNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.8995e-05, -0.00370862)
+visible = false
 size = Vector3(0.0244141, 0.0302734, 0.0224609)
 
 [node name="RotateArea" type="Area3D" parent="RobotBody"]
@@ -163,6 +173,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61246, -0.123518)
 [node name="BlockArea" type="Area3D" parent="RobotBody/ShutdownNode"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0077002, 0.0481478)
 collision_layer = 2
+collision_mask = 0
+monitoring = false
 metadata/is_robot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/BlockArea"]
@@ -171,6 +183,8 @@ shape = SubResource("BoxShape3D_ioch8")
 [node name="IdArea" type="Area3D" parent="RobotBody/ShutdownNode"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0130765, -0.0110441)
 collision_layer = 2
+collision_mask = 0
+monitoring = false
 metadata/is_id = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/IdArea"]
@@ -183,13 +197,19 @@ visible = false
 text = "Shutdown!"
 font_size = 10
 
+[node name="PowerRadialProgress" parent="RobotBody/ShutdownNode" instance=ExtResource("3_hvhn1")]
+unique_name_in_owner = true
+transform = Transform3D(-0.07, 0, -1.05697e-08, 0, 0.07, 0, 1.05697e-08, 0, -0.07, 0, 0.00786471, -0.00593566)
+value = 100.0
+color_scheme = 1
+
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
 unique_name_in_owner = true
 aabb = AABB(-0.825695, 0, -0.85, 1.65139, 2.5, 1.7)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="RobotBody"]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 256
 metadata/is_robot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/StaticBody3D"]
@@ -220,6 +240,12 @@ skeleton = NodePath("../../..")
 [node name="RobotAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
 unique_name_in_owner = true
 stream = ExtResource("4_ru5oq")
+bus = &"Robots"
+
+[node name="RobotStepsAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
+unique_name_in_owner = true
+stream = ExtResource("6_bkaji")
+bus = &"Robots"
 
 [node name="BaseShadowPlane" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.478086, 0.012)

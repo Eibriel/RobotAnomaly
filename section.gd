@@ -14,6 +14,7 @@ var finished := false
 var active := false
 
 var time := 0.0
+var glitch_time := 0.0
 var anomaly: Robot.GLITCHES
 
 const RESET_BUTTON = preload("res://reset_button.tscn")
@@ -47,8 +48,8 @@ func activate() -> void:
 func setup_tutorial() -> void:
 	var r := ROBOT.instantiate()
 	r.robot_id = 10
-	r.battery_charge = 88
-	r.set_glitch(Robot.GLITCHES.WALKS_NOT_LOOKING)
+	r.battery_charge = 50
+	r.set_glitch(Robot.GLITCHES.RED_EYES)
 	r.connect("anomaly_failed", on_failed_glitch)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
@@ -56,7 +57,7 @@ func setup_tutorial() -> void:
 	
 	r = ROBOT.instantiate()
 	r.robot_id = 11
-	r.battery_charge = 90
+	r.battery_charge = 60
 	r.set_glitch(r.GLITCHES.NONE)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
@@ -105,19 +106,19 @@ func start_day() -> void:
 	const DIST_X := 3
 	const DIST_X_INCREASE := 0.2
 	
-	var y_count := 6
+	var y_count := 10
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		y_count += 2
 	
 	if true:
 		for rx in 2:
-			for ry in 12:
+			for ry in y_count:
 				var r := ROBOT.instantiate()
 				r.connect("anomaly_failed", on_failed_glitch)
 				r.robot_id = (rx * 6) + ry
 				r.battery_charge = 100
 				if randf() < 0.05:
-					r.battery_charge = randi_range(80, 100)
+					r.battery_charge = randi_range(60, 80)
 				robots.append(r)
 				%Robots.add_child.call_deferred(r)
 				var dist := DIST_X + (ry * DIST_X_INCREASE)
@@ -134,7 +135,7 @@ func start_day() -> void:
 		r.robot_id = 10
 		r.battery_charge = 100
 		if randf() < 0.05:
-			r.battery_charge = randi_range(80, 99)
+			r.battery_charge = randi_range(60, 80)
 		robots.append(r)
 		%Robots.add_child.call_deferred(r)
 		r.position = Vector3(0, 0.5, -10)
@@ -142,11 +143,12 @@ func start_day() -> void:
 	var sr := robots.pick_random() as Robot
 	var no_anomaly: Array[int] = [
 		Robot.GLITCHES.EXTRA_ROBOTS,
-		Robot.GLITCHES.LIGHTS_OFF
+		Robot.GLITCHES.LIGHTS_OFF,
+		Robot.GLITCHES.BLOCKING_PATH
 	]
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
-		sr.battery_charge = randi_range(80, 90)
+		sr.battery_charge = randi_range(70, 80)
 		
 	
 	if anomaly == Robot.GLITCHES.LIGHTS_OFF:
@@ -158,10 +160,16 @@ func start_day() -> void:
 		sr.battery_charge = 66
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		robots[robots.size()-1].set_glitch(anomaly)
-		robots[robots.size()-2].set_glitch(anomaly)
-		robots[robots.size()-1].battery_charge = randi_range(80, 90)
-		robots[robots.size()-1].battery_charge = randi_range(80, 90)
-	
+		robots[robots.size()-1-y_count].set_glitch(anomaly)
+		robots[robots.size()-1].battery_charge = randi_range(60, 80)
+		robots[robots.size()-1-y_count].battery_charge = randi_range(60, 80)
+	if anomaly == Robot.GLITCHES.BLOCKING_PATH:
+		robots[0].set_glitch(anomaly)
+		robots[0].block_id = 0
+		robots[0].battery_charge = randi_range(60, 80)
+		robots[1].set_glitch(anomaly)
+		robots[1].block_id = 1
+		robots[1].battery_charge = randi_range(60, 80)
 	if false:
 		var charger := BATTERY_CHARGER.instantiate()
 		add_child(charger)
@@ -181,8 +189,12 @@ func start_day() -> void:
 
 func _process(delta: float) -> void:
 	time += delta
+	if Global.is_player_in_room:
+		glitch_time += delta
 	if time > 0.5:
 		activate()
+	if scenario == Robot.GLITCHES.LIGHTS_OFF and glitch_time > 10:
+		glitch_failed.emit()
 	#%LevelCountLabel.text = "%d" % level
 	
 	#Check if day is complete

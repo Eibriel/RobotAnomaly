@@ -67,13 +67,15 @@ enum POSES {
 #var is_glitch_visible := false
 var robot_id := 0
 #var is_battery_loaded := true
-var battery_charge := 0
+var battery_charge := 0.0
 var power_on := true
 var glitch_executed := false
 var glitch_dirty := true
 var looking_player := false
 var pose_dirty := true
 var base_visible := true
+var block_id := 0
+var shutdown_time := 1.0
 
 var snap_countdown := 0.0
 var snap_rate := 5.0
@@ -134,12 +136,29 @@ func _ready() -> void:
 
 func rotate_base(delta: float) -> void:
 	if not base_visible: return
-	%robotObject.rotate_y(deg_to_rad(120) * delta)
+	#%robotObject.rotate_y(deg_to_rad(120) * delta)
+	%RobotBody.rotate_y(deg_to_rad(120) * delta)
+
+func charge_battery(delta: float) -> void:
+	if not power_on: return
+	battery_charge += delta * 6.0
+	battery_charge = minf(battery_charge, 100.0)
+
+func shutdown(delta: float) -> void:
+	if not power_on: return
+	shutdown_time -= delta * 0.4
+	if shutdown_time <= 0.0:
+		shut_down()
 
 func _process(delta: float) -> void:
+	if power_on:
+		shutdown_time += delta * 0.1
+		shutdown_time = min(shutdown_time, 1.0)
 	%GlitchLabel.text = "%s" % GLITCHES.find_key(glitch)
 	%IdLabel.text = "R%d" % robot_id
 	%BatteryLabel.text = "%d%%" % battery_charge
+	%BatteryRadialProgress.value = battery_charge
+	%PowerRadialProgress.value = shutdown_time * 100.0
 	if int(battery_charge) == 100:
 		%BatteryIndicator.material = preload("res://materials/prototype_green_mat.tres")
 	else:
@@ -158,10 +177,22 @@ func _process(delta: float) -> void:
 	update_pose()
 	update_base()
 	update_follow(delta)
+	update_blocking_path()
+
+func update_blocking_path() -> void:
+	if glitch != GLITCHES.BLOCKING_PATH: return
+	if not power_on: return
+	var player_pos := Global.player.global_position
+	player_pos.y = 0
+	var robot_pos: Vector3 = %RobotBody.global_position
+	robot_pos.y = 0
+	if robot_pos.distance_to(player_pos) < 2.0:
+		anomaly_failed.emit()
 
 func update_follow(delta: float) -> void:
-	if glitch != GLITCHES.WALKS_NOT_LOOKING: return
-	if not is_on_screen():
+	if glitch != GLITCHES.WALKS_NOT_LOOKING:
+		return
+	if not is_on_screen() and Global.is_player_in_room and power_on:
 		var player_pos := Global.player.global_position
 		player_pos.y = 0
 		var robot_pos: Vector3 = %RobotBody.global_position
@@ -178,17 +209,29 @@ func update_follow(delta: float) -> void:
 		var intersection := get_world_3d().direct_space_state.intersect_ray(new_intersection)
 		
 		if not intersection.is_empty():
+			%RobotStepsAudioPlayer.stop()
 			return
+		else:
+			Global.player.rumble()
+			if not %RobotStepsAudioPlayer.playing:
+				%RobotStepsAudioPlayer.play()
 		
 		%RobotBody.global_position += dir_to_player * delta * 2.0
 		%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
+		#print(robot_pos.distance_to(player_pos))
+		if robot_pos.distance_to(player_pos) < 2.0:
+			anomaly_failed.emit()
+	else:
+		%RobotStepsAudioPlayer.stop()
 
 func update_base() -> void:
 	$BaseShadowPlane.global_position.y = 0.01
 
 func update_snap(delta: float) -> void:
 	if glitch != GLITCHES.COUNTDOWN: return
-	snap_countdown += delta
+	if not power_on: return
+	if Global.is_player_in_room:
+		snap_countdown += delta
 	if snap_countdown >= snap_rate:
 		snap_countdown = 0.0
 		snap_rate *=  0.90
@@ -200,6 +243,7 @@ func update_snap(delta: float) -> void:
 			speed = anim.get_animation("Timer").length / snap_rate
 		anim.play("Timer", -1, speed)
 		%RobotAudioPlayer.play()
+		Global.player.rumble(0.5*speed)
 		#prints("Snap!", snap_rate, speed)
 
 func set_glitch(new_glitch: GLITCHES) -> void:
@@ -340,11 +384,19 @@ func update_glitch() -> void:
 		GLITCHES.MISSING_ENTIRELY:
 			%RobotBody.global_position = Vector3.ZERO
 		GLITCHES.DRIPPING_OIL:
-			robj["red_eyes"].visible = true
+			setup_graffity()
 		GLITCHES.GRAFFITY:
 			setup_graffity()
 		GLITCHES.BLOCKING_PATH:
 			%RobotBody.global_position = Vector3.ZERO
+			%RobotBody.global_rotation = Vector3.ZERO
+			match block_id:
+				0:
+					%RobotBody.global_position.x = 0.28
+					anim.play("HoldingHands_B")
+				1:
+					%RobotBody.global_position.x = -0.28
+					anim.play("HoldingHands_A")
 		GLITCHES.COUNTDOWN:
 			%RobotBody.global_position = Vector3.ZERO
 			anim.play("Timer")
@@ -352,6 +404,10 @@ func update_glitch() -> void:
 			%RobotBody.global_position = Vector3.ZERO
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.global_position = Vector3.ZERO
+		GLITCHES.EXTRA_ROBOTS:
+			global_position.x += randf() * 0.2
+			global_position.y = 0.2
+			global_position.z += randf() * 0.2
 
 #func remove_glitch():
 	##is_glitching = false
@@ -414,9 +470,12 @@ func shut_down() -> void:
 	anim.play("Shut_Down", 1.0)
 
 func grab_battery() -> void:
-	if glitch_executed: return
+	if glitch_executed:
+		anomaly_failed.emit()
+		return
 	glitch_executed = true
 	anim.play("GrabsBattery")
+	Global.player.rumble(0.1)
 	# TODO add looking_player
 	# when it's fixed
 	#looking_player = true

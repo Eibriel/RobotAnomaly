@@ -11,6 +11,7 @@ const ACCEL := 5.0
 @onready var head = $Head
 
 var look_rot : Vector2
+var rumble_tween: Tween
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -55,3 +56,19 @@ func _physics_process(delta: float) -> void:
 	
 	head.rotation_degrees.x = look_rot.x
 	rotation_degrees.y = look_rot.y
+
+func rumble(pause: float = 0.0) -> void:
+	if rumble_tween and rumble_tween.is_running():
+		return
+	if rumble_tween:
+		rumble_tween.stop()
+		#rumble_tween.free() # Can't free a RefCounted object.
+	rumble_tween = create_tween()
+	rumble_tween.tween_interval(pause)
+	for _n in 15:
+		rumble_tween.tween_property(%CharacterCamera, "position", Vector3(
+			randf()*0.05,
+			randf()*0.05,
+			randf()*0.05,
+		), 0.02)
+	rumble_tween.tween_property(%CharacterCamera, "position", Vector3.ZERO, 0.02)

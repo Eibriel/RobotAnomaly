@@ -144,6 +144,7 @@ texture = ExtResource("3_s5o31")
 
 [node name="RobotIdLabel" type="Label" parent="Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -214,6 +215,7 @@ horizontal_alignment = 1
 
 [node name="TaskProgressBar" type="ProgressBar" parent="Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

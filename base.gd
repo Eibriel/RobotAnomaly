@@ -48,11 +48,18 @@ enum SIDES {
 var current_side := SIDES.Z_PLUS
 var tonemap_tween: Tween
 
+# Debug
+var skip_tutorial := true
+var force_anomaly := Robot.GLITCHES.GRABS_BATTERY
+
 func _ready() -> void:
 	reset_dressing()
 	$WorldEnvironment.environment.tonemap_exposure = 6.0
 	scenario_count = Robot.GLITCHES.size()
-	for s in scenario_count:
+	for s in scenario_count-1:
+		if force_anomaly != Robot.GLITCHES.NONE:
+			selected_scenarios.append(force_anomaly)
+			continue
 		if randf() < 0.3:
 			selected_scenarios.append(Robot.GLITCHES.NONE)
 		else:
@@ -62,19 +69,25 @@ func _ready() -> void:
 	load_main()
 
 func _process(delta: float) -> void:
-	if not [TASKS.NONE, TASKS.ROTATE].has(current_task):
-		task_timer += delta
-		if task_timer >= task_duration:
-			task_timer = 0.0
-			match current_task:
-				TASKS.BATTERY_CHARGE:
-					robot_collected.battery_charge = 100
-				TASKS.SHUT_DOWN:
-					shutdown_robot()
-			current_task = TASKS.NONE
-	if current_task == TASKS.ROTATE:
-		if robot_collected:
-			robot_collected.rotate_base(delta)
+	#if not [TASKS.NONE, TASKS.ROTATE].has(current_task):
+		#task_timer += delta
+		#if task_timer >= task_duration:
+			#task_timer = 0.0
+			#match current_task:
+				#TASKS.BATTERY_CHARGE:
+					#robot_collected.battery_charge = 100
+				#TASKS.SHUT_DOWN:
+					#shutdown_robot()
+			#current_task = TASKS.NONE
+	if robot_collected:
+		match current_task:
+			TASKS.ROTATE:
+				robot_collected.rotate_base(delta)
+			TASKS.BATTERY_CHARGE:
+				robot_collected.charge_battery(delta)
+			TASKS.SHUT_DOWN:
+				robot_collected.shutdown(delta)
+	
 	var robot_id = -1
 	if robot_collected:
 		robot_id = robot_collected.robot_id
@@ -85,7 +98,7 @@ func _process(delta: float) -> void:
 		# Deprecated section.anomaly
 		if section.anomaly == Robot.GLITCHES.LIGHTS_OFF:
 			$WorldEnvironment.environment.background_energy_multiplier = 0.1
-			if section.time > 30:
+			if section.time > 10:
 				process_failed_queue(section.scenario)
 				reset_position()
 				load_main()
@@ -126,7 +139,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	prints("Failed Scenarios", failed_scenarios)
 	prints("Completed Scenarios", completed_scenarios)
 	var scenario = 0
-	if not tutorial_completed:
+	if not tutorial_completed and not skip_tutorial:
 		scenario = -2
 	elif completed_scenarios.size() >= 8 and not congrats_completed:
 		scenario = -1
@@ -203,7 +216,8 @@ func instantiate_sections(Env: Node3D) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_text_delete"):
 		#day += 1
-		load_main()
+		#load_main()
+		Global.player.rumble()
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
 	if event is InputEventMouseButton:
@@ -380,11 +394,15 @@ func _on_exit_area_body_entered(_body: Node3D) -> void:
 func _on_inside_area_body_entered(_body: Node3D) -> void:
 	#$WorldEnvironment.environment.sky.sky_material = preload("res://sky/room_panorama_01.tres")
 	#$ReflectionProbe.position.x = randf()*0.01
+	Global.is_player_in_room = true
+	var exposure_value := 1.0
+	if section.anomaly == Robot.GLITCHES.LIGHTS_OFF:
+		exposure_value = 0.05
 	if tonemap_tween:
 		tonemap_tween.stop()
 	tonemap_tween = create_tween()
 	tonemap_tween.EASE_OUT
-	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 1.0, 1.0)
+	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", exposure_value, 1.0)
 	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.0
 
@@ -392,6 +410,7 @@ func _on_inside_area_body_entered(_body: Node3D) -> void:
 func _on_inside_area_body_exited(_body: Node3D) -> void:
 	#$WorldEnvironment.environment.sky.sky_material = preload("res://sky/stairs_panorama_01.tres")
 	#$ReflectionProbe.position.x = randf()*0.01
+	Global.is_player_in_room = false
 	if tonemap_tween:
 		tonemap_tween.stop()
 	tonemap_tween = create_tween()
