@@ -1,10 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://nxe8rqga76l0"]
+[gd_scene load_steps=19 format=3 uid="uid://nxe8rqga76l0"]
 
-[ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="2_jgcm1"]
 [ext_resource type="PackedScene" uid="uid://0q6b4obnk0g0" path="res://objects/office.gltf" id="2_q2i1j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8l7vi"]
-size = Vector3(8.31421, 0.279419, 50.1255)
+size = Vector3(21.016, 0.279419, 50.1255)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_47oui"]
 size = Vector3(3.45605, 4.01386, 0.297119)
@@ -33,11 +32,20 @@ size = Vector3(4.62099, 0.279419, 2.22754)
 [sub_resource type="BoxShape3D" id="BoxShape3D_66qyj"]
 size = Vector3(0.205078, 4.22931, 50.0382)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_dk384"]
+size = Vector3(0.205078, 4.22931, 24.0307)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ivkse"]
+size = Vector3(0.205078, 4.22931, 24.2399)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_rx5x0"]
 size = Vector3(0.205078, 4.02906, 5.07065)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ho5ep"]
 size = Vector3(0.205078, 4.02906, 5.07846)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fsvil"]
+size = Vector3(0.219727, 1, 1.62012)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t55h0"]
 metallic = 1.0
@@ -56,7 +64,7 @@ height = 0.4
 [node name="StaticBody3D" type="StaticBody3D" parent="office2"]
 
 [node name="FloorCollision" type="CollisionShape3D" parent="office2/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.136232, -0.0693512)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35089, -0.136232, -0.0693512)
 shape = SubResource("BoxShape3D_8l7vi")
 
 [node name="WallShortCollision" type="CollisionShape3D" parent="office2/StaticBody3D"]
@@ -100,8 +108,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.34573, 1.98404, 0.177475)
 shape = SubResource("BoxShape3D_66qyj")
 
 [node name="WallCollision2" type="CollisionShape3D" parent="office2/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.37131, 1.98404, 0.177475)
-shape = SubResource("BoxShape3D_66qyj")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.37131, 1.98404, -12.8263)
+shape = SubResource("BoxShape3D_dk384")
+
+[node name="WallCollision3" type="CollisionShape3D" parent="office2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.37131, 1.98404, 12.9191)
+shape = SubResource("BoxShape3D_ivkse")
 
 [node name="StairWallCollision" type="CollisionShape3D" parent="office2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.7753, 1.98404, 27.7664)
@@ -147,11 +159,13 @@ shape = SubResource("BoxShape3D_rx5x0")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.20195, 2.11917, -27.8046)
 shape = SubResource("BoxShape3D_ho5ep")
 
+[node name="DoorCollider" type="StaticBody3D" parent="office2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.33215, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="office2/DoorCollider"]
+shape = SubResource("BoxShape3D_fsvil")
+
 [node name="ReflectionBall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.800052, 1.16586, 27.3768)
 visible = false
 mesh = SubResource("SphereMesh_rivpb")
-
-[node name="stairs" parent="." instance=ExtResource("2_jgcm1")]
-visible = false
-metadata/_edit_lock_ = true

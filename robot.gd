@@ -81,7 +81,7 @@ var snap_countdown := 0.0
 var snap_rate := 5.0
 
 var tween: Tween
-	
+
 #@onready var glitch_label := $GlitchLabel
 
 var robj: Dictionary
@@ -141,7 +141,7 @@ func rotate_base(delta: float) -> void:
 
 func charge_battery(delta: float) -> void:
 	if not power_on: return
-	battery_charge += delta * 6.0
+	battery_charge += delta * 8.0
 	battery_charge = minf(battery_charge, 100.0)
 
 func shutdown(delta: float) -> void:
@@ -178,6 +178,16 @@ func _process(delta: float) -> void:
 	update_base()
 	update_follow(delta)
 	update_blocking_path()
+	update_door_open()
+
+func update_door_open() -> void:
+	if glitch != GLITCHES.DOOR_OPEN: return
+	var player_pos := Global.player.global_position
+	player_pos.y = 0
+	var robot_pos: Vector3 = %RobotBody.global_position
+	robot_pos.y = 0
+	if robot_pos.distance_to(player_pos) < 10.0:
+		anomaly_failed.emit()
 
 func update_blocking_path() -> void:
 	if glitch != GLITCHES.BLOCKING_PATH: return
@@ -262,6 +272,7 @@ func update_pose() -> void:
 	
 	if pose == POSES.CLAPPING:
 		anim.play("Clapping")
+		%RobotClappingAudioPlayer.play(randf()*2)
 
 func update_glitch() -> void:
 	if not glitch_dirty: return
@@ -336,15 +347,18 @@ func update_glitch() -> void:
 		#GLITCHES.SMILING:
 		#	robj["red_eyes"].visible = true
 		GLITCHES.GIGGLING:
-			robj["red_eyes"].visible = true
-		GLITCHES.CRYING:
-			robj["red_eyes"].visible = true
+			#robj["red_eyes"].visible = true
+			anim.play("Laughter")
+			%RobotLaughAudioPlayer.play()
+		#GLITCHES.CRYING:
+		#	robj["red_eyes"].visible = true
 		GLITCHES.LOOKING_HAND:
 			anim.play("LookingHand")
 		GLITCHES.TOUCHING_FACE:
 			anim.play("TouchingFace")
 		GLITCHES.POINTING_FINGER:
-			robj["red_eyes"].visible = true
+			#robj["red_eyes"].visible = true
+			anim.play("PointingFinger")
 		GLITCHES.KNIFE_HAND:
 			robj["knife"].visible = true
 		GLITCHES.ROCKING:
@@ -357,9 +371,9 @@ func update_glitch() -> void:
 				tween = create_tween()
 				tween.set_loops()
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
-				tween.tween_interval(0.25)
+				tween.tween_interval(0.15)
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
-				tween.tween_interval(3.0)
+				tween.tween_interval(1.5)
 		GLITCHES.PROCESSING:
 			robj["red_eyes"].visible = true
 			if not tween:
@@ -383,8 +397,9 @@ func update_glitch() -> void:
 			robj["eye_left"].visible = false
 		GLITCHES.MISSING_ENTIRELY:
 			%RobotBody.global_position = Vector3.ZERO
+			%RobotBody.global_position.y = -20
 		GLITCHES.DRIPPING_OIL:
-			setup_graffity()
+			setup_oil_dripping()
 		GLITCHES.GRAFFITY:
 			setup_graffity()
 		GLITCHES.BLOCKING_PATH:
@@ -401,7 +416,8 @@ func update_glitch() -> void:
 			%RobotBody.global_position = Vector3.ZERO
 			anim.play("Timer")
 		GLITCHES.DOOR_OPEN:
-			%RobotBody.global_position = Vector3.ZERO
+			%RobotBody.global_position = Vector3(-15, 0, 0)
+			%RobotBody.global_rotation.y = deg_to_rad(90)
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.global_position = Vector3.ZERO
 		GLITCHES.EXTRA_ROBOTS:
@@ -421,36 +437,40 @@ func remove_base() -> void:
 	base_visible = false
 
 func follow_head(delta: float) -> void:
+	var head_id := skeleton.find_bone("head_2")
 	if not looking_player or not power_on:
 		skeleton.clear_bones_global_pose_override()
 		return
-	var head_id := skeleton.find_bone("head_2")
-	skeleton.set_bone_pose_scale(head_id, Vector3(2,2,2))
-	#var pos := skeleton.to_global(skeleton.get_bone_pose_position(head_id))
 	var pos := skeleton.get_bone_global_pose(head_id).origin
-	#pos = to_global(pos)
 	var player_eyes := Global.player.global_position + Vector3(0, 1.7, 0)
-	bone_look_at(head_id, pos, skeleton.to_local(player_eyes))
 	
+	var player_pos := Global.player.global_position
+	player_pos.y = 0
+	var robot_pos: Vector3 = %RobotBody.global_position
+	robot_pos.y = 0
+	
+	var player_pos_2d := Vector2(player_pos.x, player_pos.z)
+	var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
+	var angle: float = robot_pos_2d.angle_to_point(player_pos_2d) + %RobotBody.global_rotation.y
+	#print(angle)
+	if angle > 0.1 and angle < 3.0:
+		bone_look_at(head_id, pos, skeleton.to_local(player_eyes))
+
 
 func bone_look_at(bone_index:int, bone_global_position:Vector3, target_global_position:Vector3, lerp_amount:float = 1.0):
 	var bone_transform = skeleton.get_bone_global_pose_no_override(bone_index)
-		
-	#var target_pos = to_local(target_global_position)
-	#var target_pos = target_global_position
-	#var bone_origin = bone_transform.origin
 	var bone_origin = bone_global_position
-	#bone_transform.basis = bone_transform.basis.looking_at( -(target_global_position - bone_transform.origin).normalized())
 	bone_transform.basis = bone_transform.basis.looking_at( -(target_global_position - bone_global_position).normalized())
-	# bone_transform.origin = bone_origin
 	bone_transform.origin = bone_global_position
 	skeleton.set_bone_global_pose_override(bone_index, bone_transform, lerp_amount, true)
 
 func setup_graffity() -> void:
-	print("Graffity!")
-	add_graffity(%robotObject)
+	add_detail(%robotObject, preload("res://objects/details/robot_graffity.png"))
 
-func add_graffity(rnode: Node) -> void:
+func setup_oil_dripping() -> void:
+	add_detail(%robotObject, preload("res://objects/details/oil_dripping.png"))
+
+func add_detail(rnode: Node, detail_texture) -> void:
 	for c in rnode.get_children(true):
 		if c is MeshInstance3D:
 			var mesh = c.mesh.duplicate()
@@ -461,13 +481,17 @@ func add_graffity(rnode: Node) -> void:
 				# Todo only apply on arms
 				mat = mat.duplicate(true)
 				mat.detail_enabled = true
-				mat.detail_mask = preload("res://objects/details/robot_graffity.png")
+				mat.detail_mask = detail_texture
 				c.mesh.surface_set_material(s, mat)
-		add_graffity(c)
+		add_detail(c, detail_texture)
 
 func shut_down() -> void:
 	power_on = false
 	anim.play("Shut_Down", 1.0)
+	var shut_down_tween := create_tween()
+	shut_down_tween.tween_property(%RobotLaughAudioPlayer, "pitch_scale", 0.2, 3)
+	shut_down_tween.tween_callback(%RobotLaughAudioPlayer.stop)
+	#%RobotLaughAudioPlayer.stop()
 
 func grab_battery() -> void:
 	if glitch_executed:

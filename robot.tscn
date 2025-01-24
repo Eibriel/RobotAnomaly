@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=24 format=3 uid="uid://cp3bk1xsmjnxj"]
 
 [ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bou7oymrscjod" path="res://textures/robot_shadow.png" id="5_7xofo"]
 [ext_resource type="AudioStream" uid="uid://ceaokvaepnyyd" path="res://sounds/heavy_steps.mp3" id="6_bkaji"]
 [ext_resource type="Texture2D" uid="uid://wd2f4dka2s4c" path="res://textures/robot_base_shadow.png" id="6_yyxj1"]
+[ext_resource type="AudioStream" uid="uid://dnqvwp1t2ba5d" path="res://sounds/laughs_glitch.mp3" id="8_ydsf0"]
+[ext_resource type="AudioStream" uid="uid://cltm7gdw7u3c8" path="res://sounds/fast-clapping.mp3" id="9_754th"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lloov"]
 metallic = 1.0
@@ -245,6 +247,17 @@ bus = &"Robots"
 [node name="RobotStepsAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
 unique_name_in_owner = true
 stream = ExtResource("6_bkaji")
+bus = &"Robots"
+
+[node name="RobotLaughAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
+unique_name_in_owner = true
+stream = ExtResource("8_ydsf0")
+bus = &"Robots"
+
+[node name="RobotClappingAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
+unique_name_in_owner = true
+stream = ExtResource("9_754th")
+volume_db = -5.981
 bus = &"Robots"
 
 [node name="BaseShadowPlane" type="MeshInstance3D" parent="."]

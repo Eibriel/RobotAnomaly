@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=41 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -13,6 +13,14 @@
 [ext_resource type="PackedScene" uid="uid://cv5l27mr2pwnm" path="res://objects/office_lobby.gltf" id="9_n73o2"]
 [ext_resource type="PackedScene" uid="uid://dmjvhlpj66cob" path="res://objects/office_marketing.gltf" id="10_cs1hs"]
 [ext_resource type="PackedScene" uid="uid://s2y8cucgny7n" path="res://objects/office_party.gltf" id="11_v7taj"]
+[ext_resource type="PackedScene" uid="uid://fqxnbyrmfge3" path="res://banner.tscn" id="14_cs1hs"]
+[ext_resource type="FontFile" uid="uid://cgl1eo1pwl65v" path="res://fonts/Bungee-Regular.otf" id="14_gaoim"]
+[ext_resource type="Texture2D" uid="uid://bglukvw1mv30k" path="res://textures/banner_robot_rejected.png" id="14_jym3p"]
+[ext_resource type="Material" uid="uid://do2w3hnmraobn" path="res://materials/floor_number.tres" id="14_sgv64"]
+[ext_resource type="Texture2D" uid="uid://clt2fh5qtesu7" path="res://textures/banner_robot_ok.png" id="14_v7taj"]
+[ext_resource type="Texture2D" uid="uid://c7n1vpir0on6b" path="res://textures/banner_robot_charge_battery.png" id="16_50rgw"]
+[ext_resource type="Texture2D" uid="uid://qgsd8ojuieat" path="res://textures/banner_robot_power_off.png" id="16_jym3p"]
+[ext_resource type="PackedScene" uid="uid://dorx7tjyxp3pr" path="res://turnstile.tscn" id="18_4a7sh"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -56,6 +64,13 @@ random_pitch = 1.35
 random_volume_offset_db = 2.2
 streams_count = 1
 stream_0/stream = ExtResource("4_2suhb")
+
+[sub_resource type="TextMesh" id="TextMesh_k3d1t"]
+material = ExtResource("14_sgv64")
+text = "10"
+font = ExtResource("14_gaoim")
+font_size = 100
+depth = 0.02
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46a6v"]
 size = Vector3(1.74908, 3.88782, 2.46741)
@@ -241,7 +256,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
 [node name="OfficeWithCollision5" parent="OfficeNode" instance=ExtResource("6_8uljb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0)
 
-[node name="OfficeWithCollision" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+[node name="MainOfficeWithCollision" parent="OfficeNode" instance=ExtResource("6_8uljb")]
+unique_name_in_owner = true
 
 [node name="OfficeWithCollision3" parent="OfficeNode" instance=ExtResource("6_8uljb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1, 0)
@@ -290,6 +306,30 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
+[node name="tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
+
+[node name="Banner" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.20731, 0.0134775, -9.20166)
+texture = ExtResource("14_jym3p")
+
+[node name="Banner2" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 1.10346, 0.0134775, -9.13057)
+texture = ExtResource("14_v7taj")
+
+[node name="Banner3" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.21097, 0.0134775, -9.51266)
+banner = 2
+texture = ExtResource("16_50rgw")
+
+[node name="Banner4" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2.15353, 0.0134775, -9.51266)
+banner = 1
+texture = ExtResource("16_jym3p")
+
+[node name="Turnstile" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("18_4a7sh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.1885)
+energy = 50.0
+
 [node name="StairsNode" type="Node3D" parent="."]
 
 [node name="stairs3" parent="StairsNode" instance=ExtResource("7_x3c38")]
@@ -321,27 +361,44 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -4.
 [node name="stairs10" parent="StairsNode" instance=ExtResource("7_x3c38")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -8.2, 0)
 
-[node name="LevelCountLabel" type="Label3D" parent="."]
+[node name="LevelCountLabel" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.05581, 1.25533, 29.0291)
+mesh = SubResource("TextMesh_k3d1t")
+
+[node name="LevelCountLabel2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.00517392, 1.25533, 30.5683)
+mesh = SubResource("TextMesh_k3d1t")
+
+[node name="LevelCountLabel4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.00620604, 1.25533, -30.5403)
+mesh = SubResource("TextMesh_k3d1t")
+
+[node name="LevelCountLabel3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554, 1.25533, -29.0201)
+mesh = SubResource("TextMesh_k3d1t")
+
+[node name="LevelCountLabel_old" type="Label3D" parent="."]
 transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.00536, 1.23869, 28.1689)
+visible = false
 text = "10"
 font_size = 400
 
-[node name="LevelCountLabel3" type="Label3D" parent="."]
-unique_name_in_owner = true
+[node name="LevelCountLabel3_old" type="Label3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.04997, 1.20363, -28.0575)
+visible = false
 text = "10"
 font_size = 400
 
-[node name="LevelCountLabel2" type="Label3D" parent="."]
-unique_name_in_owner = true
+[node name="LevelCountLabel2_old" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, -0.14065, 1.22896, -30.5592)
+visible = false
 text = "10"
 font_size = 400
 
-[node name="LevelCountLabel4" type="Label3D" parent="."]
-unique_name_in_owner = true
+[node name="LevelCountLabel4_old" type="Label3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.141, 1.229, 30.58)
+visible = false
 text = "10"
 font_size = 400
 

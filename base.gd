@@ -12,7 +12,7 @@ var robots: Array[Robot] = []
 var completed_scenarios: Array[int] = []
 var selected_scenarios:Array[int] = []
 var failed_scenarios:Array[int] = []
-var scenario_count := 0
+#var scenario_count := 0
 #const batch_count := 1 # 8
 
 var introduction_done := false
@@ -48,22 +48,28 @@ enum SIDES {
 var current_side := SIDES.Z_PLUS
 var tonemap_tween: Tween
 
+const FLOORS_AMOUNT := 29
+
 # Debug
-var skip_tutorial := true
-var force_anomaly := Robot.GLITCHES.GRABS_BATTERY
+var skip_tutorial := false
+var force_anomaly := Robot.GLITCHES.NONE
 
 func _ready() -> void:
 	reset_dressing()
 	$WorldEnvironment.environment.tonemap_exposure = 6.0
-	scenario_count = Robot.GLITCHES.size()
-	for s in scenario_count-1:
+	#scenario_count = Robot.GLITCHES.size()
+	var mixed_scenarios := Robot.GLITCHES.values()
+	mixed_scenarios.shuffle()
+	mixed_scenarios.remove_at(mixed_scenarios.find(Robot.GLITCHES.NONE))
+	mixed_scenarios.resize(FLOORS_AMOUNT)
+	for s in mixed_scenarios:
 		if force_anomaly != Robot.GLITCHES.NONE:
 			selected_scenarios.append(force_anomaly)
 			continue
 		if randf() < 0.3:
 			selected_scenarios.append(Robot.GLITCHES.NONE)
 		else:
-			selected_scenarios.append(s+1)
+			selected_scenarios.append(s)
 	selected_scenarios.shuffle()
 	Global.player = %Player
 	load_main()
@@ -123,6 +129,7 @@ func _process(delta: float) -> void:
 func load_main() -> void:
 	robot_collected = null
 	#reset_position()
+	reset_environment()
 	instantiate_sections(%Environment)
 
 func reset_dressing() -> void:
@@ -158,18 +165,17 @@ func instantiate_sections(Env: Node3D) -> void:
 	section = SECTION.instantiate()
 	section.level = available_scenarios_count
 	section.connect("glitch_failed", on_glitch_failed)
+	section.connect("request_environment_change", on_environment_change)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	if [-1, -2, -3].has(scenario):
-		%LevelCountLabel.text = "-"
+		%LevelCountLabel.mesh.text = "-"
 	else:
-		%LevelCountLabel.text = "%d" % (completed_scenarios.size() + 1)
-	%LevelCountLabel2.text = %LevelCountLabel.text
-	%LevelCountLabel3.text = %LevelCountLabel.text
-	%LevelCountLabel4.text = %LevelCountLabel.text
+		%LevelCountLabel.mesh.text = "%d" % (completed_scenarios.size() + 1)
 	#main.level = scenarios.size() - n
 	section.scenario = scenario
 	#section.last_day = available_scenarios_count <= batch_count
-	var message_id := scenario_count-available_scenarios_count
+	#var message_id := FLOORS_AMOUNT-available_scenarios_count
+	var message_id := completed_scenarios.size()
 	reset_dressing()
 	prints("message_id", message_id)
 	if message_id <= 0:
@@ -179,19 +185,19 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif message_id <= 8:
 		%MessageLabel.text = "Empty Room"
 		%office_lobby.visible = true
-	elif message_id <= 14:
+	elif message_id <= 12:
 		%MessageLabel.text = "Design Room"
 		%office_design.visible = true
-	elif message_id <= 19:
+	elif message_id <= 18:
 		%MessageLabel.text = "Lab"
 		%office_lab.visible = true
 	elif message_id <= 25:
 		%MessageLabel.text = "Marketing"
 		%office_marketing.visible = true
-	elif message_id <= 29:
+	elif message_id <= 28:
 		%MessageLabel.text = "Party"
 		%office_party.visible = true
-	elif message_id >= 30:
+	elif message_id >= 29:
 		%MessageLabel.text = "Executive"
 		%office_executive.visible = true
 	#message_id = min(message_id, MESSAGES.size()-1)
@@ -233,6 +239,22 @@ func process_failed_queue(scenario: int) -> void:
 		completed_scenarios.resize(0)
 	#if not failed_scenarios.has(scenario):
 	failed_scenarios.append(scenario)
+
+func on_environment_change(change: Section.ENV_CHANGE) -> void:
+	match change:
+		Section.ENV_CHANGE.OPEN_DOOR:
+			var office_obj := %MainOfficeWithCollision.get_node("office2") as Node3D
+			var door_obj := office_obj.get_node("Puerta") as Node3D
+			door_obj.rotation.y = 45
+			var door_coll := %MainOfficeWithCollision.get_node("office2/DoorCollider") as Node3D
+			door_coll.position.y = 50
+
+func reset_environment() -> void:
+	var office_obj := %MainOfficeWithCollision.get_node("office2") as Node3D
+	var door_obj := office_obj.get_node("Puerta") as Node3D
+	door_obj.rotation.y = deg_to_rad(180)
+	var door_coll := %MainOfficeWithCollision.get_node("office2/DoorCollider") as Node3D
+	door_coll.position.y = 0
 
 func _on_finished(success: bool, scenario: int, last: bool) -> void:
 	#prints("_on_finished")
@@ -355,6 +377,9 @@ func fire_ray() -> void:
 			else:
 				robot_collected = coll.get_parent().get_parent()
 			current_task = TASKS.ROTATE
+		elif coll.has_meta("is_turnstile"):
+			print("is_turnstile")
+			coll.get_parent().open()
 
 func charge_battery(robot: Robot) -> void:
 	# On Robot
@@ -443,10 +468,11 @@ func _on_loop_down_body_entered(body: Node3D) -> void:
 
 
 func on_glitch_failed() -> void:
-	var sc := section.is_success()
-	prints("\nsuccess:", sc)
+	#var sc := section.is_success()
+	#prints("\nsuccess:", sc)
+	#TODO sometimes reset_position don't reset velocity
 	reset_position()
-	_on_finished(sc, section.scenario, false)
+	_on_finished(false, section.scenario, false)
 
 func _on_start_level_body_entered(body: Node3D) -> void:
 	level_started = true

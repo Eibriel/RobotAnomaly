@@ -2,6 +2,7 @@ class_name Section
 extends Node3D
 
 signal glitch_failed
+signal request_environment_change
 
 @export var level := 1
 @export var message := ""
@@ -20,6 +21,10 @@ var anomaly: Robot.GLITCHES
 const RESET_BUTTON = preload("res://reset_button.tscn")
 const ROBOT = preload("res://robot.tscn")
 const BATTERY_CHARGER = preload("res://battery_charger.tscn")
+
+enum ENV_CHANGE {
+	OPEN_DOOR
+}
 
 func _ready() -> void:
 	#%SectionEnd.visible = true
@@ -54,6 +59,7 @@ func setup_tutorial() -> void:
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(-1.5, 0.5, -10)
+	r.rotation.y = deg_to_rad(-90-70)
 	
 	r = ROBOT.instantiate()
 	r.robot_id = 11
@@ -62,6 +68,7 @@ func setup_tutorial() -> void:
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(1.5, 0.5, -10)
+	r.rotation.y = deg_to_rad(90+70+180)
 
 func setup_congrats() -> void:
 	var r := ROBOT.instantiate()
@@ -156,6 +163,8 @@ func start_day() -> void:
 		# If the level is not completed before countdown
 		# game over
 		pass
+	if anomaly == Robot.GLITCHES.DOOR_OPEN:
+		request_environment_change.emit(Section.ENV_CHANGE.OPEN_DOOR)
 	if anomaly == Robot.GLITCHES.GRABS_BATTERY:
 		sr.battery_charge = 66
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
@@ -215,14 +224,19 @@ func on_failed_glitch() -> void:
 
 func is_success() -> bool:
 	var success := true
+	var success_glitches: Array[Robot.GLITCHES] = [
+		Robot.GLITCHES.NONE,
+		Robot.GLITCHES.MISSING_ENTIRELY,
+		Robot.GLITCHES.DOOR_OPEN
+	]
 	for r in robots:
-		if r.glitch != r.GLITCHES.NONE and r.power_on:
+		if (not success_glitches.has(r.glitch)) and r.power_on:
 			success = false
 			break
-		if r.glitch == r.GLITCHES.NONE and not r.power_on:
+		if success_glitches.has(r.glitch) and not r.power_on:
 			success = false
 			break
-		if r.glitch == r.GLITCHES.NONE and r.battery_charge != 100:
+		if r.glitch == Robot.GLITCHES.NONE and r.battery_charge != 100:
 			success = false
 			break
 	return success
