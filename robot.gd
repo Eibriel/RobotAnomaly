@@ -121,11 +121,11 @@ func _ready() -> void:
 	robj["knife"] = %robotObject.get_node("Armature/Skeleton3D/Knife")
 	
 	#prints("GC", GLITCHES.size())
-	$robot_base.rotate_y(deg_to_rad(randf_range(0, 360)))
+	%RobotBase.rotate_y(deg_to_rad(randf_range(0, 360)))
 	if randf() < 0.5:
-		$robot_base.get_node("ConcretePillar_A").visible = false
+		%RobotBase/robot_base.get_node("ConcretePillar_A").visible = false
 	else:
-		$robot_base.get_node("ConcretePillar_B").visible = false
+		%RobotBase/robot_base.get_node("ConcretePillar_B").visible = false
 	
 	skeleton = %robotObject.get_node("Armature/Skeleton3D") as Skeleton3D
 	
@@ -138,12 +138,21 @@ func _ready() -> void:
 func rotate_base(delta: float) -> void:
 	if not base_visible: return
 	if glitch == GLITCHES.WALKS_NOT_LOOKING: return
+	if glitch == GLITCHES.BLOCKING_PATH: return
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
 	%RobotBody.rotate_y(deg_to_rad(120) * delta)
 
+func robot_rotation(angle: float) -> void:
+	%RobotBody.rotation.y = angle
+
+func robot_position(pos: Vector3) -> void:
+	%RobotBody.position = pos
+	%RobotBase.position = pos
+	update_base()
+
 func charge_battery(delta: float) -> void:
 	if not power_on: return
-	battery_charge += delta * 8.0
+	battery_charge += delta * 12.0
 	battery_charge = minf(battery_charge, 100.0)
 
 func shutdown(delta: float) -> void:
@@ -188,8 +197,11 @@ func update_door_open() -> void:
 	player_pos.y = 0
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
-	if robot_pos.distance_to(player_pos) < 10.0:
+	var dist := robot_pos.distance_to(player_pos)
+	if dist < 10.0:
 		anomaly_failed.emit()
+	if dist < 13.0:
+		Global.player.rumble(0.1)
 
 func update_blocking_path() -> void:
 	if glitch != GLITCHES.BLOCKING_PATH: return
@@ -198,18 +210,20 @@ func update_blocking_path() -> void:
 	player_pos.y = 0
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
-	if robot_pos.distance_to(player_pos) < 2.0:
+	if robot_pos.distance_to(player_pos) < 1.0:
 		anomaly_failed.emit()
+	var dist := robot_pos.distance_to(player_pos)
+	if dist < 2.0:
+		Global.player.rumble(0.1)
 
 func update_follow(delta: float) -> void:
 	if glitch != GLITCHES.WALKS_NOT_LOOKING:
 		return
+	var player_pos := to_local(Global.player.global_position)
+	player_pos.y = 0
+	var robot_pos: Vector3 = %RobotBody.global_position
+	robot_pos.y = 0
 	if not is_on_screen() and Global.is_player_in_room and power_on:
-		var player_pos := Global.player.global_position
-		player_pos.y = 0
-		var robot_pos: Vector3 = %RobotBody.global_position
-		robot_pos.y = 0
-		
 		var player_pos_2d := Vector2(player_pos.x, player_pos.z)
 		var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
 		var angle := robot_pos_2d.angle_to_point(player_pos_2d)
@@ -228,16 +242,20 @@ func update_follow(delta: float) -> void:
 			if not %RobotStepsAudioPlayer.playing:
 				%RobotStepsAudioPlayer.play()
 		
-		%RobotBody.global_position += dir_to_player * delta * 2.0
-		%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
+		%RobotBody.position += dir_to_player * delta * 2.0
+		%RobotBody.rotation.y = -angle + deg_to_rad(90)
 		#print(robot_pos.distance_to(player_pos))
 		if robot_pos.distance_to(player_pos) < 2.0:
 			anomaly_failed.emit()
 	else:
 		%RobotStepsAudioPlayer.stop()
+	
+	if robot_pos.distance_to(player_pos) < 1.0:
+		Global.player.rumble(0.1)
 
 func update_base() -> void:
-	$BaseShadowPlane.global_position.y = 0.01
+	$BaseShadowPlane.position = %RobotBase.position
+	$BaseShadowPlane.position.y = 0.01
 
 func update_snap(delta: float) -> void:
 	if glitch != GLITCHES.COUNTDOWN: return
@@ -401,34 +419,37 @@ func update_glitch() -> void:
 		GLITCHES.MISSING_EYE:
 			robj["eye_left"].visible = false
 		GLITCHES.MISSING_ENTIRELY:
-			%RobotBody.global_position = Vector3.ZERO
-			%RobotBody.global_position.y = -20
+			%RobotBody.position = Vector3.ZERO
+			%RobotBody.position.y = -20
 		GLITCHES.DRIPPING_OIL:
 			setup_oil_dripping()
 		GLITCHES.GRAFFITY:
 			setup_graffity()
 		GLITCHES.BLOCKING_PATH:
+			# TODO fix position (global, local)
 			%RobotBody.position = Vector3.ZERO
 			%RobotBody.rotation = Vector3.ZERO
 			match block_id:
 				0:
-					%RobotBody.global_position.x = 0.28
+					%RobotBody.position.x = 0.28
 					anim.play("HoldingHands_B")
 				1:
-					%RobotBody.global_position.x = -0.28
+					%RobotBody.position.x = -0.28
 					anim.play("HoldingHands_A")
 		GLITCHES.COUNTDOWN:
-			%RobotBody.global_position = Vector3.ZERO
+			%RobotBody.position = Vector3.ZERO
 			anim.play("Timer")
 		GLITCHES.DOOR_OPEN:
-			%RobotBody.global_position = Vector3(-15, 0, 0)
-			%RobotBody.global_rotation.y = deg_to_rad(90)
+			%RobotBody.position = Vector3(-15, 0, 0)
+			%RobotBody.rotation.y = deg_to_rad(90)
 		GLITCHES.WALKS_NOT_LOOKING:
-			%RobotBody.global_position = Vector3.ZERO
+			%RobotBody.position = Vector3.ZERO
 		GLITCHES.EXTRA_ROBOTS:
-			global_position.x += randf() * 0.2
-			global_position.y = 0.2
-			global_position.z += randf() * 0.2
+			var pos := %RobotBody.position as Vector3
+			pos.x + randf() * 0.2
+			pos.y = 0.2
+			pos.z + randf() * 0.2
+			robot_position(pos)
 
 #func remove_glitch():
 	##is_glitching = false
@@ -437,7 +458,7 @@ func update_glitch() -> void:
 	#anim.pause()
 
 func remove_base() -> void:
-	$robot_base.visible = false
+	%RobotBase.visible = false
 	$BaseShadowPlane.visible = false
 	base_visible = false
 

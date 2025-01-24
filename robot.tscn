@@ -26,11 +26,15 @@ height = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ru5oq"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_yyxj1"]
+height = 1.64136
+radius = 0.414551
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjjcf"]
 albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h41k0"]
-size = Vector3(0.11499, 0.116272, 0.0623397)
+size = Vector3(0.147461, 0.175781, 0.0623397)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ioch8"]
 size = Vector3(0.366211, 0.260818, 0.00749184)
@@ -63,10 +67,6 @@ albedo_texture = ExtResource("6_yyxj1")
 material = SubResource("StandardMaterial3D_yyxj1")
 size = Vector2(1.3, 1.3)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_yyxj1"]
-height = 1.64136
-radius = 0.414551
-
 [node name="Robot" type="Node3D"]
 script = ExtResource("1_0iowa")
 
@@ -87,8 +87,19 @@ visible = false
 size = Vector3(0.730469, 2.82405, 0.0257568)
 material = SubResource("StandardMaterial3D_ru5oq")
 
-[node name="robot_base" parent="." instance=ExtResource("2_yhfw1")]
+[node name="RobotBase" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="robot_base" parent="RobotBase" instance=ExtResource("2_yhfw1")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.797731, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RobotBase"]
+collision_layer = 2
+collision_mask = 256
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBase/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.821167, 0.021225)
+shape = SubResource("CylinderShape3D_yyxj1")
 
 [node name="RobotBody" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -130,7 +141,7 @@ text = "0%"
 font_size = 10
 
 [node name="BatteryArea" type="Area3D" parent="RobotBody/BatteryNode"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.085771, 0.0810544)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0483259, 0.0810544)
 collision_layer = 2
 metadata/is_battery = true
 
@@ -139,7 +150,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0244447, -0.0780104)
 shape = SubResource("BoxShape3D_h41k0")
 
 [node name="BlockArea2" type="Area3D" parent="RobotBody/BatteryNode"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0772715, -0.0308072)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0216837, -0.0308072)
 collision_layer = 2
 metadata/is_robot = true
 
@@ -264,11 +275,3 @@ bus = &"Robots"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.478086, 0.012)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_7xofo")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-collision_layer = 2
-collision_mask = 256
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.821167, 0.021225)
-shape = SubResource("CylinderShape3D_yyxj1")

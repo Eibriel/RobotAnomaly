@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=42 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -65,11 +65,20 @@ random_volume_offset_db = 2.2
 streams_count = 1
 stream_0/stream = ExtResource("4_2suhb")
 
+[sub_resource type="TextMesh" id="TextMesh_4a7sh"]
+material = ExtResource("14_sgv64")
+text = "100"
+font = ExtResource("14_gaoim")
+font_size = 30
+horizontal_alignment = 2
+depth = 0.02
+
 [sub_resource type="TextMesh" id="TextMesh_k3d1t"]
 material = ExtResource("14_sgv64")
 text = "10"
 font = ExtResource("14_gaoim")
 font_size = 100
+horizontal_alignment = 2
 depth = 0.02
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46a6v"]
@@ -375,21 +384,38 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -4.
 [node name="stairs10" parent="StairsNode" instance=ExtResource("7_x3c38")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -8.2, 0)
 
+[node name="TotalLevelsCountLabel" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.05581, 0.691272, 29.6589)
+mesh = SubResource("TextMesh_4a7sh")
+
+[node name="TotalLevelsCountLabel2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.620499, 0.691272, 30.569)
+mesh = SubResource("TextMesh_4a7sh")
+
+[node name="TotalLevelsCountLabel3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554, 0.667587, -29.6593)
+mesh = SubResource("TextMesh_4a7sh")
+
+[node name="TotalLevelsCountLabel4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.643334, 0.676932, -30.5403)
+mesh = SubResource("TextMesh_4a7sh")
+
 [node name="LevelCountLabel" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.05581, 1.25533, 29.0291)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.05581, 1.25533, 29.7148)
 mesh = SubResource("TextMesh_k3d1t")
 
 [node name="LevelCountLabel2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.00517392, 1.25533, 30.5683)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.691248, 1.25533, 30.5683)
 mesh = SubResource("TextMesh_k3d1t")
 
 [node name="LevelCountLabel4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, -0.00620604, 1.25533, -30.5403)
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.643334, 1.25533, -30.5403)
 mesh = SubResource("TextMesh_k3d1t")
 
 [node name="LevelCountLabel3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554, 1.25533, -29.0201)
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554, 1.25533, -29.7157)
 mesh = SubResource("TextMesh_k3d1t")
 
 [node name="LevelCountLabel_old" type="Label3D" parent="."]

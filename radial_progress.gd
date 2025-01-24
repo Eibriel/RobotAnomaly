@@ -35,8 +35,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	#var mat := $Progress.get_surface_override_material(0) as StandardMaterial3D
 	var text := mat.albedo_texture.gradient as Gradient
-	var limited_value := clampf(value, 0.0, 99.0)
-	text.offsets[1] = limited_value / 100.0
+	var limited_value := clampf(value, 0.0, 100.0)
+	if limited_value < 100:
+		text.offsets[1] = limited_value / 105.0
+	else:
+		text.offsets[1] = 0.99
 	match color_scheme:
 		COLOR_SCHEME.WHITE:
 			text.colors[0] = Color.WHITE

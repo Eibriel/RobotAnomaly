@@ -58,8 +58,8 @@ func setup_tutorial() -> void:
 	r.connect("anomaly_failed", on_failed_glitch)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(-1.5, 0.5, -10)
-	r.rotation.y = deg_to_rad(-90-70-180)
+	r.robot_position(Vector3(-1.5, 0.5, -10))
+	r.robot_rotation(deg_to_rad(-90-70-180))
 	
 	r = ROBOT.instantiate()
 	r.robot_id = 11
@@ -67,8 +67,8 @@ func setup_tutorial() -> void:
 	r.set_glitch(r.GLITCHES.NONE)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(1.5, 0.5, -10)
-	r.rotation.y = deg_to_rad(90+70+180)
+	r.robot_position(Vector3(1.5, 0.5, -10))
+	r.robot_rotation(deg_to_rad(90+70+180))
 	
 	r = ROBOT.instantiate()
 	r.robot_id = 0
@@ -77,8 +77,8 @@ func setup_tutorial() -> void:
 	r.connect("anomaly_failed", on_failed_glitch)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(-1.5, 0.5, -10+7)
-	r.rotation.y = deg_to_rad(-90-70-180)
+	r.robot_position(Vector3(-1.5, 0.5, -10+7))
+	r.robot_rotation(deg_to_rad(-90-70-180))
 	
 	r = ROBOT.instantiate()
 	r.robot_id = 1
@@ -86,8 +86,8 @@ func setup_tutorial() -> void:
 	r.set_glitch(r.GLITCHES.NONE)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(1.5, 0.5, -10+7)
-	r.rotation.y = deg_to_rad(90+70+180)
+	r.robot_position(Vector3(1.5, 0.5, -10+7))
+	r.robot_rotation(deg_to_rad(90+70+180))
 
 func setup_congrats() -> void:
 	var r := ROBOT.instantiate()
@@ -97,8 +97,8 @@ func setup_congrats() -> void:
 	r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(-2, 0, -10)
-	r.rotation.y = deg_to_rad(45)
+	r.robot_position(Vector3(-2, 0, -10))
+	r.robot_rotation(deg_to_rad(45))
 	r.remove_base()
 	#
 	r = ROBOT.instantiate()
@@ -108,8 +108,8 @@ func setup_congrats() -> void:
 	r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(2, 0, -10)
-	r.rotation.y = deg_to_rad(-45)
+	r.robot_position(Vector3(2, 0, -10))
+	r.robot_rotation(deg_to_rad(-45))
 	r.remove_base()
 
 func setup_ending() -> void:
@@ -122,7 +122,7 @@ func setup_ending() -> void:
 	r.get_node("%robotObject").scale = Vector3.ONE
 	#r.looking_player = true
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(0, 0, 0)
+	r.robot_position(Vector3(0, 0, 0))
 	#
 	r = ROBOT.instantiate()
 	r.robot_id = 24
@@ -131,8 +131,8 @@ func setup_ending() -> void:
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(3, 0, 0)
-	r.rotation.y = deg_to_rad(-45)
+	r.robot_position(Vector3(3, 0, 0))
+	r.robot_rotation(deg_to_rad(-45))
 	r.remove_base()
 	#
 	r = ROBOT.instantiate()
@@ -142,8 +142,8 @@ func setup_ending() -> void:
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(-3, 0, 0)
-	r.rotation.y = deg_to_rad(45)
+	r.robot_position(Vector3(-3, 0, 0))
+	r.robot_rotation(deg_to_rad(45))
 	r.remove_base()
 
 func start_day() -> void:
@@ -173,14 +173,20 @@ func start_day() -> void:
 				robots.append(r)
 				%Robots.add_child.call_deferred(r)
 				var dist := DIST_X + (ry * DIST_X_INCREASE)
-				r.position.x = (rx * dist) - (dist * 0.5)
-				r.position.y = 0.4
-				r.position.z = (ry * 3) - 16
+				#r.position.x = (rx * dist) - (dist * 0.5)
+				#r.position.y = 0.4
+				#r.position.z = (ry * 3) - 16
+				var robot_position := Vector3(
+					(rx * dist) - (dist * 0.5),
+					0.4,
+					(ry * 3) - 16
+				)
+				r.robot_position(robot_position)
 				match rx:
 					0:
-						r.rotation.y = deg_to_rad(90-40)
+						r.robot_rotation(deg_to_rad(90-40))
 					1:
-						r.rotation.y = deg_to_rad(-90+40)
+						r.robot_rotation(deg_to_rad(-90+40))
 	else:
 		var r := ROBOT.instantiate()
 		r.robot_id = 10
@@ -189,7 +195,7 @@ func start_day() -> void:
 			r.battery_charge = randi_range(60, 80)
 		robots.append(r)
 		%Robots.add_child.call_deferred(r)
-		r.position = Vector3(0, 0.5, -10)
+		r.robot_position(Vector3(0, 0.5, -10))
 	
 	var sr := robots.pick_random() as Robot
 	var no_anomaly: Array[int] = [
@@ -248,6 +254,8 @@ func _process(delta: float) -> void:
 		activate()
 	if scenario == Robot.GLITCHES.LIGHTS_OFF and glitch_time > 10:
 		glitch_failed.emit()
+	if scenario == Robot.GLITCHES.LIGHTS_OFF and Global.is_player_in_room:
+		Global.player.rumble(0.1)
 	#%LevelCountLabel.text = "%d" % level
 	
 	#Check if day is complete
@@ -282,8 +290,8 @@ func is_success() -> bool:
 			print("Failed! robot without glitch, and power is off")
 			success = false
 			break
-		if r.glitch == Robot.GLITCHES.NONE and r.battery_charge != 100:
-			print("Failed! robot without glitch, and battery is low")
+		if r.glitch == Robot.GLITCHES.NONE and r.battery_charge < 100.0:
+			print("Failed! robot without glitch, and battery is low. %f" % r.battery_charge)
 			success = false
 			break
 	return success

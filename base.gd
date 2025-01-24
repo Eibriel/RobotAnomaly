@@ -53,24 +53,27 @@ const FLOORS_AMOUNT := 29
 # Debug
 var skip_tutorial := false
 var force_anomaly := Robot.GLITCHES.NONE
+var linear_game := true
 
 func _ready() -> void:
 	reset_dressing()
 	$WorldEnvironment.environment.tonemap_exposure = 6.0
 	#scenario_count = Robot.GLITCHES.size()
 	var mixed_scenarios := Robot.GLITCHES.values()
-	mixed_scenarios.shuffle()
+	if not linear_game:
+		mixed_scenarios.shuffle()
 	mixed_scenarios.remove_at(mixed_scenarios.find(Robot.GLITCHES.NONE))
 	mixed_scenarios.resize(FLOORS_AMOUNT)
 	for s in mixed_scenarios:
 		if force_anomaly != Robot.GLITCHES.NONE:
 			selected_scenarios.append(force_anomaly)
 			continue
-		if randf() < 0.3:
+		if randf() < 0.3 and not linear_game:
 			selected_scenarios.append(Robot.GLITCHES.NONE)
 		else:
 			selected_scenarios.append(s)
-	selected_scenarios.shuffle()
+	if not linear_game:
+		selected_scenarios.shuffle()
 	Global.player = %Player
 	load_main()
 
@@ -173,6 +176,11 @@ func instantiate_sections(Env: Node3D) -> void:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		%LevelCountLabel.mesh.text = "%d" % (completed_scenarios.size() + 1)
+	if completed_scenarios.size() < 8:
+		%TotalLevelsCountLabel.mesh.text = "/ %d" % 8
+	else:
+		%TotalLevelsCountLabel.mesh.text = "/ %d" % FLOORS_AMOUNT
+		
 	#main.level = scenarios.size() - n
 	section.scenario = scenario
 	#section.last_day = available_scenarios_count <= batch_count
