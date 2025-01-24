@@ -35,7 +35,7 @@ enum GLITCHES {
 	POINTING_FINGER,
 #	SMILING,
 	GIGGLING,
-	CRYING,
+	#CRYING,
 	ROCKING, #(MOVING_LIKE_PENDULUM)
 	LOOKING_HAND,
 	TOUCHING_FACE,
@@ -60,7 +60,8 @@ enum GLITCHES {
 
 enum POSES {
 	NONE,
-	CLAPPING
+	CLAPPING,
+	SITTING
 }
 
 #var is_glitching := false
@@ -136,6 +137,7 @@ func _ready() -> void:
 
 func rotate_base(delta: float) -> void:
 	if not base_visible: return
+	if glitch == GLITCHES.WALKS_NOT_LOOKING: return
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
 	%RobotBody.rotate_y(deg_to_rad(120) * delta)
 
@@ -270,9 +272,12 @@ func update_pose() -> void:
 	if not pose_dirty: return
 	pose_dirty = false
 	
-	if pose == POSES.CLAPPING:
-		anim.play("Clapping")
-		%RobotClappingAudioPlayer.play(randf()*2)
+	match pose:
+		POSES.CLAPPING:
+			anim.play("Clapping")
+			%RobotClappingAudioPlayer.play(randf()*2)
+		POSES.SITTING:
+			anim.play("ExecutiveSitting")
 
 func update_glitch() -> void:
 	if not glitch_dirty: return
@@ -403,8 +408,8 @@ func update_glitch() -> void:
 		GLITCHES.GRAFFITY:
 			setup_graffity()
 		GLITCHES.BLOCKING_PATH:
-			%RobotBody.global_position = Vector3.ZERO
-			%RobotBody.global_rotation = Vector3.ZERO
+			%RobotBody.position = Vector3.ZERO
+			%RobotBody.rotation = Vector3.ZERO
 			match block_id:
 				0:
 					%RobotBody.global_position.x = 0.28
@@ -491,7 +496,11 @@ func shut_down() -> void:
 	var shut_down_tween := create_tween()
 	shut_down_tween.tween_property(%RobotLaughAudioPlayer, "pitch_scale", 0.2, 3)
 	shut_down_tween.tween_callback(%RobotLaughAudioPlayer.stop)
-	#%RobotLaughAudioPlayer.stop()
+	shut_down_tween.tween_callback(turn_off_glitches)
+	#%RobotLaughAudioPlayer.stop()ss
+
+func turn_off_glitches() -> void:
+	robj["red_eyes"].visible = false
 
 func grab_battery() -> void:
 	if glitch_executed:

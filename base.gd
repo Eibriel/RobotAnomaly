@@ -139,6 +139,8 @@ func reset_dressing() -> void:
 	%office_lobby.visible = false
 	%office_marketing.visible = false
 	%office_party.visible = false
+	%tutorial_dressing.visible = false
+	%tutorial_dressing.position.y = -20
 
 
 func instantiate_sections(Env: Node3D) -> void:
@@ -161,7 +163,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	var available_scenarios_count := selected_scenarios.size() + failed_scenarios.size()
 	for c in Env.get_children():
 		c.queue_free()
-	
+	prints("Scenario:", scenario)
 	section = SECTION.instantiate()
 	section.level = available_scenarios_count
 	section.connect("glitch_failed", on_glitch_failed)
@@ -178,7 +180,13 @@ func instantiate_sections(Env: Node3D) -> void:
 	var message_id := completed_scenarios.size()
 	reset_dressing()
 	prints("message_id", message_id)
-	if message_id <= 0:
+	if scenario == -2:
+		%tutorial_dressing.visible = true
+		%tutorial_dressing.position.y = 0
+	elif scenario == -3:
+		%MessageLabel.text = "Executive"
+		%office_executive.visible = true
+	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		%office_lobby.visible = true
 		#%office_design.visible = true
@@ -197,9 +205,6 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif message_id <= 28:
 		%MessageLabel.text = "Party"
 		%office_party.visible = true
-	elif message_id >= 29:
-		%MessageLabel.text = "Executive"
-		%office_executive.visible = true
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
 	#%MessageLabel.text = MESSAGES[message_id]
@@ -331,11 +336,19 @@ func fire_ray() -> void:
 		#print(coll.name)
 		if coll.has_meta("is_id"):
 			robot_collected = coll.get_parent().get_parent().get_parent()
-			%Player.note_visible(true)
-			task_timer = 0.0
-			current_task = TASKS.SHUT_DOWN
+			if not robot_collected.power_on:
+				current_task = TASKS.ROTATE
+			else:
+				%Player.note_visible(true)
+				task_timer = 0.0
+				current_task = TASKS.SHUT_DOWN
 		elif coll.has_meta("is_battery"):
-			charge_battery(coll.get_parent().get_parent().get_parent())
+			var rob := coll.get_parent().get_parent().get_parent() as Robot
+			if not rob.power_on:
+				robot_collected = rob
+				current_task = TASKS.ROTATE
+			else:
+				charge_battery(rob)
 			if false:
 				# If I've a battery and the charger is empty
 				if battery_collected != -1 and coll.get_parent().battery_charge == -1:
@@ -365,17 +378,17 @@ func fire_ray() -> void:
 			#$PokeAudio.play()
 			#find_glitch(coll.get_parent())
 			#coll.get_parent().rotate_base()
-			if coll.get_parent().get_parent() is not Robot:
-				robot_collected = coll.get_parent().get_parent().get_parent()
+			if coll.get_parent().get_parent() is Robot:
+				robot_collected = coll.get_parent().get_parent()
 			else:
-				robot_collected = coll.get_parent().get_parent() 
+				robot_collected = coll.get_parent().get_parent().get_parent()
 			current_task = TASKS.ROTATE
 		elif coll.has_meta("is_rotate"):
 			#coll.get_parent().rotate_base()
-			if coll.get_parent().get_parent() is not Robot:
-				robot_collected = coll.get_parent().get_parent().get_parent()
-			else:
+			if coll.get_parent().get_parent() is Robot:
 				robot_collected = coll.get_parent().get_parent()
+			else:
+				robot_collected = coll.get_parent().get_parent().get_parent()
 			current_task = TASKS.ROTATE
 		elif coll.has_meta("is_turnstile"):
 			print("is_turnstile")

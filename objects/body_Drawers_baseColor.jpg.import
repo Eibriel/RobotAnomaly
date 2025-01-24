@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dbe8qkr5755r3"
+path.s3tc="res://.godot/imported/body_Drawers_baseColor.jpg-9463f81d0cf326c285a53ee5ef1f7c6c.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "9063f1cbbe0850c955d057bca7cb6d1f"
+}
+
+[deps]
+
+source_file="res://objects/body_Drawers_baseColor.jpg"
+dest_files=["res://.godot/imported/body_Drawers_baseColor.jpg-9463f81d0cf326c285a53ee5ef1f7c6c.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

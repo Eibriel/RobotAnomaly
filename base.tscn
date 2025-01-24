@@ -306,29 +306,43 @@ visible = false
 unique_name_in_owner = true
 visible = false
 
-[node name="tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
+[node name="tutorial_dressing" type="Node3D" parent="OfficeNode/DressingNode"]
+unique_name_in_owner = true
 
-[node name="Banner" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+[node name="Banner" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.20731, 0.0134775, -9.20166)
 texture = ExtResource("14_jym3p")
 
-[node name="Banner2" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+[node name="Banner2" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 1.10346, 0.0134775, -9.13057)
 texture = ExtResource("14_v7taj")
 
-[node name="Banner3" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+[node name="Banner3" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.21097, 0.0134775, -9.51266)
 banner = 2
 texture = ExtResource("16_50rgw")
 
-[node name="Banner4" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("14_cs1hs")]
+[node name="Banner4" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2.15353, 0.0134775, -9.51266)
 banner = 1
 texture = ExtResource("16_jym3p")
 
-[node name="Turnstile" parent="OfficeNode/DressingNode/tutorial" instance=ExtResource("18_4a7sh")]
+[node name="Banner7" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(-0.866026, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866026, -0.814035, 0.0134775, -10.5122)
+banner = 1
+texture = ExtResource("16_jym3p")
+
+[node name="Turnstile" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("18_4a7sh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 11.1885)
 energy = 50.0
+
+[node name="Banner5" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.20731, 0.0134775, -2.15295)
+texture = ExtResource("14_v7taj")
+
+[node name="Banner6" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 1.10346, 0.0134775, -2.08186)
+texture = ExtResource("14_v7taj")
 
 [node name="StairsNode" type="Node3D" parent="."]
 

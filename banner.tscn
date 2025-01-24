@@ -1,13 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://fqxnbyrmfge3"]
+[gd_scene load_steps=10 format=3 uid="uid://fqxnbyrmfge3"]
 
 [ext_resource type="PackedScene" uid="uid://db3hxdi0ur4ph" path="res://objects/banner_01.glb" id="1_2iyem"]
 [ext_resource type="Script" uid="uid://b7k0o4uq0v03d" path="res://banner.gd" id="1_ync5d"]
 [ext_resource type="PackedScene" uid="uid://bpk2y18maw5pt" path="res://objects/banner_02.glb" id="3_05pf3"]
-[ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="4_v1jxp"]
 [ext_resource type="PackedScene" uid="uid://bvur6ijt34khm" path="res://objects/banner_03.glb" id="5_uuosl"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v1jxp"]
-albedo_texture = ExtResource("4_v1jxp")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_v1jxp"]
 resource_local_to_scene = true
@@ -42,6 +40,7 @@ mesh = SubResource("PlaneMesh_v1jxp")
 skeleton = NodePath("../../Banner02")
 
 [node name="Banner02" type="Node3D" parent="."]
+visible = false
 
 [node name="banner_02" parent="Banner02" instance=ExtResource("3_05pf3")]
 
@@ -51,6 +50,7 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.1
 mesh = SubResource("PlaneMesh_05pf3")
 
 [node name="Banner03" type="Node3D" parent="."]
+visible = false
 
 [node name="banner_03" parent="Banner03" instance=ExtResource("5_uuosl")]
 

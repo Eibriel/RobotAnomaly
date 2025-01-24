@@ -59,7 +59,7 @@ func setup_tutorial() -> void:
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(-1.5, 0.5, -10)
-	r.rotation.y = deg_to_rad(-90-70)
+	r.rotation.y = deg_to_rad(-90-70-180)
 	
 	r = ROBOT.instantiate()
 	r.robot_id = 11
@@ -68,6 +68,25 @@ func setup_tutorial() -> void:
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.position = Vector3(1.5, 0.5, -10)
+	r.rotation.y = deg_to_rad(90+70+180)
+	
+	r = ROBOT.instantiate()
+	r.robot_id = 0
+	r.battery_charge = 100
+	#r.set_glitch(Robot.GLITCHES.RED_EYES)
+	r.connect("anomaly_failed", on_failed_glitch)
+	robots.append(r)
+	%Robots.add_child.call_deferred(r)
+	r.position = Vector3(-1.5, 0.5, -10+7)
+	r.rotation.y = deg_to_rad(-90-70-180)
+	
+	r = ROBOT.instantiate()
+	r.robot_id = 1
+	r.battery_charge = 100
+	r.set_glitch(r.GLITCHES.NONE)
+	robots.append(r)
+	%Robots.add_child.call_deferred(r)
+	r.position = Vector3(1.5, 0.5, -10+7)
 	r.rotation.y = deg_to_rad(90+70+180)
 
 func setup_congrats() -> void:
@@ -97,10 +116,35 @@ func setup_ending() -> void:
 	var r := ROBOT.instantiate()
 	r.robot_id = 666
 	r.battery_charge = 90
-	r.set_glitch(r.GLITCHES.RED_EYES)
+	r.set_pose(Robot.POSES.SITTING)
+	r.remove_base()
+	robots.append(r)
+	r.get_node("%robotObject").scale = Vector3.ONE
+	#r.looking_player = true
+	%Robots.add_child.call_deferred(r)
+	r.position = Vector3(0, 0, 0)
+	#
+	r = ROBOT.instantiate()
+	r.robot_id = 24
+	r.battery_charge = 100
+	r.looking_player = true
+	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.position = Vector3(0, 0.5, -10)
+	r.position = Vector3(3, 0, 0)
+	r.rotation.y = deg_to_rad(-45)
+	r.remove_base()
+	#
+	r = ROBOT.instantiate()
+	r.robot_id = 24
+	r.battery_charge = 100
+	r.looking_player = true
+	#r.set_pose(Robot.POSES.CLAPPING)
+	robots.append(r)
+	%Robots.add_child.call_deferred(r)
+	r.position = Vector3(-3, 0, 0)
+	r.rotation.y = deg_to_rad(45)
+	r.remove_base()
 
 func start_day() -> void:
 	#if randf() < 0.0:
@@ -231,12 +275,15 @@ func is_success() -> bool:
 	]
 	for r in robots:
 		if (not success_glitches.has(r.glitch)) and r.power_on:
+			print("Failed! robot with glitch, and power is on %s" % Robot.GLITCHES.find_key(r.glitch))
 			success = false
 			break
 		if success_glitches.has(r.glitch) and not r.power_on:
+			print("Failed! robot without glitch, and power is off")
 			success = false
 			break
 		if r.glitch == Robot.GLITCHES.NONE and r.battery_charge != 100:
+			print("Failed! robot without glitch, and battery is low")
 			success = false
 			break
 	return success

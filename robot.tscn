@@ -119,7 +119,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32055, 0.145649)
 
 [node name="BatteryRadialProgress" parent="RobotBody/BatteryNode" instance=ExtResource("3_hvhn1")]
 unique_name_in_owner = true
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0.0515747, -0.0030508)
+transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0.0264282, -0.0030508)
 value = 100.0
 
 [node name="BatteryLabel" type="Label3D" parent="RobotBody/BatteryNode"]
