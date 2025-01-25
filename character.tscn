@@ -18,7 +18,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
 [node name="CharacterCamera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
-fov = 50.0
+fov = 37.8493
 
 [node name="HoldedBattery" type="CSGBox3D" parent="Head/CharacterCamera"]
 unique_name_in_owner = true

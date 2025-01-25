@@ -3,20 +3,30 @@ extends CharacterBody3D
 const SPEED := 6.0 # * 10.0
 #const JUMP_VELOCITY := 4.5
 const ACCEL := 5.0
+const ROTATION_ACCEL := 10.0
 
 @export var sensitivity := 0.15
 @export var min_angle := -80
 @export var max_angle := 90
+@export var height := 1.7
 
 @onready var head = $Head
 
 var look_rot : Vector2
 var rumble_tween: Tween
+var breathing_tween: Tween
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	%HoldedBattery.visible = false
 	%HoldedIdNote.visible = false
+	
+	breathing_tween = create_tween()
+	breathing_tween.set_loops()
+	#breathing_tween.set_ease(Tween.EASE_IN_OUT)
+	breathing_tween.set_trans(Tween.TRANS_SINE)
+	breathing_tween.tween_property($Head, "position:y", height+0.005, 2.0)
+	breathing_tween.tween_property($Head, "position:y", height-0.005, 2.0)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -54,8 +64,8 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-	head.rotation_degrees.x = look_rot.x
-	rotation_degrees.y = look_rot.y
+	head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), ROTATION_ACCEL * delta) )
+	rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), ROTATION_ACCEL * delta) )
 
 func rumble(pause: float = 0.0) -> void:
 	if rumble_tween and rumble_tween.is_running():

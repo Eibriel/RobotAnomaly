@@ -28,7 +28,6 @@ mesh = SubResource("PlaneMesh_6kybn")
 disable_3d = true
 handle_input_locally = false
 size = Vector2i(1024, 2048)
-render_target_update_mode = 4
 
 [node name="Control" type="Control" parent="SubViewport"]
 layout_mode = 3

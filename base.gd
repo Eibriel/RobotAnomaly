@@ -45,15 +45,27 @@ enum SIDES {
 	Z_MINUS
 }
 
+enum DRESSING {
+	NONE,
+	TUTORIAL,
+	LOBBY,
+	DESIGN,
+	LAB,
+	MARKETING,
+	PARTY,
+	EXECUTIVE
+}
+
 var current_side := SIDES.Z_PLUS
 var tonemap_tween: Tween
 
 const FLOORS_AMOUNT := 29
 
 # Debug
-var skip_tutorial := true
-var force_anomaly := Robot.GLITCHES.EXTRA_ROBOTS
-var linear_game := true
+const skip_tutorial := true
+const force_anomaly := Robot.GLITCHES.NONE
+const linear_game := true
+const force_dressing := DRESSING.DESIGN
 
 func _ready() -> void:
 	reset_dressing()
@@ -76,6 +88,10 @@ func _ready() -> void:
 		selected_scenarios.shuffle()
 	Global.player = %Player
 	load_main()
+	#
+	var tween := create_tween()
+	tween.tween_interval(1.0)
+	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
 
 func _process(delta: float) -> void:
 	#if not [TASKS.NONE, TASKS.ROTATE].has(current_task):
@@ -142,8 +158,8 @@ func reset_dressing() -> void:
 	%office_lobby.visible = false
 	%office_marketing.visible = false
 	%office_party.visible = false
-	%tutorial_dressing.visible = false
-	%tutorial_dressing.position.y = -20
+	%office_tutorial.visible = false
+	%office_tutorial.position.y = -20
 
 
 func instantiate_sections(Env: Node3D) -> void:
@@ -189,8 +205,8 @@ func instantiate_sections(Env: Node3D) -> void:
 	reset_dressing()
 	prints("message_id", message_id)
 	if scenario == -2:
-		%tutorial_dressing.visible = true
-		%tutorial_dressing.position.y = 0
+		%office_tutorial.visible = true
+		%office_tutorial.position.y = 0
 	elif scenario == -3:
 		%MessageLabel.text = "Executive"
 		%office_executive.visible = true
@@ -213,6 +229,13 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif message_id <= 28:
 		%MessageLabel.text = "Party"
 		%office_party.visible = true
+	
+	if force_dressing > -1:
+		reset_dressing()
+		match force_dressing:
+			DRESSING.DESIGN:
+				%office_design.visible = true
+	
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
 	#%MessageLabel.text = MESSAGES[message_id]
@@ -452,6 +475,8 @@ func _on_inside_area_body_entered(_body: Node3D) -> void:
 	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", exposure_value, 1.0)
 	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.0
+	%ExtraStairs.visible = false
+	%ExtraOffices.visible = false
 
 
 func _on_inside_area_body_exited(_body: Node3D) -> void:
@@ -465,6 +490,8 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 6.0, 1.0)
 	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.9
+	%ExtraStairs.visible = true
+	%ExtraOffices.visible = true
 
 
 func _on_loop_up_body_entered(body: Node3D) -> void:

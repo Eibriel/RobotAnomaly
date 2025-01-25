@@ -822,7 +822,8 @@
 			},
 			"name":"\u6750\u8d28.001",
 			"normalTexture":{
-				"index":4
+				"index":4,
+				"scale":0.20000000298023224
 			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
