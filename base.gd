@@ -51,8 +51,8 @@ var tonemap_tween: Tween
 const FLOORS_AMOUNT := 29
 
 # Debug
-var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var skip_tutorial := true
+var force_anomaly := Robot.GLITCHES.EXTRA_ROBOTS
 var linear_game := true
 
 func _ready() -> void:
@@ -275,6 +275,7 @@ func _on_finished(success: bool, scenario: int, last: bool) -> void:
 	#$OfficeWithCollision2.rotate_y(deg_to_rad(180))
 	#$OfficeWithCollision3.rotate_y(deg_to_rad(180))
 	#print("Rotate")
+	%LevelReport.update_report(section.report)
 	level_started = false
 	if scenario == -2:
 		if not success:

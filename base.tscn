@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=43 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://c7n1vpir0on6b" path="res://textures/banner_robot_charge_battery.png" id="16_50rgw"]
 [ext_resource type="Texture2D" uid="uid://qgsd8ojuieat" path="res://textures/banner_robot_power_off.png" id="16_jym3p"]
 [ext_resource type="PackedScene" uid="uid://dorx7tjyxp3pr" path="res://turnstile.tscn" id="18_4a7sh"]
+[ext_resource type="PackedScene" uid="uid://nampk5kyqul6" path="res://report.tscn" id="22_1uwki"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -352,6 +353,10 @@ texture = ExtResource("14_v7taj")
 [node name="Banner6" parent="OfficeNode/DressingNode/tutorial_dressing" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 1.10346, 0.0134775, -2.08186)
 texture = ExtResource("14_v7taj")
+
+[node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.45747, 1.578, 24.9728)
 
 [node name="StairsNode" type="Node3D" parent="."]
 

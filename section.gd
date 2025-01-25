@@ -17,6 +17,7 @@ var active := false
 var time := 0.0
 var glitch_time := 0.0
 var anomaly: Robot.GLITCHES
+var report: Array
 
 const RESET_BUTTON = preload("res://reset_button.tscn")
 const ROBOT = preload("res://robot.tscn")
@@ -159,7 +160,7 @@ func start_day() -> void:
 	
 	var y_count := 10
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
-		y_count += 2
+		y_count += 1
 	
 	if true:
 		for rx in 2:
@@ -282,18 +283,24 @@ func is_success() -> bool:
 		Robot.GLITCHES.DOOR_OPEN
 	]
 	for r in robots:
+		var rok := true
 		if (not success_glitches.has(r.glitch)) and r.power_on:
 			print("Failed! robot with glitch, and power is on %s" % Robot.GLITCHES.find_key(r.glitch))
 			success = false
-			break
+			rok = false
 		if success_glitches.has(r.glitch) and not r.power_on:
 			print("Failed! robot without glitch, and power is off")
 			success = false
-			break
+			rok = false
 		if r.glitch == Robot.GLITCHES.NONE and r.battery_charge < 100.0:
 			print("Failed! robot without glitch, and battery is low. %f" % r.battery_charge)
 			success = false
-			break
+			rok = false
+		report.append({
+			"power": r.power_on,
+			"glitched": r.glitch != Robot.GLITCHES.NONE,
+			"handled_correctly": rok
+		})
 	return success
 
 #func _on_finish_area_body_entered(_body: Node3D) -> void:
