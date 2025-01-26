@@ -65,7 +65,7 @@ const FLOORS_AMOUNT := 29
 const skip_tutorial := true
 const force_anomaly := Robot.GLITCHES.NONE
 const linear_game := true
-const force_dressing := DRESSING.DESIGN
+const force_dressing := DRESSING.LAB
 
 func _ready() -> void:
 	reset_dressing()
@@ -233,8 +233,18 @@ func instantiate_sections(Env: Node3D) -> void:
 	if force_dressing > -1:
 		reset_dressing()
 		match force_dressing:
+			DRESSING.LOBBY:
+				%office_lobby.visible = true
 			DRESSING.DESIGN:
 				%office_design.visible = true
+			DRESSING.LAB:
+				%office_lab.visible = true
+			DRESSING.MARKETING:
+				%office_marketing.visible = true
+			DRESSING.PARTY:
+				%office_party.visible = true
+			DRESSING.EXECUTIVE:
+				%office_executive.visible = true
 	
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
