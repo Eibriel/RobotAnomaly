@@ -56,21 +56,21 @@ texture = ExtResource("1_mmd0k")
 [node name="Node2D" type="Node2D" parent="SubViewport"]
 
 [node name="BannerRobotChargeBattery" type="Sprite2D" parent="SubViewport/Node2D"]
-position = Vector2(100, 100)
-scale = Vector2(0.1, 0.1)
+position = Vector2(200, 100)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("3_g5hm7")
 
 [node name="BannerRobotPowerOff" type="Sprite2D" parent="SubViewport/Node2D"]
-position = Vector2(250, 100)
-scale = Vector2(0.1, 0.1)
+position = Vector2(400, 100)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("4_wpx5y")
 
 [node name="BannerRobotChargeBattery2" type="Sprite2D" parent="SubViewport/Node2D"]
-position = Vector2(500, 100)
-scale = Vector2(0.1, 0.1)
+position = Vector2(650, 100)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("3_g5hm7")
 
 [node name="BannerRobotPowerOff2" type="Sprite2D" parent="SubViewport/Node2D"]
-position = Vector2(650, 100)
-scale = Vector2(0.1, 0.1)
+position = Vector2(850, 100)
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("4_wpx5y")

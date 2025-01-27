@@ -446,9 +446,9 @@ func update_glitch() -> void:
 			%RobotBody.position = Vector3.ZERO
 		GLITCHES.EXTRA_ROBOTS:
 			var pos := %RobotBody.position as Vector3
-			pos.x + randf() * 0.2
+			pos.x += randf() * 0.2
 			pos.y = 0.2
-			pos.z + randf() * 0.2
+			pos.z += randf() * 0.2
 			robot_position(pos)
 
 #func remove_glitch():
@@ -462,7 +462,7 @@ func remove_base() -> void:
 	$BaseShadowPlane.visible = false
 	base_visible = false
 
-func follow_head(delta: float) -> void:
+func follow_head(_delta: float) -> void:
 	var head_id := skeleton.find_bone("head_2")
 	if not looking_player or not power_on:
 		skeleton.clear_bones_global_pose_override()
@@ -485,7 +485,7 @@ func follow_head(delta: float) -> void:
 
 func bone_look_at(bone_index:int, bone_global_position:Vector3, target_global_position:Vector3, lerp_amount:float = 1.0):
 	var bone_transform = skeleton.get_bone_global_pose_no_override(bone_index)
-	var bone_origin = bone_global_position
+	#var bone_origin = bone_global_position
 	bone_transform.basis = bone_transform.basis.looking_at( -(target_global_position - bone_global_position).normalized())
 	bone_transform.origin = bone_global_position
 	skeleton.set_bone_global_pose_override(bone_index, bone_transform, lerp_amount, true)

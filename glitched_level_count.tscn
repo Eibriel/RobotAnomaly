@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://scbgstp1dmdi"]
+
+[ext_resource type="FontFile" uid="uid://cgl1eo1pwl65v" path="res://fonts/Bungee-Regular.otf" id="1_m11fa"]
+[ext_resource type="Script" uid="uid://c3l8l4ss5ax7n" path="res://glitched_level_count.gd" id="1_tjbhr"]
+[ext_resource type="Material" uid="uid://do2w3hnmraobn" path="res://materials/floor_number.tres" id="2_tjbhr"]
+
+[sub_resource type="TextMesh" id="TextMesh_tjbhr"]
+resource_local_to_scene = true
+material = ExtResource("2_tjbhr")
+text = "333"
+font = ExtResource("1_m11fa")
+font_size = 30
+horizontal_alignment = 2
+depth = 0.02
+
+[sub_resource type="TextMesh" id="TextMesh_jbxni"]
+resource_local_to_scene = true
+material = ExtResource("2_tjbhr")
+text = "33"
+font = ExtResource("1_m11fa")
+font_size = 100
+horizontal_alignment = 2
+depth = 0.02
+
+[node name="GlitchedLevelCount" type="Node3D"]
+script = ExtResource("1_tjbhr")
+
+[node name="TotalLevelsCountLabel5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0559006, -0.564058, 0)
+mesh = SubResource("TextMesh_tjbhr")
+skeleton = NodePath("../..")
+
+[node name="LevelCountLabel5" type="MeshInstance3D" parent="."]
+mesh = SubResource("TextMesh_jbxni")
+skeleton = NodePath("../..")
+
+[node name="VisibleOnScreenEnabler3D" type="VisibleOnScreenEnabler3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.607601, -0.136847, 0)
+aabb = AABB(-0.67055, -0.626759, -0.139093, 1.3411, 1.25352, 0.278186)

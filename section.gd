@@ -43,6 +43,8 @@ func _ready() -> void:
 		setup_congrats()
 	elif scenario == -3:
 		setup_ending()
+	elif scenario == -4:
+		pass
 	else:
 		start_day()
 	#activate.call_deferred()
@@ -123,7 +125,7 @@ func setup_ending() -> void:
 	r.get_node("%robotObject").scale = Vector3.ONE
 	#r.looking_player = true
 	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(0, 0, 0))
+	r.robot_position(Vector3(0, 0, -5))
 	#
 	r = ROBOT.instantiate()
 	r.robot_id = 24
@@ -132,7 +134,7 @@ func setup_ending() -> void:
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(3, 0, 0))
+	r.robot_position(Vector3(3, 0, -5))
 	r.robot_rotation(deg_to_rad(-45))
 	r.remove_base()
 	#
@@ -143,7 +145,7 @@ func setup_ending() -> void:
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(-3, 0, 0))
+	r.robot_position(Vector3(-3, 0, -5))
 	r.robot_rotation(deg_to_rad(45))
 	r.remove_base()
 
@@ -152,7 +154,7 @@ func start_day() -> void:
 		#anomaly = Robot.GLITCHES.NONE
 	#else:
 		#anomaly = randi_range(1, Robot.GLITCHES.size()-1)
-	anomaly = scenario
+	anomaly = scenario as Robot.GLITCHES
 	print("Anomaly: %s %d" % [Robot.GLITCHES.find_key(anomaly), anomaly])
 	
 	const DIST_X := 3

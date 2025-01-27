@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=53 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -24,8 +24,12 @@
 [ext_resource type="PackedScene" uid="uid://dorx7tjyxp3pr" path="res://turnstile.tscn" id="18_4a7sh"]
 [ext_resource type="PackedScene" uid="uid://cx67mnaredgil" path="res://objects/props/RobotArm.gltf" id="19_n0uqe"]
 [ext_resource type="Texture2D" uid="uid://do46f1qxantx4" path="res://textures/StairsSign.jpg" id="20_wudxj"]
+[ext_resource type="PackedScene" uid="uid://c2lwh2ybicdve" path="res://objects/props/Desk.gltf" id="21_7m1qc"]
 [ext_resource type="PackedScene" uid="uid://d3rw145oxvkjk" path="res://objects/clock.glb" id="21_yc71e"]
 [ext_resource type="PackedScene" uid="uid://nampk5kyqul6" path="res://report.tscn" id="22_1uwki"]
+[ext_resource type="PackedScene" uid="uid://4f1llqaogpkg" path="res://objects/props/ExecChair.gltf" id="23_mh4ky"]
+[ext_resource type="PackedScene" uid="uid://d2uebb6pnho2" path="res://objects/props/Body.gltf" id="23_x13uo"]
+[ext_resource type="PackedScene" uid="uid://scbgstp1dmdi" path="res://glitched_level_count.tscn" id="30_3vupj"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -396,6 +400,7 @@ texture = ExtResource("20_wudxj")
 
 [node name="office_lab" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="LabTable" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("16_wudxj")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 1.3919, 0.00367766, 19.5335)
@@ -423,7 +428,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.20228, 1.54569, 17.9054)
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+
+[node name="ExecChair" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_mh4ky")]
+transform = Transform3D(0.873288, 0, 0.487204, 0, 1, 0, -0.487204, 0, 0.873288, -0.328904, 0.00385345, -5.5034)
+
+[node name="Desk2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("21_7m1qc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.39879)
+
+[node name="Body" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_x13uo")]
+transform = Transform3D(0.711462, 0, 0.702724, 0, 1, 0, -0.702724, 0, 0.711462, 1.84357, 0.0378363, -6.50181)
+
+[node name="ExecDoorBlock" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10077, 1.11969, -24.674)
+use_collision = true
+size = Vector3(2.24316, 3.23938, 0.42627)
+
+[node name="RobotCrowd01" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11969, 20.4476)
 visible = false
+size = Vector3(8.1814, 1.99902, 9.42151)
+
+[node name="ExecVisible01" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, 20.1842)
+aabb = AABB(-4.22158, -1.26959, -4.48657, 8.44316, 2.53919, 8.97315)
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -449,6 +478,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.20228, 1.54569, 17.9054)
 
 [node name="Whiteboard2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("16_4a7sh")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.20835, 1.54569, 17.9054)
+
+[node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
+unique_name_in_owner = true
+
+[node name="MuseumStatsLabel" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.41376, 0)
+text = "Stats."
 
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true
@@ -517,6 +554,18 @@ unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.05581, 1.25533, 29.7148)
 mesh = SubResource("TextMesh_k3d1t")
 
+[node name="GlitchedLevelCount" parent="." instance=ExtResource("30_3vupj")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.056, 5.355, 29.715)
+
+[node name="GlitchedLevelCount2" parent="." instance=ExtResource("30_3vupj")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.691, 5.355, 30.568)
+
+[node name="GlitchedLevelCount3" parent="." instance=ExtResource("30_3vupj")]
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.643334, 5.35533, -30.5403)
+
+[node name="GlitchedLevelCount4" parent="." instance=ExtResource("30_3vupj")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554, 5.35533, -29.7157)
+
 [node name="LevelCountLabel2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.691248, 1.25533, 30.5683)
 mesh = SubResource("TextMesh_k3d1t")
@@ -528,30 +577,6 @@ mesh = SubResource("TextMesh_k3d1t")
 [node name="LevelCountLabel3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554, 1.25533, -29.7157)
 mesh = SubResource("TextMesh_k3d1t")
-
-[node name="LevelCountLabel_old" type="Label3D" parent="."]
-transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.00536, 1.23869, 28.1689)
-visible = false
-text = "10"
-font_size = 400
-
-[node name="LevelCountLabel3_old" type="Label3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.04997, 1.20363, -28.0575)
-visible = false
-text = "10"
-font_size = 400
-
-[node name="LevelCountLabel2_old" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 4.37114e-08, 0, 1, 0, -4.37114e-08, 0, 1, -0.14065, 1.22896, -30.5592)
-visible = false
-text = "10"
-font_size = 400
-
-[node name="LevelCountLabel4_old" type="Label3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.141, 1.229, 30.58)
-visible = false
-text = "10"
-font_size = 400
 
 [node name="FinishArea" type="Area3D" parent="."]
 collision_layer = 0

@@ -15,10 +15,10 @@ func update_report(data: Array) -> void:
 		else:
 			icon.texture = ERROR
 		%ReportSubviewportNode.add_child(icon)
-		icon.position = Vector2(100+(r_column*400), 200+(r_row*100))
+		icon.position = Vector2(200+(r_column*450), 300+(r_row*150))
 		if r.glitched:
-			icon.position.x += 150
-		icon.scale = Vector2.ONE * 0.1
+			icon.position.x += 200
+		icon.scale = Vector2.ONE * 0.15
 		r_row += 1
 		if r_row == floor(data.size()*0.5):
 			r_row = 0

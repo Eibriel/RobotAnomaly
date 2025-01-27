@@ -12,8 +12,6 @@ var robots: Array[Robot] = []
 var completed_scenarios: Array[int] = []
 var selected_scenarios:Array[int] = []
 var failed_scenarios:Array[int] = []
-#var scenario_count := 0
-#const batch_count := 1 # 8
 
 var introduction_done := false
 var day := 1
@@ -25,7 +23,13 @@ var task_duration := 4.0
 var current_task := TASKS.NONE
 
 var tutorial_completed := false
-var congrats_completed := false
+var museum_completed := false
+#var congrats_completed := false
+#var executive_completed := false
+
+var game_state: GameStateResource
+
+const save_path:= "user://game_state.tres"
 
 const MESSAGES: Array[String]= [
 	"Welcome",
@@ -62,36 +66,60 @@ var tonemap_tween: Tween
 const FLOORS_AMOUNT := 29
 
 # Debug
-const skip_tutorial := true
+const skip_tutorial := false
 const force_anomaly := Robot.GLITCHES.NONE
-const linear_game := true
-const force_dressing := DRESSING.LAB
+const linear_game := false
+const force_dressing := DRESSING.NONE
+const reset_save := false
+const override_state := false
+var state_override := GameStateResource.new()
 
 func _ready() -> void:
+	state_override.executive_completed = true
+	state_override.completed_anomalies = [1,2,3]
+	
+	load_game_state()
 	reset_dressing()
 	$WorldEnvironment.environment.tonemap_exposure = 6.0
+	start_game()
+	#
+	var tween := create_tween()
+	tween.tween_interval(1.0)
+	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
+	#
+	Global.player = %Player
+
+func start_game() -> void:
 	#scenario_count = Robot.GLITCHES.size()
 	var mixed_scenarios := Robot.GLITCHES.values()
+	mixed_scenarios.remove_at(mixed_scenarios.find(Robot.GLITCHES.NONE))
+	var shufled_completed_anomalies := game_state.completed_anomalies.duplicate()
 	if not linear_game:
 		mixed_scenarios.shuffle()
-	mixed_scenarios.remove_at(mixed_scenarios.find(Robot.GLITCHES.NONE))
+		shufled_completed_anomalies.shuffle()
+	# Move completed_anomalies to the end
+	for cs in shufled_completed_anomalies:
+		mixed_scenarios.remove_at(mixed_scenarios.find(cs))
+	mixed_scenarios.append_array(game_state.completed_anomalies)
 	mixed_scenarios.resize(FLOORS_AMOUNT)
+	var none_probability := 0.25
+	if game_state.executive_completed and false:
+		none_probability = 0.1
+	selected_scenarios.resize(0)
 	for s in mixed_scenarios:
-		if force_anomaly != Robot.GLITCHES.NONE:
-			selected_scenarios.append(force_anomaly)
-			continue
-		if randf() < 0.3 and not linear_game:
+		#if force_anomaly != Robot.GLITCHES.NONE:
+		#	selected_scenarios.append(force_anomaly)
+		#	continue
+		if randf() < none_probability and \
+				not linear_game and \
+				selected_scenarios.size() > 0 and \
+				not selected_scenarios.back() == Robot.GLITCHES.NONE:
 			selected_scenarios.append(Robot.GLITCHES.NONE)
 		else:
 			selected_scenarios.append(s)
 	if not linear_game:
 		selected_scenarios.shuffle()
-	Global.player = %Player
 	load_main()
-	#
-	var tween := create_tween()
-	tween.tween_interval(1.0)
-	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
 
 func _process(delta: float) -> void:
 	#if not [TASKS.NONE, TASKS.ROTATE].has(current_task):
@@ -144,35 +172,83 @@ func _process(delta: float) -> void:
 		#%SideDoor.use_collision = false
 	
 	%TaskProgressBar.value = (100.0 / task_duration) * task_timer
+	
+	update_executive()
+	
+
+func update_executive() -> void:
+	if section.scenario != -3: return
+	var pos: float = %MainOfficeWithCollision.to_local(Global.player.global_position).z + 25
+	#print(pos)
+	if pos < 40:
+		if not %ExecVisible01.is_on_screen():
+			%RobotCrowd01.visible = true
+	if pos < 40:
+		game_state.executive_completed = true
+		current_side = SIDES.Z_PLUS
+		completed_scenarios.resize(0)
+		selected_scenarios.resize(0)
+		failed_scenarios.resize(0)
+		start_game()
+
+func save_game_state() -> void:
+	var unique_completed_scenarios: Array[int] = game_state.completed_anomalies.duplicate()
+	for s in completed_scenarios:
+		if s == Robot.GLITCHES.NONE: continue
+		if not unique_completed_scenarios.has(s):
+			unique_completed_scenarios.append(s)
+	game_state.completed_anomalies = unique_completed_scenarios
+	ResourceSaver.save(game_state, save_path)
+
+func load_game_state() -> void:
+	if override_state:
+		game_state = state_override
+		return
+	if reset_save or not ResourceLoader.exists(save_path):
+		game_state = GameStateResource.new()
+		return
+	game_state = load(save_path)
 
 func load_main() -> void:
 	robot_collected = null
-	#reset_position()
+	save_game_state()
 	reset_environment()
 	instantiate_sections(%Environment)
 
 func reset_dressing() -> void:
-	%office_design.visible = false
-	%office_executive.visible = false
-	%office_lab.visible = false
-	%office_lobby.visible = false
-	%office_marketing.visible = false
-	%office_party.visible = false
-	%office_tutorial.visible = false
-	%office_tutorial.position.y = -20
-
+	var dressing_nodes: Array[Node3D]= [
+		%office_tutorial,
+		%office_lobby,
+		%office_design,
+		%office_lab,
+		%office_marketing,
+		%office_party,
+		%office_executive,
+		%office_museum
+	]
+	for dn in dressing_nodes:
+		dn.visible = false
+		dn.position.y = -20
 
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
 	prints("Failed Scenarios", failed_scenarios)
 	prints("Completed Scenarios", completed_scenarios)
+	prints("Completed Anomalies", game_state.completed_anomalies)
 	var scenario = 0
-	if not tutorial_completed and not skip_tutorial:
-		scenario = -2
-	elif completed_scenarios.size() >= 8 and not congrats_completed:
+	if force_anomaly != Robot.GLITCHES.NONE:
+		scenario = force_anomaly
+	elif not tutorial_completed and not skip_tutorial and not museum_completed:
+		if game_state.executive_completed:
+			scenario = -4
+		else:
+			scenario = -2
+	elif completed_scenarios.size() >= 8 and not game_state.congrats_completed:
 		scenario = -1
 	elif completed_scenarios.size() >= 30:
 		scenario = -3
+	#elif completed_scenarios.size() >= 30 and game_state.executive_completed:
+	#	scenario = -4
 	elif selected_scenarios.size() > 0:
 		scenario = selected_scenarios.pop_front()
 	elif failed_scenarios.size() > 0:
@@ -188,7 +264,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
-	if [-1, -2, -3].has(scenario):
+	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		%LevelCountLabel.mesh.text = "%d" % (completed_scenarios.size() + 1)
@@ -210,6 +286,16 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif scenario == -3:
 		%MessageLabel.text = "Executive"
 		%office_executive.visible = true
+	elif scenario == -4:
+		%MessageLabel.text = "Museum"
+		%office_museum.visible = true
+		%office_museum.position.y = 0
+		var anomalies_count := Robot.GLITCHES.size()-1
+		var completed_anomalies_count := game_state.completed_anomalies.size()
+		%MuseumStatsLabel.text = "Stats\n"
+		%MuseumStatsLabel.text += "%d / %d\n" % [completed_anomalies_count, anomalies_count]
+		for ss in game_state.completed_anomalies:
+			%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		%office_lobby.visible = true
@@ -230,7 +316,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		%MessageLabel.text = "Party"
 		%office_party.visible = true
 	
-	if force_dressing > -1:
+	if force_dressing > 0:
 		reset_dressing()
 		match force_dressing:
 			DRESSING.LOBBY:
@@ -319,7 +405,11 @@ func _on_finished(success: bool, scenario: int, last: bool) -> void:
 			load_main()
 			return
 	if scenario == -1:
-		congrats_completed = true
+		game_state.congrats_completed = true
+		load_main()
+		return
+	if scenario == -4:
+		museum_completed = true
 		load_main()
 		return
 	if not success:
@@ -358,7 +448,6 @@ func reset_position() -> void:
 			#%Player.look_rot.y = rad_to_deg(%InitialPosition.rotation.y)
 			#%Player.look_rot.y += rad_to_deg(180)
 		introduction_done = true
-	
 
 func fire_ray() -> void:
 	var ray_range := 4.0
