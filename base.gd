@@ -208,6 +208,8 @@ func load_game_state() -> void:
 		game_state = GameStateResource.new()
 		return
 	game_state = load(save_path)
+	#game_state.congrats_completed = true
+	#game_state.executive_completed = true
 
 func load_main() -> void:
 	robot_collected = null
@@ -238,14 +240,14 @@ func instantiate_sections(Env: Node3D) -> void:
 	var scenario = 0
 	if force_anomaly != Robot.GLITCHES.NONE:
 		scenario = force_anomaly
-	elif not tutorial_completed and not skip_tutorial and not museum_completed:
+	elif not tutorial_completed and not skip_tutorial and not museum_completed and ((not game_state.congrats_completed) or game_state.executive_completed):
 		if game_state.executive_completed:
 			scenario = -4
 		else:
 			scenario = -2
 	elif completed_scenarios.size() >= 8 and not game_state.congrats_completed:
 		scenario = -1
-	elif completed_scenarios.size() >= 30:
+	elif completed_scenarios.size() >= FLOORS_AMOUNT:
 		scenario = -3
 	#elif completed_scenarios.size() >= 30 and game_state.executive_completed:
 	#	scenario = -4
@@ -268,7 +270,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		%LevelCountLabel.mesh.text = "%d" % (completed_scenarios.size() + 1)
-	if completed_scenarios.size() < 8:
+	if completed_scenarios.size() < 8 and not game_state.congrats_completed:
 		%TotalLevelsCountLabel.mesh.text = "/ %d" % 8
 	else:
 		%TotalLevelsCountLabel.mesh.text = "/ %d" % FLOORS_AMOUNT
@@ -367,10 +369,12 @@ func _input(event: InputEvent) -> void:
 
 func process_failed_queue(scenario: int) -> void:
 	if completed_scenarios.size() < 8:
+		#completed_scenarios.shuffle()
 		selected_scenarios.append_array(completed_scenarios)
 		completed_scenarios.resize(0)
 	#if not failed_scenarios.has(scenario):
 	failed_scenarios.append(scenario)
+	#failed_scenarios.shuffle()
 
 func on_environment_change(change: Section.ENV_CHANGE) -> void:
 	match change:
