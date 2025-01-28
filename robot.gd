@@ -3,11 +3,18 @@ class_name Robot
 extends Node3D
 
 signal anomaly_failed
+signal executive_finished
 
 @export var glitch: GLITCHES = GLITCHES.NONE
 @export var pose: POSES = POSES.NONE
-@export var force_glitch: bool
+@export var stalk_player: STALK
 @export var sometimes_missing: bool
+
+enum STALK {
+	DISABLED,
+	FOLLOW,
+	SHOWUP
+}
 
 enum GLITCHES {
 	NONE,
@@ -80,6 +87,8 @@ var shutdown_time := 1.0
 
 var snap_countdown := 0.0
 var snap_rate := 5.0
+var stalk_completed := false
+var anim_camera_weight := 0.0
 
 var tween: Tween
 
@@ -96,6 +105,7 @@ func _ready() -> void:
 	#skeleton.add_child(battery_attachment)
 	%robotObject.get_node("Armature/Skeleton3D/Battery_Attachment/Battery_Attachment").visible = false
 	%robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment/ShutDown_Attachment").visible = false
+	%robotObject.get_node("Armature/Skeleton3D/Camera_Attachment/Camera_Attachment").visible = false
 	#if OS.has_feature("debug"):
 	#	$GlitchLabel.visible = false
 	robj["octopus"] = %robotObject.get_node("Armature/Skeleton3D/BackTentacles")
@@ -150,6 +160,9 @@ func robot_position(pos: Vector3) -> void:
 	%RobotBase.position = pos
 	update_base()
 
+func play_animation(anim_name: String) -> void:
+	anim.play(anim_name)
+
 func charge_battery(delta: float) -> void:
 	if not power_on: return
 	battery_charge += delta * 14.0
@@ -177,10 +190,19 @@ func _process(delta: float) -> void:
 	#
 	var battery_bone := %robotObject.get_node("Armature/Skeleton3D/Battery_Attachment") as BoneAttachment3D
 	var shutdown_bone := %robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment") as BoneAttachment3D
+	var camera_bone := %robotObject.get_node("Armature/Skeleton3D/Camera_Attachment") as BoneAttachment3D
 	%BatteryNode.global_position = battery_bone.global_position
 	%BatteryNode.global_rotation = battery_bone.global_rotation
 	%ShutdownNode.global_position = shutdown_bone.global_position
 	%ShutdownNode.global_rotation = shutdown_bone.global_rotation
+	var anim_cam_pos := camera_bone.global_position
+	var anim_cam_rot := camera_bone.global_rotation
+	var player_cam_pos: Vector3 = Global.player.get_camera().global_position
+	var player_cam_rot: Vector3 = Global.player.get_camera().global_rotation
+	%CameraNode.global_position = lerp(player_cam_pos, anim_cam_pos, anim_camera_weight)
+	%CameraNode.global_rotation.x = lerp_angle(player_cam_rot.x, anim_cam_rot.x, anim_camera_weight)
+	%CameraNode.global_rotation.y = lerp_angle(player_cam_rot.y, anim_cam_rot.y, anim_camera_weight)
+	%CameraNode.global_rotation.z = lerp_angle(player_cam_rot.z, anim_cam_rot.z, anim_camera_weight)
 	
 	update_snap(delta)
 	follow_head(delta)
@@ -190,6 +212,44 @@ func _process(delta: float) -> void:
 	update_follow(delta)
 	update_blocking_path()
 	update_door_open()
+	update_stalk()
+
+func update_stalk() -> void:
+	if stalk_player == STALK.DISABLED: return
+	if stalk_completed: return
+	remove_base()
+	for c:CollisionShape3D in %RobotStaticBody.get_children():
+		c.disabled = true
+	var player_pos: Vector3= Global.player.global_position
+	match stalk_player:
+		STALK.FOLLOW:
+			var rotation_vector := Vector3.FORWARD.rotated(Vector3.UP, Global.player.rotation.y)*2
+			robot_position(player_pos - rotation_vector)
+		STALK.SHOWUP:
+			if not %VisibleOnScreenNotifier3D2.is_on_screen():
+				robot_rotation(deg_to_rad(180))
+				robot_position(player_pos - Vector3(0, 0, -0.5))
+			else:
+				stalk_completed = true
+				grab_player()
+
+func grab_player() -> void:
+	var cam := get_viewport().get_camera_3d()
+	%CameraRobot.keep_aspect = cam.keep_aspect
+	%CameraRobot.fov = cam.fov
+	#%CameraRobot.global_transform = cam.global_transform
+	#%CameraNode.global_transform = cam.global_transform
+	var cam_tween := create_tween()
+	cam_tween.tween_property(self, "anim_camera_weight", 1.0, 0.5)
+	%CameraRobot.current = true
+	if not anim.is_playing():
+		anim.play("AttackExec")
+		Global.player.rumble(0.1)
+		anim.connect("animation_finished", _on_attack_anim_finished)
+
+func _on_attack_anim_finished(anim_name: String) -> void:
+	if anim_name == "AttackExec":
+		executive_finished.emit()
 
 func update_door_open() -> void:
 	if glitch != GLITCHES.DOOR_OPEN: return
@@ -461,6 +521,8 @@ func remove_base() -> void:
 	%RobotBase.visible = false
 	$BaseShadowPlane.visible = false
 	base_visible = false
+	for c:CollisionShape3D in %RobotBaseStaticBody.get_children():
+		c.disabled = true
 
 func follow_head(_delta: float) -> void:
 	var head_id := skeleton.find_bone("head_2")

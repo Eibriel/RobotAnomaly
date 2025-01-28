@@ -19,13 +19,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 [node name="CharacterCamera" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
 fov = 37.8493
+far = 400.0
 
 [node name="HoldedBattery" type="CSGBox3D" parent="Head/CharacterCamera"]
 unique_name_in_owner = true
 transform = Transform3D(0.987565, -0.15721, 0, 0.15721, 0.987565, 0, 0, 0, 1, 0.140765, -0.164438, -0.410691)
+visible = false
 size = Vector3(0.191162, 0.0874634, 0.0675049)
 
 [node name="HoldedIdNote" type="CSGBox3D" parent="Head/CharacterCamera"]
 unique_name_in_owner = true
 transform = Transform3D(0.728019, -0.374702, 0.574097, -0.175515, 0.707634, 0.684433, -0.662709, -0.599043, 0.449405, -0.224989, -0.128699, -0.410691)
+visible = false
 size = Vector3(0.076416, 0.0874634, 0.0078125)

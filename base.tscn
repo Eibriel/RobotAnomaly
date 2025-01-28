@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=54 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -29,6 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://nampk5kyqul6" path="res://report.tscn" id="22_1uwki"]
 [ext_resource type="PackedScene" uid="uid://4f1llqaogpkg" path="res://objects/props/ExecChair.gltf" id="23_mh4ky"]
 [ext_resource type="PackedScene" uid="uid://d2uebb6pnho2" path="res://objects/props/Body.gltf" id="23_x13uo"]
+[ext_resource type="PackedScene" uid="uid://cp3bk1xsmjnxj" path="res://robot.tscn" id="24_2bbbl"]
 [ext_resource type="PackedScene" uid="uid://scbgstp1dmdi" path="res://glitched_level_count.tscn" id="30_3vupj"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
@@ -453,6 +454,9 @@ size = Vector3(8.1814, 1.99902, 9.42151)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, 20.1842)
 aabb = AABB(-4.22158, -1.26959, -4.48657, 8.44316, 2.53919, 8.97315)
+
+[node name="RobotStrike" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true

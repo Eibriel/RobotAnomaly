@@ -15,6 +15,7 @@ const ROTATION_ACCEL := 12.0
 var look_rot : Vector2
 var rumble_tween: Tween
 var breathing_tween: Tween
+var halt_velocity:= false
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -42,7 +43,12 @@ func note_visible(vis: bool) -> void:
 	#%HoldedIdNote.visible = vis
 	pass
 
+func get_camera() -> Camera3D:
+	return %CharacterCamera
+
 func _physics_process(delta: float) -> void:
+	if halt_velocity:
+		velocity = Vector3.ZERO
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -63,9 +69,14 @@ func _physics_process(delta: float) -> void:
 		velocity.z = lerpf(velocity.z, 0.0, ACCEL * delta)
 
 	move_and_slide()
+	if halt_velocity:
+		head.rotation_degrees.x = 0
+		rotation_degrees.y = 0
+	else:
+		head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), ROTATION_ACCEL * delta) )
+		rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), ROTATION_ACCEL * delta) )
 	
-	head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), ROTATION_ACCEL * delta) )
-	rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), ROTATION_ACCEL * delta) )
+	halt_velocity = false
 
 func rumble(pause: float = 0.0) -> void:
 	if rumble_tween and rumble_tween.is_running():

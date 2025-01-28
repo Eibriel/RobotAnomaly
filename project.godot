@@ -19,10 +19,6 @@ config/icon="res://icon.svg"
 
 Global="*res://global.gd"
 
-[display]
-
-window/size/mode=3
-
 [input]
 
 forward={

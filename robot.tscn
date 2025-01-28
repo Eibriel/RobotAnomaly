@@ -93,11 +93,12 @@ unique_name_in_owner = true
 [node name="robot_base" parent="RobotBase" instance=ExtResource("2_yhfw1")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.797731, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="RobotBase"]
+[node name="RobotBaseStaticBody" type="StaticBody3D" parent="RobotBase"]
+unique_name_in_owner = true
 collision_layer = 2
 collision_mask = 256
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBase/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBase/RobotBaseStaticBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.821167, 0.021225)
 shape = SubResource("CylinderShape3D_yyxj1")
 
@@ -218,14 +219,21 @@ color_scheme = 1
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
 unique_name_in_owner = true
-aabb = AABB(-0.825695, 0, -0.85, 1.65139, 2.5, 1.7)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.821723, -0.0395755)
+aabb = AABB(-0.348002, -0.811781, -0.223604, 0.696005, 2.19778, 0.447208)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="RobotBody"]
+[node name="VisibleOnScreenNotifier3D2" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31167, -0.0395755)
+aabb = AABB(-0.168825, -0.437233, -0.159335, 0.337649, 0.82759, 0.318671)
+
+[node name="RobotStaticBody" type="StaticBody3D" parent="RobotBody"]
+unique_name_in_owner = true
 collision_layer = 2
 collision_mask = 256
 metadata/is_robot = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/RobotStaticBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05975, 0)
 shape = SubResource("CapsuleShape3D_m4sq5")
 
@@ -275,3 +283,9 @@ bus = &"Robots"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.478086, 0.012)
 cast_shadow = 0
 mesh = SubResource("PlaneMesh_7xofo")
+
+[node name="CameraNode" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="CameraRobot" type="Camera3D" parent="CameraNode"]
+unique_name_in_owner = true
