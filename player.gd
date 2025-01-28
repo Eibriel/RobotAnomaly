@@ -1,9 +1,9 @@
 extends CharacterBody3D
 
-const SPEED := 6.0 # * 10.0
+const SPEED := 7.0
 #const JUMP_VELOCITY := 4.5
 const ACCEL := 5.0
-const ROTATION_ACCEL := 10.0
+const ROTATION_ACCEL := 12.0
 
 @export var sensitivity := 0.15
 @export var min_angle := -80
@@ -77,8 +77,8 @@ func rumble(pause: float = 0.0) -> void:
 	rumble_tween.tween_interval(pause)
 	for _n in 15:
 		rumble_tween.tween_property(%CharacterCamera, "position", Vector3(
-			randf()*0.05,
-			randf()*0.05,
-			randf()*0.05,
+			randf()*0.03,
+			randf()*0.03,
+			randf()*0.03,
 		), 0.02)
 	rumble_tween.tween_property(%CharacterCamera, "position", Vector3.ZERO, 0.02)

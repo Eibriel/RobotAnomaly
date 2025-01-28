@@ -152,7 +152,7 @@ func robot_position(pos: Vector3) -> void:
 
 func charge_battery(delta: float) -> void:
 	if not power_on: return
-	battery_charge += delta * 12.0
+	battery_charge += delta * 14.0
 	battery_charge = minf(battery_charge, 100.0)
 
 func shutdown(delta: float) -> void:
@@ -475,11 +475,19 @@ func follow_head(_delta: float) -> void:
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
 	
-	var player_pos_2d := Vector2(player_pos.x, player_pos.z)
+	var local_player_pos := %RobotBody.to_local(player_pos) as Vector3
+	
+	var player_pos_2d := Vector2(local_player_pos.x, local_player_pos.z)
 	var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
-	var angle: float = robot_pos_2d.angle_to_point(player_pos_2d) + %RobotBody.global_rotation.y
-	#print(angle)
-	if angle > 0.1 and angle < 3.0:
+	#var angle: float = robot_pos_2d.angle_to_point(player_pos_2d) + %RobotBody.rotation.y
+	var angle: float = Vector2.ZERO.angle_to_point(player_pos_2d) + %RobotBody.rotation.y
+	var local_angle:float = angle - %RobotBody.rotation.y
+	#if angle > PI*2:
+		#angle -= PI
+	#elif angle < 0:
+		#angle += PI
+	#print(local_angle)
+	if local_angle > 0.1 and local_angle < 3.0:
 		bone_look_at(head_id, pos, skeleton.to_local(player_eyes))
 
 

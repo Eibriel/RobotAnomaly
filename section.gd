@@ -164,41 +164,31 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		y_count += 1
 	
-	if true:
-		for rx in 2:
-			for ry in y_count:
-				var r := ROBOT.instantiate()
-				r.connect("anomaly_failed", on_failed_glitch)
-				r.robot_id = (rx * 6) + ry
-				r.battery_charge = 100
-				if randf() < 0.05 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
-					r.battery_charge = randi_range(60, 80)
-				robots.append(r)
-				%Robots.add_child.call_deferred(r)
-				var dist := DIST_X + (ry * DIST_X_INCREASE)
-				#r.position.x = (rx * dist) - (dist * 0.5)
-				#r.position.y = 0.4
-				#r.position.z = (ry * 3) - 16
-				var robot_position := Vector3(
-					(rx * dist) - (dist * 0.5),
-					0.4,
-					(ry * 3) - 16
-				)
-				r.robot_position(robot_position)
-				match rx:
-					0:
-						r.robot_rotation(deg_to_rad(90-40))
-					1:
-						r.robot_rotation(deg_to_rad(-90+40))
-	else:
-		var r := ROBOT.instantiate()
-		r.robot_id = 10
-		r.battery_charge = 100
-		if randf() < 0.05:
-			r.battery_charge = randi_range(60, 80)
-		robots.append(r)
-		%Robots.add_child.call_deferred(r)
-		r.robot_position(Vector3(0, 0.5, -10))
+	for rx in 2:
+		for ry in y_count:
+			var r := ROBOT.instantiate()
+			r.connect("anomaly_failed", on_failed_glitch)
+			r.robot_id = (rx * 6) + ry
+			r.battery_charge = 100
+			if randf() < 0.11 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
+				r.battery_charge = randi_range(60, 80)
+			robots.append(r)
+			%Robots.add_child.call_deferred(r)
+			var dist := DIST_X + (ry * DIST_X_INCREASE)
+			#r.position.x = (rx * dist) - (dist * 0.5)
+			#r.position.y = 0.4
+			#r.position.z = (ry * 3) - 16
+			var robot_position := Vector3(
+				(rx * dist) - (dist * 0.5),
+				0.4,
+				(ry * 3) - 16
+			)
+			r.robot_position(robot_position)
+			match rx:
+				0:
+					r.robot_rotation(deg_to_rad(90-40))
+				1:
+					r.robot_rotation(deg_to_rad(-90+40))
 	
 	var sr := robots.pick_random() as Robot
 	var no_anomaly: Array[int] = [
@@ -208,7 +198,8 @@ func start_day() -> void:
 	]
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
-		sr.battery_charge = randi_range(70, 80)
+		if not Global.is_nightmare_mode:
+			sr.battery_charge = randi_range(70, 80)
 		
 	
 	if anomaly == Robot.GLITCHES.LIGHTS_OFF:

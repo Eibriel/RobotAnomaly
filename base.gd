@@ -26,6 +26,8 @@ var tutorial_completed := false
 var museum_completed := false
 #var congrats_completed := false
 #var executive_completed := false
+#var nightmare_mode := false
+var completed_anomalies_count := 0
 
 var game_state: GameStateResource
 
@@ -60,7 +62,7 @@ enum DRESSING {
 	EXECUTIVE
 }
 
-var current_side := SIDES.Z_PLUS
+#var current_side := SIDES.Z_PLUS
 var tonemap_tween: Tween
 
 const FLOORS_AMOUNT := 29
@@ -89,7 +91,16 @@ func _ready() -> void:
 	#
 	Global.player = %Player
 
+func check_if_nightmare() -> void:
+	# TODO duplicated code
+	var anomalies_count := Robot.GLITCHES.size()-1
+	#var completed_anomalies_count := game_state.completed_anomalies.size()
+	if anomalies_count - completed_anomalies_count < 10:
+		Global.is_nightmare_mode = true
+
+## Initializes a game
 func start_game() -> void:
+	check_if_nightmare()
 	#scenario_count = Robot.GLITCHES.size()
 	var mixed_scenarios := Robot.GLITCHES.values()
 	mixed_scenarios.remove_at(mixed_scenarios.find(Robot.GLITCHES.NONE))
@@ -100,11 +111,14 @@ func start_game() -> void:
 	# Move completed_anomalies to the end
 	for cs in shufled_completed_anomalies:
 		mixed_scenarios.remove_at(mixed_scenarios.find(cs))
-	mixed_scenarios.append_array(game_state.completed_anomalies)
-	mixed_scenarios.resize(FLOORS_AMOUNT)
-	var none_probability := 0.25
-	if game_state.executive_completed and false:
-		none_probability = 0.1
+	if not game_state.executive_completed:
+		mixed_scenarios.append_array(game_state.completed_anomalies)
+		mixed_scenarios.resize(FLOORS_AMOUNT)
+	var none_probability := 0.3
+	if game_state.executive_completed:
+		none_probability = 0.2
+	if Global.is_nightmare_mode:
+		none_probability = 0.0
 	selected_scenarios.resize(0)
 	for s in mixed_scenarios:
 		#if force_anomaly != Robot.GLITCHES.NONE:
@@ -119,6 +133,7 @@ func start_game() -> void:
 			selected_scenarios.append(s)
 	if not linear_game:
 		selected_scenarios.shuffle()
+	completed_anomalies_count = game_state.completed_anomalies.size()
 	load_main()
 
 func _process(delta: float) -> void:
@@ -185,10 +200,12 @@ func update_executive() -> void:
 			%RobotCrowd01.visible = true
 	if pos < 40:
 		game_state.executive_completed = true
-		current_side = SIDES.Z_PLUS
+		tutorial_completed = false
+		#current_side = SIDES.Z_PLUS
 		completed_scenarios.resize(0)
 		selected_scenarios.resize(0)
 		failed_scenarios.resize(0)
+		reset_position()
 		start_game()
 
 func save_game_state() -> void:
@@ -232,6 +249,10 @@ func reset_dressing() -> void:
 		dn.visible = false
 		dn.position.y = -20
 
+func dressing_visible(dressing_node: Node3D) -> void:
+	dressing_node.visible = true
+	dressing_node.position.y = 0
+
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
 	prints("Failed Scenarios", failed_scenarios)
@@ -256,7 +277,9 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif failed_scenarios.size() > 0:
 		scenario = failed_scenarios.pop_front()
 	else:
-		push_error("No more scenarios")
+		# game completed
+		scenario = -4
+		#push_error("No more scenarios")
 	var available_scenarios_count := selected_scenarios.size() + failed_scenarios.size()
 	for c in Env.get_children():
 		c.queue_free()
@@ -266,12 +289,16 @@ func instantiate_sections(Env: Node3D) -> void:
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
+	var anomalies_count := Robot.GLITCHES.size()-1
+	#var completed_anomalies_count := game_state.completed_anomalies.size()
 	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		%LevelCountLabel.mesh.text = "%d" % (completed_scenarios.size() + 1)
 	if completed_scenarios.size() < 8 and not game_state.congrats_completed:
 		%TotalLevelsCountLabel.mesh.text = "/ %d" % 8
+	elif game_state.executive_completed:
+		%TotalLevelsCountLabel.mesh.text = "/ %d" % (anomalies_count-completed_anomalies_count)
 	else:
 		%TotalLevelsCountLabel.mesh.text = "/ %d" % FLOORS_AMOUNT
 		
@@ -283,56 +310,56 @@ func instantiate_sections(Env: Node3D) -> void:
 	reset_dressing()
 	prints("message_id", message_id)
 	if scenario == -2:
-		%office_tutorial.visible = true
-		%office_tutorial.position.y = 0
+		dressing_visible(%office_tutorial)
 	elif scenario == -3:
 		%MessageLabel.text = "Executive"
-		%office_executive.visible = true
+		dressing_visible(%office_executive)
 	elif scenario == -4:
 		%MessageLabel.text = "Museum"
-		%office_museum.visible = true
-		%office_museum.position.y = 0
-		var anomalies_count := Robot.GLITCHES.size()-1
-		var completed_anomalies_count := game_state.completed_anomalies.size()
+		dressing_visible(%office_museum)
+		check_if_nightmare()
+		if Global.is_nightmare_mode:
+			%NightmareModeIndicator.visible = true
+		else:
+			%NightmareModeIndicator.visible = false
 		%MuseumStatsLabel.text = "Stats\n"
 		%MuseumStatsLabel.text += "%d / %d\n" % [completed_anomalies_count, anomalies_count]
 		for ss in game_state.completed_anomalies:
 			%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
-		%office_lobby.visible = true
-		#%office_design.visible = true
+		dressing_visible(%office_lobby)
 	elif message_id <= 8:
 		%MessageLabel.text = "Empty Room"
-		%office_lobby.visible = true
+		dressing_visible(%office_lobby)
 	elif message_id <= 12:
 		%MessageLabel.text = "Design Room"
-		%office_design.visible = true
+		dressing_visible(%office_design)
 	elif message_id <= 18:
 		%MessageLabel.text = "Lab"
-		%office_lab.visible = true
+		dressing_visible(%office_lab)
 	elif message_id <= 25:
 		%MessageLabel.text = "Marketing"
-		%office_marketing.visible = true
+		dressing_visible(%office_marketing)
 	elif message_id <= 28:
 		%MessageLabel.text = "Party"
-		%office_party.visible = true
+		dressing_visible(%office_party)
 	
 	if force_dressing > 0:
 		reset_dressing()
 		match force_dressing:
 			DRESSING.LOBBY:
-				%office_lobby.visible = true
+				dressing_visible(%office_lobby)
 			DRESSING.DESIGN:
-				%office_design.visible = true
+				dressing_visible(%office_design)
 			DRESSING.LAB:
-				%office_lab.visible = true
+				dressing_visible(%office_lab)
 			DRESSING.MARKETING:
-				%office_marketing.visible = true
+				dressing_visible(%office_marketing)
 			DRESSING.PARTY:
-				%office_party.visible = true
+				dressing_visible(%office_party)
 			DRESSING.EXECUTIVE:
-				%office_executive.visible = true
+				dressing_visible(%office_executive)
 	
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
@@ -437,6 +464,8 @@ func _on_end_day() -> void:
 	load_main()
 
 func reset_position() -> void:
+	#current_side = SIDES.Z_PLUS
+	%OfficeNode.rotation.y = deg_to_rad(0)
 	%Player.global_position = %InitialPosition.global_position
 	%Player.look_rot.y = rad_to_deg(%InitialPosition.rotation.y)
 	if false:
@@ -454,7 +483,7 @@ func reset_position() -> void:
 		introduction_done = true
 
 func fire_ray() -> void:
-	var ray_range := 4.0
+	var ray_range := 6.0
 	var center := Vector2(get_viewport().get_visible_rect().size / 2)
 	var cam := get_viewport().get_camera_3d()
 	var ray_origin := cam.project_ray_origin(center)
@@ -624,6 +653,7 @@ func on_glitch_failed() -> void:
 	#prints("\nsuccess:", sc)
 	#TODO sometimes reset_position don't reset velocity
 	reset_position()
+	section.is_success() # Force generate report
 	_on_finished(false, section.scenario, false)
 
 func _on_start_level_body_entered(body: Node3D) -> void:

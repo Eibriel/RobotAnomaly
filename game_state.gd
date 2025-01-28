@@ -9,4 +9,6 @@ extends Resource
 
 @export var executive_completed := false
 
+#@export var nightmare_mode := false
+
 #@export var tutorial_completed := false

@@ -79,7 +79,7 @@ albedo_texture = ExtResource("20_wudxj")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2btif"]
 material = SubResource("StandardMaterial3D_yc71e")
-size = Vector2(1.3, 2)
+size = Vector2(1.4, 2)
 
 [sub_resource type="TextMesh" id="TextMesh_4a7sh"]
 material = ExtResource("14_sgv64")
@@ -482,11 +482,20 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.2083
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 
+[node name="NightmareModeIndicator" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.116841, 3.41376, -24.9492)
+shaded = true
+text = "Nightmare mode!"
+font_size = 50
+vertical_alignment = 0
+
 [node name="MuseumStatsLabel" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.41376, 0)
+shaded = true
 text = "Stats."
-font_size = 15
+font_size = 10
 vertical_alignment = 0
 
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
