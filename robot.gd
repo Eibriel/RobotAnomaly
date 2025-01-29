@@ -224,11 +224,14 @@ func update_stalk() -> void:
 	match stalk_player:
 		STALK.FOLLOW:
 			var rotation_vector := Vector3.FORWARD.rotated(Vector3.UP, Global.player.rotation.y)*2
-			robot_position(player_pos - rotation_vector)
+			#rotation_vector += Global.player.global_rotation.y
+			#robot_position(player_pos - rotation_vector)
+			%RobotBody.global_position = player_pos - rotation_vector
 		STALK.SHOWUP:
 			if not %VisibleOnScreenNotifier3D2.is_on_screen():
 				robot_rotation(deg_to_rad(180))
-				robot_position(player_pos - Vector3(0, 0, -0.5))
+				#robot_position(player_pos - Vector3(0, 0, -0.5))
+				%RobotBody.global_position = player_pos - Vector3(0, 0, -0.5)
 			else:
 				stalk_completed = true
 				grab_player()
@@ -240,7 +243,7 @@ func grab_player() -> void:
 	#%CameraRobot.global_transform = cam.global_transform
 	#%CameraNode.global_transform = cam.global_transform
 	var cam_tween := create_tween()
-	cam_tween.tween_property(self, "anim_camera_weight", 1.0, 0.5)
+	cam_tween.tween_property(self, "anim_camera_weight", 1.0, 0.2)
 	%CameraRobot.current = true
 	if not anim.is_playing():
 		anim.play("AttackExec")

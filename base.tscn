@@ -446,17 +446,51 @@ size = Vector3(2.24316, 3.23938, 0.42627)
 
 [node name="RobotCrowd01" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11969, 20.4476)
-visible = false
-size = Vector3(8.1814, 1.99902, 9.42151)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, 20.4476)
+use_collision = true
+size = Vector3(8.1814, 0.741697, 9.42151)
 
 [node name="ExecVisible01" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, 20.1842)
-aabb = AABB(-4.22158, -1.26959, -4.48657, 8.44316, 2.53919, 8.97315)
+aabb = AABB(-4.22158, -1.20055, -4.48657, 8.44316, 1.31835, 8.97315)
+
+[node name="RobotCrowd02" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, 9.40976)
+use_collision = true
+size = Vector3(8.1814, 0.741697, 9.42151)
+
+[node name="ExecVisible02" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, 9.53106)
+aabb = AABB(-4.22158, -1.20055, -4.58748, 8.44316, 1.31835, 9.17497)
+
+[node name="RobotCrowd03" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, -20.0596)
+use_collision = true
+size = Vector3(8.1814, 0.741697, 9.42151)
+
+[node name="ExecVisible03" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, -19.9333)
+aabb = AABB(-4.22158, -1.20055, -4.58748, 8.44316, 1.31835, 9.17497)
+
+[node name="RobotCrowd04" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, -11.4141)
+use_collision = true
+size = Vector3(8.1814, 0.741697, 7.0668)
+
+[node name="ExecVisible04" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, -11.6175)
+aabb = AABB(-4.22158, -1.20055, -3.78352, 8.44316, 1.31835, 7.56705)
 
 [node name="RobotStrike" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.91592)
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true

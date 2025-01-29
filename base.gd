@@ -73,15 +73,15 @@ const skip_tutorial := false
 const force_anomaly := Robot.GLITCHES.NONE
 const linear_game := false
 const force_dressing := DRESSING.NONE
-const reset_save := false
-const override_state := true
+const reset_save := true
+const override_state := false
 var state_override := GameStateResource.new()
 
 func _ready() -> void:
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	for n in range(1, 39):
+	for n in range(1, 38):
 		state_override.completed_anomalies.append(n)
 	
 	load_game_state()
@@ -202,22 +202,63 @@ func _process(delta: float) -> void:
 	
 
 func setup_executive() -> void:
+	%RobotCrowd01.visible = false
+	%RobotCrowd02.visible = false
+	%RobotCrowd03.visible = false
+	%RobotCrowd04.visible = false
+	%RobotCrowd01.position.y = -20
+	%RobotCrowd02.position.y = -20
+	%RobotCrowd03.position.y = -20
+	%RobotCrowd04.position.y = -20
 	%RobotStrike.robot_rotation(deg_to_rad(180))
 	if not %RobotStrike.is_connected("executive_finished", on_executive_finished):
 		%RobotStrike.connect("executive_finished", on_executive_finished)
 
+var exe_phase_2 := false
+var saw_crowd_01 := false
+var saw_crowd_02 := false
+var saw_crowd_03 := false
+var saw_crowd_04 := false
 func update_executive() -> void:
 	if section.scenario != -3: return
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
 	var pos: float = player_pos.z + 25
+	#print(pos)
 	#TODO move code to robot
-	if pos >= 40:
-		%RobotStrike.stalk_player = Robot.STALK.FOLLOW
-	else:
+	if saw_crowd_01 and \
+			saw_crowd_02 and \
+			saw_crowd_03 and \
+			saw_crowd_04:
 		%RobotStrike.stalk_player = Robot.STALK.SHOWUP
+	else:
+		%RobotStrike.stalk_player = Robot.STALK.FOLLOW
+	if %ExecVisible01.is_on_screen() and %RobotCrowd01.visible:
+		saw_crowd_01 = true
+	if %ExecVisible02.is_on_screen() and %RobotCrowd02.visible:
+		saw_crowd_02 = true
+	if %ExecVisible03.is_on_screen() and %RobotCrowd03.visible:
+		saw_crowd_03 = true
+	if %ExecVisible04.is_on_screen() and %RobotCrowd04.visible:
+		saw_crowd_04 = true
+	if pos < 12:
+		exe_phase_2 = true
+	if pos < 27:
+		if not %ExecVisible02.is_on_screen():
+			%RobotCrowd02.visible = true
+			%RobotCrowd02.position.y = 0
 	if pos < 40:
 		if not %ExecVisible01.is_on_screen():
 			%RobotCrowd01.visible = true
+			%RobotCrowd01.position.y = 0
+	if exe_phase_2:
+		if pos > 12:
+			if not %ExecVisible03.is_on_screen():
+				%RobotCrowd03.visible = true
+				%RobotCrowd03.position.y = 0
+		if pos > 16:
+			if not %ExecVisible04.is_on_screen():
+				%RobotCrowd04.visible = true
+				%RobotCrowd04.position.y = 0
 
 func on_executive_finished():
 	
@@ -235,7 +276,7 @@ func on_executive_finished():
 	exec_tween.tween_interval(2.0)
 	#
 	exec_tween.tween_property(%FadeWhite, "modulate:a", 1.0, 2.0)
-	exec_tween.tween_callback(reset)
+	exec_tween.tween_callback(reset.call_deferred)
 	exec_tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
 
 func save_game_state() -> void:
@@ -460,10 +501,20 @@ func _on_finished(success: bool, scenario: int, last: bool) -> void:
 	level_started = false
 	if scenario == -2:
 		if not success:
+			# TODO do nothing?
 			load_main()
 			return
 		else:
 			tutorial_completed = true
+			load_main()
+			return
+	if scenario == -3:
+		# TODO do nothing?
+		if not success:
+			load_main()
+			return
+		else:
+			#Global.complete = true
 			load_main()
 			return
 	if scenario == -1:
