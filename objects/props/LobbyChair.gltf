@@ -19,17 +19,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"armchair.002",
-			"scale":[
-				0.02499999850988388,
-				0.02499999850988388,
-				0.02499999850988388
-			],
-			"translation":[
-				0,
-				0.5152587294578552,
-				0
-			]
+			"name":"armchair.002"
 		}
 	],
 	"materials":[
@@ -118,35 +108,35 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":10545,
+			"count":11090,
 			"max":[
-				16.664804458618164,
-				20.77863121032715,
-				20.041410446166992
+				0.41662007570266724,
+				1.034724473953247,
+				0.501035213470459
 			],
 			"min":[
-				-16.664804458618164,
-				-20.77863311767578,
-				-20.041404724121094
+				-0.41662007570266724,
+				-0.0042070746421813965,
+				-0.5010350942611694
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":10545,
+			"count":11090,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":10545,
+			"count":11090,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5126,
-			"count":10545,
+			"count":11090,
 			"type":"VEC2"
 		},
 		{
@@ -159,32 +149,32 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":126540,
+			"byteLength":133080,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":126540,
-			"byteOffset":126540,
+			"byteLength":133080,
+			"byteOffset":133080,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":84360,
-			"byteOffset":253080,
+			"byteLength":88720,
+			"byteOffset":266160,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":84360,
-			"byteOffset":337440,
+			"byteLength":88720,
+			"byteOffset":354880,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":53496,
-			"byteOffset":421800,
+			"byteOffset":443600,
 			"target":34963
 		}
 	],
@@ -196,7 +186,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":475296,
+			"byteLength":497096,
 			"uri":"LobbyChair.bin"
 		}
 	]

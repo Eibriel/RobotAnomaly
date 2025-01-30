@@ -11,7 +11,7 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_6kybn"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmd0k"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tc3ll"]
 resource_local_to_scene = true
 albedo_color = Color(0.912289, 0.912289, 0.912289, 1)
 albedo_texture = SubResource("ViewportTexture_6kybn")
@@ -21,7 +21,7 @@ roughness = 0.31
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6kybn"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_mmd0k")
+material = SubResource("StandardMaterial3D_tc3ll")
 size = Vector2(0.7, 1.24)
 
 [node name="Report" type="Node3D"]

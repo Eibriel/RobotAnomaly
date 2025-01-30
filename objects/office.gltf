@@ -5,10 +5,10 @@
 		"version":"2.0"
 	},
 	"extensionsUsed":[
+		"KHR_materials_unlit",
 		"KHR_materials_emissive_strength",
 		"KHR_materials_specular",
-		"KHR_materials_ior",
-		"KHR_materials_unlit"
+		"KHR_materials_ior"
 	],
 	"scene":0,
 	"scenes":[
@@ -690,19 +690,15 @@
 	"materials":[
 		{
 			"extensions":{
-				"KHR_materials_specular":{
-					"specularFactor":0
-				}
+				"KHR_materials_unlit":{}
 			},
 			"name":"MI_umonbbqdy",
-			"occlusionTexture":{
-				"index":0
-			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":1
+					"index":0
 				},
-				"metallicFactor":0
+				"metallicFactor":0,
+				"roughnessFactor":0.9
 			}
 		},
 		{
@@ -713,7 +709,7 @@
 			"name":"Wall",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":2
+					"index":1
 				},
 				"metallicFactor":0,
 				"roughnessFactor":0.9
@@ -764,7 +760,7 @@
 			"name":"Celing",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":3
+					"index":2
 				},
 				"metallicFactor":0,
 				"roughnessFactor":0.9
@@ -797,7 +793,7 @@
 				1
 			],
 			"emissiveTexture":{
-				"index":4
+				"index":3
 			},
 			"extensions":{
 				"KHR_materials_emissive_strength":{
@@ -826,15 +822,15 @@
 			},
 			"name":"\u6750\u8d28.001",
 			"normalTexture":{
-				"index":5,
+				"index":4,
 				"scale":0.20000000298023224
 			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":6
+					"index":5
 				},
 				"metallicRoughnessTexture":{
-					"index":7
+					"index":6
 				}
 			}
 		},
@@ -1005,11 +1001,11 @@
 		},
 		{
 			"sampler":0,
-			"source":1
+			"source":0
 		},
 		{
 			"sampler":0,
-			"source":1
+			"source":0
 		},
 		{
 			"sampler":0,
@@ -1026,18 +1022,9 @@
 		{
 			"sampler":0,
 			"source":4
-		},
-		{
-			"sampler":0,
-			"source":5
 		}
 	],
 	"images":[
-		{
-			"mimeType":"image/png",
-			"name":"T_umonbbqdy_8K_ORM",
-			"uri":"office_textures/T_umonbbqdy_8K_ORM.png"
-		},
 		{
 			"mimeType":"image/png",
 			"name":"WallsFloorRoof_Bake",

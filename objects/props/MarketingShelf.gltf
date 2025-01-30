@@ -82,61 +82,61 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":514564,
+			"count":3479,
 			"max":[
-				44.91162109375,
-				20.656343460083008,
-				0.0001391284167766571
+				44.8950309753418,
+				20.63878631591797,
+				0.004518087953329086
 			],
 			"min":[
-				-44.29636001586914,
-				-0.2005544900894165,
-				-81.1336669921875
+				-44.28901290893555,
+				-0.19602729380130768,
+				-81.12226104736328
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":514564,
+			"count":3479,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":514564,
+			"count":3479,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5125,
-			"count":3000000,
+			"componentType":5123,
+			"count":15000,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":6174768,
+			"byteLength":41748,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6174768,
-			"byteOffset":6174768,
+			"byteLength":41748,
+			"byteOffset":41748,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4116512,
-			"byteOffset":12349536,
+			"byteLength":27832,
+			"byteOffset":83496,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":12000000,
-			"byteOffset":16466048,
+			"byteLength":30000,
+			"byteOffset":111328,
 			"target":34963
 		}
 	],
@@ -148,7 +148,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":28466048,
+			"byteLength":141328,
 			"uri":"MarketingShelf.bin"
 		}
 	]

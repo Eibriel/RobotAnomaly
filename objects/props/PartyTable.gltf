@@ -75,73 +75,73 @@
 		{
 			"mimeType":"image/jpeg",
 			"name":"Wooden_Table_viejdi1_Raw_8K_BaseColor",
-			"uri":"Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg"
+			"uri":"props_textures/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg"
 		},
 		{
 			"mimeType":"image/png",
 			"name":"Wooden_Table_viejdi1_Raw_8K_Roughness",
-			"uri":"Wooden_Table_viejdi1_Raw_8K_Roughness.png"
+			"uri":"props_textures/Wooden_Table_viejdi1_Raw_8K_Roughness.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":509717,
+			"count":6033,
 			"max":[
-				79.68961334228516,
-				52.35490798950195,
-				0.820386528968811
+				79.67916107177734,
+				52.342830657958984,
+				0.8284837007522583
 			],
 			"min":[
-				-74.85258483886719,
-				-51.324806213378906,
-				-73.95237731933594
+				-74.88418579101562,
+				-51.279815673828125,
+				-73.94490051269531
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":509717,
+			"count":6033,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":509717,
+			"count":6033,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
-			"componentType":5125,
-			"count":3000000,
+			"componentType":5123,
+			"count":30000,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":6116604,
+			"byteLength":72396,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6116604,
-			"byteOffset":6116604,
+			"byteLength":72396,
+			"byteOffset":72396,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4077736,
-			"byteOffset":12233208,
+			"byteLength":48264,
+			"byteOffset":144792,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":12000000,
-			"byteOffset":16310944,
+			"byteLength":60000,
+			"byteOffset":193056,
 			"target":34963
 		}
 	],
@@ -153,7 +153,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":28310944,
+			"byteLength":253056,
 			"uri":"PartyTable.bin"
 		}
 	]

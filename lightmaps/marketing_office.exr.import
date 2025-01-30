@@ -1,0 +1,27 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://b37d4et7ccfum"
+path.bptc="res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.bptc.ctexarray"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://lightmaps/marketing_office.exr"
+dest_files=["res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.bptc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=1
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=1
+slices/vertical=8

@@ -72,7 +72,7 @@ const FLOORS_AMOUNT := 29
 const skip_tutorial := false
 const force_anomaly := Robot.GLITCHES.NONE
 const linear_game := false
-const force_dressing := DRESSING.NONE
+const force_dressing := DRESSING.DESIGN
 const reset_save := false
 const override_state := true
 var state_override := GameStateResource.new()
@@ -81,7 +81,7 @@ func _ready() -> void:
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	for n in range(1, 39):
+	for n in range(1, 5):
 		state_override.completed_anomalies.append(n)
 	
 	load_game_state()
@@ -404,7 +404,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		dressing_visible(%office_lobby)
-	elif message_id <= 8:
+	elif message_id <= 7:
 		%MessageLabel.text = "Empty Room"
 		dressing_visible(%office_lobby)
 	elif message_id <= 12:

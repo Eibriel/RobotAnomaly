@@ -5,7 +5,7 @@
 		"version":"2.0"
 	},
 	"extensionsUsed":[
-		"KHR_materials_unlit"
+		"KHR_materials_specular"
 	],
 	"scene":0,
 	"scenes":[
@@ -55,15 +55,16 @@
 		{
 			"doubleSided":true,
 			"extensions":{
-				"KHR_materials_unlit":{}
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
 			},
 			"name":"Material.001",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
 				},
-				"metallicFactor":0,
-				"roughnessFactor":0.9
+				"metallicFactor":0
 			}
 		}
 	],
@@ -100,61 +101,61 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":9093,
+			"count":2253,
 			"max":[
-				0.10285794734954834,
-				0.05069439485669136,
+				0.10282441228628159,
+				0.05040644109249115,
 				0.4749521315097809
 			],
 			"min":[
-				-0.10285794734954834,
-				-0.036569055169820786,
-				-0.024952545762062073
+				-0.10282441228628159,
+				-0.03680361062288284,
+				-0.02486988715827465
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":9093,
+			"count":2253,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":9093,
+			"count":2253,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":46896,
+			"count":9378,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":109116,
+			"byteLength":27036,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":109116,
-			"byteOffset":109116,
+			"byteLength":27036,
+			"byteOffset":27036,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":72744,
-			"byteOffset":218232,
+			"byteLength":18024,
+			"byteOffset":54072,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":93792,
-			"byteOffset":290976,
+			"byteLength":18756,
+			"byteOffset":72096,
 			"target":34963
 		}
 	],
@@ -166,7 +167,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":384768,
+			"byteLength":90852,
 			"uri":"FemaleAnatomy.bin"
 		}
 	]

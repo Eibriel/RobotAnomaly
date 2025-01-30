@@ -1,12 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7bpyy0i3w5hn"]
+[gd_scene load_steps=6 format=3 uid="uid://c7bpyy0i3w5hn"]
 
+[ext_resource type="Script" uid="uid://b73c8niq5drsm" path="res://whiteboard.gd" id="1_c7jcs"]
 [ext_resource type="PackedScene" uid="uid://d4lbuo3ney345" path="res://objects/props/Whiteboard.gltf" id="1_ihy0m"]
+[ext_resource type="Texture2D" uid="uid://dcu7h6o0x8bc6" path="res://textures/whiteboard_design_01.png" id="2_tyhvn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c7jcs"]
+resource_local_to_scene = true
+albedo_color = Color(0.912289, 0.912289, 0.912289, 1)
+albedo_texture = ExtResource("2_tyhvn")
+metallic = 0.33
+metallic_specular = 0.0
+roughness = 0.31
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4ykqq"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_c7jcs")
+size = Vector2(1.24, 0.7)
 
 [node name="Whiteboard" type="Node3D"]
+script = ExtResource("1_c7jcs")
 
 [node name="Whiteboard" parent="." instance=ExtResource("1_ihy0m")]
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0605651, 0, 0)
+visible = false
 text = "11111
 "
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(-5.15794e-08, 1.18, -5.15794e-08, 0, -5.15794e-08, -1.18, -1.18, -5.15794e-08, 2.25461e-15, 0.0162639, 0.212939, 8.38298e-09)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_4ykqq")

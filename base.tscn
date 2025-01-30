@@ -1,11 +1,13 @@
-[gd_scene load_steps=72 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=90 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
+[ext_resource type="LightmapGIData" uid="uid://d06gsukwh0nvk" path="res://lightmaps/executive_office.lmbake" id="3_ipkxx"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
 [ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="3_s5o31"]
 [ext_resource type="AudioStream" uid="uid://q0qwyv6d1uqg" path="res://sounds/TinCoin.mp3" id="4_2suhb"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
+[ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
 [ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
 [ext_resource type="PackedScene" uid="uid://1xxq4hfexljm" path="res://objects/props/MarketingShelf.gltf" id="13_1uwki"]
 [ext_resource type="PackedScene" uid="uid://dxf6m0rru2xb0" path="res://objects/props/PartyTable.gltf" id="13_d5d72"]
@@ -15,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://fqxnbyrmfge3" path="res://banner.tscn" id="14_cs1hs"]
 [ext_resource type="FontFile" uid="uid://cgl1eo1pwl65v" path="res://fonts/Bungee-Regular.otf" id="14_gaoim"]
 [ext_resource type="Texture2D" uid="uid://bglukvw1mv30k" path="res://textures/banner_robot_rejected.png" id="14_jym3p"]
+[ext_resource type="LightmapGIData" uid="uid://uq3osk8ewav4" path="res://lightmaps/party_office.lmbake" id="14_k1vn5"]
 [ext_resource type="Material" uid="uid://do2w3hnmraobn" path="res://materials/floor_number.tres" id="14_sgv64"]
 [ext_resource type="Texture2D" uid="uid://clt2fh5qtesu7" path="res://textures/banner_robot_ok.png" id="14_v7taj"]
 [ext_resource type="Texture2D" uid="uid://c7n1vpir0on6b" path="res://textures/banner_robot_charge_battery.png" id="16_50rgw"]
@@ -23,15 +26,19 @@
 [ext_resource type="PackedScene" uid="uid://br45idlc583vq" path="res://objects/props/RobotHead.gltf" id="17_yc71e"]
 [ext_resource type="PackedScene" uid="uid://lyxknjxm317x" path="res://objects/props/RobotLeg.gltf" id="18_2btif"]
 [ext_resource type="PackedScene" uid="uid://dorx7tjyxp3pr" path="res://turnstile.tscn" id="18_4a7sh"]
+[ext_resource type="LightmapGIData" uid="uid://b45wbnmqqw4fv" path="res://lightmaps/marketing_office.lmbake" id="18_vjpxa"]
+[ext_resource type="PackedScene" uid="uid://8n8bq2mhmijd" path="res://objects/props/Balloon.gltf" id="19_8a3cd"]
 [ext_resource type="PackedScene" uid="uid://cx67mnaredgil" path="res://objects/props/RobotArm.gltf" id="19_n0uqe"]
 [ext_resource type="Texture2D" uid="uid://do46f1qxantx4" path="res://textures/StairsSign.jpg" id="20_wudxj"]
 [ext_resource type="PackedScene" uid="uid://c2lwh2ybicdve" path="res://objects/props/Desk.gltf" id="21_7m1qc"]
 [ext_resource type="PackedScene" uid="uid://d3rw145oxvkjk" path="res://objects/clock.glb" id="21_yc71e"]
 [ext_resource type="PackedScene" uid="uid://nampk5kyqul6" path="res://report.tscn" id="22_1uwki"]
+[ext_resource type="LightmapGIData" uid="uid://b4bhfy1s7cvgx" path="res://lightmaps/lobby_office.lmbake" id="23_h3qio"]
 [ext_resource type="PackedScene" uid="uid://4f1llqaogpkg" path="res://objects/props/ExecChair.gltf" id="23_mh4ky"]
 [ext_resource type="PackedScene" uid="uid://d2uebb6pnho2" path="res://objects/props/Body.gltf" id="23_x13uo"]
 [ext_resource type="PackedScene" uid="uid://cp3bk1xsmjnxj" path="res://robot.tscn" id="24_2bbbl"]
 [ext_resource type="PackedScene" uid="uid://irlxxm1a2475" path="res://objects/props/HardwarePress.gltf" id="26_5pcrg"]
+[ext_resource type="LightmapGIData" uid="uid://dk8rxslo1oapj" path="res://lightmaps/lab_office.lmbake" id="26_e6erj"]
 [ext_resource type="PackedScene" uid="uid://b30boy2s6ixp7" path="res://objects/props/DonutsPlate.gltf" id="27_aggb6"]
 [ext_resource type="PackedScene" uid="uid://b0p7qjrnq2h6v" path="res://objects/props/OldWrench.gltf" id="27_fe1od"]
 [ext_resource type="PackedScene" uid="uid://dggavdycpsnar" path="res://objects/props/Printer3D.gltf" id="28_fq8n2"]
@@ -43,6 +50,17 @@
 [ext_resource type="PackedScene" uid="uid://dopy2tkisdrv6" path="res://objects/props/FemaleAnatomy.gltf" id="34_dtkpj"]
 [ext_resource type="PackedScene" uid="uid://duyldqu45oa85" path="res://objects/props/CabezaFemenina.gltf" id="35_5pcrg"]
 [ext_resource type="PackedScene" uid="uid://cf6p14trpy2lu" path="res://objects/props/VintageLamp.gltf" id="36_0xwag"]
+[ext_resource type="LightmapGIData" uid="uid://bcg5v5t32j3kj" path="res://lightmaps/design_office.lmbake" id="40_8wt8o"]
+[ext_resource type="PackedScene" uid="uid://ny5qqve526e" path="res://objects/props/BookJournalOpen.gltf" id="42_hjerm"]
+[ext_resource type="Texture2D" uid="uid://dsy0lo6mui8jm" path="res://textures/whiteboard_design_02.png" id="44_q1yh3"]
+[ext_resource type="LightmapGIData" uid="uid://ctabip4ieeiap" path="res://lightmaps/museum_office.lmbake" id="44_y4n4r"]
+[ext_resource type="Texture2D" uid="uid://dcu7h6o0x8bc6" path="res://textures/whiteboard_design_01.png" id="45_aw26h"]
+[ext_resource type="PackedScene" uid="uid://nnrpcpeheidt" path="res://objects/props/BookBridgeOpen.gltf" id="48_3c4kj"]
+[ext_resource type="PackedScene" uid="uid://djlf13vyir68q" path="res://objects/props/BookBridgeClosed.gltf" id="49_66ob2"]
+[ext_resource type="PackedScene" uid="uid://c5jashmfqm1oh" path="res://objects/props/BookEncyclopedia.gltf" id="50_66ob2"]
+[ext_resource type="PackedScene" uid="uid://d0t8p1fwnu5oh" path="res://objects/props/BookJournalClosed.gltf" id="51_2ifga"]
+[ext_resource type="PackedScene" uid="uid://cl1crkfvab5km" path="res://objects/props/Sketchbook01.gltf" id="53_sqt58"]
+[ext_resource type="PackedScene" uid="uid://cuo1y84kf32rd" path="res://objects/props/Brain.gltf" id="54_p3pq8"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -181,6 +199,14 @@ mesh = SubResource("TorusMesh_vsodd")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jucab")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.988504, 0.0123543, 0.150686, -0.151192, 0.080773, 0.985199, 0, -0.996656, 0.0817123, 0, 0, 0)
+light_energy = 0.1
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_max_distance = 20.0
+directional_shadow_pancake_size = 10.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -327,13 +353,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.2, 0)
 [node name="MainOfficeWithCollision" parent="OfficeNode" instance=ExtResource("6_8uljb")]
 unique_name_in_owner = true
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="OfficeNode/MainOfficeWithCollision"]
-transform = Transform3D(0.988504, 0.0123542, 0.150686, -0.151192, 0.080773, 0.985199, 0, -0.996656, 0.0817123, 0, 0, 0)
-light_energy = 0.1
-shadow_enabled = true
-shadow_blur = 2.0
-directional_shadow_max_distance = 40.0
-
 [node name="SideDoor" type="CSGBox3D" parent="OfficeNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.00614, 0, 0)
@@ -354,6 +373,12 @@ unique_name_in_owner = true
 [node name="office_tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
+
+[node name="TutorialLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_tutorial"]
+directional = true
+interior = true
+texel_scale = 2.0
+light_data = ExtResource("7_u7ijn")
 
 [node name="Banner" parent="OfficeNode/DressingNode/office_tutorial" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.20731, 0.0134775, -9.20166)
@@ -394,6 +419,11 @@ texture = ExtResource("14_v7taj")
 unique_name_in_owner = true
 visible = false
 
+[node name="PartyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_party"]
+directional = true
+interior = true
+light_data = ExtResource("14_k1vn5")
+
 [node name="PartyTable2" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("13_d5d72")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.059, 0, 19.1651)
 
@@ -430,6 +460,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.370478, 1.01944, 19.4696)
 [node name="Donut3" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("29_f7hpq")]
 transform = Transform3D(0.0314016, 0.386484, -0.921762, 0.147592, 0.910314, 0.386712, 0.98855, -0.148188, -0.0284564, -0.0646657, 1.04278, 19.0655)
 
+[node name="Balloon2" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(0.351106, 0.936336, 0, -0.936336, 0.351106, 0, 0, 0, 1, -0.538308, 0.111563, 15.5546)
+
+[node name="Balloon5" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(0.0275292, 0.0734152, 0.996921, -0.936336, 0.351106, 0, -0.350025, -0.933453, 0.0784069, 3.09036, 0.111563, 14.9986)
+
+[node name="Balloon6" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(-0.294152, -0.784448, -0.546, -0.936336, 0.351106, 0, 0.191704, 0.511239, -0.837785, 3.2117, 0.111563, 14.2677)
+
+[node name="Balloon7" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(-0.294152, -0.784448, -0.546, -0.936336, 0.351106, 0, 0.191704, 0.511239, -0.837785, 3.70693, 0.111563, 15.128)
+
+[node name="Balloon8" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(0.112279, 0.299427, -0.94749, -0.936336, 0.351106, 0, 0.33267, 0.887168, 0.319786, -3.06887, 0.111563, 22.9073)
+
+[node name="Balloon9" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(0.195115, 0.520336, 0.831373, -0.936336, 0.351106, 1.2484e-08, -0.2919, -0.778444, 0.555715, -2.89311, 0.111563, 23.6271)
+
+[node name="Balloon10" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(0.195115, 0.520336, 0.831373, -0.936336, 0.351106, 1.2484e-08, -0.2919, -0.778444, 0.555715, -3.68666, 0.111563, 23.0307)
+
+[node name="Balloon3" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(0.0937937, 0.25013, -0.963658, -0.874059, 0.484121, 0.0405872, 0.47668, 0.838488, 0.264036, 0.00406957, 1.13819, 17.5439)
+
+[node name="Balloon4" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
+transform = Transform3D(-0.478816, -0.844312, -0.240565, -0.874059, 0.484121, 0.0405871, 0.0821946, 0.229702, -0.969784, 0.438247, 1.13819, 18.7116)
+
 [node name="StaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_party"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
 
@@ -440,6 +497,11 @@ shape = SubResource("BoxShape3D_18b1w")
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
+
+[node name="MarketingLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_marketing"]
+directional = true
+interior = true
+light_data = ExtResource("18_vjpxa")
 
 [node name="MarketingShelf2" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("13_1uwki")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.25744, 0.848818, 15.217)
@@ -470,6 +532,11 @@ shape = SubResource("BoxShape3D_uvlxr")
 unique_name_in_owner = true
 visible = false
 
+[node name="LobbyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lobby"]
+directional = true
+interior = true
+light_data = ExtResource("23_h3qio")
+
 [node name="LobbyChair" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("13_jym3p")]
 transform = Transform3D(0.169762, 0, -0.985485, 0, 1, 0, 0.985485, 0, 0.169762, 2.57948, 0.00768454, 16.1663)
 
@@ -489,6 +556,12 @@ texture = ExtResource("20_wudxj")
 [node name="office_lab" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
+
+[node name="LabLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lab"]
+directional = true
+interior = true
+texel_scale = 6.0
+light_data = ExtResource("26_e6erj")
 
 [node name="LabTable" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("16_wudxj")]
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 1.3919, 0.00367766, 19.5335)
@@ -537,6 +610,13 @@ transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 1.60133, 1.15425, 19.16
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
+
+[node name="ExecutiveLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_executive"]
+directional = true
+interior = true
+texel_scale = 4.0
+light_data = ExtResource("3_ipkxx")
 
 [node name="ExecChair" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_mh4ky")]
 transform = Transform3D(0.873288, 0, 0.487204, 0, 1, 0, -0.487204, 0, 0.873288, -0.328904, 0.00385345, -5.5034)
@@ -603,6 +683,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.91592)
 [node name="VintageLamp" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("36_0xwag")]
 transform = Transform3D(0.7619, 0, 0.647694, 0, 1, 0, -0.647694, 0, 0.7619, -0.36733, 0.862442, -4.24345)
 
+[node name="BookJournalOpen" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("42_hjerm")]
+transform = Transform3D(-0.904224, 0, 0.427058, 0, 1, 0, -0.427058, 0, -0.904224, -0.0710831, 0.887118, -4.28629)
+
 [node name="Donut2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("29_f7hpq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.555151, 0.858716, -4.2768)
 
@@ -622,7 +705,15 @@ transform = Transform3D(-0.764123, 0, -0.645071, 0, 1, 0, 0.645071, 0, -0.764123
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
+
+[node name="DesignLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_design"]
+quality = 2
+supersampling = true
+bounces = 5
+directional = true
+interior = true
+texel_scale = 5.0
+light_data = ExtResource("40_8wt8o")
 
 [node name="DesignTable" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("14_50rgw")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.00686, 0.00347758, 19.5923)
@@ -641,9 +732,11 @@ transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483
 
 [node name="Whiteboard1" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("33_1dlgw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.20228, 1.54569, 17.9054)
+drawing = ExtResource("44_q1yh3")
 
 [node name="Whiteboard2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("33_1dlgw")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.20835, 1.54569, 17.9054)
+drawing = ExtResource("45_aw26h")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_design"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.1718)
@@ -670,9 +763,39 @@ transform = Transform3D(0.559371, 0, 0.57193, 0, 0.8, 0, -0.57193, 0, 0.559371, 
 [node name="CabezaFemenina" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("35_5pcrg")]
 transform = Transform3D(0.675547, -1.8704, -0.21266, 1.80885, 0.707539, -0.476924, 0.521253, -0.031242, 1.93063, 1.90498, 1.23032, 16.4769)
 
+[node name="BookBridgeOpen" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("48_3c4kj")]
+transform = Transform3D(0.894654, 0, 0.44676, 0, 1, 0, -0.44676, 0, 0.894654, 1.68937, 1.20498, 19.4947)
+
+[node name="BookBridgeClosed" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("49_66ob2")]
+transform = Transform3D(0.046566, 0, -0.998915, 0, 1, 0, 0.998915, 0, 0.046566, -2.58556, 1.20556, 16.5028)
+
+[node name="BookBridgeClosed2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("49_66ob2")]
+transform = Transform3D(0.86714, 0, -0.498064, 0, 1, 0, 0.498064, 0, 0.86714, -2.72151, 1.20208, 19.6791)
+
+[node name="BookEncyclopedia" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("50_66ob2")]
+transform = Transform3D(0.886147, 0, -0.463404, 0, 1, 0, 0.463404, 0, 0.886147, 2.61143, 1.2028, 19.4608)
+
+[node name="BookJournalClosed" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("51_2ifga")]
+transform = Transform3D(0.685691, 0, -0.727892, 0, 1, 0, 0.727892, 0, 0.685691, 2.21318, 1.20441, 19.4972)
+
+[node name="BookJournalClosed2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("51_2ifga")]
+transform = Transform3D(0.961861, 0, 0.27354, 0, 1, 0, -0.27354, 0, 0.961861, 2.24142, 1.23352, 19.475)
+
+[node name="Sketchbook012" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("53_sqt58")]
+transform = Transform3D(0.975726, 0, 0.218995, 0, 1, 0, -0.218995, 0, 0.975726, -2.08748, 1.20951, 19.723)
+
+[node name="Brain2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("54_p3pq8")]
+transform = Transform3D(0.0646342, -0.129867, -0.478495, 0.33007, 0.371343, -0.0561997, 0.369968, -0.308608, 0.133733, -1.99418, 1.26515, 16.7449)
+
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
+
+[node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
+directional = true
+interior = true
+texel_scale = 5.0
+light_data = ExtResource("44_y4n4r")
 
 [node name="NightmareModeIndicator" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
