@@ -36,14 +36,23 @@ func iterate(node):
 				if mat is StandardMaterial3D:
 					if root_name != "robot":
 						mat.metallic_specular = 0.1
-		if node.name == "LightInstancing":
-			#node.mesh = null
-			pass
-			#node.queue_free()
-			#return
-		if node.name.begins_with("LampSquare"):
-			var lamp_mesh = node.mesh as Mesh
-			var mat := lamp_mesh.surface_get_material(1) as StandardMaterial3D
-			mat.emission_energy_multiplier = 1.3
+		if root_name == "office":
+			if node.name == "LightInstancing":
+				#node.mesh = null
+				pass
+				#node.queue_free()
+				#return
+			if node.name.begins_with("LampSquare"):
+				var lamp_mesh = node.mesh as Mesh
+				var mat := lamp_mesh.surface_get_material(1) as StandardMaterial3D
+				mat.emission_energy_multiplier = 1.3
+			if node.name == "Suelo":
+				var lamp_mesh = node.mesh as Mesh
+				var mat := lamp_mesh.surface_get_material(0) as StandardMaterial3D
+				mat.disable_ambient_light = true
+				mat.emission_enabled = true
+				#mat.emission = Color.DIM_GRAY
+				mat.emission_texture = mat.albedo_texture
+				mat.emission_energy_multiplier = 0.5
 		for child in node.get_children():
 			iterate(child)

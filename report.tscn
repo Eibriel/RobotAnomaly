@@ -1,21 +1,28 @@
-[gd_scene load_steps=8 format=3 uid="uid://nampk5kyqul6"]
+[gd_scene load_steps=11 format=3 uid="uid://nampk5kyqul6"]
 
 [ext_resource type="Script" uid="uid://b8icw5u44i4e0" path="res://report.gd" id="1_7ngoa"]
 [ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="1_mmd0k"]
-[ext_resource type="Texture2D" uid="uid://c7n1vpir0on6b" path="res://textures/banner_robot_charge_battery.png" id="3_g5hm7"]
-[ext_resource type="Texture2D" uid="uid://qgsd8ojuieat" path="res://textures/banner_robot_power_off.png" id="4_wpx5y"]
+[ext_resource type="Texture2D" uid="uid://coq7booqkbdeq" path="res://textures/whiteboard_battery_01.jpg" id="3_wpx5y"]
+[ext_resource type="Texture2D" uid="uid://cy0wrlh3ajqtx" path="res://textures/whiteboard_power_01.jpg" id="4_wyrx8"]
+[ext_resource type="Texture2D" uid="uid://dtbmp7u647fda" path="res://textures/whiteboard_battery_02.jpg" id="5_eyihf"]
+[ext_resource type="Texture2D" uid="uid://df0il7m8ocy7y" path="res://textures/whiteboard_power_02.jpg" id="6_tc3ll"]
+[ext_resource type="PackedScene" uid="uid://d4lbuo3ney345" path="res://objects/props/Whiteboard.gltf" id="7_tc3ll"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_6kybn"]
 viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mmd0k"]
 resource_local_to_scene = true
+albedo_color = Color(0.912289, 0.912289, 0.912289, 1)
 albedo_texture = SubResource("ViewportTexture_6kybn")
+metallic = 0.33
+metallic_specular = 0.0
+roughness = 0.31
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_6kybn"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_mmd0k")
-size = Vector2(0.5, 1)
+size = Vector2(0.7, 1.24)
 
 [node name="Report" type="Node3D"]
 script = ExtResource("1_7ngoa")
@@ -27,7 +34,7 @@ mesh = SubResource("PlaneMesh_6kybn")
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
 handle_input_locally = false
-size = Vector2i(1024, 2048)
+size = Vector2i(1156, 2048)
 
 [node name="Control" type="Control" parent="SubViewport"]
 layout_mode = 3
@@ -57,20 +64,23 @@ texture = ExtResource("1_mmd0k")
 
 [node name="BannerRobotChargeBattery" type="Sprite2D" parent="SubViewport/Node2D"]
 position = Vector2(200, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("3_g5hm7")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_wpx5y")
 
 [node name="BannerRobotPowerOff" type="Sprite2D" parent="SubViewport/Node2D"]
 position = Vector2(400, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("4_wpx5y")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_wyrx8")
 
 [node name="BannerRobotChargeBattery2" type="Sprite2D" parent="SubViewport/Node2D"]
 position = Vector2(650, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("3_g5hm7")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_eyihf")
 
 [node name="BannerRobotPowerOff2" type="Sprite2D" parent="SubViewport/Node2D"]
 position = Vector2(850, 100)
-scale = Vector2(0.15, 0.15)
-texture = ExtResource("4_wpx5y")
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("6_tc3ll")
+
+[node name="Whiteboard" parent="." instance=ExtResource("7_tc3ll")]
+transform = Transform3D(-3.71547e-08, -0.85, 3.71547e-08, 0, -3.71547e-08, -0.85, 0.85, -3.71547e-08, 1.62408e-15, 0.182003, 0, -0.0152206)

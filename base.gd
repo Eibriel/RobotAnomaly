@@ -73,15 +73,15 @@ const skip_tutorial := false
 const force_anomaly := Robot.GLITCHES.NONE
 const linear_game := false
 const force_dressing := DRESSING.NONE
-const reset_save := true
-const override_state := false
+const reset_save := false
+const override_state := true
 var state_override := GameStateResource.new()
 
 func _ready() -> void:
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	for n in range(1, 38):
+	for n in range(1, 39):
 		state_override.completed_anomalies.append(n)
 	
 	load_game_state()
@@ -94,6 +94,9 @@ func _ready() -> void:
 	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
 	#
 	Global.player = %Player
+	#
+	%RobotArm/AnimationPlayer.get_animation("HandTest").loop_mode = Animation.LoopMode.LOOP_LINEAR
+	%RobotArm/AnimationPlayer.play("HandTest")
 
 func check_if_nightmare() -> void:
 	# TODO duplicated code

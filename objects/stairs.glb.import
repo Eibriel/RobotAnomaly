@@ -32,6 +32,15 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path="res://objects/office_importer.gd"
-_subresources={}
+_subresources={
+"nodes": {
+"PATH:ParedEscalera_001": {
+"mesh_instance/cast_shadow": 0
+},
+"PATH:Stairs": {
+"mesh_instance/cast_shadow": 0
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1
