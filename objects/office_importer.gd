@@ -34,10 +34,9 @@ func iterate(node):
 			for sc in meshnode.get_surface_count():
 				var mat := meshnode.surface_get_material(sc)
 				if mat is StandardMaterial3D:
-					mat.metallic = 0.0
-					print("Met")
 					if root_name != "robot":
 						mat.metallic_specular = 0.1
+						mat.metallic = 0.0
 					if root_name == "FemaleAnatomy":
 						mat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
 		if root_name == "office":

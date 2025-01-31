@@ -129,6 +129,7 @@ func _ready() -> void:
 	robj["eye_left"] = %robotObject.get_node("Armature/Skeleton3D/Eye_L")
 	robj["long_fingers"] = %robotObject.get_node("Armature/Skeleton3D/LongFingers_R")
 	robj["knife"] = %robotObject.get_node("Armature/Skeleton3D/Knife")
+	robj["arm"] = %robotObject.get_node("Armature/Skeleton3D/arm_L")
 	
 	#prints("GC", GLITCHES.size())
 	%RobotBase.rotate_y(deg_to_rad(randf_range(0, 360)))
@@ -367,6 +368,7 @@ func update_glitch() -> void:
 	robj["antena_l"].visible = true
 	robj["eye_left"].visible = true
 	robj["antena_base_l"].visible = true
+	robj["arm"].visible = true
 	#
 	robj["octopus"].visible = false
 	robj["spider"].visible = false
@@ -419,6 +421,7 @@ func update_glitch() -> void:
 			robj["long_fingers"].visible = true
 		GLITCHES.TENTACLE_ARM:
 			robj["tentacle"].visible = true
+			robj["arm"].visible = false
 		GLITCHES.CHEST_CONNECTION:
 			robj["chest_connection"].visible = true
 		GLITCHES.CLOCK_HEART:
@@ -528,7 +531,7 @@ func remove_base() -> void:
 		c.disabled = true
 
 func follow_head(_delta: float) -> void:
-	var head_id := skeleton.find_bone("head_2")
+	var head_id := skeleton.find_bone("head")
 	if not looking_player or not power_on:
 		skeleton.clear_bones_global_pose_override()
 		return

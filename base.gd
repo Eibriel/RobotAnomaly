@@ -72,7 +72,7 @@ const FLOORS_AMOUNT := 29
 const skip_tutorial := false
 const force_anomaly := Robot.GLITCHES.NONE
 const linear_game := false
-const force_dressing := DRESSING.DESIGN
+const force_dressing := DRESSING.NONE
 const reset_save := false
 const override_state := true
 var state_override := GameStateResource.new()
@@ -81,7 +81,7 @@ func _ready() -> void:
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	for n in range(1, 5):
+	for n in range(1, 40):
 		state_override.completed_anomalies.append(n)
 	
 	load_game_state()
@@ -97,6 +97,21 @@ func _ready() -> void:
 	#
 	%RobotArm/AnimationPlayer.get_animation("HandTest").loop_mode = Animation.LoopMode.LOOP_LINEAR
 	%RobotArm/AnimationPlayer.play("HandTest")
+	#
+	var multi := %CrowdMultiMesh01.multimesh as MultiMesh
+	var width := 10
+	var depth := 10
+	var width_margin := 0.8
+	multi.visible_instance_count = width * depth
+	for w in width:
+		for d in depth:
+			var tr := Transform3D()
+			tr = tr.scaled(Vector3.ONE * 1.25)
+			var x := (width_margin*w) - ((width / 2) * width_margin)
+			x += randf() * 0.2
+			var z := (width_margin*d) - ((depth / 2) * width_margin)
+			tr = tr.translated(Vector3(x, 0, z))
+			multi.set_instance_transform((w*width)+d, tr)
 
 func check_if_nightmare() -> void:
 	# TODO duplicated code
@@ -213,6 +228,10 @@ func setup_executive() -> void:
 	%RobotCrowd02.position.y = -20
 	%RobotCrowd03.position.y = -20
 	%RobotCrowd04.position.y = -20
+	%CrowdMultiMesh01.visible = false
+	%CrowdMultiMesh02.visible = false
+	%CrowdMultiMesh03.visible = false
+	%CrowdMultiMesh04.visible = false
 	%RobotStrike.robot_rotation(deg_to_rad(180))
 	if not %RobotStrike.is_connected("executive_finished", on_executive_finished):
 		%RobotStrike.connect("executive_finished", on_executive_finished)
@@ -247,19 +266,23 @@ func update_executive() -> void:
 		exe_phase_2 = true
 	if pos < 27:
 		if not %ExecVisible02.is_on_screen():
+			%CrowdMultiMesh02.visible = true
 			%RobotCrowd02.visible = true
 			%RobotCrowd02.position.y = 0
 	if pos < 40:
 		if not %ExecVisible01.is_on_screen():
+			%CrowdMultiMesh01.visible = true
 			%RobotCrowd01.visible = true
 			%RobotCrowd01.position.y = 0
 	if exe_phase_2:
 		if pos > 12:
 			if not %ExecVisible03.is_on_screen():
+				%CrowdMultiMesh03.visible = true
 				%RobotCrowd03.visible = true
 				%RobotCrowd03.position.y = 0
 		if pos > 16:
 			if not %ExecVisible04.is_on_screen():
+				%CrowdMultiMesh04.visible = true
 				%RobotCrowd04.visible = true
 				%RobotCrowd04.position.y = 0
 
