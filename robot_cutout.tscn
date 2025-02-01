@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://cmewd6xg3wis"]
+
+[ext_resource type="Script" uid="uid://22d1g3ar5bjk" path="res://robot_cutout.gd" id="1_27tam"]
+[ext_resource type="Texture2D" uid="uid://ugyihlnof8n" path="res://textures/RobotCutout.png" id="1_g1wll"]
+[ext_resource type="Texture2D" uid="uid://v63jld41ng8s" path="res://textures/RobotCutoutMaid.png" id="2_ggrtt"]
+[ext_resource type="PackedScene" uid="uid://cqst4riwa72i8" path="res://objects/props/RobotCutoutBase.gltf" id="2_omiq8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0e2qw"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 1
+albedo_color = Color(0.0126695, 0.00764438, 0, 1)
+albedo_texture = ExtResource("1_g1wll")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1wll"]
+next_pass = SubResource("StandardMaterial3D_0e2qw")
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_g1wll")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_omiq8"]
+material = SubResource("StandardMaterial3D_g1wll")
+size = Vector2(1, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27tam"]
+next_pass = SubResource("StandardMaterial3D_0e2qw")
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("2_ggrtt")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_j41s1"]
+material = SubResource("StandardMaterial3D_27tam")
+size = Vector2(1, 3)
+
+[node name="RobotCutout" type="Node3D"]
+script = ExtResource("1_27tam")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0813122, -0.996689, 0, 0.996689, 0.0813122, 0, 1.42766, -0.108829)
+visible = false
+mesh = SubResource("PlaneMesh_omiq8")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.0813122, -0.996689, 0, 0.996689, 0.0813122, 0, 1.42766, -0.108829)
+mesh = SubResource("PlaneMesh_j41s1")
+
+[node name="RobotCutoutBase2" parent="." instance=ExtResource("2_omiq8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.033)

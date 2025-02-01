@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dpk4sl4ods0cv"
+path.s3tc="res://.godot/imported/robot_maid_figure_Image_1.png-9cfdb76f84856de5e55ebe269ef369cb.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "31de66b8418050fe8a894567f2be9699"
+}
+
+[deps]
+
+source_file="res://objects/robot_maid_figure_Image_1.png"
+dest_files=["res://.godot/imported/robot_maid_figure_Image_1.png-9cfdb76f84856de5e55ebe269ef369cb.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://objects/robot_maid_figure_Image_1.png"
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

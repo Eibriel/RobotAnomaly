@@ -170,7 +170,7 @@ func start_day() -> void:
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
 			r.battery_charge = 100
-			if randf() < 0.08 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
+			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
 				r.battery_charge = randi_range(60, 80)
 			robots.append(r)
 			%Robots.add_child.call_deferred(r)

@@ -73,15 +73,15 @@ const skip_tutorial := false
 const force_anomaly := Robot.GLITCHES.NONE
 const linear_game := false
 const force_dressing := DRESSING.NONE
-const reset_save := false
-const override_state := true
+const reset_save := true
+const override_state := false
 var state_override := GameStateResource.new()
 
 func _ready() -> void:
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	for n in range(1, 40):
+	for n in range(1, 10):
 		state_override.completed_anomalies.append(n)
 	
 	load_game_state()
