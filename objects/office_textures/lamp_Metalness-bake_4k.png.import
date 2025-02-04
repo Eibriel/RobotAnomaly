@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://xwc0bdg75lau"
 path.s3tc="res://.godot/imported/lamp_Metalness-bake_4k.png-8c81804ac0ce1a7df1e760430c597fe4.s3tc.ctex"
+path.etc2="res://.godot/imported/lamp_Metalness-bake_4k.png-8c81804ac0ce1a7df1e760430c597fe4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/lamp_Metalness-bake_4k.png"
-dest_files=["res://.godot/imported/lamp_Metalness-bake_4k.png-8c81804ac0ce1a7df1e760430c597fe4.s3tc.ctex"]
+dest_files=["res://.godot/imported/lamp_Metalness-bake_4k.png-8c81804ac0ce1a7df1e760430c597fe4.s3tc.ctex", "res://.godot/imported/lamp_Metalness-bake_4k.png-8c81804ac0ce1a7df1e760430c597fe4.etc2.ctex"]
 
 [params]
 

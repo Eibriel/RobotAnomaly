@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmsmdkak6yic6"
 path.s3tc="res://.godot/imported/robot_maid_figure_Image_0.png-94403bd089f039ba7c4e8c32e3f02e09.s3tc.ctex"
+path.etc2="res://.godot/imported/robot_maid_figure_Image_0.png-94403bd089f039ba7c4e8c32e3f02e09.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://objects/robot_maid_figure_Image_0.png"
-dest_files=["res://.godot/imported/robot_maid_figure_Image_0.png-94403bd089f039ba7c4e8c32e3f02e09.s3tc.ctex"]
+dest_files=["res://.godot/imported/robot_maid_figure_Image_0.png-94403bd089f039ba7c4e8c32e3f02e09.s3tc.ctex", "res://.godot/imported/robot_maid_figure_Image_0.png-94403bd089f039ba7c4e8c32e3f02e09.etc2.ctex"]
 
 [params]
 

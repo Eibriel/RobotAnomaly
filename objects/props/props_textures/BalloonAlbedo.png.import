@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0isopwn6hm7x"
 path.s3tc="res://.godot/imported/BalloonAlbedo.png-c14efe103c5f37b714918cd7c5ea97e1.s3tc.ctex"
+path.etc2="res://.godot/imported/BalloonAlbedo.png-c14efe103c5f37b714918cd7c5ea97e1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/BalloonAlbedo.png"
-dest_files=["res://.godot/imported/BalloonAlbedo.png-c14efe103c5f37b714918cd7c5ea97e1.s3tc.ctex"]
+dest_files=["res://.godot/imported/BalloonAlbedo.png-c14efe103c5f37b714918cd7c5ea97e1.s3tc.ctex", "res://.godot/imported/BalloonAlbedo.png-c14efe103c5f37b714918cd7c5ea97e1.etc2.ctex"]
 
 [params]
 

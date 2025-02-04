@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3e1e0xuoitql"
 path.s3tc="res://.godot/imported/robot_human_figure_RobotOcclussion_Bake.png-cd4d6e02bdbff9de519d7b10e520c98c.s3tc.ctex"
+path.etc2="res://.godot/imported/robot_human_figure_RobotOcclussion_Bake.png-cd4d6e02bdbff9de519d7b10e520c98c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://objects/robot_human_figure_RobotOcclussion_Bake.png"
-dest_files=["res://.godot/imported/robot_human_figure_RobotOcclussion_Bake.png-cd4d6e02bdbff9de519d7b10e520c98c.s3tc.ctex"]
+dest_files=["res://.godot/imported/robot_human_figure_RobotOcclussion_Bake.png-cd4d6e02bdbff9de519d7b10e520c98c.s3tc.ctex", "res://.godot/imported/robot_human_figure_RobotOcclussion_Bake.png-cd4d6e02bdbff9de519d7b10e520c98c.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://d2gwffyrf1dob"
 path.s3tc="res://.godot/imported/Sketchbook01_MR.png-db499abdf0de33f07265b2186d59ca80.s3tc.ctex"
+path.etc2="res://.godot/imported/Sketchbook01_MR.png-db499abdf0de33f07265b2186d59ca80.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Sketchbook01_MR.png"
-dest_files=["res://.godot/imported/Sketchbook01_MR.png-db499abdf0de33f07265b2186d59ca80.s3tc.ctex"]
+dest_files=["res://.godot/imported/Sketchbook01_MR.png-db499abdf0de33f07265b2186d59ca80.s3tc.ctex", "res://.godot/imported/Sketchbook01_MR.png-db499abdf0de33f07265b2186d59ca80.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://sti2j5tqrw7g"
 path.s3tc="res://.godot/imported/T_Donut_01_low_D.jpg-8a46246bb10086c14d4c880f5ae474be.s3tc.ctex"
+path.etc2="res://.godot/imported/T_Donut_01_low_D.jpg-8a46246bb10086c14d4c880f5ae474be.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/T_Donut_01_low_D.jpg"
-dest_files=["res://.godot/imported/T_Donut_01_low_D.jpg-8a46246bb10086c14d4c880f5ae474be.s3tc.ctex"]
+dest_files=["res://.godot/imported/T_Donut_01_low_D.jpg-8a46246bb10086c14d4c880f5ae474be.s3tc.ctex", "res://.godot/imported/T_Donut_01_low_D.jpg-8a46246bb10086c14d4c880f5ae474be.etc2.ctex"]
 
 [params]
 

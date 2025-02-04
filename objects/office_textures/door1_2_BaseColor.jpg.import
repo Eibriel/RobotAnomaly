@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://qux2wwwjhweb"
 path.s3tc="res://.godot/imported/door1_2_BaseColor.jpg-deedad6353a8aec8373e3254bd8fc206.s3tc.ctex"
+path.etc2="res://.godot/imported/door1_2_BaseColor.jpg-deedad6353a8aec8373e3254bd8fc206.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/door1_2_BaseColor.jpg"
-dest_files=["res://.godot/imported/door1_2_BaseColor.jpg-deedad6353a8aec8373e3254bd8fc206.s3tc.ctex"]
+dest_files=["res://.godot/imported/door1_2_BaseColor.jpg-deedad6353a8aec8373e3254bd8fc206.s3tc.ctex", "res://.godot/imported/door1_2_BaseColor.jpg-deedad6353a8aec8373e3254bd8fc206.etc2.ctex"]
 
 [params]
 

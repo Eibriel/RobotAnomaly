@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c4k1lg7w7oomo"
 path.s3tc="res://.godot/imported/Stairs_Bake.png-e3ea1e7d55612e0fc5185358189b4c44.s3tc.ctex"
+path.etc2="res://.godot/imported/Stairs_Bake.png-e3ea1e7d55612e0fc5185358189b4c44.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/Stairs_Bake.png"
-dest_files=["res://.godot/imported/Stairs_Bake.png-e3ea1e7d55612e0fc5185358189b4c44.s3tc.ctex"]
+dest_files=["res://.godot/imported/Stairs_Bake.png-e3ea1e7d55612e0fc5185358189b4c44.s3tc.ctex", "res://.godot/imported/Stairs_Bake.png-e3ea1e7d55612e0fc5185358189b4c44.etc2.ctex"]
 
 [params]
 

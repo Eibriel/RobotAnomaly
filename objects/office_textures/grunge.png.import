@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://qo7wfjq7o3ab"
 path.s3tc="res://.godot/imported/grunge.png-8b7403647e42e4f6484ec02d90069883.s3tc.ctex"
+path.etc2="res://.godot/imported/grunge.png-8b7403647e42e4f6484ec02d90069883.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/grunge.png"
-dest_files=["res://.godot/imported/grunge.png-8b7403647e42e4f6484ec02d90069883.s3tc.ctex"]
+dest_files=["res://.godot/imported/grunge.png-8b7403647e42e4f6484ec02d90069883.s3tc.ctex", "res://.godot/imported/grunge.png-8b7403647e42e4f6484ec02d90069883.etc2.ctex"]
 
 [params]
 

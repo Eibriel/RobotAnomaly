@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bc8qunj0fx5ew"
 path.s3tc="res://.godot/imported/Chief_Chair_low_Chief_Chair_BaseColor.png-b84dc15fef8a043518303f980f87f7a1.s3tc.ctex"
+path.etc2="res://.godot/imported/Chief_Chair_low_Chief_Chair_BaseColor.png-b84dc15fef8a043518303f980f87f7a1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/Chief_Chair_low_Chief_Chair_BaseColor.png"
-dest_files=["res://.godot/imported/Chief_Chair_low_Chief_Chair_BaseColor.png-b84dc15fef8a043518303f980f87f7a1.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chief_Chair_low_Chief_Chair_BaseColor.png-b84dc15fef8a043518303f980f87f7a1.s3tc.ctex", "res://.godot/imported/Chief_Chair_low_Chief_Chair_BaseColor.png-b84dc15fef8a043518303f980f87f7a1.etc2.ctex"]
 
 [params]
 

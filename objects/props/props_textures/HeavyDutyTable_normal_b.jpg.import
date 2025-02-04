@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b01t8x387pahb"
 path.s3tc="res://.godot/imported/HeavyDutyTable_normal_b.jpg-ea29c6fd4f8c2135349a0191e809ccbb.s3tc.ctex"
+path.etc2="res://.godot/imported/HeavyDutyTable_normal_b.jpg-ea29c6fd4f8c2135349a0191e809ccbb.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/HeavyDutyTable_normal_b.jpg"
-dest_files=["res://.godot/imported/HeavyDutyTable_normal_b.jpg-ea29c6fd4f8c2135349a0191e809ccbb.s3tc.ctex"]
+dest_files=["res://.godot/imported/HeavyDutyTable_normal_b.jpg-ea29c6fd4f8c2135349a0191e809ccbb.s3tc.ctex", "res://.godot/imported/HeavyDutyTable_normal_b.jpg-ea29c6fd4f8c2135349a0191e809ccbb.etc2.ctex"]
 
 [params]
 

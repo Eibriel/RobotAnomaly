@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbu6mcihure6w"
 path.s3tc="res://.godot/imported/Map 1.png-f2bcce68d59b955bb54698f19e5cf821.s3tc.ctex"
+path.etc2="res://.godot/imported/Map 1.png-f2bcce68d59b955bb54698f19e5cf821.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/Map 1.png"
-dest_files=["res://.godot/imported/Map 1.png-f2bcce68d59b955bb54698f19e5cf821.s3tc.ctex"]
+dest_files=["res://.godot/imported/Map 1.png-f2bcce68d59b955bb54698f19e5cf821.s3tc.ctex", "res://.godot/imported/Map 1.png-f2bcce68d59b955bb54698f19e5cf821.etc2.ctex"]
 
 [params]
 

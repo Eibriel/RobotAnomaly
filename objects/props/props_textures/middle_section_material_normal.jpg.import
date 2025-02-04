@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwofiwjmhellj"
 path.s3tc="res://.godot/imported/middle_section_material_normal.jpg-a376b423b77ef604d7e0f60f4c196c33.s3tc.ctex"
+path.etc2="res://.godot/imported/middle_section_material_normal.jpg-a376b423b77ef604d7e0f60f4c196c33.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/middle_section_material_normal.jpg"
-dest_files=["res://.godot/imported/middle_section_material_normal.jpg-a376b423b77ef604d7e0f60f4c196c33.s3tc.ctex"]
+dest_files=["res://.godot/imported/middle_section_material_normal.jpg-a376b423b77ef604d7e0f60f4c196c33.s3tc.ctex", "res://.godot/imported/middle_section_material_normal.jpg-a376b423b77ef604d7e0f60f4c196c33.etc2.ctex"]
 
 [params]
 

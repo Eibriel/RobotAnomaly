@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://wd2f4dka2s4c"
 path.s3tc="res://.godot/imported/robot_base_shadow.png-95299e00bb8f8518c88050d8c16a8ac2.s3tc.ctex"
+path.etc2="res://.godot/imported/robot_base_shadow.png-95299e00bb8f8518c88050d8c16a8ac2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/robot_base_shadow.png"
-dest_files=["res://.godot/imported/robot_base_shadow.png-95299e00bb8f8518c88050d8c16a8ac2.s3tc.ctex"]
+dest_files=["res://.godot/imported/robot_base_shadow.png-95299e00bb8f8518c88050d8c16a8ac2.s3tc.ctex", "res://.godot/imported/robot_base_shadow.png-95299e00bb8f8518c88050d8c16a8ac2.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bo2qitwry24bv"
 path.s3tc="res://.godot/imported/armchair_Roughness.png-35c5b673d4781772541e52612fed2e59.s3tc.ctex"
+path.etc2="res://.godot/imported/armchair_Roughness.png-35c5b673d4781772541e52612fed2e59.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/armchair_Roughness.png"
-dest_files=["res://.godot/imported/armchair_Roughness.png-35c5b673d4781772541e52612fed2e59.s3tc.ctex"]
+dest_files=["res://.godot/imported/armchair_Roughness.png-35c5b673d4781772541e52612fed2e59.s3tc.ctex", "res://.godot/imported/armchair_Roughness.png-35c5b673d4781772541e52612fed2e59.etc2.ctex"]
 
 [params]
 

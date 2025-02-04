@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c23gudvr7oift"
 path.s3tc="res://.godot/imported/VentilationGrillSmall_MRO.png-4337b1755d15737a650161d7c73b2733.s3tc.ctex"
+path.etc2="res://.godot/imported/VentilationGrillSmall_MRO.png-4337b1755d15737a650161d7c73b2733.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/VentilationGrillSmall_MRO.png"
-dest_files=["res://.godot/imported/VentilationGrillSmall_MRO.png-4337b1755d15737a650161d7c73b2733.s3tc.ctex"]
+dest_files=["res://.godot/imported/VentilationGrillSmall_MRO.png-4337b1755d15737a650161d7c73b2733.s3tc.ctex", "res://.godot/imported/VentilationGrillSmall_MRO.png-4337b1755d15737a650161d7c73b2733.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c4ch6fvbfhpj0"
 path.s3tc="res://.godot/imported/rocket.png-53c61ca670fce4bb6578722d6a724135.s3tc.ctex"
+path.etc2="res://.godot/imported/rocket.png-53c61ca670fce4bb6578722d6a724135.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/rocket.png"
-dest_files=["res://.godot/imported/rocket.png-53c61ca670fce4bb6578722d6a724135.s3tc.ctex"]
+dest_files=["res://.godot/imported/rocket.png-53c61ca670fce4bb6578722d6a724135.s3tc.ctex", "res://.godot/imported/rocket.png-53c61ca670fce4bb6578722d6a724135.etc2.ctex"]
 
 [params]
 

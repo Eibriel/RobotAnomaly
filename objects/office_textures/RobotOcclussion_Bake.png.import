@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dldgvlfq5732u"
 path.s3tc="res://.godot/imported/RobotOcclussion_Bake.png-17497ad4547e03859c46a7070986ef53.s3tc.ctex"
+path.etc2="res://.godot/imported/RobotOcclussion_Bake.png-17497ad4547e03859c46a7070986ef53.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/RobotOcclussion_Bake.png"
-dest_files=["res://.godot/imported/RobotOcclussion_Bake.png-17497ad4547e03859c46a7070986ef53.s3tc.ctex"]
+dest_files=["res://.godot/imported/RobotOcclussion_Bake.png-17497ad4547e03859c46a7070986ef53.s3tc.ctex", "res://.godot/imported/RobotOcclussion_Bake.png-17497ad4547e03859c46a7070986ef53.etc2.ctex"]
 
 [params]
 

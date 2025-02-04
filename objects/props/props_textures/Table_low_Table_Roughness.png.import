@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c57ptkq5vx3c4"
 path.s3tc="res://.godot/imported/Table_low_Table_Roughness.png-361f860fc04ba35667b1a584e286fc82.s3tc.ctex"
+path.etc2="res://.godot/imported/Table_low_Table_Roughness.png-361f860fc04ba35667b1a584e286fc82.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Table_low_Table_Roughness.png"
-dest_files=["res://.godot/imported/Table_low_Table_Roughness.png-361f860fc04ba35667b1a584e286fc82.s3tc.ctex"]
+dest_files=["res://.godot/imported/Table_low_Table_Roughness.png-361f860fc04ba35667b1a584e286fc82.s3tc.ctex", "res://.godot/imported/Table_low_Table_Roughness.png-361f860fc04ba35667b1a584e286fc82.etc2.ctex"]
 
 [params]
 

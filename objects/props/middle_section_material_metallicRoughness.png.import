@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bmvsyhu3al1p6"
 path.s3tc="res://.godot/imported/middle_section_material_metallicRoughness.png-3d967b5ce03fd900b91a1c0aaf23ebdd.s3tc.ctex"
+path.etc2="res://.godot/imported/middle_section_material_metallicRoughness.png-3d967b5ce03fd900b91a1c0aaf23ebdd.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/middle_section_material_metallicRoughness.png"
-dest_files=["res://.godot/imported/middle_section_material_metallicRoughness.png-3d967b5ce03fd900b91a1c0aaf23ebdd.s3tc.ctex"]
+dest_files=["res://.godot/imported/middle_section_material_metallicRoughness.png-3d967b5ce03fd900b91a1c0aaf23ebdd.s3tc.ctex", "res://.godot/imported/middle_section_material_metallicRoughness.png-3d967b5ce03fd900b91a1c0aaf23ebdd.etc2.ctex"]
 
 [params]
 

@@ -55,6 +55,7 @@
 			"doubleSided":true,
 			"extensions":{
 				"KHR_materials_specular":{
+					"specularFactor":0.1727272868156433,
 					"specularColorFactor":[
 						0.05000000074505806,
 						0.05000000074505806,
@@ -110,9 +111,9 @@
 	],
 	"images":[
 		{
-			"mimeType":"image/jpeg",
+			"mimeType":"image/png",
 			"name":"ShirtDisplay_Base",
-			"uri":"props_textures/ShirtDisplay_Base.jpg"
+			"uri":"props_textures/ShirtDisplay_Base.png"
 		}
 	],
 	"accessors":[

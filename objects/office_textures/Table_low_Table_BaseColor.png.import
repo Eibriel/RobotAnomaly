@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b415w0ywiuwsh"
 path.s3tc="res://.godot/imported/Table_low_Table_BaseColor.png-bd80bab437994f196f84ba2c8bf28e5e.s3tc.ctex"
+path.etc2="res://.godot/imported/Table_low_Table_BaseColor.png-bd80bab437994f196f84ba2c8bf28e5e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/Table_low_Table_BaseColor.png"
-dest_files=["res://.godot/imported/Table_low_Table_BaseColor.png-bd80bab437994f196f84ba2c8bf28e5e.s3tc.ctex"]
+dest_files=["res://.godot/imported/Table_low_Table_BaseColor.png-bd80bab437994f196f84ba2c8bf28e5e.s3tc.ctex", "res://.godot/imported/Table_low_Table_BaseColor.png-bd80bab437994f196f84ba2c8bf28e5e.etc2.ctex"]
 
 [params]
 

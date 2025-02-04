@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dstg42p40huop"
 path.s3tc="res://.godot/imported/muffin_u0_v0.png-f16c71d5416c4568a2278bbc69a2d9e8.s3tc.ctex"
+path.etc2="res://.godot/imported/muffin_u0_v0.png-f16c71d5416c4568a2278bbc69a2d9e8.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/muffin_u0_v0.png"
-dest_files=["res://.godot/imported/muffin_u0_v0.png-f16c71d5416c4568a2278bbc69a2d9e8.s3tc.ctex"]
+dest_files=["res://.godot/imported/muffin_u0_v0.png-f16c71d5416c4568a2278bbc69a2d9e8.s3tc.ctex", "res://.godot/imported/muffin_u0_v0.png-f16c71d5416c4568a2278bbc69a2d9e8.etc2.ctex"]
 
 [params]
 

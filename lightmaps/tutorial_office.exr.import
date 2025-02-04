@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://04rnjjf136kd"
 path.bptc="res://.godot/imported/tutorial_office.exr-993b70406600afb8e8d39fd7e6e9affa.bptc.ctexarray"
+path.astc="res://.godot/imported/tutorial_office.exr-993b70406600afb8e8d39fd7e6e9affa.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://lightmaps/tutorial_office.exr"
-dest_files=["res://.godot/imported/tutorial_office.exr-993b70406600afb8e8d39fd7e6e9affa.bptc.ctexarray"]
+dest_files=["res://.godot/imported/tutorial_office.exr-993b70406600afb8e8d39fd7e6e9affa.bptc.ctexarray", "res://.godot/imported/tutorial_office.exr-993b70406600afb8e8d39fd7e6e9affa.astc.ctexarray"]
 
 [params]
 

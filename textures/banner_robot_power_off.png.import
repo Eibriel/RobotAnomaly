@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://qgsd8ojuieat"
 path.s3tc="res://.godot/imported/banner_robot_power_off.png-a6cd68c19223503cf53d7ac8ffb12ea0.s3tc.ctex"
+path.etc2="res://.godot/imported/banner_robot_power_off.png-a6cd68c19223503cf53d7ac8ffb12ea0.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/banner_robot_power_off.png"
-dest_files=["res://.godot/imported/banner_robot_power_off.png-a6cd68c19223503cf53d7ac8ffb12ea0.s3tc.ctex"]
+dest_files=["res://.godot/imported/banner_robot_power_off.png-a6cd68c19223503cf53d7ac8ffb12ea0.s3tc.ctex", "res://.godot/imported/banner_robot_power_off.png-a6cd68c19223503cf53d7ac8ffb12ea0.etc2.ctex"]
 
 [params]
 

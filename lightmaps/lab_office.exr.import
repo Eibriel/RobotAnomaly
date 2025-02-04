@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://d3rfglvu108aq"
 path.bptc="res://.godot/imported/lab_office.exr-7964471205eeb121a40c77adf8cbc03d.bptc.ctexarray"
+path.astc="res://.godot/imported/lab_office.exr-7964471205eeb121a40c77adf8cbc03d.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://lightmaps/lab_office.exr"
-dest_files=["res://.godot/imported/lab_office.exr-7964471205eeb121a40c77adf8cbc03d.bptc.ctexarray"]
+dest_files=["res://.godot/imported/lab_office.exr-7964471205eeb121a40c77adf8cbc03d.bptc.ctexarray", "res://.godot/imported/lab_office.exr-7964471205eeb121a40c77adf8cbc03d.astc.ctexarray"]
 
 [params]
 

@@ -82,9 +82,9 @@
 			"uri":"props_textures/Mug_Occlusion.png"
 		},
 		{
-			"mimeType":"image/jpeg",
+			"mimeType":"image/png",
 			"name":"Mug_Base",
-			"uri":"props_textures/Mug_Base.jpg"
+			"uri":"props_textures/Mug_Base.png"
 		}
 	],
 	"accessors":[

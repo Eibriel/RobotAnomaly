@@ -16,9 +16,15 @@ var look_rot : Vector2
 var rumble_tween: Tween
 var breathing_tween: Tween
 var halt_velocity:= false
+var walking_sound_state: WALKING_SOUND
+
+enum WALKING_SOUND {
+	QUIET,
+	WALKING,
+	STOPING
+}
 
 func _ready() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	%HoldedBattery.visible = false
 	%HoldedIdNote.visible = false
 	
@@ -64,9 +70,23 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = lerpf(velocity.x, direction.x * SPEED, ACCEL * delta)
 		velocity.z = lerpf(velocity.z, direction.z * SPEED, ACCEL * delta)
+		$StepsAudio.stream_paused = false
+		if not Global.is_player_in_room:
+			if walking_sound_state != WALKING_SOUND.WALKING:
+				$StairAudio["parameters/switch_to_clip"] = "Walking"
+				walking_sound_state = WALKING_SOUND.WALKING
 	else:
+		$StepsAudio.stream_paused = true
+		if walking_sound_state != WALKING_SOUND.STOPING:
+			$StairAudio["parameters/switch_to_clip"] = "Stoping"
+			walking_sound_state = WALKING_SOUND.STOPING
 		velocity.x = lerpf(velocity.x, 0.0, ACCEL * delta)
 		velocity.z = lerpf(velocity.z, 0.0, ACCEL * delta)
+	
+	if Global.is_player_in_room:
+		if walking_sound_state != WALKING_SOUND.STOPING:
+			$StairAudio["parameters/switch_to_clip"] = "Stoping Short"
+			walking_sound_state = WALKING_SOUND.STOPING
 
 	move_and_slide()
 	if halt_velocity:

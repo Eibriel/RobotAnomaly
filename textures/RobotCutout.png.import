@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ugyihlnof8n"
 path.s3tc="res://.godot/imported/RobotCutout.png-5c3048fd7e42017b7bf572880a5220a9.s3tc.ctex"
+path.etc2="res://.godot/imported/RobotCutout.png-5c3048fd7e42017b7bf572880a5220a9.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/RobotCutout.png"
-dest_files=["res://.godot/imported/RobotCutout.png-5c3048fd7e42017b7bf572880a5220a9.s3tc.ctex"]
+dest_files=["res://.godot/imported/RobotCutout.png-5c3048fd7e42017b7bf572880a5220a9.s3tc.ctex", "res://.godot/imported/RobotCutout.png-5c3048fd7e42017b7bf572880a5220a9.etc2.ctex"]
 
 [params]
 

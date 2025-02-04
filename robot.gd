@@ -90,6 +90,8 @@ var snap_rate := 5.0
 var stalk_completed := false
 var anim_camera_weight := 0.0
 
+var is_demo := false
+
 var tween: Tween
 
 #@onready var glitch_label := $GlitchLabel
@@ -145,6 +147,10 @@ func _ready() -> void:
 	anim.get_animation("Rocking").loop_mode = Animation.LOOP_LINEAR
 	#anim.get_animation("Timer").loop_mode = Animation.LOOP_LINEAR
 	#anim.play("TouchingFace")
+	
+	var motor_sound_delay := create_tween()
+	motor_sound_delay.tween_interval(randf()*2)
+	motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
 
 func rotate_base(delta: float) -> void:
 	if not base_visible: return
@@ -166,13 +172,19 @@ func play_animation(anim_name: String) -> void:
 
 func charge_battery(delta: float) -> void:
 	if not power_on: return
+	if is_demo: return
+	var prev_level = battery_charge
 	battery_charge += delta * 14.0
 	battery_charge = minf(battery_charge, 100.0)
+	if prev_level != battery_charge and battery_charge >= 100.0:
+		%RobotBatteryAudioPlayer.play()
 
 func shutdown(delta: float) -> void:
 	if not power_on: return
+	if is_demo: return
 	shutdown_time -= delta * 0.4
 	if shutdown_time <= 0.0:
+		%RobotShutdownAudioPlayer.play()
 		shut_down()
 
 func _process(delta: float) -> void:
@@ -257,6 +269,7 @@ func _on_attack_anim_finished(anim_name: String) -> void:
 
 func update_door_open() -> void:
 	if glitch != GLITCHES.DOOR_OPEN: return
+	if is_demo: return
 	var player_pos := Global.player.global_position
 	player_pos.y = 0
 	var robot_pos: Vector3 = %RobotBody.global_position
@@ -269,6 +282,7 @@ func update_door_open() -> void:
 
 func update_blocking_path() -> void:
 	if glitch != GLITCHES.BLOCKING_PATH: return
+	if is_demo: return
 	if not power_on: return
 	var player_pos := Global.player.global_position
 	player_pos.y = 0
@@ -283,6 +297,7 @@ func update_blocking_path() -> void:
 func update_follow(delta: float) -> void:
 	if glitch != GLITCHES.WALKS_NOT_LOOKING:
 		return
+	if is_demo: return
 	var player_pos := to_local(Global.player.global_position)
 	player_pos.y = 0
 	var robot_pos: Vector3 = %RobotBody.global_position
@@ -325,7 +340,8 @@ func update_snap(delta: float) -> void:
 	if glitch != GLITCHES.COUNTDOWN: return
 	if not power_on: return
 	if Global.is_player_in_room:
-		snap_countdown += delta
+		if not is_demo:
+			snap_countdown += delta
 	if snap_countdown >= snap_rate:
 		snap_countdown = 0.0
 		snap_rate *=  0.90
@@ -337,13 +353,17 @@ func update_snap(delta: float) -> void:
 			speed = anim.get_animation("Timer").length / snap_rate
 		anim.play("Timer", -1, speed)
 		%RobotAudioPlayer.play()
-		Global.player.rumble(0.5*speed)
+		if not is_demo:
+			Global.player.rumble(0.5*speed)
 		#prints("Snap!", snap_rate, speed)
 
-func set_glitch(new_glitch: GLITCHES) -> void:
+func set_glitch(new_glitch: GLITCHES, _is_demo := false) -> void:
 	if new_glitch == glitch: return
 	glitch_dirty = true
 	glitch = new_glitch
+	is_demo = _is_demo
+	if is_demo:
+		%RobotMotorAudioPlayer.volume_db = -60
 
 func set_pose(new_pose: POSES) -> void:
 	if new_pose == pose: return
@@ -438,7 +458,8 @@ func update_glitch() -> void:
 		GLITCHES.GIGGLING:
 			#robj["red_eyes"].visible = true
 			anim.play("Laughter")
-			%RobotLaughAudioPlayer.play()
+			if not is_demo:
+				%RobotLaughAudioPlayer.play()
 		#GLITCHES.CRYING:
 		#	robj["red_eyes"].visible = true
 		GLITCHES.LOOKING_HAND:
@@ -595,6 +616,7 @@ func shut_down() -> void:
 	shut_down_tween.tween_callback(%RobotLaughAudioPlayer.stop)
 	shut_down_tween.tween_callback(turn_off_glitches)
 	#%RobotLaughAudioPlayer.stop()ss
+	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Off"
 
 func turn_off_glitches() -> void:
 	robj["red_eyes"].visible = false

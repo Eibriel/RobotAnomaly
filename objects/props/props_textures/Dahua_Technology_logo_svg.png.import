@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cts8anp0llhbo"
 path.s3tc="res://.godot/imported/Dahua_Technology_logo_svg.png-e10f1e0bdc5a741241b592fee3f87ade.s3tc.ctex"
+path.etc2="res://.godot/imported/Dahua_Technology_logo_svg.png-e10f1e0bdc5a741241b592fee3f87ade.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Dahua_Technology_logo_svg.png"
-dest_files=["res://.godot/imported/Dahua_Technology_logo_svg.png-e10f1e0bdc5a741241b592fee3f87ade.s3tc.ctex"]
+dest_files=["res://.godot/imported/Dahua_Technology_logo_svg.png-e10f1e0bdc5a741241b592fee3f87ade.s3tc.ctex", "res://.godot/imported/Dahua_Technology_logo_svg.png-e10f1e0bdc5a741241b592fee3f87ade.etc2.ctex"]
 
 [params]
 

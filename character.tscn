@@ -1,8 +1,44 @@
-[gd_scene load_steps=3 format=3 uid="uid://coeaj8kxwl40n"]
+[gd_scene load_steps=8 format=3 uid="uid://coeaj8kxwl40n"]
 
 [ext_resource type="Script" uid="uid://dt72ltgn4jxc1" path="res://player.gd" id="1_nh0s5"]
+[ext_resource type="AudioStream" uid="uid://hqkyh1cub5m3" path="res://sounds/steps.mp3" id="2_pjt0s"]
+[ext_resource type="AudioStream" uid="uid://b6mrxjvkccgjg" path="res://sounds/stair_01.mp3" id="3_wa5vi"]
+[ext_resource type="AudioStream" uid="uid://cjbghldrpbny0" path="res://sounds/stair_end.mp3" id="4_wfnr8"]
+[ext_resource type="AudioStream" uid="uid://bmo4suh4msaig" path="res://sounds/stair_end_short.mp3" id="5_px5sl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tvkt6"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_px5sl"]
+clip_count = 3
+clip_0/name = &"Walking"
+clip_0/stream = ExtResource("3_wa5vi")
+clip_0/auto_advance = 0
+clip_1/name = &"Stoping"
+clip_1/stream = ExtResource("4_wfnr8")
+clip_1/auto_advance = 0
+clip_2/name = &"Stoping Short"
+clip_2/stream = ExtResource("5_px5sl")
+clip_2/auto_advance = 0
+_transitions = {
+Vector2i(-1, 0): {
+"fade_beats": 1.0,
+"fade_mode": 4,
+"from_time": 0,
+"to_time": 2
+},
+Vector2i(0, 1): {
+"fade_beats": 1.0,
+"fade_mode": 4,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(0, 2): {
+"fade_beats": 0.5,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 1
+}
+}
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_layer = 256
@@ -32,3 +68,15 @@ unique_name_in_owner = true
 transform = Transform3D(0.728019, -0.374702, 0.574097, -0.175515, 0.707634, 0.684433, -0.662709, -0.599043, 0.449405, -0.224989, -0.128699, -0.410691)
 visible = false
 size = Vector3(0.076416, 0.0874634, 0.0078125)
+
+[node name="StepsAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_pjt0s")
+volume_db = -10.0
+autoplay = true
+bus = &"Player"
+
+[node name="StairAudio" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_px5sl")
+volume_db = -10.0
+autoplay = true
+bus = &"Player"

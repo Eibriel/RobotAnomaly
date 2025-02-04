@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0lbm0ifasp4j"
 path.s3tc="res://.godot/imported/Left_section_material_normal.jpg-505aa991d990cf93ce8a2f266edd79a6.s3tc.ctex"
+path.etc2="res://.godot/imported/Left_section_material_normal.jpg-505aa991d990cf93ce8a2f266edd79a6.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/Left_section_material_normal.jpg"
-dest_files=["res://.godot/imported/Left_section_material_normal.jpg-505aa991d990cf93ce8a2f266edd79a6.s3tc.ctex"]
+dest_files=["res://.godot/imported/Left_section_material_normal.jpg-505aa991d990cf93ce8a2f266edd79a6.s3tc.ctex", "res://.godot/imported/Left_section_material_normal.jpg-505aa991d990cf93ce8a2f266edd79a6.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dsyk86idubtlc"
 path.s3tc="res://.godot/imported/BookJournal_Cover.jpg-52afd54c6b4f174e5908a667e1653bff.s3tc.ctex"
+path.etc2="res://.godot/imported/BookJournal_Cover.jpg-52afd54c6b4f174e5908a667e1653bff.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/BookJournal_Cover.jpg"
-dest_files=["res://.godot/imported/BookJournal_Cover.jpg-52afd54c6b4f174e5908a667e1653bff.s3tc.ctex"]
+dest_files=["res://.godot/imported/BookJournal_Cover.jpg-52afd54c6b4f174e5908a667e1653bff.s3tc.ctex", "res://.godot/imported/BookJournal_Cover.jpg-52afd54c6b4f174e5908a667e1653bff.etc2.ctex"]
 
 [params]
 

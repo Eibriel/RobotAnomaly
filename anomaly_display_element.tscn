@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://di52qnvxit3q2"]
+
+[ext_resource type="PackedScene" uid="uid://coulw5ubmqyvj" path="res://objects/robot_gi1_figure.glb" id="1_7agnt"]
+[ext_resource type="Script" uid="uid://w7edst2tqa8i" path="res://anomaly_display_element.gd" id="1_lvupd"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lvupd"]
+size = Vector3(0.15, 0.02, 0.15)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lvupd"]
+size = Vector2(0.2, 0.05)
+
+[node name="AnomalyDisplayElement" type="Node3D"]
+script = ExtResource("1_lvupd")
+
+[node name="robot_gi1_figure" parent="." instance=ExtResource("1_7agnt")]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0075598, 0)
+mesh = SubResource("BoxMesh_lvupd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00261364, 0.152703)
+mesh = SubResource("PlaneMesh_lvupd")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.00416481, 0.155)
+pixel_size = 0.001
+text = "??"
+font_size = 15

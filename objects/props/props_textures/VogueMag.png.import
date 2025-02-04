@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bxp3doluxw5wq"
 path.s3tc="res://.godot/imported/VogueMag.png-c3205761cc6eb109668139d446e567a2.s3tc.ctex"
+path.etc2="res://.godot/imported/VogueMag.png-c3205761cc6eb109668139d446e567a2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/VogueMag.png"
-dest_files=["res://.godot/imported/VogueMag.png-c3205761cc6eb109668139d446e567a2.s3tc.ctex"]
+dest_files=["res://.godot/imported/VogueMag.png-c3205761cc6eb109668139d446e567a2.s3tc.ctex", "res://.godot/imported/VogueMag.png-c3205761cc6eb109668139d446e567a2.etc2.ctex"]
 
 [params]
 

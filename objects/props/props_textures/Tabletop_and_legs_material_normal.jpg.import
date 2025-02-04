@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7q2a8n5gih5o"
 path.s3tc="res://.godot/imported/Tabletop_and_legs_material_normal.jpg-d2264d816f8b0d556fff8cc63c9a0a12.s3tc.ctex"
+path.etc2="res://.godot/imported/Tabletop_and_legs_material_normal.jpg-d2264d816f8b0d556fff8cc63c9a0a12.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Tabletop_and_legs_material_normal.jpg"
-dest_files=["res://.godot/imported/Tabletop_and_legs_material_normal.jpg-d2264d816f8b0d556fff8cc63c9a0a12.s3tc.ctex"]
+dest_files=["res://.godot/imported/Tabletop_and_legs_material_normal.jpg-d2264d816f8b0d556fff8cc63c9a0a12.s3tc.ctex", "res://.godot/imported/Tabletop_and_legs_material_normal.jpg-d2264d816f8b0d556fff8cc63c9a0a12.etc2.ctex"]
 
 [params]
 

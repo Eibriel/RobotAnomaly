@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://b37d4et7ccfum"
 path.bptc="res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.bptc.ctexarray"
+path.astc="res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://lightmaps/marketing_office.exr"
-dest_files=["res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.bptc.ctexarray"]
+dest_files=["res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.bptc.ctexarray", "res://.godot/imported/marketing_office.exr-c210982f871f058598990e9140a7dedb.astc.ctexarray"]
 
 [params]
 

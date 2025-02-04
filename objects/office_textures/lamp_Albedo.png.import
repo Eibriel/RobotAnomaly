@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dm1kxr738vpov"
 path.s3tc="res://.godot/imported/lamp_Albedo.png-5c03971696520d90786ace58bcbf3c19.s3tc.ctex"
+path.etc2="res://.godot/imported/lamp_Albedo.png-5c03971696520d90786ace58bcbf3c19.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/lamp_Albedo.png"
-dest_files=["res://.godot/imported/lamp_Albedo.png-5c03971696520d90786ace58bcbf3c19.s3tc.ctex"]
+dest_files=["res://.godot/imported/lamp_Albedo.png-5c03971696520d90786ace58bcbf3c19.s3tc.ctex", "res://.godot/imported/lamp_Albedo.png-5c03971696520d90786ace58bcbf3c19.etc2.ctex"]
 
 [params]
 

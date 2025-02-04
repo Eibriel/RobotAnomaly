@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://2rn8ui1dll5"
 path.s3tc="res://.godot/imported/BalloonRough.png-ad349698af525fd41abde6e0157843f6.s3tc.ctex"
+path.etc2="res://.godot/imported/BalloonRough.png-ad349698af525fd41abde6e0157843f6.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/BalloonRough.png"
-dest_files=["res://.godot/imported/BalloonRough.png-ad349698af525fd41abde6e0157843f6.s3tc.ctex"]
+dest_files=["res://.godot/imported/BalloonRough.png-ad349698af525fd41abde6e0157843f6.s3tc.ctex", "res://.godot/imported/BalloonRough.png-ad349698af525fd41abde6e0157843f6.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ck6ewut1j7oxi"
 path.s3tc="res://.godot/imported/door1_2_Metallic-door1_2_Roughness.png-75a6dea8ddfb1b58c9b4000735f624ed.s3tc.ctex"
+path.etc2="res://.godot/imported/door1_2_Metallic-door1_2_Roughness.png-75a6dea8ddfb1b58c9b4000735f624ed.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/door1_2_Metallic-door1_2_Roughness.png"
-dest_files=["res://.godot/imported/door1_2_Metallic-door1_2_Roughness.png-75a6dea8ddfb1b58c9b4000735f624ed.s3tc.ctex"]
+dest_files=["res://.godot/imported/door1_2_Metallic-door1_2_Roughness.png-75a6dea8ddfb1b58c9b4000735f624ed.s3tc.ctex", "res://.godot/imported/door1_2_Metallic-door1_2_Roughness.png-75a6dea8ddfb1b58c9b4000735f624ed.etc2.ctex"]
 
 [params]
 

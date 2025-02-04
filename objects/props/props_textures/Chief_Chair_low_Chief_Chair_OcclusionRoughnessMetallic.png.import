@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://csxkkk67pr478"
 path.s3tc="res://.godot/imported/Chief_Chair_low_Chief_Chair_OcclusionRoughnessMetallic.png-68e8d0066f80dbd43e0c176e9fe18abc.s3tc.ctex"
+path.etc2="res://.godot/imported/Chief_Chair_low_Chief_Chair_OcclusionRoughnessMetallic.png-68e8d0066f80dbd43e0c176e9fe18abc.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Chief_Chair_low_Chief_Chair_OcclusionRoughnessMetallic.png"
-dest_files=["res://.godot/imported/Chief_Chair_low_Chief_Chair_OcclusionRoughnessMetallic.png-68e8d0066f80dbd43e0c176e9fe18abc.s3tc.ctex"]
+dest_files=["res://.godot/imported/Chief_Chair_low_Chief_Chair_OcclusionRoughnessMetallic.png-68e8d0066f80dbd43e0c176e9fe18abc.s3tc.ctex", "res://.godot/imported/Chief_Chair_low_Chief_Chair_OcclusionRoughnessMetallic.png-68e8d0066f80dbd43e0c176e9fe18abc.etc2.ctex"]
 
 [params]
 

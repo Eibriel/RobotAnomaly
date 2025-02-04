@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cournjjs62271"
 path.s3tc="res://.godot/imported/Humano_Posed_0644985-Man_Normal-LOD1_4K.jpg-2c65c83575d33219f57b14713565732b.s3tc.ctex"
+path.etc2="res://.godot/imported/Humano_Posed_0644985-Man_Normal-LOD1_4K.jpg-2c65c83575d33219f57b14713565732b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/Humano_Posed_0644985-Man_Normal-LOD1_4K.jpg"
-dest_files=["res://.godot/imported/Humano_Posed_0644985-Man_Normal-LOD1_4K.jpg-2c65c83575d33219f57b14713565732b.s3tc.ctex"]
+dest_files=["res://.godot/imported/Humano_Posed_0644985-Man_Normal-LOD1_4K.jpg-2c65c83575d33219f57b14713565732b.s3tc.ctex", "res://.godot/imported/Humano_Posed_0644985-Man_Normal-LOD1_4K.jpg-2c65c83575d33219f57b14713565732b.etc2.ctex"]
 
 [params]
 

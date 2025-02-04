@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://bkg2ved0b0apn"
 path.bptc="res://.godot/imported/lobby_office.exr-a66bee3b7ae0418b075fed742d9da855.bptc.ctexarray"
+path.astc="res://.godot/imported/lobby_office.exr-a66bee3b7ae0418b075fed742d9da855.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://lightmaps/lobby_office.exr"
-dest_files=["res://.godot/imported/lobby_office.exr-a66bee3b7ae0418b075fed742d9da855.bptc.ctexarray"]
+dest_files=["res://.godot/imported/lobby_office.exr-a66bee3b7ae0418b075fed742d9da855.bptc.ctexarray", "res://.godot/imported/lobby_office.exr-a66bee3b7ae0418b075fed742d9da855.astc.ctexarray"]
 
 [params]
 

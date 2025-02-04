@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cn8sg5n4libav"
 path.s3tc="res://.godot/imported/fluorescent_light.jpg-26d3ffb4ce90fbb7eeff56e9495e25fc.s3tc.ctex"
+path.etc2="res://.godot/imported/fluorescent_light.jpg-26d3ffb4ce90fbb7eeff56e9495e25fc.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/fluorescent_light.jpg"
-dest_files=["res://.godot/imported/fluorescent_light.jpg-26d3ffb4ce90fbb7eeff56e9495e25fc.s3tc.ctex"]
+dest_files=["res://.godot/imported/fluorescent_light.jpg-26d3ffb4ce90fbb7eeff56e9495e25fc.s3tc.ctex", "res://.godot/imported/fluorescent_light.jpg-26d3ffb4ce90fbb7eeff56e9495e25fc.etc2.ctex"]
 
 [params]
 

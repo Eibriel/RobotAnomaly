@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://desvlsraaw8cm"
 path.bptc="res://.godot/imported/stairs_Stairs_Bake.png-0b41fd7a7df6710dd97476b00e6bada4.bptc.ctex"
+path.astc="res://.godot/imported/stairs_Stairs_Bake.png-0b41fd7a7df6710dd97476b00e6bada4.astc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://objects/stairs_Stairs_Bake.png"
-dest_files=["res://.godot/imported/stairs_Stairs_Bake.png-0b41fd7a7df6710dd97476b00e6bada4.bptc.ctex"]
+dest_files=["res://.godot/imported/stairs_Stairs_Bake.png-0b41fd7a7df6710dd97476b00e6bada4.bptc.ctex", "res://.godot/imported/stairs_Stairs_Bake.png-0b41fd7a7df6710dd97476b00e6bada4.astc.ctex"]
 
 [params]
 

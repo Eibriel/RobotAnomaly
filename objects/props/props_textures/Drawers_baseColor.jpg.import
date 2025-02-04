@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://hvuy412npuj2"
 path.s3tc="res://.godot/imported/Drawers_baseColor.jpg-f23f57978500ce0b5aca382c31854c3f.s3tc.ctex"
+path.etc2="res://.godot/imported/Drawers_baseColor.jpg-f23f57978500ce0b5aca382c31854c3f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Drawers_baseColor.jpg"
-dest_files=["res://.godot/imported/Drawers_baseColor.jpg-f23f57978500ce0b5aca382c31854c3f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Drawers_baseColor.jpg-f23f57978500ce0b5aca382c31854c3f.s3tc.ctex", "res://.godot/imported/Drawers_baseColor.jpg-f23f57978500ce0b5aca382c31854c3f.etc2.ctex"]
 
 [params]
 

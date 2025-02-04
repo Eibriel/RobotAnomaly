@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://v63jld41ng8s"
 path.s3tc="res://.godot/imported/RobotCutoutMaid.png-b61f5b1de92beecc181cb2d1082af761.s3tc.ctex"
+path.etc2="res://.godot/imported/RobotCutoutMaid.png-b61f5b1de92beecc181cb2d1082af761.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/RobotCutoutMaid.png"
-dest_files=["res://.godot/imported/RobotCutoutMaid.png-b61f5b1de92beecc181cb2d1082af761.s3tc.ctex"]
+dest_files=["res://.godot/imported/RobotCutoutMaid.png-b61f5b1de92beecc181cb2d1082af761.s3tc.ctex", "res://.godot/imported/RobotCutoutMaid.png-b61f5b1de92beecc181cb2d1082af761.etc2.ctex"]
 
 [params]
 

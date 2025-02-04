@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://y1mn76kxmbqt"
 path.s3tc="res://.godot/imported/Sketchbook01_Pencil_Base.png-40b9f3a311e24de58a354484d91437f8.s3tc.ctex"
+path.etc2="res://.godot/imported/Sketchbook01_Pencil_Base.png-40b9f3a311e24de58a354484d91437f8.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/Sketchbook01_Pencil_Base.png"
-dest_files=["res://.godot/imported/Sketchbook01_Pencil_Base.png-40b9f3a311e24de58a354484d91437f8.s3tc.ctex"]
+dest_files=["res://.godot/imported/Sketchbook01_Pencil_Base.png-40b9f3a311e24de58a354484d91437f8.s3tc.ctex", "res://.godot/imported/Sketchbook01_Pencil_Base.png-40b9f3a311e24de58a354484d91437f8.etc2.ctex"]
 
 [params]
 

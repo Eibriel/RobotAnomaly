@@ -69,20 +69,29 @@ var tonemap_tween: Tween
 const FLOORS_AMOUNT := 29
 
 # Debug
-const skip_tutorial := false
-const force_anomaly := Robot.GLITCHES.NONE
-const linear_game := false
-const force_dressing := DRESSING.NONE
-const reset_save := true
-const override_state := false
+var skip_tutorial := false
+var force_anomaly := Robot.GLITCHES.NONE
+var linear_game := false
+var force_dressing := DRESSING.NONE
+var reset_save := false
+var override_state := true
 var state_override := GameStateResource.new()
 
 func _ready() -> void:
+	if OS.has_feature("template"):
+		skip_tutorial = false
+		force_anomaly = Robot.GLITCHES.NONE
+		linear_game = false
+		force_dressing = DRESSING.NONE
+		reset_save = false
+		override_state = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = false
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
-	for n in range(1, 10):
+	for n in range(1, 40):
 		state_override.completed_anomalies.append(n)
+	#
+	Global.player = %Player
 	
 	load_game_state()
 	reset_dressing()
@@ -92,8 +101,6 @@ func _ready() -> void:
 	var tween := create_tween()
 	tween.tween_interval(1.0)
 	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
-	#
-	Global.player = %Player
 	#
 	%RobotArm/AnimationPlayer.get_animation("HandTest").loop_mode = Animation.LoopMode.LOOP_LINEAR
 	%RobotArm/AnimationPlayer.play("HandTest")
@@ -112,6 +119,7 @@ func _ready() -> void:
 			var z := (width_margin*d) - ((depth / 2) * width_margin)
 			tr = tr.translated(Vector3(x, 0, z))
 			multi.set_instance_transform((w*width)+d, tr)
+	unpause()
 
 func check_if_nightmare() -> void:
 	# TODO duplicated code
@@ -317,13 +325,36 @@ func save_game_state() -> void:
 func load_game_state() -> void:
 	if override_state:
 		game_state = state_override
+		load_settings()
 		return
 	if reset_save or not ResourceLoader.exists(save_path):
 		game_state = GameStateResource.new()
+		load_settings()
 		return
 	game_state = load(save_path)
 	#game_state.congrats_completed = true
 	#game_state.executive_completed = true
+	load_settings()
+	
+
+func load_settings() -> void:
+	%VolumeSlider.set_value_no_signal(game_state.volume_level)
+	%MouseSenSlider.set_value_no_signal(game_state.mouse_sensibility)
+	%FullscreenCheckBox.set_pressed_no_signal(game_state.full_screen)
+	Global.player.sensitivity = remap(game_state.mouse_sensibility, 0, 100, 0.01, 2.0)
+	var volume_level := remap(game_state.volume_level, 0, 100, -30, 20)
+	var sfx_index := AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_volume_db(sfx_index, volume_level)
+	if game_state.volume_level < 5:
+		AudioServer.set_bus_mute(sfx_index, true)
+	else:
+		AudioServer.set_bus_mute(sfx_index, false)
+	if game_state.full_screen:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	prints("Mouse", Global.player.sensitivity, %MouseSenSlider.value)
+	prints("Volume", volume_level, %VolumeSlider.value)
 
 func load_main() -> void:
 	robot_collected = null
@@ -349,6 +380,22 @@ func reset_dressing() -> void:
 func dressing_visible(dressing_node: Node3D) -> void:
 	dressing_node.visible = true
 	dressing_node.position.y = 0
+
+func setup_museum() -> void:
+	%MuseumStatsLabel.text = "Stats\n"
+	#%MuseumStatsLabel.text += "%d / %d\n" % [completed_anomalies_count, anomalies_count]
+	#for ss in game_state.completed_anomalies:
+	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
+	var anom_displays := %AnomalyDisplay.get_children()
+	var gid := 0
+	for glitch in Robot.GLITCHES.values():
+		if glitch == Robot.GLITCHES.NONE: continue
+		if game_state.completed_anomalies.has(glitch):
+			anom_displays[gid].set_anomaly(glitch)
+		else:
+			anom_displays[gid].set_anomaly_unknown()
+		gid += 1
+		if gid >= anom_displays.size(): break
 
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
@@ -403,7 +450,8 @@ func instantiate_sections(Env: Node3D) -> void:
 	section.scenario = scenario
 	#section.last_day = available_scenarios_count <= batch_count
 	#var message_id := FLOORS_AMOUNT-available_scenarios_count
-	var message_id := completed_scenarios.size()
+	#var message_id := completed_scenarios.size()
+	var message_id := game_state.completed_anomalies.size()
 	reset_dressing()
 	prints("message_id", message_id)
 	if scenario == -2:
@@ -415,15 +463,12 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif scenario == -4:
 		%MessageLabel.text = "Museum"
 		dressing_visible(%office_museum)
-		check_if_nightmare()
-		if Global.is_nightmare_mode:
-			%NightmareModeIndicator.visible = true
-		else:
-			%NightmareModeIndicator.visible = false
-		%MuseumStatsLabel.text = "Stats\n"
-		%MuseumStatsLabel.text += "%d / %d\n" % [completed_anomalies_count, anomalies_count]
-		for ss in game_state.completed_anomalies:
-			%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
+		#check_if_nightmare()
+		#if Global.is_nightmare_mode:
+			#%NightmareModeIndicator.visible = true
+		#else:
+			#%NightmareModeIndicator.visible = false
+		setup_museum()
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		dressing_visible(%office_lobby)
@@ -478,13 +523,23 @@ func instantiate_sections(Env: Node3D) -> void:
 	#if completed_scenarios.size() >= batch_count:
 	#	loby.show_counter()
 
+func pause() -> void:
+	%PauseMenu.visible = true
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func unpause() -> void:
+	%PauseMenu.visible = false
+	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_text_delete"):
 		#day += 1
 		#load_main()
 		Global.player.rumble()
 	if event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+		pause()
 	if event is InputEventMouseButton:
 		if event.pressed:
 			fire_ray()
@@ -768,3 +823,28 @@ func on_glitch_failed() -> void:
 
 func _on_start_level_body_entered(body: Node3D) -> void:
 	level_started = true
+
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
+
+
+func _on_resume_button_pressed() -> void:
+	unpause()
+
+
+func _on_volume_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		game_state.volume_level = %VolumeSlider.value
+		load_settings()
+
+
+func _on_mouse_sen_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		game_state.mouse_sensibility = %MouseSenSlider.value
+		load_settings()
+
+
+func _on_fullscreen_check_box_toggled(toggled_on: bool) -> void:
+	game_state.full_screen = toggled_on
+	load_settings()

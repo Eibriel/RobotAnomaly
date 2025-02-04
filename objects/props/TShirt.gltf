@@ -116,9 +116,9 @@
 	],
 	"images":[
 		{
-			"mimeType":"image/jpeg",
+			"mimeType":"image/png",
 			"name":"TShirt_Base",
-			"uri":"props_textures/TShirt_Base.jpg"
+			"uri":"props_textures/TShirt_Base.png"
 		}
 	],
 	"accessors":[

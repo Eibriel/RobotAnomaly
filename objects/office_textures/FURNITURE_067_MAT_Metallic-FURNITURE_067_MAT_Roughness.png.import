@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkqaxkkwg4hhp"
 path.s3tc="res://.godot/imported/FURNITURE_067_MAT_Metallic-FURNITURE_067_MAT_Roughness.png-08c1b9ccf3a9e021b45880ccbd343e16.s3tc.ctex"
+path.etc2="res://.godot/imported/FURNITURE_067_MAT_Metallic-FURNITURE_067_MAT_Roughness.png-08c1b9ccf3a9e021b45880ccbd343e16.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/FURNITURE_067_MAT_Metallic-FURNITURE_067_MAT_Roughness.png"
-dest_files=["res://.godot/imported/FURNITURE_067_MAT_Metallic-FURNITURE_067_MAT_Roughness.png-08c1b9ccf3a9e021b45880ccbd343e16.s3tc.ctex"]
+dest_files=["res://.godot/imported/FURNITURE_067_MAT_Metallic-FURNITURE_067_MAT_Roughness.png-08c1b9ccf3a9e021b45880ccbd343e16.s3tc.ctex", "res://.godot/imported/FURNITURE_067_MAT_Metallic-FURNITURE_067_MAT_Roughness.png-08c1b9ccf3a9e021b45880ccbd343e16.etc2.ctex"]
 
 [params]
 

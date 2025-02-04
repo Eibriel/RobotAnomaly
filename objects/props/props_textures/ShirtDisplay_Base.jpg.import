@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cpxbx2arbqvcr"
 path.s3tc="res://.godot/imported/ShirtDisplay_Base.jpg-a01e5b82ab8633e88f561d6f373635f4.s3tc.ctex"
+path.etc2="res://.godot/imported/ShirtDisplay_Base.jpg-a01e5b82ab8633e88f561d6f373635f4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/ShirtDisplay_Base.jpg"
-dest_files=["res://.godot/imported/ShirtDisplay_Base.jpg-a01e5b82ab8633e88f561d6f373635f4.s3tc.ctex"]
+dest_files=["res://.godot/imported/ShirtDisplay_Base.jpg-a01e5b82ab8633e88f561d6f373635f4.s3tc.ctex", "res://.godot/imported/ShirtDisplay_Base.jpg-a01e5b82ab8633e88f561d6f373635f4.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://df4iia3htrcwi"
 path.s3tc="res://.godot/imported/armchair_Albedo.png-0293d2cd399de1e6a3392dc68aa0f980.s3tc.ctex"
+path.etc2="res://.godot/imported/armchair_Albedo.png-0293d2cd399de1e6a3392dc68aa0f980.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/armchair_Albedo.png"
-dest_files=["res://.godot/imported/armchair_Albedo.png-0293d2cd399de1e6a3392dc68aa0f980.s3tc.ctex"]
+dest_files=["res://.godot/imported/armchair_Albedo.png-0293d2cd399de1e6a3392dc68aa0f980.s3tc.ctex", "res://.godot/imported/armchair_Albedo.png-0293d2cd399de1e6a3392dc68aa0f980.etc2.ctex"]
 
 [params]
 

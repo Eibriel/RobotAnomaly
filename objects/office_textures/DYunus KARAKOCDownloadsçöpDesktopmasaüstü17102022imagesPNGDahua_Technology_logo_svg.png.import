@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://135k2s36enui"
 path.s3tc="res://.godot/imported/DYunus KARAKOCDownloadsçöpDesktopmasaüstü17102022imagesPNGDahua_Technology_logo_svg.png-6a67c51076d9c11e89f12c94a696657f.s3tc.ctex"
+path.etc2="res://.godot/imported/DYunus KARAKOCDownloadsçöpDesktopmasaüstü17102022imagesPNGDahua_Technology_logo_svg.png-6a67c51076d9c11e89f12c94a696657f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/DYunus KARAKOCDownloadsçöpDesktopmasaüstü17102022imagesPNGDahua_Technology_logo_svg.png"
-dest_files=["res://.godot/imported/DYunus KARAKOCDownloadsçöpDesktopmasaüstü17102022imagesPNGDahua_Technology_logo_svg.png-6a67c51076d9c11e89f12c94a696657f.s3tc.ctex"]
+dest_files=["res://.godot/imported/DYunus KARAKOCDownloadsçöpDesktopmasaüstü17102022imagesPNGDahua_Technology_logo_svg.png-6a67c51076d9c11e89f12c94a696657f.s3tc.ctex", "res://.godot/imported/DYunus KARAKOCDownloadsçöpDesktopmasaüstü17102022imagesPNGDahua_Technology_logo_svg.png-6a67c51076d9c11e89f12c94a696657f.etc2.ctex"]
 
 [params]
 

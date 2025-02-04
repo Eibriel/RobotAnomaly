@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://comwbn3bd54ib"
 path.s3tc="res://.godot/imported/endesga-36-8x.png-150144057c05ba9b37fc0e2a51db754c.s3tc.ctex"
+path.etc2="res://.godot/imported/endesga-36-8x.png-150144057c05ba9b37fc0e2a51db754c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/endesga-36-8x.png"
-dest_files=["res://.godot/imported/endesga-36-8x.png-150144057c05ba9b37fc0e2a51db754c.s3tc.ctex"]
+dest_files=["res://.godot/imported/endesga-36-8x.png-150144057c05ba9b37fc0e2a51db754c.s3tc.ctex", "res://.godot/imported/endesga-36-8x.png-150144057c05ba9b37fc0e2a51db754c.etc2.ctex"]
 
 [params]
 

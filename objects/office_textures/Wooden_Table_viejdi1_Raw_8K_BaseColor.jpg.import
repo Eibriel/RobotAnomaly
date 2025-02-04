@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bm7aa5pywko5e"
 path.s3tc="res://.godot/imported/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg-984786feb257d2fc2aa13ff58dbafd3f.s3tc.ctex"
+path.etc2="res://.godot/imported/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg-984786feb257d2fc2aa13ff58dbafd3f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg"
-dest_files=["res://.godot/imported/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg-984786feb257d2fc2aa13ff58dbafd3f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg-984786feb257d2fc2aa13ff58dbafd3f.s3tc.ctex", "res://.godot/imported/Wooden_Table_viejdi1_Raw_8K_BaseColor.jpg-984786feb257d2fc2aa13ff58dbafd3f.etc2.ctex"]
 
 [params]
 

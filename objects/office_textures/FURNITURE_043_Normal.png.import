@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dkivjh2q48ycd"
 path.s3tc="res://.godot/imported/FURNITURE_043_Normal.png-e1981e2be58bf94e7f8e1b69932ebc80.s3tc.ctex"
+path.etc2="res://.godot/imported/FURNITURE_043_Normal.png-e1981e2be58bf94e7f8e1b69932ebc80.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/FURNITURE_043_Normal.png"
-dest_files=["res://.godot/imported/FURNITURE_043_Normal.png-e1981e2be58bf94e7f8e1b69932ebc80.s3tc.ctex"]
+dest_files=["res://.godot/imported/FURNITURE_043_Normal.png-e1981e2be58bf94e7f8e1b69932ebc80.s3tc.ctex", "res://.godot/imported/FURNITURE_043_Normal.png-e1981e2be58bf94e7f8e1b69932ebc80.etc2.ctex"]
 
 [params]
 

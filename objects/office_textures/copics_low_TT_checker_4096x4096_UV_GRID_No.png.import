@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bu5lc8ietvm0j"
 path.s3tc="res://.godot/imported/copics_low_TT_checker_4096x4096_UV_GRID_No.png-b979c2ff457a37ed6243a4ca4de0bae5.s3tc.ctex"
+path.etc2="res://.godot/imported/copics_low_TT_checker_4096x4096_UV_GRID_No.png-b979c2ff457a37ed6243a4ca4de0bae5.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/office_textures/copics_low_TT_checker_4096x4096_UV_GRID_No.png"
-dest_files=["res://.godot/imported/copics_low_TT_checker_4096x4096_UV_GRID_No.png-b979c2ff457a37ed6243a4ca4de0bae5.s3tc.ctex"]
+dest_files=["res://.godot/imported/copics_low_TT_checker_4096x4096_UV_GRID_No.png-b979c2ff457a37ed6243a4ca4de0bae5.s3tc.ctex", "res://.godot/imported/copics_low_TT_checker_4096x4096_UV_GRID_No.png-b979c2ff457a37ed6243a4ca4de0bae5.etc2.ctex"]
 
 [params]
 

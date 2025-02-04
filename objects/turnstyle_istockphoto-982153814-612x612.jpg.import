@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dtaqjfiu4ebbt"
 path.s3tc="res://.godot/imported/turnstyle_istockphoto-982153814-612x612.jpg-b32492c44a69b1523747892352dc64f2.s3tc.ctex"
+path.etc2="res://.godot/imported/turnstyle_istockphoto-982153814-612x612.jpg-b32492c44a69b1523747892352dc64f2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://objects/turnstyle_istockphoto-982153814-612x612.jpg"
-dest_files=["res://.godot/imported/turnstyle_istockphoto-982153814-612x612.jpg-b32492c44a69b1523747892352dc64f2.s3tc.ctex"]
+dest_files=["res://.godot/imported/turnstyle_istockphoto-982153814-612x612.jpg-b32492c44a69b1523747892352dc64f2.s3tc.ctex", "res://.godot/imported/turnstyle_istockphoto-982153814-612x612.jpg-b32492c44a69b1523747892352dc64f2.etc2.ctex"]
 
 [params]
 

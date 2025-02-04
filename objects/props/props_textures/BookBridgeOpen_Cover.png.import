@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1xtx46q5wrld"
 path.s3tc="res://.godot/imported/BookBridgeOpen_Cover.png-5096d31705eaf1abda1eb2defa38d53f.s3tc.ctex"
+path.etc2="res://.godot/imported/BookBridgeOpen_Cover.png-5096d31705eaf1abda1eb2defa38d53f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://objects/props/props_textures/BookBridgeOpen_Cover.png"
-dest_files=["res://.godot/imported/BookBridgeOpen_Cover.png-5096d31705eaf1abda1eb2defa38d53f.s3tc.ctex"]
+dest_files=["res://.godot/imported/BookBridgeOpen_Cover.png-5096d31705eaf1abda1eb2defa38d53f.s3tc.ctex", "res://.godot/imported/BookBridgeOpen_Cover.png-5096d31705eaf1abda1eb2defa38d53f.etc2.ctex"]
 
 [params]
 

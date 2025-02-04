@@ -1,11 +1,11 @@
-[gd_scene load_steps=109 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=110 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
 [ext_resource type="LightmapGIData" uid="uid://d06gsukwh0nvk" path="res://lightmaps/executive_office.lmbake" id="3_ipkxx"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
 [ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="3_s5o31"]
-[ext_resource type="AudioStream" uid="uid://q0qwyv6d1uqg" path="res://sounds/TinCoin.mp3" id="4_2suhb"]
+[ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
 [ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
 [ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
@@ -73,7 +73,9 @@
 [ext_resource type="PackedScene" uid="uid://bi55y02bb77tw" path="res://objects/robot_maid_figure.glb" id="64_rnjy8"]
 [ext_resource type="PackedScene" uid="uid://d0j1ntymha6vx" path="res://objects/robot_gi2_figure.glb" id="65_3yn3g"]
 [ext_resource type="PackedScene" uid="uid://bdmq6w00vkvk8" path="res://objects/robot_human_figure.glb" id="66_4q3kb"]
+[ext_resource type="PackedScene" uid="uid://di52qnvxit3q2" path="res://anomaly_display_element.tscn" id="68_r5sll"]
 [ext_resource type="PackedScene" uid="uid://duofqir0kfodc" path="res://objects/props/VentilationGrillBig.gltf" id="72_7gua7"]
+[ext_resource type="AudioStream" uid="uid://it5lpybtjnci" path="res://sounds/ventilation_big.mp3" id="73_btj8t"]
 [ext_resource type="PackedScene" uid="uid://cm85x7lj71un7" path="res://objects/props/VentilationGrillSmall.gltf" id="73_o06hd"]
 [ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="74_k62q3"]
 [ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="74_nigfh"]
@@ -115,12 +117,6 @@ fog_light_color = Color(0.33, 0.1914, 0.21681, 1)
 adjustment_enabled = true
 adjustment_saturation = 1.2
 adjustment_color_correction = SubResource("CurveXYZTexture_n73o2")
-
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_t471m"]
-random_pitch = 1.35
-random_volume_offset_db = 2.2
-streams_count = 1
-stream_0/stream = ExtResource("4_2suhb")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_18b1w"]
 size = Vector3(1.30359, 1.5625, 4.18152)
@@ -356,8 +352,79 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PokeAudio" type="AudioStreamPlayer" parent="."]
-stream = SubResource("AudioStreamRandomizer_t471m")
+[node name="PauseMenu" type="Control" parent="Control"]
+unique_name_in_owner = true
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.5
+offset_top = -20.0
+offset_right = 23.5
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="Control/PauseMenu/VBoxContainer"]
+layout_mode = 2
+text = "RESUME"
+
+[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/VBoxContainer"]
+layout_mode = 2
+text = "VOLUME"
+
+[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+rounded = true
+
+[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/VBoxContainer"]
+layout_mode = 2
+text = "MOUSE SENSIBILITY"
+
+[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.1
+value = 50.0
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FULLSCREEN"
+
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="Control/PauseMenu/VBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[node name="CityAudio" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 36)
+stream = ExtResource("5_k62q3")
+unit_size = 5.0
+autoplay = true
+
+[node name="CityAudio2" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36)
+stream = ExtResource("5_k62q3")
+unit_size = 5.0
+autoplay = true
 
 [node name="OfficeNode" type="Node3D" parent="."]
 unique_name_in_owner = true
@@ -528,6 +595,7 @@ design = 1
 
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="MarketingLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_marketing"]
 quality = 2
@@ -585,10 +653,10 @@ transform = Transform3D(-0.928609, 0, -0.37106, 0, 1, 0, 0.37106, 0, -0.928609, 
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.07793, 1.14128, 18.6662)
 
 [node name="Mug" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("32_anpix")]
-transform = Transform3D(0.0593934, 0, 0.998235, 0, 1, 0, -0.998235, 0, 0.0593934, -4.04138, 1.73697, 18.5637)
+transform = Transform3D(0.0593934, 0, 0.998235, 0, 1, 0, -0.998235, 0, 0.0593934, -3.91976, 1.73697, 18.5637)
 
 [node name="Mug2" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("32_anpix")]
-transform = Transform3D(0.0593934, 0, 0.998235, 0, 1, 0, -0.998235, 0, 0.0593934, 4.11984, 1.73697, 17.5612)
+transform = Transform3D(0.0593934, 0, 0.998235, 0, 1, 0, -0.998235, 0, 0.0593934, 3.92118, 1.73697, 17.5612)
 
 [node name="Mug3" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("32_anpix")]
 transform = Transform3D(0.595356, 0, 0.803462, 0, 1, 0, -0.803462, 0, 0.595356, -0.15026, 0.741336, 18.82)
@@ -892,7 +960,6 @@ transform = Transform3D(0.0646342, -0.129867, -0.478495, 0.33007, 0.371343, -0.0
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
 directional = true
@@ -903,6 +970,7 @@ light_data = ExtResource("44_y4n4r")
 [node name="NightmareModeIndicator" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.116841, 3.41376, -24.9492)
+visible = false
 shaded = true
 text = "Nightmare mode!"
 font_size = 50
@@ -955,6 +1023,138 @@ texture = ExtResource("16_jym3p")
 transform = Transform3D(0.683333, -0.0255172, 0.729661, -0.729151, 0.0272847, 0.683809, -0.0373575, -0.999302, 3.86231e-05, -3.53503, 0.378096, 17.6797)
 design = 1
 
+[node name="PartyTable2" parent="OfficeNode/DressingNode/office_museum" instance=ExtResource("13_d5d72")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.13486)
+
+[node name="PartyTable3" parent="OfficeNode/DressingNode/office_museum" instance=ExtResource("13_d5d72")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.85796)
+
+[node name="PartyTable4" parent="OfficeNode/DressingNode/office_museum" instance=ExtResource("13_d5d72")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.70645)
+
+[node name="PartyTable5" parent="OfficeNode/DressingNode/office_museum" instance=ExtResource("13_d5d72")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.08347)
+
+[node name="AnomalyDisplay" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
+unique_name_in_owner = true
+
+[node name="AnomalyDisplayElement" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 5.99782)
+
+[node name="AnomalyDisplayElement2" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 5.63706)
+
+[node name="AnomalyDisplayElement3" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 5.26461)
+
+[node name="AnomalyDisplayElement4" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 4.8542)
+
+[node name="AnomalyDisplayElement5" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 4.44232)
+
+[node name="AnomalyDisplayElement6" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 4.48058)
+
+[node name="AnomalyDisplayElement7" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 4.84134)
+
+[node name="AnomalyDisplayElement8" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 5.21379)
+
+[node name="AnomalyDisplayElement9" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 5.6242)
+
+[node name="AnomalyDisplayElement10" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, 6.03608)
+
+[node name="AnomalyDisplayElement11" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 2.67922)
+
+[node name="AnomalyDisplayElement12" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 2.31846)
+
+[node name="AnomalyDisplayElement13" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.94601)
+
+[node name="AnomalyDisplayElement14" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.5356)
+
+[node name="AnomalyDisplayElement15" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.12372)
+
+[node name="AnomalyDisplayElement16" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.16199)
+
+[node name="AnomalyDisplayElement17" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.52274)
+
+[node name="AnomalyDisplayElement18" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.89519)
+
+[node name="AnomalyDisplayElement19" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 2.3056)
+
+[node name="AnomalyDisplayElement20" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, 2.71749)
+
+[node name="AnomalyDisplayElement22" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -1.27767)
+
+[node name="AnomalyDisplayElement23" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -1.65012)
+
+[node name="AnomalyDisplayElement24" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -2.06053)
+
+[node name="AnomalyDisplayElement25" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -2.47242)
+
+[node name="AnomalyDisplayElement26" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -2.43415)
+
+[node name="AnomalyDisplayElement27" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -2.07339)
+
+[node name="AnomalyDisplayElement28" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -1.70094)
+
+[node name="AnomalyDisplayElement29" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -1.29053)
+
+[node name="AnomalyDisplayElement30" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -0.87865)
+
+[node name="AnomalyDisplayElement31" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -4.23975)
+
+[node name="AnomalyDisplayElement32" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -4.60051)
+
+[node name="AnomalyDisplayElement33" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -4.97296)
+
+[node name="AnomalyDisplayElement34" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -5.38337)
+
+[node name="AnomalyDisplayElement35" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -5.79525)
+
+[node name="AnomalyDisplayElement36" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.75699)
+
+[node name="AnomalyDisplayElement37" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.39623)
+
+[node name="AnomalyDisplayElement38" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.02378)
+
+[node name="AnomalyDisplayElement39" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -4.61337)
+
+[node name="AnomalyDisplayElement40" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -4.20149)
+
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.45747, 1.578, 24.9728)
@@ -980,6 +1180,12 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.2
 
 [node name="VentilationGrillBig2" parent="OfficeNode" instance=ExtResource("72_7gua7")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.15568, 3.1294, 0)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="OfficeNode/VentilationGrillBig2"]
+stream = ExtResource("73_btj8t")
+volume_db = -25.0
+unit_size = 2.0
+autoplay = true
 
 [node name="VentilationGrillSmall2" parent="OfficeNode" instance=ExtResource("73_o06hd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.22717, 3.05665, -0.00352287)
@@ -1139,6 +1345,11 @@ ambient_mode = 0
 mesh = SubResource("SphereMesh_61cie")
 metadata/_edit_lock_ = true
 
+[connection signal="pressed" from="Control/PauseMenu/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="drag_ended" from="Control/PauseMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
+[connection signal="toggled" from="Control/PauseMenu/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
+[connection signal="pressed" from="Control/PauseMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="body_entered" from="FinishArea" to="." method="_on_finish_area_body_entered"]
 [connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_body_entered"]
 [connection signal="body_entered" from="InsideArea" to="." method="_on_inside_area_body_entered"]
