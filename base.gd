@@ -9,7 +9,7 @@ var battery_collected := -1
 
 var robots: Array[Robot] = []
 
-var completed_scenarios: Array[int] = []
+#var completed_scenarios: Array[int] = []
 var selected_scenarios:Array[int] = []
 var failed_scenarios:Array[int] = []
 
@@ -27,8 +27,9 @@ var museum_completed := false
 #var congrats_completed := false
 #var executive_completed := false
 #var nightmare_mode := false
-var selected_scenarios_count := 0
-var completed_anomalies_count := 0
+#var selected_scenarios_count := 0
+#var completed_anomalies_count := 0
+var scenarios_amount := 0
 
 var game_state: GameStateResource
 
@@ -67,6 +68,13 @@ enum DRESSING {
 var tonemap_tween: Tween
 
 const FLOORS_AMOUNT := 29
+const NONE_AMOUNT := 10
+
+var exe_phase_2 := false
+var saw_crowd_01 := false
+var saw_crowd_02 := false
+var saw_crowd_03 := false
+var saw_crowd_04 := false
 
 # Debug
 var skip_tutorial := false
@@ -76,6 +84,7 @@ var force_dressing := DRESSING.NONE
 var reset_save := false
 var override_state := true
 var state_override := GameStateResource.new()
+var force_completed_scenarios := 10
 
 func _ready() -> void:
 	if OS.has_feature("template"):
@@ -85,11 +94,14 @@ func _ready() -> void:
 		force_dressing = DRESSING.NONE
 		reset_save = false
 		override_state = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	for n in range(1, 40):
-		state_override.completed_anomalies.append(n)
+	for n in range(1, 28):
+		if randf() < 0.5:
+			state_override.completed_anomalies.append(n)
+		else:
+			state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
 	#
 	Global.player = %Player
 	
@@ -122,54 +134,70 @@ func _ready() -> void:
 	unpause()
 
 func check_if_nightmare() -> void:
-	# TODO duplicated code
-	var anomalies_count := Robot.GLITCHES.size()-1
-	#var completed_anomalies_count := game_state.completed_anomalies.size()
-	if anomalies_count - completed_anomalies_count < 10:
-		Global.is_nightmare_mode = true
+	## TODO duplicated code
+	#var anomalies_count := Robot.GLITCHES.size()-1
+	##var completed_anomalies_count := game_state.completed_anomalies.size()
+	#if anomalies_count - completed_anomalies_count < 10:
+		#Global.is_nightmare_mode = true
+	pass
 
 ## Initializes a game
 func start_game() -> void:
 	check_if_nightmare()
-	#scenario_count = Robot.GLITCHES.size()
-	var mixed_scenarios := Robot.GLITCHES.values()
+	#scenario_count = Robot.GLITCHES.size() 
+	var mixed_scenarios:Array[int]
+	mixed_scenarios.append_array(Robot.GLITCHES.values())
 	mixed_scenarios.remove_at(mixed_scenarios.find(Robot.GLITCHES.NONE))
+	
 	for s in mixed_scenarios.duplicate():
 		if game_state.completed_anomalies.has(s) :
 			mixed_scenarios.remove_at(mixed_scenarios.find(s))
+	
+	var none_count := game_state.completed_anomalies.count(0)
+	
 	var shufled_completed_anomalies := game_state.completed_anomalies.duplicate()
 	if not linear_game:
 		mixed_scenarios.shuffle()
 		shufled_completed_anomalies.shuffle()
-	# Move completed_anomalies to the end
-	if false:
-		for cs in shufled_completed_anomalies:
-			mixed_scenarios.remove_at(mixed_scenarios.find(cs))
-		if not game_state.executive_completed:
-			mixed_scenarios.append_array(game_state.completed_anomalies)
-	if mixed_scenarios.size() > FLOORS_AMOUNT:
-		mixed_scenarios.resize(FLOORS_AMOUNT)
+	#if mixed_scenarios.size() > FLOORS_AMOUNT:
+	#	mixed_scenarios.resize(FLOORS_AMOUNT)
 	var none_probability := 0.3
 	if game_state.executive_completed:
 		none_probability = 0.2
 	if Global.is_nightmare_mode:
 		none_probability = 0.0
 	selected_scenarios.resize(0)
-	for s in mixed_scenarios:
-		#if force_anomaly != Robot.GLITCHES.NONE:
-		#	selected_scenarios.append(force_anomaly)
-		#	continue
-		if randf() < none_probability and \
-				not linear_game and \
-				selected_scenarios.size() > 0 and \
-				not selected_scenarios.back() == Robot.GLITCHES.NONE:
-			selected_scenarios.append(Robot.GLITCHES.NONE)
-		else:
-			selected_scenarios.append(s)
+	if true:
+		selected_scenarios = mixed_scenarios.duplicate()
+		var nones: Array[int] = []
+		if NONE_AMOUNT > none_count:
+			for _n in NONE_AMOUNT - none_count:
+				nones.append(Robot.GLITCHES.NONE)
+		selected_scenarios.append_array(nones)
+		# LIGHTS_OFF must be > 9
+		
+	else:
+		for s in mixed_scenarios:
+			#if force_anomaly != Robot.GLITCHES.NONE:
+			#	selected_scenarios.append(force_anomaly)
+			#	continue
+			if randf() < none_probability and \
+					not linear_game and \
+					selected_scenarios.size() > 0 and \
+					not selected_scenarios.back() == Robot.GLITCHES.NONE:
+				none_count -= 1
+				if none_count <= 0:
+					selected_scenarios.append(Robot.GLITCHES.NONE)
+			else:
+				selected_scenarios.append(s)
 	if not linear_game:
 		selected_scenarios.shuffle()
-	completed_anomalies_count = game_state.completed_anomalies.size()
-	selected_scenarios_count = selected_scenarios.size()
+	#if force_completed_scenarios > 0:
+		#for n in force_completed_scenarios:
+			#game_state.completed_anomalies.append(selected_scenarios.pop_front())
+	#completed_anomalies_count = game_state.completed_anomalies.size()
+	#selected_scenarios_count = selected_scenarios.size()
+	scenarios_amount = selected_scenarios.size() + game_state.completed_anomalies.size()
 	load_main()
 
 func _process(delta: float) -> void:
@@ -244,11 +272,6 @@ func setup_executive() -> void:
 	if not %RobotStrike.is_connected("executive_finished", on_executive_finished):
 		%RobotStrike.connect("executive_finished", on_executive_finished)
 
-var exe_phase_2 := false
-var saw_crowd_01 := false
-var saw_crowd_02 := false
-var saw_crowd_03 := false
-var saw_crowd_04 := false
 func update_executive() -> void:
 	if section.scenario != -3: return
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
@@ -300,7 +323,7 @@ func on_executive_finished():
 		game_state.executive_completed = true
 		tutorial_completed = false
 		#current_side = SIDES.Z_PLUS
-		completed_scenarios.resize(0)
+		#completed_scenarios.resize(0)
 		selected_scenarios.resize(0)
 		failed_scenarios.resize(0)
 		reset_position()
@@ -314,28 +337,29 @@ func on_executive_finished():
 	exec_tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
 
 func save_game_state() -> void:
-	var unique_completed_scenarios: Array[int] = game_state.completed_anomalies.duplicate()
-	for s in completed_scenarios:
-		if s == Robot.GLITCHES.NONE: continue
-		if not unique_completed_scenarios.has(s):
-			unique_completed_scenarios.append(s)
-	game_state.completed_anomalies = unique_completed_scenarios
+	#var unique_completed_scenarios: Array[int] = game_state.completed_anomalies.duplicate()
+	#for s in completed_scenarios:
+		#if s == Robot.GLITCHES.NONE: continue
+		#if not unique_completed_scenarios.has(s):
+			#unique_completed_scenarios.append(s)
+	#game_state.completed_anomalies = unique_completed_scenarios
+	#game_state.completed_anomalies = completed_scenarios.duplicate()
 	ResourceSaver.save(game_state, save_path)
 
 func load_game_state() -> void:
+	game_state = load(save_path)
 	if override_state:
 		game_state = state_override
-		load_settings()
-		return
 	if reset_save or not ResourceLoader.exists(save_path):
 		game_state = GameStateResource.new()
 		load_settings()
 		return
-	game_state = load(save_path)
-	#game_state.congrats_completed = true
-	#game_state.executive_completed = true
+	if game_state.completed_anomalies.size() < 8:
+		game_state.completed_anomalies.resize(0)
+	else:
+		print("Tutorial completed")
+		tutorial_completed = true
 	load_settings()
-	
 
 func load_settings() -> void:
 	%VolumeSlider.set_value_no_signal(game_state.volume_level)
@@ -400,20 +424,21 @@ func setup_museum() -> void:
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
 	prints("Failed Scenarios", failed_scenarios)
-	prints("Completed Scenarios", completed_scenarios)
+	#prints("Completed Scenarios", completed_scenarios)
 	prints("Completed Anomalies", game_state.completed_anomalies)
 	var scenario = 0
 	if force_anomaly != Robot.GLITCHES.NONE:
 		scenario = force_anomaly
 	elif not tutorial_completed and not skip_tutorial and not museum_completed and ((not game_state.congrats_completed) or game_state.executive_completed):
 		if game_state.executive_completed:
-			scenario = -4
+			scenario = -4 # Museum
 		else:
-			scenario = -2
-	elif completed_scenarios.size() >= 8 and not game_state.congrats_completed:
-		scenario = -1
-	elif completed_scenarios.size() >= selected_scenarios_count: # FLOORS_COUNT
-		scenario = -3
+			scenario = -2 # Tutorial
+	#elif completed_scenarios.size() >= 8 and not game_state.congrats_completed:
+	elif game_state.completed_anomalies.size() >= 8 and not game_state.congrats_completed:
+		scenario = -1 # Congrats
+	elif game_state.completed_anomalies.size() >= FLOORS_AMOUNT and not game_state.executive_completed:
+		scenario = -3 # Executive
 	#elif completed_scenarios.size() >= 30 and game_state.executive_completed:
 	#	scenario = -4
 	elif selected_scenarios.size() > 0:
@@ -438,13 +463,15 @@ func instantiate_sections(Env: Node3D) -> void:
 	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
 	else:
-		%LevelCountLabel.mesh.text = "%d" % (completed_scenarios.size() + 1)
-	if completed_scenarios.size() < 8 and not game_state.congrats_completed:
+		%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
+	if game_state.completed_anomalies.size() < 8 and not game_state.congrats_completed:
 		%TotalLevelsCountLabel.mesh.text = "/ %d" % 8
-	elif game_state.executive_completed:
-		%TotalLevelsCountLabel.mesh.text = "/ %d" % (anomalies_count-completed_anomalies_count)
+	#elif game_state.executive_completed:
+	#	%TotalLevelsCountLabel.mesh.text = "/ %d" % (anomalies_count-completed_anomalies_count)
+	elif game_state.completed_anomalies.size() < FLOORS_AMOUNT:
+		%TotalLevelsCountLabel.mesh.text = "/ %d" % FLOORS_AMOUNT
 	else:
-		%TotalLevelsCountLabel.mesh.text = "/ %d" % selected_scenarios_count
+		%TotalLevelsCountLabel.mesh.text = "/ %d" % scenarios_amount
 		
 	#main.level = scenarios.size() - n
 	section.scenario = scenario
@@ -454,13 +481,13 @@ func instantiate_sections(Env: Node3D) -> void:
 	var message_id := game_state.completed_anomalies.size()
 	reset_dressing()
 	prints("message_id", message_id)
-	if scenario == -2:
+	if scenario == -2: # Tutorial
 		dressing_visible(%office_tutorial)
-	elif scenario == -3:
+	elif scenario == -3: # Executive
 		%MessageLabel.text = "Executive"
 		dressing_visible(%office_executive)
 		setup_executive()
-	elif scenario == -4:
+	elif scenario == -4: # Museum
 		%MessageLabel.text = "Museum"
 		dressing_visible(%office_museum)
 		#check_if_nightmare()
@@ -469,6 +496,8 @@ func instantiate_sections(Env: Node3D) -> void:
 		#else:
 			#%NightmareModeIndicator.visible = false
 		setup_museum()
+	elif scenario == -1: # Congrats
+		dressing_visible(%office_lobby)
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		dressing_visible(%office_lobby)
@@ -487,6 +516,20 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif message_id <= 28:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
+	else:
+		# Random
+		var pick_dressing := randi_range(0, 4)
+		match pick_dressing:
+			0:
+				dressing_visible(%office_lobby)
+			1:
+				dressing_visible(%office_design)
+			2:
+				dressing_visible(%office_lab)
+			3:
+				dressing_visible(%office_marketing)
+			4:
+				dressing_visible(%office_party)
 	
 	if force_dressing > 0:
 		reset_dressing()
@@ -548,10 +591,10 @@ func _input(event: InputEvent) -> void:
 			current_task = TASKS.NONE
 
 func process_failed_queue(scenario: int) -> void:
-	if completed_scenarios.size() < 8:
-		#completed_scenarios.shuffle()
-		selected_scenarios.append_array(completed_scenarios)
-		completed_scenarios.resize(0)
+	if game_state.completed_anomalies.size() < 8:
+		#completed_scenarios.shuffle()d
+		selected_scenarios.append_array(game_state.completed_anomalies)
+		game_state.completed_anomalies.resize(0)
 	#if not failed_scenarios.has(scenario):
 	failed_scenarios.append(scenario)
 	#failed_scenarios.shuffle()
@@ -612,7 +655,7 @@ func _on_finished(success: bool, scenario: int, last: bool) -> void:
 		#print("Wrong!")
 		return
 	#if not completed_scenarios.has(scenario):
-	completed_scenarios.append(scenario)
+	game_state.completed_anomalies.append(scenario)
 	#if last and completed_scenarios.size() > batch_count and completed_scenarios.size() != scenario_count:
 	#	load_main()
 	load_main()
