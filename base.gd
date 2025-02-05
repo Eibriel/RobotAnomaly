@@ -77,6 +77,8 @@ var saw_crowd_02 := false
 var saw_crowd_03 := false
 var saw_crowd_04 := false
 
+var congrats_explosion_executed := false
+
 # Debug
 var skip_tutorial := false
 var force_anomaly := Robot.GLITCHES.NONE
@@ -95,13 +97,13 @@ func _ready() -> void:
 		force_dressing = DRESSING.NONE
 		reset_save = false
 		override_state = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
-	var force_completed_scenarios = Robot.GLITCHES.size()
+	var force_completed_scenarios = 9 #Robot.GLITCHES.size() - 10
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
-	for n in range(1, force_completed_scenarios/NONE_RATIO):
+	for n in range(0, force_completed_scenarios/NONE_RATIO):
 		state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
 	state_override.completed_anomalies.shuffle()
 	#
@@ -135,13 +137,8 @@ func _ready() -> void:
 			multi.set_instance_transform((w*width)+d, tr)
 	unpause()
 
-func check_if_nightmare() -> void:
-	## TODO duplicated code
-	#var anomalies_count := Robot.GLITCHES.size()-1
-	##var completed_anomalies_count := game_state.completed_anomalies.size()
-	#if anomalies_count - completed_anomalies_count < 10:
-		#Global.is_nightmare_mode = true
-	pass
+func check_if_nightmare() -> bool:
+	return game_state.executive_completed
 
 ## Initializes a game
 func start_game() -> void:
@@ -163,11 +160,6 @@ func start_game() -> void:
 		shufled_completed_anomalies.shuffle()
 	#if mixed_scenarios.size() > FLOORS_AMOUNT:
 	#	mixed_scenarios.resize(FLOORS_AMOUNT)
-	var none_probability := 0.3
-	if game_state.executive_completed:
-		none_probability = 0.2
-	if Global.is_nightmare_mode:
-		none_probability = 0.0
 	selected_scenarios.resize(0)
 	if true:
 		selected_scenarios = mixed_scenarios.duplicate()
@@ -180,6 +172,11 @@ func start_game() -> void:
 		# LIGHTS_OFF must be > 9
 		
 	else:
+		var none_probability := 0.3
+		if game_state.executive_completed:
+			none_probability = 0.2
+		if Global.is_nightmare_mode:
+			none_probability = 0.0
 		for s in mixed_scenarios:
 			#if force_anomaly != Robot.GLITCHES.NONE:
 			#	selected_scenarios.append(force_anomaly)
@@ -258,6 +255,7 @@ func _process(delta: float) -> void:
 	%TaskProgressBar.value = (100.0 / task_duration) * task_timer
 	
 	update_executive()
+	update_congrats()
 	
 
 func setup_executive() -> void:
@@ -321,6 +319,33 @@ func update_executive() -> void:
 				%CrowdMultiMesh04.visible = true
 				%RobotCrowd04.visible = true
 				%RobotCrowd04.position.y = 0
+
+func update_congrats() -> void:
+	if section.scenario != -1: return
+	if not congrats_explosion_executed:
+		var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
+		var pos: float = player_pos.z + 25
+		if pos < 45:
+			var tween_particles := create_tween()
+			tween_particles.tween_callback(%CongratsParticlesBigExplosion1.set_emitting.bind(true))
+			tween_particles.tween_callback(%CongratsParticlesAudio1.play)
+			tween_particles.tween_interval(0.1)
+			tween_particles.tween_callback(%CongratsParticlesBigExplosion2.set_emitting.bind(true))
+			tween_particles.tween_callback(%CongratsParticlesAudio2.play)
+			tween_particles.tween_callback(%CongratsParticlesBig.set_emitting.bind(true))
+			#%CongratsParticlesBigExplosion2.emitting = true
+			#%CongratsParticlesBig.emitting = true
+			congrats_explosion_executed = true
+	else:
+		if %BalloonsCongrats.get_children().size() < 40:
+			var ball = preload("res://physics_balloon.tscn").instantiate()
+			ball.position.x = randf_range(-3.5, 3.6)
+			ball.position.y = 3.0
+			ball.position.z = randf_range(-15, 0)
+			ball.rotation.x = randf() * PI * 2
+			ball.rotation.y = randf() * PI * 2
+			ball.rotation.z = randf() * PI * 2
+			%BalloonsCongrats.add_child(ball)
 
 func on_executive_finished():
 	
@@ -400,11 +425,15 @@ func reset_dressing() -> void:
 		%office_marketing,
 		%office_party,
 		%office_executive,
-		%office_museum
+		%office_museum,
+		%office_congrats
 	]
 	for dn in dressing_nodes:
 		dn.visible = false
 		dn.position.y = -20
+	%CongratsParticlesBig.emitting = false
+	%CongratsParticlesBigExplosion1.emitting = false
+	%CongratsParticlesBigExplosion2.emitting = false
 
 func dressing_visible(dressing_node: Node3D) -> void:
 	dressing_node.visible = true
@@ -415,7 +444,7 @@ func setup_museum() -> void:
 	for _n in game_state.completed_anomalies:
 		if _n != Robot.GLITCHES.NONE:
 			anomalies_count += 1
-	%MuseumStatsLabel.text = "Stats\n"
+	%MuseumStatsLabel.text = "Found\n"
 	%MuseumStatsLabel.text += "%d / %d\n" % [anomalies_count, Robot.GLITCHES.size()-1]
 	#for ss in game_state.completed_anomalies:
 	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
@@ -463,6 +492,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		c.queue_free()
 	prints("Scenario:", scenario)
 	section = SECTION.instantiate()
+	section.is_nightmare_mode = check_if_nightmare()
 	section.level = available_scenarios_count
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
@@ -506,7 +536,7 @@ func instantiate_sections(Env: Node3D) -> void:
 			#%NightmareModeIndicator.visible = false
 		setup_museum()
 	elif scenario == -1: # Congrats
-		dressing_visible(%office_lobby)
+		dressing_visible(%office_congrats)
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		dressing_visible(%office_lobby)
@@ -555,6 +585,8 @@ func instantiate_sections(Env: Node3D) -> void:
 				dressing_visible(%office_party)
 			DRESSING.EXECUTIVE:
 				dressing_visible(%office_executive)
+	
+	%StairSign2.visible = check_if_nightmare()
 	
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
@@ -849,6 +881,11 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 func _on_loop_up_body_entered(body: Node3D) -> void:
 	print("Loop Up") # Player is going Down
 	%Player.position.y += 4.1
+	if check_if_nightmare():
+		tutorial_completed = false
+		museum_completed = false
+		load_main()
+		return
 
 
 func _on_loop_down_body_entered(body: Node3D) -> void:

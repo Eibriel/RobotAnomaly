@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlious8hqnhk0"]
+
+[ext_resource type="Script" uid="uid://birp7snfnevk7" path="res://robot_vacuum.gd" id="1_2c5vg"]
+[ext_resource type="PackedScene" uid="uid://bc5odep35psuk" path="res://objects/props/RobotVacuum.gltf" id="1_uecmn"]
+
+[node name="RobotVacuum" type="Node3D"]
+script = ExtResource("1_2c5vg")
+
+[node name="Roomba" parent="." instance=ExtResource("1_uecmn")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)

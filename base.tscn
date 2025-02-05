@@ -1,10 +1,10 @@
-[gd_scene load_steps=110 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=123 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
 [ext_resource type="LightmapGIData" uid="uid://d06gsukwh0nvk" path="res://lightmaps/executive_office.lmbake" id="3_ipkxx"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
-[ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="3_s5o31"]
+[ext_resource type="Texture2D" uid="uid://dm5io0xk3hqbv" path="res://textures/cursor.png" id="4_vja7b"]
 [ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
 [ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
@@ -74,12 +74,16 @@
 [ext_resource type="PackedScene" uid="uid://d0j1ntymha6vx" path="res://objects/robot_gi2_figure.glb" id="65_3yn3g"]
 [ext_resource type="PackedScene" uid="uid://bdmq6w00vkvk8" path="res://objects/robot_human_figure.glb" id="66_4q3kb"]
 [ext_resource type="PackedScene" uid="uid://di52qnvxit3q2" path="res://anomaly_display_element.tscn" id="68_r5sll"]
+[ext_resource type="AudioStream" uid="uid://csinfrf5eaouv" path="res://sounds/confetti-cannon.mp3" id="69_npl1d"]
+[ext_resource type="PackedScene" uid="uid://dfih76ieirvh8" path="res://objects/props/BalloonCongrats.gltf" id="70_q3v0p"]
+[ext_resource type="Texture2D" uid="uid://b6025d0mjbgib" path="res://textures/StairsSign_2.jpg" id="70_vja7b"]
 [ext_resource type="PackedScene" uid="uid://duofqir0kfodc" path="res://objects/props/VentilationGrillBig.gltf" id="72_7gua7"]
 [ext_resource type="AudioStream" uid="uid://it5lpybtjnci" path="res://sounds/ventilation_big.mp3" id="73_btj8t"]
 [ext_resource type="PackedScene" uid="uid://cm85x7lj71un7" path="res://objects/props/VentilationGrillSmall.gltf" id="73_o06hd"]
 [ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="74_k62q3"]
 [ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="74_nigfh"]
 [ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="75_m5bov"]
+[ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -146,11 +150,79 @@ size = Vector3(1.85297, 0.115479, 0.708984)
 [sub_resource type="BoxShape3D" id="BoxShape3D_5pcrg"]
 size = Vector3(1.89258, 1.27979, 1)
 
+[sub_resource type="Curve" id="Curve_vja7b"]
+_limits = [-360.0, 360.0, 0.0, 1.0]
+_data = [Vector2(0, -360), 0.0, 0.0, 0, 0, Vector2(1, 360), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_npl1d"]
+curve = SubResource("Curve_vja7b")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vja7b"]
+particle_flag_rotate_y = true
+emission_shape_scale = Vector3(5, 0.1, 20)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_curve = SubResource("CurveTexture_npl1d")
+angular_velocity_min = -182.68
+angular_velocity_max = 105.37
+orbit_velocity_min = -0.552
+orbit_velocity_max = 0.703
+gravity = Vector3(0, -0.98, 0)
+damping_max = 0.045
+turbulence_enabled = true
+turbulence_noise_strength = 0.1
+turbulence_noise_scale = 1.0
+turbulence_noise_speed_random = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vja7b"]
+cull_mode = 2
+albedo_color = Color(0.277558, 0.264272, 0.0273646, 1)
+metallic = 1.0
+metallic_specular = 0.13
+roughness = 0.57
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q3v0p"]
+material = SubResource("StandardMaterial3D_vja7b")
+size = Vector2(0.05, 0.1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_npl1d"]
+particle_flag_rotate_y = true
+angle_min = -357.5
+angle_max = 158.9
+direction = Vector3(0, 1, 0)
+spread = 25.0
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+angular_velocity_min = -179.51
+angular_velocity_max = 140.49
+orbit_velocity_min = -0.347
+orbit_velocity_max = 0.369
+gravity = Vector3(0, -0.98, 0)
+turbulence_noise_strength = 0.01
+turbulence_noise_scale = 1.0
+turbulence_noise_speed_random = 0.1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_npl1d"]
+material = SubResource("StandardMaterial3D_vja7b")
+size = Vector2(0.2, 0.2)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yc71e"]
 albedo_texture = ExtResource("20_wudxj")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2btif"]
 material = SubResource("StandardMaterial3D_yc71e")
+size = Vector2(1.4, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npl1d"]
+albedo_texture = ExtResource("70_vja7b")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0tvgc"]
+material = SubResource("StandardMaterial3D_npl1d")
 size = Vector2(1.4, 2)
 
 [sub_resource type="TextMesh" id="TextMesh_4a7sh"]
@@ -247,14 +319,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 125.0
-offset_bottom = 125.0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.05, 0.05)
-texture = ExtResource("3_s5o31")
+scale = Vector2(0.15, 0.15)
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("4_vja7b")
 
 [node name="RobotIdLabel" type="Label" parent="Control"]
 unique_name_in_owner = true
@@ -1156,6 +1229,63 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643
 [node name="AnomalyDisplayElement40" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -4.20149)
 
+[node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
+unique_name_in_owner = true
+
+[node name="CongratsParticlesBig" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.77485, 0)
+extra_cull_margin = 10.0
+emitting = false
+amount = 1200
+lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_vja7b")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
+
+[node name="CongratsParticlesBigExplosion1" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, 3.001, 0.655386, 5.21853)
+emitting = false
+amount = 600
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.99
+process_material = SubResource("ParticleProcessMaterial_npl1d")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
+
+[node name="CongratsParticlesBigExplosion2" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+transform = Transform3D(-0.464822, 0.225716, 0.85615, 0.436818, 0.89955, 0, -0.77015, 0.373981, -0.516728, -2.82849, 0.655386, 5.21853)
+emitting = false
+amount = 600
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.99
+process_material = SubResource("ParticleProcessMaterial_npl1d")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
+
+[node name="CongratsParticlesAudio1" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.92052, 1.15456, 5.13365)
+stream = ExtResource("69_npl1d")
+bus = &"Environment"
+
+[node name="CongratsParticlesAudio2" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.05215, 0.95176, 4.90365)
+stream = ExtResource("69_npl1d")
+bus = &"Environment"
+
+[node name="ParticleShaderLoader" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_congrats"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.31443, 0)
+mesh = SubResource("PlaneMesh_npl1d")
+
+[node name="BalloonCongrats" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("70_q3v0p")]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.161686, 3.37886, -14.9212)
+
+[node name="BalloonsCongrats" type="Node3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.45747, 1.578, 24.9728)
@@ -1163,6 +1293,11 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.457
 [node name="StairSign" type="MeshInstance3D" parent="OfficeNode"]
 transform = Transform3D(0.3, -2.62268e-08, 1.14641e-15, 0, -1.31134e-08, -0.3, 2.62268e-08, 0.3, -1.31134e-08, 4.57842e-06, 3.2167, -24.9915)
 mesh = SubResource("PlaneMesh_2btif")
+
+[node name="StairSign2" type="MeshInstance3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(0.296309, -2.79548e-08, -0.0469148, -0.0469148, -8.85064e-09, -0.296309, 2.62268e-08, 0.3, -1.31134e-08, 0.543624, 3.16114, -24.9915)
+mesh = SubResource("PlaneMesh_0tvgc")
 
 [node name="LightSwitchOld2" parent="OfficeNode" instance=ExtResource("74_nigfh")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.25175, 1.25307, 1.06682)
@@ -1193,6 +1328,9 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.227
 
 [node name="WallFan2" parent="OfficeNode" instance=ExtResource("74_k62q3")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.24481, 2.93683, -19.4875)
+
+[node name="RobotVacuum" parent="OfficeNode" instance=ExtResource("79_0tvgc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.63765, 0, 23.9376)
 
 [node name="StairsNode" type="Node3D" parent="."]
 

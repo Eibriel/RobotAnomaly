@@ -6,9 +6,10 @@ signal request_environment_change
 
 @export var level := 1
 @export var message := ""
-@export var scenario = 0
-@export var last = false
-@export var last_day = false
+@export var scenario := 0
+@export var last := false
+@export var last_day := false
+@export var is_nightmare_mode := false
 
 var robots: Array[Robot] = []
 var finished := false
@@ -20,7 +21,7 @@ var anomaly: Robot.GLITCHES
 var report: Array
 
 const RESET_BUTTON = preload("res://reset_button.tscn")
-const ROBOT = preload("res://robot.tscn")
+#const ROBOT = preload("res://robot.tscn")
 const BATTERY_CHARGER = preload("res://battery_charger.tscn")
 
 enum ENV_CHANGE {
@@ -54,7 +55,7 @@ func activate() -> void:
 	active = true
 
 func setup_tutorial() -> void:
-	var r := ROBOT.instantiate()
+	var r := Global.get_robot_instance()
 	r.robot_id = 10
 	r.battery_charge = 50
 	r.set_glitch(Robot.GLITCHES.RED_EYES)
@@ -64,7 +65,7 @@ func setup_tutorial() -> void:
 	r.robot_position(Vector3(-1.5, 0.5, -10))
 	r.robot_rotation(deg_to_rad(-90-70-180))
 	
-	r = ROBOT.instantiate()
+	r = Global.get_robot_instance()
 	r.robot_id = 11
 	r.battery_charge = 60
 	r.set_glitch(r.GLITCHES.NONE)
@@ -73,7 +74,7 @@ func setup_tutorial() -> void:
 	r.robot_position(Vector3(1.5, 0.5, -10))
 	r.robot_rotation(deg_to_rad(90+70+180))
 	
-	r = ROBOT.instantiate()
+	r = Global.get_robot_instance()
 	r.robot_id = 0
 	r.battery_charge = 100
 	#r.set_glitch(Robot.GLITCHES.RED_EYES)
@@ -83,7 +84,7 @@ func setup_tutorial() -> void:
 	r.robot_position(Vector3(-1.5, 0.5, -10+7))
 	r.robot_rotation(deg_to_rad(-90-70-180))
 	
-	r = ROBOT.instantiate()
+	r = Global.get_robot_instance()
 	r.robot_id = 1
 	r.battery_charge = 100
 	r.set_glitch(r.GLITCHES.NONE)
@@ -93,30 +94,37 @@ func setup_tutorial() -> void:
 	r.robot_rotation(deg_to_rad(90+70+180))
 
 func setup_congrats() -> void:
-	var r := ROBOT.instantiate()
-	r.robot_id = 42
-	r.battery_charge = 100
-	r.looking_player = true
-	r.set_pose(Robot.POSES.CLAPPING)
-	robots.append(r)
-	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(-2, 0, -10))
-	r.robot_rotation(deg_to_rad(45))
-	r.remove_base()
+	for r_x in 2:
+		for r_y in 4:
+			var r := Global.get_robot_instance()
+			r.robot_id = 42
+			r.battery_charge = 100
+			r.looking_player = true
+			r.set_pose(Robot.POSES.CLAPPING)
+			robots.append(r)
+			%Robots.add_child.call_deferred(r)
+			if r_x == 0:
+				r.robot_position(Vector3(-2, 0, -10+r_y*4))
+				r.robot_rotation(deg_to_rad(45))
+			else:
+				r.robot_position(Vector3(2, 0, -10+r_y*4))
+				r.robot_rotation(deg_to_rad(-45))
+			r.remove_base()
 	#
-	r = ROBOT.instantiate()
-	r.robot_id = 24
-	r.battery_charge = 100
-	r.looking_player = true
-	r.set_pose(Robot.POSES.CLAPPING)
-	robots.append(r)
-	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(2, 0, -10))
-	r.robot_rotation(deg_to_rad(-45))
-	r.remove_base()
+	#r = ROBOT.instantiate()
+	#r.robot_id = 24
+	#r.battery_charge = 100
+	#r.looking_player = true
+	#r.set_pose(Robot.POSES.CLAPPING)
+	#robots.append(r)
+	#%Robots.add_child.call_deferred(r)
+	#r.robot_position(Vector3(2, 0, -10))
+	#r.robot_rotation(deg_to_rad(-45))
+	#r.remove_base()
+	
 
 func setup_ending() -> void:
-	var r := ROBOT.instantiate()
+	var r := Global.get_robot_instance()
 	r.robot_id = 666
 	r.battery_charge = 90
 	r.set_pose(Robot.POSES.SITTING)
@@ -127,7 +135,7 @@ func setup_ending() -> void:
 	%Robots.add_child.call_deferred(r)
 	r.robot_position(Vector3(0, 0, -5))
 	#
-	r = ROBOT.instantiate()
+	r = Global.get_robot_instance()
 	r.robot_id = 24
 	r.battery_charge = 100
 	r.looking_player = true
@@ -138,7 +146,7 @@ func setup_ending() -> void:
 	r.robot_rotation(deg_to_rad(-45))
 	r.remove_base()
 	#
-	r = ROBOT.instantiate()
+	r = Global.get_robot_instance()
 	r.robot_id = 24
 	r.battery_charge = 100
 	r.looking_player = true
@@ -166,11 +174,11 @@ func start_day() -> void:
 	
 	for rx in 2:
 		for ry in y_count:
-			var r := ROBOT.instantiate()
+			var r := Global.get_robot_instance()
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
 			r.battery_charge = 100
-			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
+			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF and not is_nightmare_mode:
 				r.battery_charge = randi_range(60, 80)
 			robots.append(r)
 			%Robots.add_child.call_deferred(r)
@@ -198,7 +206,7 @@ func start_day() -> void:
 	]
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
-		if not Global.is_nightmare_mode:
+		if not is_nightmare_mode:
 			sr.battery_charge = randi_range(70, 80)
 		
 	
@@ -214,8 +222,9 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		robots[robots.size()-1].set_glitch(anomaly)
 		robots[robots.size()-1-y_count].set_glitch(anomaly)
-		robots[robots.size()-1].battery_charge = randi_range(60, 80)
-		robots[robots.size()-1-y_count].battery_charge = randi_range(60, 80)
+		if not is_nightmare_mode:
+			robots[robots.size()-1].battery_charge = randi_range(60, 80)
+			robots[robots.size()-1-y_count].battery_charge = randi_range(60, 80)
 	if anomaly == Robot.GLITCHES.BLOCKING_PATH:
 		robots[0].set_glitch(anomaly)
 		robots[0].block_id = 0

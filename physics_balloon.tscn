@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://q4npa7bdvd2r"]
+
+[ext_resource type="PackedScene" uid="uid://8n8bq2mhmijd" path="res://objects/props/Balloon.gltf" id="1_al6hv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_al6hv"]
+radius = 0.149534
+height = 0.432604
+
+[node name="PhysicsBalloon" type="RigidBody3D"]
+collision_layer = 8
+collision_mask = 15
+mass = 0.01
+linear_damp = 10.0
+angular_damp = 10.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_al6hv")
+
+[node name="Balloon2" parent="." instance=ExtResource("1_al6hv")]
