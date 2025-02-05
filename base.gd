@@ -45,7 +45,8 @@ enum TASKS {
 	NONE,
 	BATTERY_CHARGE,
 	SHUT_DOWN,
-	ROTATE
+	ROTATE,
+	ROTATE_INVERSE
 }
 
 enum SIDES {
@@ -215,6 +216,8 @@ func _process(delta: float) -> void:
 		match current_task:
 			TASKS.ROTATE:
 				robot_collected.rotate_base(delta)
+			TASKS.ROTATE_INVERSE:
+				robot_collected.rotate_base(delta, true)
 			TASKS.BATTERY_CHARGE:
 				robot_collected.charge_battery(delta)
 			TASKS.SHUT_DOWN:
@@ -585,7 +588,7 @@ func _input(event: InputEvent) -> void:
 		pause()
 	if event is InputEventMouseButton:
 		if event.pressed:
-			fire_ray()
+			fire_ray(event.button_index)
 		else:
 			task_timer = 0.0
 			current_task = TASKS.NONE
@@ -690,7 +693,7 @@ func reset_position() -> void:
 			#%Player.look_rot.y += rad_to_deg(180)
 		introduction_done = true
 
-func fire_ray() -> void:
+func fire_ray(button_index: int) -> void:
 	var ray_range := 6.0
 	var center := Vector2(get_viewport().get_visible_rect().size / 2)
 	var cam := get_viewport().get_camera_3d()
@@ -765,6 +768,9 @@ func fire_ray() -> void:
 		elif coll.has_meta("is_turnstile"):
 			print("is_turnstile")
 			coll.get_parent().open()
+	if current_task == TASKS.ROTATE:
+		if button_index == 1:
+			current_task = TASKS.ROTATE_INVERSE
 
 func charge_battery(robot: Robot) -> void:
 	# On Robot

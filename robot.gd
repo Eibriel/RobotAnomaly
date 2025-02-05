@@ -152,12 +152,15 @@ func _ready() -> void:
 	motor_sound_delay.tween_interval(randf()*2)
 	motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
 
-func rotate_base(delta: float) -> void:
+func rotate_base(delta: float, reverse:=false) -> void:
 	if not base_visible: return
 	if glitch == GLITCHES.WALKS_NOT_LOOKING: return
 	if glitch == GLITCHES.BLOCKING_PATH: return
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
-	%RobotBody.rotate_y(deg_to_rad(120) * delta)
+	if reverse:
+		%RobotBody.rotate_y(deg_to_rad(-120) * delta)
+	else:
+		%RobotBody.rotate_y(deg_to_rad(120) * delta)
 
 func robot_rotation(angle: float) -> void:
 	%RobotBody.rotation.y = angle

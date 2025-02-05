@@ -6,8 +6,8 @@ const ACCEL := 5.0
 const ROTATION_ACCEL := 12.0
 
 @export var sensitivity := 0.15
-@export var min_angle := -80
-@export var max_angle := 90
+@export var min_angle := -80.0
+@export var max_angle := 90.0
 @export var height := 1.7
 
 @onready var head = $Head
@@ -93,8 +93,12 @@ func _physics_process(delta: float) -> void:
 		head.rotation_degrees.x = 0
 		rotation_degrees.y = 0
 	else:
-		head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), ROTATION_ACCEL * delta) )
-		rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), ROTATION_ACCEL * delta) )
+		if false:
+			head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), ROTATION_ACCEL * delta) )
+			rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), ROTATION_ACCEL * delta) )
+		else:
+			head.rotation_degrees.x = look_rot.x
+			rotation_degrees.y = look_rot.y
 	
 	halt_velocity = false
 
