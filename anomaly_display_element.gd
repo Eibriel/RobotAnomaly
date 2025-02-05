@@ -1,6 +1,7 @@
 extends Node3D
 
 var robot: Robot
+var robot_b: Robot
 
 const anomaly_name = {
 	Robot.GLITCHES.BROKEN_ANTENA: "No signal",
@@ -55,12 +56,22 @@ func set_anomaly(anomaly: Robot.GLITCHES) -> void:
 		return
 	if robot:
 		robot.queue_free()
+	if robot_b:
+		robot.queue_free()
 	robot = preload("res://robot.tscn").instantiate()
 	robot.set_glitch(anomaly, true)
 	robot.scale = Vector3.ONE * 0.2
 	robot.position.y = 0.01 + 0.01
 	robot.remove_base()
 	add_child(robot)
+	if anomaly == Robot.GLITCHES.BLOCKING_PATH:
+		robot = preload("res://robot.tscn").instantiate()
+		robot.block_id = 1
+		robot.set_glitch(anomaly, true)
+		robot.scale = Vector3.ONE * 0.2
+		robot.position.y = 0.01 + 0.01
+		robot.remove_base()
+		add_child(robot)
 
 func set_anomaly_unknown() -> void:
 	$Label3D.text = "??"

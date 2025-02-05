@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://w7edst2tqa8i" path="res://anomaly_display_element.gd" id="1_lvupd"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lvupd"]
-size = Vector3(0.15, 0.02, 0.15)
+size = Vector3(0.2, 0.02, 0.15)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lvupd"]
 size = Vector2(0.2, 0.05)

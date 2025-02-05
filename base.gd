@@ -69,7 +69,7 @@ enum DRESSING {
 var tonemap_tween: Tween
 
 const FLOORS_AMOUNT := 29
-const NONE_AMOUNT := 10
+const NONE_RATIO := 4
 
 var exe_phase_2 := false
 var saw_crowd_01 := false
@@ -85,7 +85,7 @@ var force_dressing := DRESSING.NONE
 var reset_save := false
 var override_state := true
 var state_override := GameStateResource.new()
-var force_completed_scenarios := 10
+#var force_completed_scenarios := 10
 
 func _ready() -> void:
 	if OS.has_feature("template"):
@@ -95,14 +95,15 @@ func _ready() -> void:
 		force_dressing = DRESSING.NONE
 		reset_save = false
 		override_state = false
-	state_override.congrats_completed = false
-	state_override.executive_completed = false
+	state_override.congrats_completed = true
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
-	for n in range(1, 28):
-		if randf() < 0.5:
-			state_override.completed_anomalies.append(n)
-		else:
-			state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
+	var force_completed_scenarios = Robot.GLITCHES.size()
+	for n in range(1, force_completed_scenarios):
+		state_override.completed_anomalies.append(n)
+	for n in range(1, force_completed_scenarios/NONE_RATIO):
+		state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
+	state_override.completed_anomalies.shuffle()
 	#
 	Global.player = %Player
 	
@@ -171,8 +172,9 @@ func start_game() -> void:
 	if true:
 		selected_scenarios = mixed_scenarios.duplicate()
 		var nones: Array[int] = []
-		if NONE_AMOUNT > none_count:
-			for _n in NONE_AMOUNT - none_count:
+		var none_amount := Robot.GLITCHES.size() / NONE_RATIO
+		if none_amount > none_count:
+			for _n in none_amount - none_count:
 				nones.append(Robot.GLITCHES.NONE)
 		selected_scenarios.append_array(nones)
 		# LIGHTS_OFF must be > 9
@@ -409,8 +411,12 @@ func dressing_visible(dressing_node: Node3D) -> void:
 	dressing_node.position.y = 0
 
 func setup_museum() -> void:
+	var anomalies_count := 0
+	for _n in game_state.completed_anomalies:
+		if _n != Robot.GLITCHES.NONE:
+			anomalies_count += 1
 	%MuseumStatsLabel.text = "Stats\n"
-	#%MuseumStatsLabel.text += "%d / %d\n" % [completed_anomalies_count, anomalies_count]
+	%MuseumStatsLabel.text += "%d / %d\n" % [anomalies_count, Robot.GLITCHES.size()-1]
 	#for ss in game_state.completed_anomalies:
 	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
 	var anom_displays := %AnomalyDisplay.get_children()

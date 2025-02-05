@@ -8,7 +8,7 @@ const ROTATION_ACCEL := 12.0
 @export var sensitivity := 0.15
 @export var min_angle := -80.0
 @export var max_angle := 90.0
-@export var height := 1.7
+@export var height := 1.9
 
 @onready var head = $Head
 
@@ -68,6 +68,8 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
+		if is_on_floor() and Input.is_action_pressed("Sprint"):
+			direction *= 2
 		velocity.x = lerpf(velocity.x, direction.x * SPEED, ACCEL * delta)
 		velocity.z = lerpf(velocity.z, direction.z * SPEED, ACCEL * delta)
 		$StepsAudio.stream_paused = false

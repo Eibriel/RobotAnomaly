@@ -7,7 +7,7 @@
 	"scene":0,
 	"scenes":[
 		{
-			"name":"Pinter3D",
+			"name":"Printer3D",
 			"nodes":[
 				0
 			]
@@ -70,8 +70,8 @@
 	"images":[
 		{
 			"mimeType":"image/jpeg",
-			"name":"Image_1",
-			"uri":"props_textures/Image_1.jpg"
+			"name":"Printer3D_Emissive",
+			"uri":"props_textures/Printer3D_Emissive.jpg"
 		},
 		{
 			"mimeType":"image/jpeg",

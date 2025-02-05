@@ -978,10 +978,11 @@ vertical_alignment = 0
 
 [node name="MuseumStatsLabel" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.41376, 0)
+transform = Transform3D(0, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 0, 0, 0.0643104, 1.05633, 5.1909)
+pixel_size = 0.001
 shaded = true
 text = "Stats."
-font_size = 10
+font_size = 60
 vertical_alignment = 0
 
 [node name="LobbyChair" parent="OfficeNode/DressingNode/office_museum" instance=ExtResource("13_jym3p")]

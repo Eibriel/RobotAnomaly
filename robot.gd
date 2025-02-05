@@ -343,11 +343,11 @@ func update_snap(delta: float) -> void:
 	if glitch != GLITCHES.COUNTDOWN: return
 	if not power_on: return
 	if Global.is_player_in_room:
-		if not is_demo:
-			snap_countdown += delta
+		snap_countdown += delta
 	if snap_countdown >= snap_rate:
 		snap_countdown = 0.0
-		snap_rate *=  0.90
+		if not is_demo:
+			snap_rate *=  0.90
 		if snap_rate < 0.1:
 			snap_rate = 0.1
 			anomaly_failed.emit()
@@ -535,11 +535,12 @@ func update_glitch() -> void:
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.position = Vector3.ZERO
 		GLITCHES.EXTRA_ROBOTS:
-			var pos := %RobotBody.position as Vector3
-			pos.x += randf() * 0.2
-			pos.y = 0.2
-			pos.z += randf() * 0.2
-			robot_position(pos)
+			if not is_demo:
+				var pos := %RobotBody.position as Vector3
+				pos.x += randf() * 0.2
+				pos.y = 0.2
+				pos.z += randf() * 0.2
+				robot_position(pos)
 
 #func remove_glitch():
 	##is_glitching = false
