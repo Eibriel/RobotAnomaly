@@ -286,6 +286,7 @@ func setup_executive() -> void:
 	%RobotVacuum.current_state = %RobotVacuum.STATES.CIRCLES
 
 var exec_done := false
+var door_open := false
 func update_executive() -> void:
 	if section.scenario != -3: return
 	if exec_done: return
@@ -296,9 +297,10 @@ func update_executive() -> void:
 	if saw_crowd_01 and \
 			saw_crowd_02 and \
 			saw_crowd_03 and \
-			saw_crowd_04 and %DoorOnScreenSmall.is_on_screen():
+			saw_crowd_04 and %DoorOnScreenSmall.is_on_screen() and not door_open:
 		#%RobotStrike.stalk_player = Robot.STALK.SHOWUP
 		open_storage_door(false)
+		door_open = true
 	else:
 		#%RobotStrike.stalk_player = Robot.STALK.FOLLOW
 		pass
@@ -306,6 +308,7 @@ func update_executive() -> void:
 		close_storage_door()
 		%RobotStrike.position.y = 0
 		exec_done = true
+		on_executive_finished()
 	if %ExecVisible01.is_on_screen() and %RobotCrowd01.visible:
 		saw_crowd_01 = true
 	if %ExecVisible02.is_on_screen() and %RobotCrowd02.visible:
@@ -378,12 +381,13 @@ func on_executive_finished():
 		start_game()
 	
 	var exec_tween := create_tween()
-	exec_tween.tween_interval(2.0)
+	exec_tween.tween_interval(2.5)
 	#
-	exec_tween.tween_property(%FadeWhite, "modulate:a", 1.0, 2.0)
+	exec_tween.tween_property(%FadeBlack, "modulate:a", 1.0, 4.0)
 	exec_tween.tween_callback(reset.call_deferred)
+	exec_tween.tween_interval(1.0)
 	exec_tween.tween_callback($AudioStreamPlayer.play)
-	exec_tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
+	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 4.0)
 
 func save_game_state() -> void:
 	#var unique_completed_scenarios: Array[int] = game_state.completed_anomalies.duplicate()
@@ -663,11 +667,14 @@ func process_failed_queue(scenario: int) -> void:
 func open_storage_door(with_crowd:=true) -> void:
 	var office_obj := %MainOfficeWithCollision.get_node("office2") as Node3D
 	var door_obj := office_obj.get_node("Puerta") as Node3D
+	%DoorAudio.stream = preload("res://sounds/storage_door_open.mp3")
+	%DoorAudio.pitch_scale = 1.2
+	%DoorAudio.play()
 	#door_obj.rotation.y = 45
 	var tween := create_tween()
 	#tween.set_trans(Tween.TRANS_EXPO)
 	#tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(door_obj, "rotation_degrees:y", -300, 2.0)
+	tween.tween_property(door_obj, "rotation_degrees:y", -300, 3.0)
 	var door_coll := %MainOfficeWithCollision.get_node("office2/DoorCollider") as Node3D
 	door_coll.position.y = 50
 	if with_crowd:
@@ -676,9 +683,14 @@ func open_storage_door(with_crowd:=true) -> void:
 func close_storage_door() -> void:
 	var office_obj := %MainOfficeWithCollision.get_node("office2") as Node3D
 	var door_obj := office_obj.get_node("Puerta") as Node3D
+	%DoorAudio.stream = preload("res://sounds/storage_door_closes.mp3")
+	%DoorAudio.pitch_scale = 1.0
+	%DoorAudio.play()
 	#door_obj.rotation.y = -180
 	var tween := create_tween()
-	tween.tween_property(door_obj, "rotation_degrees:y", -180, 2.0)
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.tween_property(door_obj, "rotation_degrees:y", -180, 3.0)
 	tween.tween_callback(%CrowdMultiMeshStorage.set_visible.bind(false))
 	var door_coll := %MainOfficeWithCollision.get_node("office2/DoorCollider") as Node3D
 	door_coll.position.y = 0

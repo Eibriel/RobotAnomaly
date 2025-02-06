@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=127 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dm5io0xk3hqbv" path="res://textures/cursor.png" id="4_vja7b"]
 [ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
+[ext_resource type="AudioStream" uid="uid://di1eg1p80okdk" path="res://sounds/storage_door_open.mp3" id="6_lnhvi"]
 [ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
 [ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
 [ext_resource type="PackedScene" uid="uid://1xxq4hfexljm" path="res://objects/props/MarketingShelf.gltf" id="13_1uwki"]
@@ -430,6 +431,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="FadeBlack" type="ColorRect" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="PauseMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
@@ -503,6 +515,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36)
 stream = ExtResource("5_k62q3")
 unit_size = 5.0
 autoplay = true
+
+[node name="DoorAudio" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.14592, 1.516, -0.456278)
+stream = ExtResource("6_lnhvi")
+unit_size = 5.0
 
 [node name="OfficeNode" type="Node3D" parent="."]
 unique_name_in_owner = true
