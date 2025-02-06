@@ -1,4 +1,4 @@
-[gd_scene load_steps=123 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=126 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -68,6 +68,7 @@
 [ext_resource type="PackedScene" uid="uid://d0t8p1fwnu5oh" path="res://objects/props/BookJournalClosed.gltf" id="51_2ifga"]
 [ext_resource type="PackedScene" uid="uid://cl1crkfvab5km" path="res://objects/props/Sketchbook01.gltf" id="53_sqt58"]
 [ext_resource type="PackedScene" uid="uid://cuo1y84kf32rd" path="res://objects/props/Brain.gltf" id="54_p3pq8"]
+[ext_resource type="PackedScene" uid="uid://bhm6dawxjwtq0" path="res://objects/props/WoodCrate.gltf" id="55_telh7"]
 [ext_resource type="PackedScene" uid="uid://bq4jv3pu31j74" path="res://objects/props/MagazinePile01.gltf" id="62_3bu5q"]
 [ext_resource type="PackedScene" uid="uid://coulw5ubmqyvj" path="res://objects/robot_gi1_figure.glb" id="63_rvcyw"]
 [ext_resource type="PackedScene" uid="uid://bi55y02bb77tw" path="res://objects/robot_maid_figure.glb" id="64_rnjy8"]
@@ -84,6 +85,7 @@
 [ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="74_nigfh"]
 [ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="75_m5bov"]
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
+[ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -131,6 +133,9 @@ size = Vector3(0.626709, 1.17221, 1.97772)
 [sub_resource type="BoxShape3D" id="BoxShape3D_kaldw"]
 size = Vector3(2.24512, 1.18921, 1)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_telh7"]
+size = Vector3(1.6488, 3.29016, 2.85864)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_kajva"]
 size = Vector3(8.4541, 1.08203, 9.35059)
 
@@ -145,7 +150,7 @@ buffer = PackedFloat32Array(1.23314e-43, 1.4013e-45, 3.64338e-44, 1.4013e-45, 3.
 size = Vector3(1.85297, 1, 1.95239)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dtkpj"]
-size = Vector3(1.85297, 0.115479, 0.708984)
+size = Vector3(2.14914, 0.115479, 0.708984)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5pcrg"]
 size = Vector3(1.89258, 1.27979, 1)
@@ -245,7 +250,7 @@ depth = 0.02
 size = Vector3(1.74908, 3.88782, 2.46741)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5ho0w"]
-size = Vector3(6.33691, 7.39258, 16.1753)
+size = Vector3(8.23633, 4.20801, 47.333)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ae67b"]
 size = Vector3(8.45215, 2.19482, 49.9573)
@@ -822,7 +827,6 @@ transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 1.60133, 1.15425, 19.16
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="ExecutiveLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_executive"]
 directional = true
@@ -836,13 +840,26 @@ transform = Transform3D(0.873288, 0, 0.487204, 0, 1, 0, -0.487204, 0, 0.873288, 
 [node name="Desk2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("21_7m1qc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.39879)
 
-[node name="Body" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_x13uo")]
-transform = Transform3D(0.711462, 0, 0.702724, 0, 1, 0, -0.702724, 0, 0.711462, 1.84357, -0.0199952, -6.50181)
+[node name="ExecVacuumMarker" type="Marker3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(0.99447, 0, 0.105014, 0, 1, 0, -0.105014, 0, 0.99447, 0.303621, 0, -6.94112)
 
-[node name="ExecDoorBlock" type="CSGBox3D" parent="OfficeNode/DressingNode/office_executive"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10077, 1.11969, -24.674)
-use_collision = true
-size = Vector3(2.24316, 3.23938, 0.42627)
+[node name="Body" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_x13uo")]
+transform = Transform3D(0.711462, 0, 0.702724, 0, 1, 0, -0.702724, 0, 0.711462, 1.84357, -0.00400959, -6.50181)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_executive"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.86398, 0.00509131, -23.9635)
+collision_mask = 782
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147156, 1.14508, -0.778442)
+shape = SubResource("BoxShape3D_telh7")
+
+[node name="WoodCrate" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
+transform = Transform3D(0.996175, 0, -0.0873818, 0, 1, 0, 0.0873818, 0, 0.996175, -0.674205, 0.00509131, -23.9635)
+
+[node name="WoodCrate2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
+transform = Transform3D(-0.109197, 0, 0.99402, 0, 1, 0, -0.99402, 0, -0.109197, 0.86398, 0.00509131, -24.0152)
 
 [node name="RobotCrowd01" type="StaticBody3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -900,7 +917,7 @@ multimesh = SubResource("MultiMesh_p3pq8")
 
 [node name="RobotCrowd04" type="StaticBody3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, -12.4591)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, -12.8072)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/RobotCrowd04"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0410156, 0)
@@ -908,7 +925,7 @@ shape = SubResource("BoxShape3D_kajva")
 
 [node name="CrowdMultiMesh04" type="MultiMeshInstance3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, 0, -11.491)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, 0, -11.8126)
 multimesh = SubResource("MultiMesh_p3pq8")
 
 [node name="ExecVisible04" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
@@ -918,7 +935,7 @@ aabb = AABB(-4.22158, -1.20055, -3.78352, 8.44316, 1.31835, 7.56705)
 
 [node name="RobotStrike" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.91592)
+transform = Transform3D(-0.0525974, 0, -0.998616, 0, 1, 0, 0.998616, 0, -0.0525974, -3.89019, 0, 0.492243)
 
 [node name="VintageLamp" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("36_0xwag")]
 transform = Transform3D(0.7619, 0, 0.647694, 0, 1, 0, -0.647694, 0, 0.7619, -0.36733, 0.862442, -4.24345)
@@ -937,7 +954,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0115662, 0.387118, -0.3292
 shape = SubResource("BoxShape3D_1dlgw")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/ObjectsStaticBody3D"]
-transform = Transform3D(0.707699, 0, -0.706514, 0, 1, 0, 0.706514, 0, 0.707699, 1.80673, 0.0454118, -1.97268)
+transform = Transform3D(0.707699, 0, -0.706514, 0, 1, 0, 0.706514, 0, 0.707699, 1.70193, 0.0454118, -2.0773)
 shape = SubResource("BoxShape3D_dtkpj")
 
 [node name="TrashBin_Knocked" parent="OfficeNode/DressingNode/office_executive/ObjectsStaticBody3D" instance=ExtResource("31_kaldw")]
@@ -1033,6 +1050,7 @@ transform = Transform3D(0.0646342, -0.129867, -0.478495, 0.33007, 0.371343, -0.0
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
 directional = true
@@ -1231,6 +1249,7 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642
 
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="CongratsParticlesBig" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
@@ -1299,6 +1318,11 @@ unique_name_in_owner = true
 transform = Transform3D(0.296309, -2.79548e-08, -0.0469148, -0.0469148, -8.85064e-09, -0.296309, 2.62268e-08, 0.3, -1.31134e-08, 0.543624, 3.16114, -24.9915)
 mesh = SubResource("PlaneMesh_0tvgc")
 
+[node name="CrowdMultiMeshStorage" type="MultiMeshInstance3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.52317, 0, 0.211295)
+multimesh = SubResource("MultiMesh_p3pq8")
+
 [node name="LightSwitchOld2" parent="OfficeNode" instance=ExtResource("74_nigfh")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.25175, 1.25307, 1.06682)
 
@@ -1330,7 +1354,8 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.227
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.24481, 2.93683, -19.4875)
 
 [node name="RobotVacuum" parent="OfficeNode" instance=ExtResource("79_0tvgc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.63765, 0, 23.9376)
+unique_name_in_owner = true
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -3.28458, 0, 23.9376)
 
 [node name="StairsNode" type="Node3D" parent="."]
 
@@ -1420,13 +1445,14 @@ collision_mask = 256
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2897, 3.90689, 10.2043)
 shape = SubResource("BoxShape3D_46a6v")
 
-[node name="ExitArea" type="Area3D" parent="."]
+[node name="StorageArea" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9074, 0, 0)
 collision_layer = 0
 collision_mask = 256
+monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ExitArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.408264, 0.744858, -4.38354)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StorageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.55951, 1.86407, 0.0734921)
 shape = SubResource("BoxShape3D_5ho0w")
 
 [node name="InsideArea" type="Area3D" parent="."]
@@ -1473,6 +1499,16 @@ shape = SubResource("BoxShape3D_fnj5f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121158, 1.75943, -26.3112)
 shape = SubResource("BoxShape3D_he4mn")
 
+[node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.28322, 1.29892, 0)
+aabb = AABB(-0.0493376, -1.3641, -0.814748, 0.0986752, 2.72819, 1.6295)
+
+[node name="DoorOnScreenSmall" type="VisibleOnScreenNotifier3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.38033, 1.59664, 0)
+aabb = AABB(-0.0493376, -0.221065, -0.153895, 0.0986752, 0.442129, 0.307791)
+
 [node name="ReflectionProbe" type="ReflectionProbe" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87743, 0)
 size = Vector3(10.3887, 4.77147, 50.7756)
@@ -1484,13 +1520,18 @@ ambient_mode = 0
 mesh = SubResource("SphereMesh_61cie")
 metadata/_edit_lock_ = true
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("85_5ilav")
+volume_db = -10.0
+
 [connection signal="pressed" from="Control/PauseMenu/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
 [connection signal="toggled" from="Control/PauseMenu/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
 [connection signal="pressed" from="Control/PauseMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="body_entered" from="FinishArea" to="." method="_on_finish_area_body_entered"]
-[connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_body_entered"]
+[connection signal="body_entered" from="StorageArea" to="." method="_on_storage_area_body_entered"]
+[connection signal="body_exited" from="StorageArea" to="." method="_on_storage_area_body_exited"]
 [connection signal="body_entered" from="InsideArea" to="." method="_on_inside_area_body_entered"]
 [connection signal="body_exited" from="InsideArea" to="." method="_on_inside_area_body_exited"]
 [connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]

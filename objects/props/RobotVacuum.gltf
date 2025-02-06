@@ -5,6 +5,7 @@
 		"version":"2.0"
 	},
 	"extensionsUsed":[
+		"KHR_materials_emissive_strength",
 		"KHR_materials_specular"
 	],
 	"scene":0,
@@ -52,28 +53,33 @@
 			"doubleSided":true,
 			"extensions":{
 				"KHR_materials_specular":{
-					"specularFactor":0.5636363625526428
+					"specularFactor":0
 				}
 			},
 			"name":"Body_material",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
-					0.008308605290949345,
-					0.008053251542150974,
-					0.007226436864584684,
+					0.002021756488829851,
+					0.001979372464120388,
+					0.0018364236457273364,
 					1
 				],
 				"metallicFactor":0,
-				"roughnessFactor":0.5263636708259583
+				"roughnessFactor":0.7627273201942444
 			}
 		},
 		{
 			"doubleSided":true,
 			"emissiveFactor":[
-				0.6545950174331665,
-				0.5870230197906494,
-				0.5363709926605225
+				1,
+				0.8463921546936035,
+				0.8840250372886658
 			],
+			"extensions":{
+				"KHR_materials_emissive_strength":{
+					"emissiveStrength":2
+				}
+			},
 			"name":"LEDs",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -82,15 +88,14 @@
 					0.5363710522651672,
 					1
 				],
-				"metallicFactor":0,
-				"roughnessFactor":0.2509090006351471
+				"metallicFactor":0
 			}
 		},
 		{
 			"doubleSided":true,
 			"extensions":{
 				"KHR_materials_specular":{
-					"specularFactor":0.19999998807907104
+					"specularFactor":0.027272716164588928
 				}
 			},
 			"name":"additional_details",
@@ -106,6 +111,11 @@
 		},
 		{
 			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0.04545453190803528
+				}
+			},
 			"name":"displays",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -120,6 +130,11 @@
 		},
 		{
 			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
+			},
 			"name":"material.002",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[
@@ -134,6 +149,11 @@
 		},
 		{
 			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
+			},
 			"name":"wheels",
 			"pbrMetallicRoughness":{
 				"baseColorFactor":[

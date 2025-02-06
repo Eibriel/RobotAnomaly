@@ -2,6 +2,7 @@ extends Node
 
 var player: CharacterBody3D
 var is_player_in_room: bool = false
+var is_player_in_storage: bool = false
 
 const ROBOT = preload("res://robot.tscn")
 

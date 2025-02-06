@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://nxe8rqga76l0"]
+[gd_scene load_steps=21 format=3 uid="uid://nxe8rqga76l0"]
 
 [ext_resource type="PackedScene" uid="uid://0q6b4obnk0g0" path="res://objects/office.gltf" id="2_q2i1j"]
 
@@ -13,6 +13,12 @@ size = Vector3(8.7793, 4.08606, 0.297119)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ae2o1"]
 size = Vector3(6.70288, 4.01386, 0.297119)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7fhsk"]
+size = Vector3(12.3926, 4.01386, 0.297119)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mby2i"]
+size = Vector3(0.205078, 4.22931, 47.5896)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6liph"]
 size = Vector3(2.70419, 0.279419, 5.12695)
@@ -62,6 +68,7 @@ height = 0.4
 [node name="office2" parent="." instance=ExtResource("2_q2i1j")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="office2"]
+collision_mask = 768
 
 [node name="FloorCollision" type="CollisionShape3D" parent="office2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.35089, -0.136232, -0.0693512)
@@ -78,6 +85,18 @@ shape = SubResource("BoxShape3D_weolq")
 [node name="WallShortCollision3" type="CollisionShape3D" parent="office2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36024, 2.10129, 25.1572)
 shape = SubResource("BoxShape3D_ae2o1")
+
+[node name="WallBlackShortCollision" type="CollisionShape3D" parent="office2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6316, 2.10129, 23.5788)
+shape = SubResource("BoxShape3D_7fhsk")
+
+[node name="WallBlackShortCollision2" type="CollisionShape3D" parent="office2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.6316, 2.10129, -23.7131)
+shape = SubResource("BoxShape3D_7fhsk")
+
+[node name="WallBlackCollision" type="CollisionShape3D" parent="office2/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.7191, 1.98404, 0.0452938)
+shape = SubResource("BoxShape3D_mby2i")
 
 [node name="WallShortCollision4" type="CollisionShape3D" parent="office2/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7343, 1.89668, 25.1572)
@@ -161,6 +180,7 @@ shape = SubResource("BoxShape3D_ho5ep")
 
 [node name="DoorCollider" type="StaticBody3D" parent="office2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.33215, 0, 0)
+collision_mask = 768
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="office2/DoorCollider"]
 shape = SubResource("BoxShape3D_fsvil")

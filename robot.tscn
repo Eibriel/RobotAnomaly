@@ -319,7 +319,8 @@ bus = &"Robots"
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26891, 0)
 stream = ExtResource("9_754th")
-volume_db = -10.0
+volume_db = -20.0
+unit_size = 5.0
 bus = &"Robots"
 
 [node name="RobotMotorAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]

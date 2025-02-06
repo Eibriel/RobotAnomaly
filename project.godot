@@ -67,10 +67,7 @@ Sprint={
 3d_physics/layer_3="Props"
 3d_physics/layer_4="Ghost Prop"
 3d_physics/layer_9="Player"
-
-[physics]
-
-3d/physics_engine="Jolt Physics"
+3d_physics/layer_10="Vacuum"
 
 [rendering]
 
