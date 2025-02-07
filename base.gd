@@ -65,8 +65,21 @@ enum DRESSING {
 	EXECUTIVE
 }
 
+enum EVENTS {
+	NONE,
+	VENTILATION,
+	REPORT,
+	EXIT,
+	CEILING
+}
+var available_events: Array[EVENTS] = []
+var current_event := EVENTS.NONE
+var event_watch_timer := 0.0
+var enable_attempts := 0
+
 #var current_side := SIDES.Z_PLUS
 var tonemap_tween: Tween
+var target_exposure := 0.0
 
 const FLOORS_AMOUNT := 29
 const NONE_RATIO := 4
@@ -84,8 +97,8 @@ var skip_tutorial := false
 var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
-var reset_save := false
-var override_state := true
+var reset_save := true
+var override_state := false
 var state_override := GameStateResource.new()
 #var force_completed_scenarios := 10
 
@@ -98,7 +111,7 @@ func _ready() -> void:
 		reset_save = false
 		override_state = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = false
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	var force_completed_scenarios = Robot.GLITCHES.size() - 10
 	for n in range(1, force_completed_scenarios):
@@ -111,7 +124,8 @@ func _ready() -> void:
 	
 	load_game_state()
 	reset_dressing()
-	$WorldEnvironment.environment.tonemap_exposure = 6.0
+	target_exposure = 6.0
+	$WorldEnvironment.environment.tonemap_exposure = target_exposure
 	start_game()
 	#
 	var tween := create_tween()
@@ -257,7 +271,154 @@ func _process(delta: float) -> void:
 	
 	update_executive()
 	update_congrats()
+	update_events(delta)
+
+func maybe_enable_event() -> void:
+	#if current_event != EVENTS.NONE: return
+	enable_attempts += 1
+	prints("enable_attempts",enable_attempts)
+	if enable_attempts > 3:
+		enable_attempts = 0
+		if available_events.size() <= 0:
+			# TODO check if last event is == to first one
+			available_events.resize(0)
+			available_events.append_array(EVENTS.values())
+			available_events.erase(EVENTS.NONE)
+			available_events.shuffle()
+		current_event = available_events.pop_front()
+		setup_events(current_event)
+		prints("Enabling event", EVENTS.find_key(current_event))
+	else:
+		setup_events()
 	
+
+func setup_events(event:EVENTS=EVENTS.NONE) -> void:
+	%RobotEventVentilation.remove_base()
+	%RobotEventVentilation.play_animation("EventVentilation")
+	%EventVentilationAudio.position.x = 4.25
+	%RobotEventVentilation.visible = false
+	%RobotEventVentilation.disable_colliders()
+	#
+	%RobotEventReport.remove_base()
+	%RobotEventReport.visible = false
+	%RobotEventReport.disable_colliders()
+	#
+	%RobotEventExit.remove_base()
+	%RobotEventExit.visible = false
+	%RobotEventExit.disable_colliders()
+	#
+	%RobotEventCeiling.remove_base()
+	%RobotEventCeiling.play_animation("EventCeiling")
+	%RobotEventCeiling.visible = false
+	%RobotEventCeiling.disable_colliders()
+	
+	match current_event:
+		EVENTS.VENTILATION:
+			%RobotEventVentilation.visible = true
+		EVENTS.REPORT:
+			%RobotEventReport.visible = true
+		EVENTS.EXIT:
+			%RobotEventExit.visible = true
+		EVENTS.CEILING:
+			%RobotEventCeiling.visible = true
+	
+	event_watch_timer = 0
+
+func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0, min_dist: float = 0.0) -> bool:
+	var cam := get_viewport().get_camera_3d()
+	var screen_pos := cam.unproject_position(object.global_position) / get_viewport().get_visible_rect().size
+	var dist := Vector2(0.5, 0.5).distance_to(screen_pos)
+	
+	var object_vector := (cam.global_position - object.global_position).normalized()
+	
+	var object_vector_2:Vector3 = object.global_basis * Vector3.RIGHT
+	var dot := object_vector.dot(object_vector_2)
+	
+	var flat_object_position := object.global_position
+	flat_object_position.y = 0
+	var flat_player_position := Global.player.global_position
+	flat_player_position.y = 0
+	
+	var player_dist := flat_object_position.distance_to(flat_player_position)
+	#print(player_dist)
+	#print(dot)
+	return (dist < cursor_treshold and dot > angle_treshold and player_dist < distance) or player_dist < min_dist
+
+func update_events(delta: float) -> void:
+	match current_event:
+		EVENTS.VENTILATION:
+			if is_point_centered(%EventVentilationVisible, 0.15, 0.6, 10.0):
+				event_watch_timer += delta
+			else:
+				event_watch_timer = 0.0
+			if event_watch_timer > 2:
+				current_event = EVENTS.NONE
+				#%RobotEventVentilation.visible = false
+				#%EventVentilationAudio.play()
+				#var tween_s := create_tween()
+				#tween_s.tween_property(%EventVentilationAudio, "position:x", 50, 3)
+				var tween := create_tween()
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.1)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.3)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.2)
+				tween.tween_callback(%RobotEventVentilation.set_visible.bind(false))
+				tween.tween_callback(%EventVentilationAudio.play)
+				tween.tween_property(%EventVentilationAudio, "position:x", 50, 3)
+				tween.parallel().tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+		EVENTS.REPORT:
+			if Global.is_player_in_room and is_point_centered(%EventReportVisible, 0.4, 0.5, 10.0, 2.0):
+				event_watch_timer += delta
+			else:
+				event_watch_timer = 0.0
+			if event_watch_timer > 0.5:
+				current_event = EVENTS.NONE
+				var tween := create_tween()
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.1)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.3)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.2)
+				tween.tween_callback(%RobotEventReport.set_visible.bind(false))
+				tween.tween_callback(%EventReportAudio.play)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+		EVENTS.EXIT:
+			if is_point_centered(%EventExitVisible, 0.2, -1.0, 6.0, 4.0):
+				event_watch_timer += delta
+			else:
+				event_watch_timer = 0.0
+			if event_watch_timer > 1.0:
+				current_event = EVENTS.NONE
+				var tween := create_tween()
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.1)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.3)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.2)
+				tween.tween_callback(%RobotEventExit.set_visible.bind(false))
+				tween.tween_callback(%EventExitAudio.play)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+		EVENTS.CEILING:
+			if Global.is_player_in_room and is_point_centered(%EventCeilingVisible, 0.2, 0.6, 20.0):
+				event_watch_timer += delta
+			else:
+				event_watch_timer = 0.0
+			if event_watch_timer > 1.0:
+				current_event = EVENTS.NONE
+				var tween := create_tween()
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.1)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.3)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
+				tween.tween_interval(0.2)
+				tween.tween_callback(%RobotEventCeiling.set_visible.bind(false))
+				tween.tween_callback(%EventCeilingAudio.play)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 
 func setup_executive() -> void:
 	%RobotCrowd01.visible = false
@@ -458,6 +619,8 @@ func reset_dressing() -> void:
 	%CongratsParticlesBigExplosion1.emitting = false
 	%CongratsParticlesBigExplosion2.emitting = false
 	%CrowdMultiMeshStorage.visible = false
+	#
+	setup_events()
 
 func dressing_visible(dressing_node: Node3D) -> void:
 	dressing_node.visible = true
@@ -630,6 +793,8 @@ func instantiate_sections(Env: Node3D) -> void:
 	#loby.set_level_count(available_scenarios_count)
 	#if completed_scenarios.size() >= batch_count:
 	#	loby.show_counter()
+	#
+	maybe_enable_event()
 
 func pause() -> void:
 	%PauseMenu.visible = true
@@ -900,14 +1065,14 @@ func _on_inside_area_body_entered(_body: Node3D) -> void:
 	#$WorldEnvironment.environment.sky.sky_material = preload("res://sky/room_panorama_01.tres")
 	#$ReflectionProbe.position.x = randf()*0.01
 	Global.is_player_in_room = true
-	var exposure_value := 1.0
+	target_exposure = 1.0
 	if section.anomaly == Robot.GLITCHES.LIGHTS_OFF:
-		exposure_value = 0.05
+		target_exposure = 0.05
 	if tonemap_tween:
 		tonemap_tween.stop()
 	tonemap_tween = create_tween()
 	tonemap_tween.EASE_OUT
-	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", exposure_value, 1.0)
+	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 1.0)
 	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.0
 	%ExtraStairs.visible = false
@@ -918,11 +1083,12 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 	#$WorldEnvironment.environment.sky.sky_material = preload("res://sky/stairs_panorama_01.tres")
 	#$ReflectionProbe.position.x = randf()*0.01
 	Global.is_player_in_room = false
+	target_exposure = 6.0
 	if tonemap_tween:
 		tonemap_tween.stop()
 	tonemap_tween = create_tween()
 	tonemap_tween.EASE_OUT
-	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 6.0, 1.0)
+	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 1.0)
 	tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.9
 	%ExtraStairs.visible = true

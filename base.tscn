@@ -1,4 +1,4 @@
-[gd_scene load_steps=127 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=128 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://di1eg1p80okdk" path="res://sounds/storage_door_open.mp3" id="6_lnhvi"]
 [ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
 [ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
+[ext_resource type="AudioStream" uid="uid://c2nplkohgw54b" path="res://sounds/event_ventilation_scape.mp3" id="9_i2k0m"]
 [ext_resource type="PackedScene" uid="uid://1xxq4hfexljm" path="res://objects/props/MarketingShelf.gltf" id="13_1uwki"]
 [ext_resource type="PackedScene" uid="uid://dxf6m0rru2xb0" path="res://objects/props/PartyTable.gltf" id="13_d5d72"]
 [ext_resource type="PackedScene" uid="uid://dlelw0wocytng" path="res://objects/props/LobbyChair.gltf" id="13_jym3p"]
@@ -559,6 +560,72 @@ font_size = 40
 [node name="Environment" type="Node3D" parent="OfficeNode"]
 unique_name_in_owner = true
 
+[node name="EventsNode" type="Node3D" parent="OfficeNode"]
+
+[node name="EventVentilation" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="RobotEventVentilation" parent="OfficeNode/EventsNode/EventVentilation" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(-0.0317246, 0, -0.999497, 0, 1, 0, 0.999497, 0, -0.0317246, 4.21494, 2.71105, -0.0322841)
+
+[node name="EventVentilationVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventVentilation"]
+unique_name_in_owner = true
+transform = Transform3D(-0.925355, -0.379101, 7.45058e-08, -0.379101, 0.925355, 4.47035e-08, -8.9407e-08, 7.45058e-09, -1, 4.25185, 3.121, 0)
+gizmo_extents = 0.62
+
+[node name="EventVentilationAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventVentilation"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.14834, 3.09281, 0)
+stream = ExtResource("9_i2k0m")
+
+[node name="EventReport" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="RobotEventReport" parent="OfficeNode/EventsNode/EventReport" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(0.773918, 0, -0.633286, 0, 1, 0, 0.633286, 0, 0.773918, -3.90532, 0.00749612, 24.6837)
+
+[node name="EventReportVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventReport"]
+unique_name_in_owner = true
+transform = Transform3D(0.841614, 0, 0.540079, 0, 1, 0, -0.540079, 0, 0.841614, -3.94995, 1.65858, 24.7741)
+gizmo_extents = 0.62
+
+[node name="EventReportAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventReport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.49465, 1.16887, 24.2526)
+stream = ExtResource("9_i2k0m")
+
+[node name="EventExit" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="RobotEventExit" parent="OfficeNode/EventsNode/EventExit" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(0.99233, 0, -0.123619, 0, 1, 0, 0.123619, 0, 0.99233, 1.26611, 0.00749612, -25.7459)
+
+[node name="EventExitVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventExit"]
+unique_name_in_owner = true
+transform = Transform3D(-0.0702092, 0, -0.997532, 0, 1, 0, 0.997532, 0, -0.0702092, 0.903917, 1.85094, -25.4699)
+gizmo_extents = 0.62
+
+[node name="EventExitAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventExit"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87234, 1.54817, -25.2599)
+stream = ExtResource("9_i2k0m")
+
+[node name="EventCeiling" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="RobotEventCeiling" parent="OfficeNode/EventsNode/EventCeiling" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(-0.678365, 0, -0.734725, 0, 1, 0, 0.734725, 0, -0.678365, 3.51562, 3.38963, 24.3181)
+
+[node name="EventCeilingVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventCeiling"]
+unique_name_in_owner = true
+transform = Transform3D(-0.703331, -0.399991, 0.58765, -0.489895, 0.871753, 0.00703738, -0.515101, -0.282937, -0.809084, 4.14114, 3.6699, 24.6924)
+gizmo_extents = 0.62
+
+[node name="EventCeilingAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventCeiling"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 3.68501, 3.37846, 24.3526)
+stream = ExtResource("9_i2k0m")
+
 [node name="DressingNode" type="Node3D" parent="OfficeNode"]
 
 [node name="office_tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
@@ -845,6 +912,7 @@ transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 1.60133, 1.15425, 19.16
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="ExecutiveLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_executive"]
 directional = true

@@ -116,6 +116,12 @@ Some assets may not be in the game
 
 - "BUSINESS CEO DESKTOP NAME PLATE" (https://skfb.ly/oEyDF) by RadioactiveAG is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+- "Weird Metallic Tentacle" (https://skfb.ly/6WNyt) by P3TroV is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+- "Spider" (https://skfb.ly/6YXsC) by Murat Can ÜNAL is licensed under Creative Commons Attribution-ShareAlike (http://creativecommons.org/licenses/by-sa/4.0/).
+
+- "Armband" (https://skfb.ly/ptCv6) by buzzkirill is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 
 
 

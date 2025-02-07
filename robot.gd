@@ -555,6 +555,12 @@ func remove_base() -> void:
 	for c:CollisionShape3D in %RobotBaseStaticBody.get_children():
 		c.disabled = true
 
+func disable_colliders() -> void:
+	for c:CollisionShape3D in %RobotBaseStaticBody.get_children():
+		c.disabled = true
+	for c:CollisionShape3D in %RobotStaticBody.get_children():
+		c.disabled = true
+
 func follow_head(_delta: float) -> void:
 	var head_id := skeleton.find_bone("head")
 	if not looking_player or not power_on:
