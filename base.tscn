@@ -1,4 +1,4 @@
-[gd_scene load_steps=128 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=137 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -127,13 +127,32 @@ adjustment_saturation = 1.2
 adjustment_color_correction = SubResource("CurveXYZTexture_n73o2")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_18b1w"]
-size = Vector3(1.30359, 1.5625, 4.18152)
+size = Vector3(1.30359, 0.373169, 4.18152)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mfo8u"]
+size = Vector3(0.0595703, 0.18512, 0.96582)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iw8h4"]
+size = Vector3(0.0595703, 0.18512, 0.535156)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_60t3g"]
+size = Vector3(0.0595703, 0.18512, 0.0644531)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_uvlxr"]
 size = Vector3(0.626709, 1.17221, 1.97772)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_i2k0m"]
+size = Vector3(0.0595703, 0.18512, 0.0644531)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_i2k0m"]
+height = 0.249878
+radius = 0.303711
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_kaldw"]
-size = Vector3(2.24512, 1.18921, 1)
+size = Vector3(2.24512, 0.432618, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o1ods"]
+size = Vector3(0.947266, 0.18512, 0.214844)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_telh7"]
 size = Vector3(1.6488, 3.29016, 2.85864)
@@ -155,7 +174,16 @@ size = Vector3(1.85297, 1, 1.95239)
 size = Vector3(2.14914, 0.115479, 0.708984)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5pcrg"]
-size = Vector3(1.89258, 1.27979, 1)
+size = Vector3(1.89258, 0.53821, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vgrfu"]
+size = Vector3(0.780762, 0.18512, 0.941406)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_td0b0"]
+size = Vector3(1.245, 0.18512, 0.0981445)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s1vco"]
+size = Vector3(0.30249, 0.18512, 0.767151)
 
 [sub_resource type="Curve" id="Curve_vja7b"]
 _limits = [-360.0, 360.0, 0.0, 1.0]
@@ -232,6 +260,9 @@ albedo_texture = ExtResource("70_vja7b")
 material = SubResource("StandardMaterial3D_npl1d")
 size = Vector2(1.4, 2)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_5ho0w"]
+size = Vector3(8.23633, 4.20801, 47.333)
+
 [sub_resource type="TextMesh" id="TextMesh_4a7sh"]
 material = ExtResource("14_sgv64")
 text = "100"
@@ -250,9 +281,6 @@ depth = 0.02
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_46a6v"]
 size = Vector3(1.74908, 3.88782, 2.46741)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_5ho0w"]
-size = Vector3(8.23633, 4.20801, 47.333)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ae67b"]
 size = Vector3(8.45215, 2.19482, 49.9573)
@@ -446,74 +474,125 @@ color = Color(0, 0, 0, 1)
 [node name="PauseMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
+visible = false
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu"]
+[node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="Control" type="Control" parent="Control/PauseMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -23.5
+offset_left = -20.0
 offset_top = -20.0
-offset_right = 23.5
+offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ResumeButton" type="Button" parent="Control/PauseMenu/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -185.0
+offset_right = 111.0
+offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
 layout_mode = 2
 text = "RESUME"
 
-[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/VBoxContainer"]
+[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
 layout_mode = 2
 text = "VOLUME"
 
-[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/VBoxContainer"]
+[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 value = 50.0
 rounded = true
 
-[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/VBoxContainer"]
+[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
 layout_mode = 2
 text = "MOUSE SENSIBILITY"
 
-[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/VBoxContainer"]
+[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 step = 0.1
 value = 50.0
 
-[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/VBoxContainer"]
+[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "FULLSCREEN"
 
-[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
 layout_mode = 2
 
-[node name="QuitButton" type="Button" parent="Control/PauseMenu/VBoxContainer"]
+[node name="ResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "RESET GAME"
+
+[node name="ConfirmResetContainer" type="VBoxContainer" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "ALL PROGRESS WILL BE LOST"
+
+[node name="ConfirmResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "ARE YOU SURE?"
+
+[node name="ConfirmResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "YES RESET GAME"
+
+[node name="CancelResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "CANCEL"
+
+[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
 layout_mode = 2
 text = "QUIT"
 
 [node name="CityAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 36)
 stream = ExtResource("5_k62q3")
+volume_db = -10.0
 unit_size = 5.0
 autoplay = true
 
 [node name="CityAudio2" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36)
 stream = ExtResource("5_k62q3")
+volume_db = -10.0
 unit_size = 5.0
 autoplay = true
 
@@ -602,7 +681,7 @@ transform = Transform3D(0.99233, 0, -0.123619, 0, 1, 0, 0.123619, 0, 0.99233, 1.
 
 [node name="EventExitVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventExit"]
 unique_name_in_owner = true
-transform = Transform3D(-0.0702092, 0, -0.997532, 0, 1, 0, 0.997532, 0, -0.0702092, 0.903917, 1.85094, -25.4699)
+transform = Transform3D(-0.773464, 0, -0.63384, 0, 1, 0, 0.63384, 0, -0.773464, 0.903917, 1.65259, -25.4699)
 gizmo_extents = 0.62
 
 [node name="EventExitAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventExit"]
@@ -745,12 +824,58 @@ transform = Transform3D(0.0937937, 0.25013, -0.963658, -0.874059, 0.484121, 0.04
 [node name="Balloon4" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
 transform = Transform3D(-0.478816, -0.844312, -0.240565, -0.874059, 0.484121, 0.0405871, 0.0821946, 0.229702, -0.969784, 0.438247, 1.13819, 18.7116)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_party"]
+[node name="PlayerObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_party"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
+collision_mask = 258
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0956421, 0.28125, -0.2276)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/PlayerObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0956421, 0.875916, -0.2276)
 shape = SubResource("BoxShape3D_18b1w")
+
+[node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_party"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
+collision_layer = 16
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(0.99759, 0, -0.0693908, 0, 1, 0, 0.0693908, 0, 0.99759, -3.5172, 0.0781977, -0.691425)
+shape = SubResource("BoxShape3D_mfo8u")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(0.0693908, 0, 0.99759, 0, 1, 0, -0.99759, 0, 0.0693908, -3.78249, 0.0781977, -0.711773)
+shape = SubResource("BoxShape3D_iw8h4")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.563492, 0.0781977, 1.61635)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.452886, 0.0781977, 1.63477)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.52716, 0.0781977, 0.00836182)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.452886, 0.0781977, 0.034359)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.603412, 0.0781977, -0.549328)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.412965, 0.0781977, -0.530914)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.56708, 0.0781977, -2.15732)
+shape = SubResource("BoxShape3D_60t3g")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_party/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.412965, 0.0781977, -2.13132)
+shape = SubResource("BoxShape3D_60t3g")
 
 [node name="RobotCutout2" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("30_vrqro")]
 transform = Transform3D(0.0650897, 0, 0.99788, 0, 1, 0, -0.99788, 0, 0.0650897, -3.48508, 0, 17.6797)
@@ -832,7 +957,6 @@ transform = Transform3D(0.80187, 0, -0.597499, 0, 1, 0, 0.597499, 0, 0.80187, -3
 
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="LobbyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lobby"]
 directional = true
@@ -854,6 +978,79 @@ transform = Transform3D(0.311472, 0, 0.950255, 0, 1, 0, -0.950255, 0, 0.311472, 
 [node name="Banner8" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.300439, 0, 0.953801, 0, 1, 0, -0.953801, 0, 0.300439, -3.5859, 0.0134775, 19.5)
 texture = ExtResource("20_wudxj")
+
+[node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_lobby"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
+collision_layer = 16
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.993815, 0.111053, 0, -0.111053, 0.993815, 0, 0, 0, 1, 1.94864, 0.0777106, -0.172773)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.960745, 0.0979943, -0.259549, -0.104623, 0.994442, -0.0118135, 0.256949, 0.0385045, 0.965658, 2.10418, 0.0603035, -0.914483)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.928285, -0.363703, -0.077504, 0.36508, 0.930968, 0.0038959, 0.0707368, -0.0319116, 0.996984, 2.84564, 0.0763426, -0.0317516)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.882975, -0.357442, -0.304285, 0.368319, 0.929415, -0.0229903, 0.291025, -0.0917742, 0.952303, 2.98536, 0.0697279, -0.682278)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.92491, 0.103353, 0.365868, -0.111053, 0.993814, -5.86693e-09, -0.363605, -0.0406306, 0.930667, 2.17983, 0.0777106, -1.75581)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.988143, 0.105288, 0.111749, -0.104623, 0.994442, -0.0118135, -0.112372, -1.8114e-05, 0.993666, 2.05322, 0.0603035, -2.503)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.889805, -0.350162, 0.292634, 0.36508, 0.930968, 0.00389591, -0.273797, 0.103368, 0.956216, 3.06624, 0.0763426, -1.95275)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(0.928233, -0.366237, 0.0652291, 0.368319, 0.929415, -0.0229903, -0.052205, 0.0453655, 0.997605, 2.95826, 0.0697279, -2.60929)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.988195, -0.110425, 0.106195, -0.111053, 0.993815, -5.56429e-09, -0.105538, -0.0117932, -0.994345, -2.17519, 0.0777106, -2.41395)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.928026, -0.0933512, 0.360629, -0.104623, 0.994442, -0.0118135, -0.357522, -0.0486932, -0.932635, -2.40861, 0.0603035, -1.69295)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D11" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.915524, 0.358258, 0.18294, 0.36508, 0.930968, 0.00389592, -0.168916, 0.0703546, -0.983116, -3.05214, 0.0763426, -2.64943)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D12" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.847077, 0.345675, 0.403694, 0.368319, 0.929415, -0.0229904, -0.383147, 0.129214, -0.914605, -3.26015, 0.0697279, -2.01742)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D13" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.958477, -0.107104, -0.264294, -0.111053, 0.993815, -6.5195e-09, 0.262659, 0.0293505, -0.964442, -2.57103, 0.0777106, -0.867226)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D14" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.994493, -0.104686, -0.00489714, -0.104623, 0.994442, -0.0118134, 0.0061065, -0.0112361, -0.999918, -2.52501, 0.0603035, -0.110783)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D15" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.913973, 0.359205, -0.188749, 0.36508, 0.930968, 0.00389592, 0.177118, -0.0653475, -0.982017, -3.47341, 0.0763426, -0.766165)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D16" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(-0.928495, 0.368988, 0.0417775, 0.368319, 0.929415, -0.0229904, -0.0473119, -0.00595887, -0.998862, -3.43624, 0.0697279, -0.101843)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D17" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lobby/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.58749, 0.110805, 1.12169)
+shape = SubResource("CylinderShape3D_i2k0m")
 
 [node name="office_lab" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -893,16 +1090,37 @@ transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 1.68367, 1.10691, 20.2559)
 [node name="Whiteboard" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("33_1dlgw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.20228, 1.54569, 17.9054)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_lab"]
+[node name="PlayerObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_lab"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19.5604)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26654, 0.574829, 0.656914)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/PlayerObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26654, 0.953125, 0.656914)
 shape = SubResource("BoxShape3D_kaldw")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/StaticBody3D"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.38448, 0.574829, -0.0361919)
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/PlayerObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.38448, 0.924825, -0.0361919)
 shape = SubResource("BoxShape3D_kaldw")
+
+[node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_lab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
+collision_layer = 16
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.39279, 0.0777106, 2.10113)
+shape = SubResource("BoxShape3D_o1ods")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/VacuumObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38837, 0.0777106, 0.221228)
+shape = SubResource("BoxShape3D_o1ods")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.20172, 0.0777106, 1.84338)
+shape = SubResource("BoxShape3D_o1ods")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_lab/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.670803, 0.0777106, 1.83896)
+shape = SubResource("BoxShape3D_o1ods")
 
 [node name="OldWrench" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("27_fe1od")]
 transform = Transform3D(0.759033, -0.651052, 0, -2.84584e-08, -3.31784e-08, 1, -0.651052, -0.759033, -4.37114e-08, 0.0561466, 1.16753, 20.3392)
@@ -919,6 +1137,16 @@ directional = true
 interior = true
 texel_scale = 4.0
 light_data = ExtResource("3_ipkxx")
+
+[node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.28322, 1.29892, 0)
+aabb = AABB(-0.0493376, -1.3641, -0.814748, 0.0986752, 2.72819, 1.6295)
+
+[node name="DoorOnScreenSmall" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.38033, 1.59664, 0)
+aabb = AABB(-0.0493376, -0.221065, -0.153895, 0.0986752, 0.442129, 0.307791)
 
 [node name="ExecChair" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_mh4ky")]
 transform = Transform3D(0.873288, 0, 0.487204, 0, 1, 0, -0.487204, 0, 0.873288, -0.328904, 0.00385345, -5.5034)
@@ -1032,6 +1260,9 @@ transform = Transform3D(-0.904224, 0, 0.427058, 0, 1, 0, -0.427058, 0, -0.904224
 [node name="Donut2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("29_f7hpq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.555151, 0.858716, -4.2768)
 
+[node name="TrashBin_Knocked" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("31_kaldw")]
+transform = Transform3D(-0.764123, 0, -0.645071, 0, 1, 0, 0.645071, 0, -0.764123, 1.39915, 0.00375604, -5.24041)
+
 [node name="ObjectsStaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_executive"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.58797)
 
@@ -1042,9 +1273,6 @@ shape = SubResource("BoxShape3D_1dlgw")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/ObjectsStaticBody3D"]
 transform = Transform3D(0.707699, 0, -0.706514, 0, 1, 0, 0.706514, 0, 0.707699, 1.70193, 0.0454118, -2.0773)
 shape = SubResource("BoxShape3D_dtkpj")
-
-[node name="TrashBin_Knocked" parent="OfficeNode/DressingNode/office_executive/ObjectsStaticBody3D" instance=ExtResource("31_kaldw")]
-transform = Transform3D(-0.764123, 0, -0.645071, 0, 1, 0, 0.645071, 0, -0.764123, 1.39915, 0.00375604, -0.652436)
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1082,24 +1310,93 @@ drawing = ExtResource("44_q1yh3")
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 4.20835, 1.54569, 17.9054)
 drawing = ExtResource("45_aw26h")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_design"]
+[node name="PlayerObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_design"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.1718)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99212, 0.597412, 1.41045)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/PlayerObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99212, 0.940786, 1.41045)
 shape = SubResource("BoxShape3D_5pcrg")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99212, 0.597412, -1.59959)
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/PlayerObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99212, 0.940786, -1.59959)
 shape = SubResource("BoxShape3D_5pcrg")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08556, 0.597412, 1.41045)
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/PlayerObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08556, 0.940786, 1.41045)
 shape = SubResource("BoxShape3D_5pcrg")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08556, 0.597412, -1.59959)
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/PlayerObstacles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08556, 0.968202, -1.59959)
 shape = SubResource("BoxShape3D_5pcrg")
+
+[node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_design"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
+collision_layer = 16
+collision_mask = 512
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.07666, 0.0777106, 0.762739)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.93803, 0.0777106, 0.75976)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.07666, 0.0777106, 1.66165)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D10" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.93803, 0.0777106, 1.65867)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.00429, 0.0777106, 1.67215)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.1471, 0.0777106, 1.66773)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D11" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.00429, 0.0777106, 0.777788)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D12" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.1471, 0.0777106, 0.773371)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.00429, 0.0777106, -1.34659)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.1471, 0.0777106, -1.35101)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D13" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.00429, 0.0777106, -2.25914)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D14" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.1471, 0.0777106, -2.26356)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.07531, 0.0777106, -2.26372)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.9325, 0.0777106, -2.26814)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D15" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.07531, 0.0777106, -1.36253)
+shape = SubResource("BoxShape3D_i2k0m")
+
+[node name="CollisionShape3D16" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_design/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 2.9325, 0.0777106, -1.36695)
+shape = SubResource("BoxShape3D_i2k0m")
 
 [node name="FemaleAnatomy2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("34_dtkpj")]
 transform = Transform3D(0.559371, 0, 0.57193, 0, 0.8, 0, -0.57193, 0, 0.559371, 2.8222, 1.20408, 16.4775)
@@ -1333,6 +1630,23 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643
 [node name="AnomalyDisplayElement40" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -4.20149)
 
+[node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_museum"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
+collision_layer = 16
+collision_mask = 512
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/VacuumObstacles"]
+transform = Transform3D(0.994022, 0, 0.109179, 0, 1, 0, -0.109179, 0, 0.994022, 3.52793, 0.0777106, -2.76152)
+shape = SubResource("BoxShape3D_vgrfu")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/VacuumObstacles"]
+transform = Transform3D(0.139778, 0, -0.990183, 0, 1, 0, 0.990183, 0, 0.139778, -3.44054, 0.0777106, -2.40657)
+shape = SubResource("BoxShape3D_td0b0")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/VacuumObstacles"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.5944, 0.0777106, -0.846888)
+shape = SubResource("BoxShape3D_s1vco")
+
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -1441,7 +1755,17 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.244
 
 [node name="RobotVacuum" parent="OfficeNode" instance=ExtResource("79_0tvgc")]
 unique_name_in_owner = true
-transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -3.28458, 0, 23.9376)
+transform = Transform3D(-1, 0, -8.74226e-08, 0, 1, 0, 8.74226e-08, 0, -1, 1.97341, 0, 18.2303)
+
+[node name="StorageArea" type="Area3D" parent="OfficeNode"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9074, 0, 0)
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/StorageArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.55951, 1.86407, 0.0734921)
+shape = SubResource("BoxShape3D_5ho0w")
 
 [node name="StairsNode" type="Node3D" parent="."]
 
@@ -1531,16 +1855,6 @@ collision_mask = 256
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2897, 3.90689, 10.2043)
 shape = SubResource("BoxShape3D_46a6v")
 
-[node name="StorageArea" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9074, 0, 0)
-collision_layer = 0
-collision_mask = 256
-monitorable = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StorageArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.55951, 1.86407, 0.0734921)
-shape = SubResource("BoxShape3D_5ho0w")
-
 [node name="InsideArea" type="Area3D" parent="."]
 collision_layer = 0
 collision_mask = 256
@@ -1585,16 +1899,6 @@ shape = SubResource("BoxShape3D_fnj5f")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121158, 1.75943, -26.3112)
 shape = SubResource("BoxShape3D_he4mn")
 
-[node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.28322, 1.29892, 0)
-aabb = AABB(-0.0493376, -1.3641, -0.814748, 0.0986752, 2.72819, 1.6295)
-
-[node name="DoorOnScreenSmall" type="VisibleOnScreenNotifier3D" parent="."]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.38033, 1.59664, 0)
-aabb = AABB(-0.0493376, -0.221065, -0.153895, 0.0986752, 0.442129, 0.307791)
-
 [node name="ReflectionProbe" type="ReflectionProbe" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87743, 0)
 size = Vector3(10.3887, 4.77147, 50.7756)
@@ -1610,14 +1914,17 @@ metadata/_edit_lock_ = true
 stream = ExtResource("85_5ilav")
 volume_db = -10.0
 
-[connection signal="pressed" from="Control/PauseMenu/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="drag_ended" from="Control/PauseMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
-[connection signal="drag_ended" from="Control/PauseMenu/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
-[connection signal="toggled" from="Control/PauseMenu/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
-[connection signal="pressed" from="Control/PauseMenu/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
+[connection signal="toggled" from="Control/PauseMenu/Control/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
+[connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="body_entered" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_entered"]
+[connection signal="body_exited" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_exited"]
 [connection signal="body_entered" from="FinishArea" to="." method="_on_finish_area_body_entered"]
-[connection signal="body_entered" from="StorageArea" to="." method="_on_storage_area_body_entered"]
-[connection signal="body_exited" from="StorageArea" to="." method="_on_storage_area_body_exited"]
 [connection signal="body_entered" from="InsideArea" to="." method="_on_inside_area_body_entered"]
 [connection signal="body_exited" from="InsideArea" to="." method="_on_inside_area_body_exited"]
 [connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]

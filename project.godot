@@ -62,6 +62,7 @@ Sprint={
 3d_physics/layer_2="Robots"
 3d_physics/layer_3="Props"
 3d_physics/layer_4="Ghost Prop"
+3d_physics/layer_5="VacuumObstacle"
 3d_physics/layer_9="Player"
 3d_physics/layer_10="Vacuum"
 

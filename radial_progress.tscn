@@ -1,8 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cggahbp1gdgc0"]
+[gd_scene load_steps=6 format=3 uid="uid://cggahbp1gdgc0"]
 
 [ext_resource type="ArrayMesh" uid="uid://chm8jp1u0grc5" path="res://objects/radial_progress.obj" id="1_arguu"]
 [ext_resource type="Script" uid="uid://d00uc2w7vmqqi" path="res://radial_progress.gd" id="1_xyr1n"]
-[ext_resource type="Material" uid="uid://cwxman4n77s2a" path="res://materials/radia_progress_mat.tres" id="3_4pebd"]
+
+[sub_resource type="Gradient" id="Gradient_xyr1n"]
+interpolation_mode = 1
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4pebd"]
+gradient = SubResource("Gradient_xyr1n")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_akhet"]
+blend_mode = 1
+albedo_texture = SubResource("GradientTexture1D_4pebd")
+emission_enabled = true
+emission_energy_multiplier = 2.0
+emission_texture = SubResource("GradientTexture1D_4pebd")
 
 [node name="RadialProgress" type="Node3D"]
 script = ExtResource("1_xyr1n")
@@ -10,4 +23,4 @@ value = 50.0
 
 [node name="Progress" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_arguu")
-surface_material_override/0 = ExtResource("3_4pebd")
+surface_material_override/0 = SubResource("StandardMaterial3D_akhet")

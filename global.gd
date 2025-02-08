@@ -4,6 +4,8 @@ var player: CharacterBody3D
 var is_player_in_room: bool = false
 var is_player_in_storage: bool = false
 
+var reset_save := false
+
 const ROBOT = preload("res://robot.tscn")
 
 var robot_stack: Array[Robot]

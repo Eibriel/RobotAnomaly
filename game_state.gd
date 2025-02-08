@@ -12,9 +12,3 @@ extends Resource
 #@export var nightmare_mode := false
 
 #@export var tutorial_completed := false
-
-@export var volume_level := 68.0
-
-@export var mouse_sensibility := 7.0
-
-@export var full_screen := true

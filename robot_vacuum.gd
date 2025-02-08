@@ -25,6 +25,10 @@ func _process(delta: float) -> void:
 	brush_01.rotation.y -= PI * 2 * delta
 	brush_02.rotation.y += PI * 2 * delta
 
+	if position.z > 24.7 or position.z < 15.0:
+		bump(false)
+		
+
 	match current_state:
 		STATES.FORWARD:
 			translate_object_local(Vector3.BACK*delta*0.1)
@@ -47,10 +51,18 @@ func _process(delta: float) -> void:
 		STATES.CIRCLES:
 			translate_object_local(Vector3.BACK*delta*0.1)
 			rotate_y(PI * 2 * delta * 0.08)
-	
-func _on_area_3d_body_entered(body: Node3D) -> void:
-	if current_state == STATES.CIRCLES: return
+
+func change_direction() -> void:
+	current_state = STATES.ROTATING
+	rotating_time = 0
+
+func bump(with_sound:bool) -> void:
 	current_state = STATES.COLLISION
 	collision_time = 0
 	#%RobotVacuumAudio["parameters/switch_to_clip"] = "Collision"
-	%RobotVacuumAudio.play()
+	if with_sound:
+		%RobotVacuumAudio.play()
+
+func _on_area_3d_body_entered(_body: Node3D) -> void:
+	if current_state == STATES.CIRCLES: return
+	bump(true)

@@ -91,6 +91,7 @@ var stalk_completed := false
 var anim_camera_weight := 0.0
 
 var is_demo := false
+var is_event := false
 
 var tween: Tween
 
@@ -175,7 +176,7 @@ func play_animation(anim_name: String) -> void:
 
 func charge_battery(delta: float) -> void:
 	if not power_on: return
-	if is_demo: return
+	if is_demo or is_event: return
 	var prev_level = battery_charge
 	battery_charge += delta * 14.0
 	battery_charge = minf(battery_charge, 100.0)
@@ -184,7 +185,7 @@ func charge_battery(delta: float) -> void:
 
 func shutdown(delta: float) -> void:
 	if not power_on: return
-	if is_demo: return
+	if is_demo or is_event: return
 	shutdown_time -= delta * 0.4
 	if shutdown_time <= 0.0:
 		%RobotShutdownAudioPlayer.play()
@@ -355,8 +356,8 @@ func update_snap(delta: float) -> void:
 		if snap_rate < anim.get_animation("Timer").length:
 			speed = anim.get_animation("Timer").length / snap_rate
 		anim.play("Timer", -1, speed)
-		%RobotAudioPlayer.play()
 		if not is_demo:
+			%RobotAudioPlayer.play()
 			Global.player.rumble(0.5*speed)
 		#prints("Snap!", snap_rate, speed)
 
@@ -366,7 +367,10 @@ func set_glitch(new_glitch: GLITCHES, _is_demo := false) -> void:
 	glitch = new_glitch
 	is_demo = _is_demo
 	if is_demo:
-		%RobotMotorAudioPlayer.volume_db = -60
+		silence_motor()
+
+func silence_motor() -> void:
+	%RobotMotorAudioPlayer.volume_db = -60
 
 func set_pose(new_pose: POSES) -> void:
 	if new_pose == pose: return
@@ -553,7 +557,7 @@ func remove_base() -> void:
 	$BaseShadowPlane.visible = false
 	base_visible = false
 	for c:CollisionShape3D in %RobotBaseStaticBody.get_children():
-		c.disabled = true
+		c.set_deferred("disabled", true)
 
 func disable_colliders() -> void:
 	for c:CollisionShape3D in %RobotBaseStaticBody.get_children():
@@ -577,7 +581,7 @@ func follow_head(_delta: float) -> void:
 	var local_player_pos := %RobotBody.to_local(player_pos) as Vector3
 	
 	var player_pos_2d := Vector2(local_player_pos.x, local_player_pos.z)
-	var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
+	#var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
 	#var angle: float = robot_pos_2d.angle_to_point(player_pos_2d) + %RobotBody.rotation.y
 	var angle: float = Vector2.ZERO.angle_to_point(player_pos_2d) + %RobotBody.rotation.y
 	var local_angle:float = angle - %RobotBody.rotation.y

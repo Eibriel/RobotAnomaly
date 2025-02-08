@@ -9,7 +9,7 @@ var anim: AnimationPlayer
 func _ready() -> void:
 	anim = $turnstyle/AnimationPlayer
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	$RadialProgress.value = energy
 	if energy < 100:
 		if is_open:

@@ -41,11 +41,11 @@ func _input(event: InputEvent) -> void:
 		look_rot.x -= (event.screen_relative.y * sensitivity)
 		look_rot.x = clamp(look_rot.x, min_angle, max_angle)
 
-func battery_visible(vis: bool) -> void:
+func battery_visible(_vis: bool) -> void:
 	#%HoldedBattery.visible = vis
 	pass
 
-func note_visible(vis: bool) -> void:
+func note_visible(_vis: bool) -> void:
 	#%HoldedIdNote.visible = vis
 	pass
 

@@ -32,8 +32,10 @@ var museum_completed := false
 var scenarios_amount := 0
 
 var game_state: GameStateResource
+var game_settings: GameSettingsResource
 
 const save_path:= "user://game_state.tres"
+const settings_path:= "user://game_settings.tres"
 
 const MESSAGES: Array[String]= [
 	"Welcome",
@@ -73,8 +75,9 @@ enum EVENTS {
 	CEILING
 }
 var available_events: Array[EVENTS] = []
-var current_event := EVENTS.NONE
+var current_event := EVENTS.VENTILATION
 var event_watch_timer := 0.0
+var next_event_in := 3
 var enable_attempts := 0
 
 #var current_side := SIDES.Z_PLUS
@@ -93,26 +96,30 @@ var saw_crowd_04 := false
 var congrats_explosion_executed := false
 
 # Debug
-var skip_tutorial := false
+#var skip_tutorial := false
 var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
-var reset_save := true
-var override_state := false
+var reset_save := false
+var override_state := true
 var state_override := GameStateResource.new()
+var fail_all := false
 #var force_completed_scenarios := 10
 
 func _ready() -> void:
 	if OS.has_feature("template"):
-		skip_tutorial = false
+		#skip_tutorial = false
 		force_anomaly = Robot.GLITCHES.NONE
 		linear_game = false
 		force_dressing = DRESSING.NONE
 		reset_save = false
 		override_state = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+		fail_all = false
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
+	if override_state:
+		tutorial_completed = true
 	var force_completed_scenarios = Robot.GLITCHES.size() - 10
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
@@ -121,12 +128,14 @@ func _ready() -> void:
 	state_override.completed_anomalies.shuffle()
 	#
 	Global.player = %Player
-	
 	load_game_state()
+	load_game_settings()
 	reset_dressing()
 	target_exposure = 6.0
 	$WorldEnvironment.environment.tonemap_exposure = target_exposure
 	start_game()
+	#
+	next_event_in = randi_range(3, 6)
 	#
 	var tween := create_tween()
 	tween.tween_interval(1.0)
@@ -143,13 +152,13 @@ func _ready() -> void:
 	multi.visible_instance_count = width * depth
 	for w in width:
 		for d in depth:
-			var tr := Transform3D()
-			tr = tr.scaled(Vector3.ONE * 1.25)
+			var trf := Transform3D()
+			trf = trf.scaled(Vector3.ONE * 1.25)
 			var x := (width_margin*w) - ((width / 2) * width_margin)
 			x += randf() * 0.2
 			var z := (width_margin*d) - ((depth / 2) * width_margin)
-			tr = tr.translated(Vector3(x, 0, z))
-			multi.set_instance_transform((w*width)+d, tr)
+			trf = trf.translated(Vector3(x, 0, z))
+			multi.set_instance_transform((w*width)+d, trf)
 	unpause()
 
 func check_if_nightmare() -> bool:
@@ -213,6 +222,10 @@ func start_game() -> void:
 	#completed_anomalies_count = game_state.completed_anomalies.size()
 	#selected_scenarios_count = selected_scenarios.size()
 	scenarios_amount = selected_scenarios.size() + game_state.completed_anomalies.size()
+	
+	if fail_all:
+		failed_scenarios = selected_scenarios.duplicate()
+		selected_scenarios.resize(0)
 	load_main()
 
 func _process(delta: float) -> void:
@@ -272,12 +285,20 @@ func _process(delta: float) -> void:
 	update_executive()
 	update_congrats()
 	update_events(delta)
+	refresh_reflection_probe(delta)
 
 func maybe_enable_event() -> void:
 	#if current_event != EVENTS.NONE: return
 	enable_attempts += 1
 	prints("enable_attempts",enable_attempts)
-	if enable_attempts > 3:
+	const disabled_sections := [
+		Robot.GLITCHES.LIGHTS_OFF,
+		-1,
+		-2,
+		-3,
+		-4
+	]
+	if enable_attempts > next_event_in and not disabled_sections.has(section.scenario):
 		enable_attempts = 0
 		if available_events.size() <= 0:
 			# TODO check if last event is == to first one
@@ -287,30 +308,36 @@ func maybe_enable_event() -> void:
 			available_events.shuffle()
 		current_event = available_events.pop_front()
 		setup_events(current_event)
+		next_event_in = randi_range(3, 6)
 		prints("Enabling event", EVENTS.find_key(current_event))
 	else:
+		current_event = EVENTS.NONE
 		setup_events()
 	
-
-func setup_events(event:EVENTS=EVENTS.NONE) -> void:
+func setup_events(_event:EVENTS=EVENTS.NONE) -> void:
 	%RobotEventVentilation.remove_base()
 	%RobotEventVentilation.play_animation("EventVentilation")
 	%EventVentilationAudio.position.x = 4.25
 	%RobotEventVentilation.visible = false
 	%RobotEventVentilation.disable_colliders()
+	%RobotEventVentilation.silence_motor()
 	#
 	%RobotEventReport.remove_base()
 	%RobotEventReport.visible = false
 	%RobotEventReport.disable_colliders()
+	%RobotEventReport.silence_motor()
 	#
 	%RobotEventExit.remove_base()
+	%RobotEventExit.play_animation("EventExit")
 	%RobotEventExit.visible = false
 	%RobotEventExit.disable_colliders()
+	%RobotEventExit.silence_motor()
 	#
 	%RobotEventCeiling.remove_base()
 	%RobotEventCeiling.play_animation("EventCeiling")
 	%RobotEventCeiling.visible = false
 	%RobotEventCeiling.disable_colliders()
+	%RobotEventCeiling.silence_motor()
 	
 	match current_event:
 		EVENTS.VENTILATION:
@@ -321,13 +348,15 @@ func setup_events(event:EVENTS=EVENTS.NONE) -> void:
 			%RobotEventExit.visible = true
 		EVENTS.CEILING:
 			%RobotEventCeiling.visible = true
-	
+	print(current_event)
 	event_watch_timer = 0
 
-func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0, min_dist: float = 0.0) -> bool:
+func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0) -> bool:
 	var cam := get_viewport().get_camera_3d()
 	var screen_pos := cam.unproject_position(object.global_position) / get_viewport().get_visible_rect().size
 	var dist := Vector2(0.5, 0.5).distance_to(screen_pos)
+	if cam.is_position_behind(object.global_position):
+		dist += 10.0
 	
 	var object_vector := (cam.global_position - object.global_position).normalized()
 	
@@ -342,7 +371,20 @@ func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: f
 	var player_dist := flat_object_position.distance_to(flat_player_position)
 	#print(player_dist)
 	#print(dot)
-	return (dist < cursor_treshold and dot > angle_treshold and player_dist < distance) or player_dist < min_dist
+	return dist < cursor_treshold and dot > angle_treshold and player_dist < distance
+
+func too_close_to_event(event_pos: Node3D, robot: Robot, min_dist: float = 0.0) -> bool:
+	var flat_object_position := event_pos.global_position
+	flat_object_position.y = 0
+	var flat_player_position := Global.player.global_position
+	flat_player_position.y = 0
+	
+	var player_dist := flat_object_position.distance_to(flat_player_position)
+	var is_too_close := player_dist < min_dist and robot.is_on_screen() or \
+						player_dist < min_dist * 0.5
+	if is_too_close:
+		print("Too close!")
+	return is_too_close
 
 func update_events(delta: float) -> void:
 	match current_event:
@@ -359,48 +401,49 @@ func update_events(delta: float) -> void:
 				#tween_s.tween_property(%EventVentilationAudio, "position:x", 50, 3)
 				var tween := create_tween()
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
-				tween.tween_interval(0.1)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
-				tween.tween_interval(0.3)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_interval(0.2)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.4)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_callback(%RobotEventVentilation.set_visible.bind(false))
 				tween.tween_callback(%EventVentilationAudio.play)
+				tween.tween_interval(0.1)
 				tween.tween_property(%EventVentilationAudio, "position:x", 50, 3)
-				tween.parallel().tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.parallel().tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.02)
 		EVENTS.REPORT:
-			if Global.is_player_in_room and is_point_centered(%EventReportVisible, 0.4, 0.5, 10.0, 2.0):
+			if Global.is_player_in_room and is_point_centered(%EventReportVisible, 0.4, 0.5, 20.0):
 				event_watch_timer += delta
 			else:
 				event_watch_timer = 0.0
-			if event_watch_timer > 0.5:
+			if event_watch_timer > 0.5 or \
+					too_close_to_event(%EventReportVisible, %RobotEventReport, 2.0) and Global.is_player_in_room:
 				current_event = EVENTS.NONE
 				var tween := create_tween()
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
-				tween.tween_interval(0.1)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
-				tween.tween_interval(0.3)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_interval(0.2)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.4)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_callback(%RobotEventReport.set_visible.bind(false))
 				tween.tween_callback(%EventReportAudio.play)
+				tween.tween_interval(0.1)
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 		EVENTS.EXIT:
-			if is_point_centered(%EventExitVisible, 0.2, -1.0, 6.0, 4.0):
+			if is_point_centered(%EventExitVisible, 0.2, 0.55, 10.0):
 				event_watch_timer += delta
 			else:
 				event_watch_timer = 0.0
-			if event_watch_timer > 1.0:
+			if event_watch_timer > 1.0 or too_close_to_event(%EventExitVisible, %RobotEventExit, 4.0):
 				current_event = EVENTS.NONE
 				var tween := create_tween()
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
-				tween.tween_interval(0.1)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
-				tween.tween_interval(0.3)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_interval(0.2)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.4)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_callback(%RobotEventExit.set_visible.bind(false))
 				tween.tween_callback(%EventExitAudio.play)
+				tween.tween_interval(0.1)
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 		EVENTS.CEILING:
 			if Global.is_player_in_room and is_point_centered(%EventCeilingVisible, 0.2, 0.6, 20.0):
@@ -411,13 +454,13 @@ func update_events(delta: float) -> void:
 				current_event = EVENTS.NONE
 				var tween := create_tween()
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
-				tween.tween_interval(0.1)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
-				tween.tween_interval(0.3)
-				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_interval(0.2)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+				tween.tween_interval(0.4)
+				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 				tween.tween_callback(%RobotEventCeiling.set_visible.bind(false))
 				tween.tween_callback(%EventCeilingAudio.play)
+				tween.tween_interval(0.1)
 				tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 
 func setup_executive() -> void:
@@ -504,9 +547,11 @@ func update_executive() -> void:
 
 func update_congrats() -> void:
 	if section.scenario != -1: return
+	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
+	var pos: float = player_pos.z + 25
+	if pos < 5:
+		game_state.congrats_completed = true
 	if not congrats_explosion_executed:
-		var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
-		var pos: float = player_pos.z + 25
 		if pos < 45:
 			var tween_particles := create_tween()
 			tween_particles.tween_callback(%CongratsParticlesBigExplosion1.set_emitting.bind(true))
@@ -546,7 +591,7 @@ func on_executive_finished():
 	#
 	exec_tween.tween_property(%FadeBlack, "modulate:a", 1.0, 4.0)
 	exec_tween.tween_callback(reset.call_deferred)
-	exec_tween.tween_interval(1.0)
+	exec_tween.tween_interval(3.0)
 	exec_tween.tween_callback($AudioStreamPlayer.play)
 	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 4.0)
 
@@ -561,33 +606,45 @@ func save_game_state() -> void:
 	ResourceSaver.save(game_state, save_path)
 
 func load_game_state() -> void:
+	prints("Global.reset_save", Global.reset_save)
 	game_state = load(save_path)
 	if override_state:
 		game_state = state_override
-	if reset_save or not ResourceLoader.exists(save_path):
+	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save:
 		game_state = GameStateResource.new()
-		load_settings()
+		Global.reset_save = false
+		print("Reset game save")
 		return
 	if game_state.completed_anomalies.size() < 8:
 		game_state.completed_anomalies.resize(0)
 	else:
 		print("Tutorial completed")
 		tutorial_completed = true
+
+func save_game_settings() -> void:
+	ResourceSaver.save(game_settings, settings_path)
+
+## From file
+func load_game_settings() -> void:
+	if not ResourceLoader.exists(settings_path):
+		game_settings = GameSettingsResource.new()
+	else:
+		game_settings = load(settings_path)
 	load_settings()
 
 func load_settings() -> void:
-	%VolumeSlider.set_value_no_signal(game_state.volume_level)
-	%MouseSenSlider.set_value_no_signal(game_state.mouse_sensibility)
-	%FullscreenCheckBox.set_pressed_no_signal(game_state.full_screen)
-	Global.player.sensitivity = remap(game_state.mouse_sensibility, 0, 100, 0.01, 2.0)
-	var volume_level := remap(game_state.volume_level, 0, 100, -30, 20)
+	%VolumeSlider.set_value_no_signal(game_settings.volume_level)
+	%MouseSenSlider.set_value_no_signal(game_settings.mouse_sensibility)
+	%FullscreenCheckBox.set_pressed_no_signal(game_settings.full_screen)
+	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
+	var volume_level := remap(game_settings.volume_level, 0, 100, -30, 20)
 	var sfx_index := AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(sfx_index, volume_level)
-	if game_state.volume_level < 5:
+	if game_settings.volume_level < 5:
 		AudioServer.set_bus_mute(sfx_index, true)
 	else:
 		AudioServer.set_bus_mute(sfx_index, false)
-	if game_state.full_screen:
+	if game_settings.full_screen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -654,7 +711,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	var scenario = 0
 	if force_anomaly != Robot.GLITCHES.NONE:
 		scenario = force_anomaly
-	elif not tutorial_completed and not skip_tutorial and not museum_completed and ((not game_state.congrats_completed) or game_state.executive_completed):
+	elif not tutorial_completed and not museum_completed and ((not game_state.congrats_completed) or game_state.executive_completed):
 		if game_state.executive_completed:
 			scenario = -4 # Museum
 		else:
@@ -684,7 +741,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
-	var anomalies_count := Robot.GLITCHES.size()-1
+	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
 	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
@@ -798,6 +855,7 @@ func instantiate_sections(Env: Node3D) -> void:
 
 func pause() -> void:
 	%PauseMenu.visible = true
+	%ConfirmResetContainer.visible = false
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -872,7 +930,7 @@ func reset_environment() -> void:
 	var door_coll := %MainOfficeWithCollision.get_node("office2/DoorCollider") as Node3D
 	door_coll.position.y = 0
 
-func _on_finished(success: bool, scenario: int, last: bool) -> void:
+func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 	#prints("_on_finished")
 	#$OfficeWithCollision.rotate_y(deg_to_rad(180))
 	#$OfficeWithCollision2.rotate_y(deg_to_rad(180))
@@ -880,29 +938,24 @@ func _on_finished(success: bool, scenario: int, last: bool) -> void:
 	#print("Rotate")
 	%LevelReport.update_report(section.report)
 	level_started = false
-	if scenario == -2:
+	if scenario == -2: # Tutorial
 		if not success:
-			# TODO do nothing?
 			load_main()
 			return
 		else:
 			tutorial_completed = true
 			load_main()
 			return
-	if scenario == -3:
-		# TODO do nothing?
-		if not success:
-			load_main()
-			return
-		else:
-			#Global.complete = true
-			load_main()
-			return
-	if scenario == -1:
-		game_state.congrats_completed = true
-		load_main()
+	if scenario == -3: # Executive
+		# Do nothing, can't scape ending
+		#load_main()
 		return
-	if scenario == -4:
+	if scenario == -1: # Congrats
+		# Can't scape congrats, unlesh finished
+		if game_state.congrats_completed == true:
+			load_main()
+		return
+	if scenario == -4: # Museum
 		museum_completed = true
 		load_main()
 		return
@@ -1043,8 +1096,16 @@ func shutdown_robot() -> void:
 		robot_collected = null
 		%Player.note_visible(false)
 
-func refresh_reflection_probe():
-	$ReflectionProbe.position.x = randf()*0.01
+var last_exposure := 0.0
+var refresh_reflection_probe_time := 0.0
+func refresh_reflection_probe(delta: float):
+	refresh_reflection_probe_time += delta
+	var current_exposure: float = $WorldEnvironment.environment.tonemap_exposure
+	if last_exposure != current_exposure and refresh_reflection_probe_time > .3:
+		refresh_reflection_probe_time = 0.0
+		last_exposure = current_exposure
+		$ReflectionProbe.position.x = randf()*0.01
+		print("Refresh Reflection Probe")
 	
 
 func _on_finish_area_body_entered(_body: Node3D) -> void:
@@ -1071,9 +1132,8 @@ func _on_inside_area_body_entered(_body: Node3D) -> void:
 	if tonemap_tween:
 		tonemap_tween.stop()
 	tonemap_tween = create_tween()
-	tonemap_tween.EASE_OUT
 	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 1.0)
-	tonemap_tween.tween_callback(refresh_reflection_probe)
+	#tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.0
 	%ExtraStairs.visible = false
 	%ExtraOffices.visible = false
@@ -1087,25 +1147,25 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 	if tonemap_tween:
 		tonemap_tween.stop()
 	tonemap_tween = create_tween()
-	tonemap_tween.EASE_OUT
 	tonemap_tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 1.0)
-	tonemap_tween.tween_callback(refresh_reflection_probe)
+	#tonemap_tween.tween_callback(refresh_reflection_probe)
 	#$WorldEnvironment.environment.tonemap_exposure = 1.9
 	%ExtraStairs.visible = true
 	%ExtraOffices.visible = true
 
 
-func _on_loop_up_body_entered(body: Node3D) -> void:
+func _on_loop_up_body_entered(_body: Node3D) -> void:
 	print("Loop Up") # Player is going Down
 	%Player.position.y += 4.1
 	if check_if_nightmare():
 		tutorial_completed = false
 		museum_completed = false
+		process_failed_queue(section.scenario)
 		load_main()
 		return
 
 
-func _on_loop_down_body_entered(body: Node3D) -> void:
+func _on_loop_down_body_entered(_body: Node3D) -> void:
 	print("Loop Down") # Player is going Up
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
@@ -1130,7 +1190,7 @@ func on_glitch_failed() -> void:
 	section.is_success() # Force generate report
 	_on_finished(false, section.scenario, false)
 
-func _on_start_level_body_entered(body: Node3D) -> void:
+func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true
 
 
@@ -1144,22 +1204,35 @@ func _on_resume_button_pressed() -> void:
 
 func _on_volume_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:
-		game_state.volume_level = %VolumeSlider.value
+		game_settings.volume_level = %VolumeSlider.value
+		save_game_settings()
 		load_settings()
 
 
 func _on_mouse_sen_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:
-		game_state.mouse_sensibility = %MouseSenSlider.value
+		game_settings.mouse_sensibility = %MouseSenSlider.value
+		save_game_settings()
 		load_settings()
 
 
 func _on_fullscreen_check_box_toggled(toggled_on: bool) -> void:
-	game_state.full_screen = toggled_on
+	game_settings.full_screen = toggled_on
+	save_game_settings()
 	load_settings()
 
-func _on_storage_area_body_entered(body: Node3D) -> void:
+func _on_storage_area_body_entered(_body: Node3D) -> void:
 	Global.is_player_in_storage = true
 
-func _on_storage_area_body_exited(body: Node3D) -> void:
+func _on_storage_area_body_exited(_body: Node3D) -> void:
 	Global.is_player_in_storage = false
+
+func _on_reset_button_pressed() -> void:
+	%ConfirmResetContainer.visible = true
+
+func _on_confirm_reset_button_pressed() -> void:
+	Global.reset_save = true
+	get_tree().change_scene_to_file("res://base.tscn")
+
+func _on_cancel_reset_button_pressed() -> void:
+	%ConfirmResetContainer.visible = false
