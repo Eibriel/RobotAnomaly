@@ -3,7 +3,7 @@ extends Resource
 
 # Non repeating list of anomalies completed
 # Array of Ints > 0
-@export var completed_anomalies: Array[int]
+@export var completed_anomalies: Array[Robot.GLITCHES]
 
 @export var congrats_completed := false
 

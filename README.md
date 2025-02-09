@@ -125,7 +125,7 @@ Some assets may not be in the game
 
 
 
-### Sonidos
+### Sounds
 
 - laughs2.wav - sagetyrtle - https://freesound.org/people/sagetyrtle/sounds/36164/
 

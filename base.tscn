@@ -85,6 +85,7 @@
 [ext_resource type="PackedScene" uid="uid://cm85x7lj71un7" path="res://objects/props/VentilationGrillSmall.gltf" id="73_o06hd"]
 [ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="74_k62q3"]
 [ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="74_nigfh"]
+[ext_resource type="PackedScene" uid="uid://q4npa7bdvd2r" path="res://physics_balloon.tscn" id="74_o1ods"]
 [ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="75_m5bov"]
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
 [ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
@@ -241,10 +242,6 @@ gravity = Vector3(0, -0.98, 0)
 turbulence_noise_strength = 0.01
 turbulence_noise_scale = 1.0
 turbulence_noise_speed_random = 0.1
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_npl1d"]
-material = SubResource("StandardMaterial3D_vja7b")
-size = Vector2(0.2, 0.2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yc71e"]
 albedo_texture = ExtResource("20_wudxj")
@@ -564,6 +561,7 @@ layout_mode = 2
 text = "ALL PROGRESS WILL BE LOST"
 
 [node name="ConfirmResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+visible = false
 layout_mode = 2
 text = "ARE YOU SURE?"
 
@@ -957,6 +955,7 @@ transform = Transform3D(0.80187, 0, -0.597499, 0, 1, 0, 0.597499, 0, 0.80187, -3
 
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="LobbyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lobby"]
 directional = true
@@ -1661,6 +1660,29 @@ lifetime = 10.0
 process_material = SubResource("ParticleProcessMaterial_vja7b")
 draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 
+[node name="CongratsParticlesBig_cache" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+editor_description = "Node used to cache the particle and avoid stuttering"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.7886, 3.77485, 0)
+extra_cull_margin = 10.0
+emitting = false
+amount = 1200
+lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_vja7b")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
+
+[node name="CongratsParticlesBigExplosion_cache" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
+unique_name_in_owner = true
+editor_description = "Node used to cache the particle and avoid stuttering"
+transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, 46.9725, 0.655386, 5.21853)
+emitting = false
+amount = 600
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.99
+process_material = SubResource("ParticleProcessMaterial_npl1d")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
+
 [node name="CongratsParticlesBigExplosion1" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
 transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, 3.001, 0.655386, 5.21853)
@@ -1695,15 +1717,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.05215, 0.95176, 4.90365)
 stream = ExtResource("69_npl1d")
 bus = &"Environment"
 
-[node name="ParticleShaderLoader" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_congrats"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.31443, 0)
-mesh = SubResource("PlaneMesh_npl1d")
-
 [node name="BalloonCongrats" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("70_q3v0p")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0.161686, 3.37886, -14.9212)
 
 [node name="BalloonsCongrats" type="Node3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
+
+[node name="PhysicsBalloon" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("74_o1ods")]
+transform = Transform3D(1, 0, 0, 0, 0.543248, 0.839572, 0, -0.839572, 0.543248, 3.6782, 0.217978, 6.51786)
+visible = false
 
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true
@@ -1755,7 +1777,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.244
 
 [node name="RobotVacuum" parent="OfficeNode" instance=ExtResource("79_0tvgc")]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, -8.74226e-08, 0, 1, 0, 8.74226e-08, 0, -1, 1.97341, 0, 18.2303)
+transform = Transform3D(-0.679915, 0, 0.733291, 0, 1, 0, -0.733291, 0, -0.679915, 2.4455, 0, 18.0014)
 
 [node name="StorageArea" type="Area3D" parent="OfficeNode"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9074, 0, 0)

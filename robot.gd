@@ -86,7 +86,7 @@ var block_id := 0
 var shutdown_time := 1.0
 
 var snap_countdown := 0.0
-var snap_rate := 5.0
+var snap_rate := 2.0
 var stalk_completed := false
 var anim_camera_weight := 0.0
 
@@ -509,7 +509,7 @@ func update_glitch() -> void:
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
 				tween.tween_interval(0.09)
 		GLITCHES.FACING_WRONG_DIRECTION:
-			%RobotBody.rotation.y = deg_to_rad(80)
+			%RobotBody.rotation.y = deg_to_rad(0+randi_range(-10, 10))
 		GLITCHES.MISSING_EYE:
 			robj["eye_left"].visible = false
 		GLITCHES.MISSING_ENTIRELY:
@@ -531,13 +531,15 @@ func update_glitch() -> void:
 					%RobotBody.position.x = -0.28
 					anim.play("HoldingHands_A")
 		GLITCHES.COUNTDOWN:
-			%RobotBody.position = Vector3.ZERO
+			%RobotBody.position = Vector3(0.8, 0, 0)
+			%RobotBody.rotation.y = deg_to_rad(-45)
 			anim.play("Timer")
 		GLITCHES.DOOR_OPEN:
 			%RobotBody.position = Vector3(-15, 0, 0)
 			%RobotBody.rotation.y = deg_to_rad(90)
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.position = Vector3.ZERO
+			%RobotBody.rotation.y = deg_to_rad(0)
 		GLITCHES.EXTRA_ROBOTS:
 			if not is_demo:
 				var pos := %RobotBody.position as Vector3

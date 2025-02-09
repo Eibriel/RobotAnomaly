@@ -10,8 +10,8 @@ var battery_collected := -1
 var robots: Array[Robot] = []
 
 #var completed_scenarios: Array[int] = []
-var selected_scenarios:Array[int] = []
-var failed_scenarios:Array[int] = []
+var selected_scenarios:Array[Robot.GLITCHES] = []
+var failed_scenarios:Array[Robot.GLITCHES] = []
 
 var introduction_done := false
 var day := 1
@@ -85,6 +85,7 @@ var tonemap_tween: Tween
 var target_exposure := 0.0
 
 const FLOORS_AMOUNT := 29
+const INTRO_AMOUNT := 8
 const NONE_RATIO := 4
 
 var exe_phase_2 := false
@@ -97,11 +98,11 @@ var congrats_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.WALKS_NOT_LOOKING
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := true
+var override_state := false
 var state_override := GameStateResource.new()
 var fail_all := false
 #var force_completed_scenarios := 10
@@ -115,8 +116,8 @@ func _ready() -> void:
 		reset_save = false
 		override_state = false
 		fail_all = false
-	state_override.congrats_completed = false
-	state_override.executive_completed = false
+	state_override.congrats_completed = true
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
@@ -166,7 +167,7 @@ func check_if_nightmare() -> bool:
 
 ## Initializes a game
 func start_game() -> void:
-	check_if_nightmare()
+	#check_if_nightmare()
 	#scenario_count = Robot.GLITCHES.size() 
 	var mixed_scenarios:Array[int]
 	mixed_scenarios.append_array(Robot.GLITCHES.values())
@@ -216,17 +217,88 @@ func start_game() -> void:
 				selected_scenarios.append(s)
 	if not linear_game:
 		selected_scenarios.shuffle()
-	#if force_completed_scenarios > 0:
-		#for n in force_completed_scenarios:
-			#game_state.completed_anomalies.append(selected_scenarios.pop_front())
-	#completed_anomalies_count = game_state.completed_anomalies.size()
-	#selected_scenarios_count = selected_scenarios.size()
+	test_fix_scenario_order()
+	fix_scenario_order(selected_scenarios, game_state.completed_anomalies)
+	
 	scenarios_amount = selected_scenarios.size() + game_state.completed_anomalies.size()
 	
 	if fail_all:
 		failed_scenarios = selected_scenarios.duplicate()
 		selected_scenarios.resize(0)
 	load_main()
+	# Reset vacuum position
+	%RobotVacuum.position = Vector3(3, 0, 24)
+	%RobotVacuum.rotation_degrees = Vector3(0, -180, 0)
+
+func test_fix_scenario_order() -> void:
+	print("test_fix_scenario_order")
+	# Door anomaly before Executive
+	var com_scenarios:Array[Robot.GLITCHES] = []
+	var sel_scenarios:Array[Robot.GLITCHES] = []
+	sel_scenarios.append_array(Robot.GLITCHES.values())
+	sel_scenarios.erase(Robot.GLITCHES.LIGHTS_OFF)
+	sel_scenarios[0] = Robot.GLITCHES.LIGHTS_OFF
+	print("sel_scenarios", sel_scenarios)
+	print("com_scenarios", com_scenarios)
+	var res:= fix_scenario_order(sel_scenarios, com_scenarios)
+	print("res_scenarios", res)
+	print()
+
+func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Array[Robot.GLITCHES]) -> Array[Robot.GLITCHES]:
+	var can_be_moved := Robot.GLITCHES.values()
+	can_be_moved.erase(Robot.GLITCHES.NONE)
+	can_be_moved.erase(Robot.GLITCHES.DOOR_OPEN)
+	can_be_moved.erase(Robot.GLITCHES.LIGHTS_OFF)
+	can_be_moved.erase(Robot.GLITCHES.GRABS_BATTERY)
+	var completed_amound := com_scenarios.size()
+	var adjusted_floor_amount := FLOORS_AMOUNT - completed_amound
+	var adjusted_intro_amount := INTRO_AMOUNT - completed_amound
+	prints("adjusted_floor_amount", adjusted_floor_amount)
+	prints("adjusted_intro_amount", adjusted_intro_amount)
+	# None anomaly spread evenly and without repetition
+	# Door anomaly before Executive
+	if adjusted_floor_amount > 0:
+		var door_open_key = sel_scenarios.find(Robot.GLITCHES.DOOR_OPEN) 
+		if door_open_key != -1 and door_open_key > adjusted_floor_amount:
+			prints("Door anomaly after Executive!", Robot.GLITCHES.DOOR_OPEN)
+			var target_keys:Array[Robot.GLITCHES] = []
+			for n in range(0, adjusted_floor_amount):
+				if can_be_moved.has(sel_scenarios[n]):
+					target_keys.append(n)
+			if target_keys.size() > 0:
+				var target_key:Robot.GLITCHES = target_keys.pick_random()
+				print("exchange %d and %d" %[door_open_key, target_key])
+				sel_scenarios[door_open_key] = sel_scenarios[target_key]
+				sel_scenarios[target_key] = Robot.GLITCHES.DOOR_OPEN
+	# Lights off anomaly after congrats
+	if adjusted_intro_amount > 0:
+		var lights_off_key = sel_scenarios.find(Robot.GLITCHES.LIGHTS_OFF) 
+		if lights_off_key != -1 and lights_off_key < adjusted_intro_amount:
+			prints("Lights off anomaly before Congrats!", Robot.GLITCHES.LIGHTS_OFF)
+			var target_keys:Array[Robot.GLITCHES] = []
+			for n in range(adjusted_intro_amount+1, sel_scenarios.size()):
+				if can_be_moved.has(sel_scenarios[n]):
+					target_keys.append(n)
+			if target_keys.size() > 0:
+				var target_key:Robot.GLITCHES = target_keys.pick_random()
+				print("exchange %d and %d" %[lights_off_key, target_key])
+				sel_scenarios[lights_off_key] = sel_scenarios[target_key]
+				sel_scenarios[target_key] = Robot.GLITCHES.LIGHTS_OFF
+	# Grab battery before congrats
+	if adjusted_intro_amount > 0:
+		var grabs_battery_key = sel_scenarios.find(Robot.GLITCHES.GRABS_BATTERY) 
+		if grabs_battery_key != -1 and grabs_battery_key > adjusted_intro_amount:
+			prints("Door anomaly after Congrats!", Robot.GLITCHES.GRABS_BATTERY)
+			var target_keys:Array[Robot.GLITCHES] = []
+			for n in range(0, adjusted_intro_amount):
+				if can_be_moved.has(sel_scenarios[n]):
+					target_keys.append(n)
+			if target_keys.size() > 0:
+				var target_key:Robot.GLITCHES = target_keys.pick_random()
+				print("exchange %d and %d" %[grabs_battery_key, target_key])
+				sel_scenarios[grabs_battery_key] = sel_scenarios[target_key]
+				sel_scenarios[target_key] = Robot.GLITCHES.GRABS_BATTERY
+	return sel_scenarios
 
 func _process(delta: float) -> void:
 	#if not [TASKS.NONE, TASKS.ROTATE].has(current_task):
@@ -615,7 +687,7 @@ func load_game_state() -> void:
 		Global.reset_save = false
 		print("Reset game save")
 		return
-	if game_state.completed_anomalies.size() < 8:
+	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
 		game_state.completed_anomalies.resize(0)
 	else:
 		print("Tutorial completed")
@@ -717,7 +789,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		else:
 			scenario = -2 # Tutorial
 	#elif completed_scenarios.size() >= 8 and not game_state.congrats_completed:
-	elif game_state.completed_anomalies.size() >= 8 and not game_state.congrats_completed:
+	elif game_state.completed_anomalies.size() >= INTRO_AMOUNT and not game_state.congrats_completed:
 		scenario = -1 # Congrats
 	elif game_state.completed_anomalies.size() >= FLOORS_AMOUNT and not game_state.executive_completed:
 		scenario = -3 # Executive
@@ -747,8 +819,8 @@ func instantiate_sections(Env: Node3D) -> void:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
-	if game_state.completed_anomalies.size() < 8 and not game_state.congrats_completed:
-		%TotalLevelsCountLabel.mesh.text = "/ %d" % 8
+	if game_state.completed_anomalies.size() < INTRO_AMOUNT and not game_state.congrats_completed:
+		%TotalLevelsCountLabel.mesh.text = "/ %d" % INTRO_AMOUNT
 	#elif game_state.executive_completed:
 	#	%TotalLevelsCountLabel.mesh.text = "/ %d" % (anomalies_count-completed_anomalies_count)
 	elif game_state.completed_anomalies.size() < FLOORS_AMOUNT:
@@ -879,7 +951,7 @@ func _input(event: InputEvent) -> void:
 			current_task = TASKS.NONE
 
 func process_failed_queue(scenario: int) -> void:
-	if game_state.completed_anomalies.size() < 8:
+	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
 		#completed_scenarios.shuffle()d
 		selected_scenarios.append_array(game_state.completed_anomalies)
 		game_state.completed_anomalies.resize(0)

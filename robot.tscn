@@ -328,6 +328,7 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.993936, 0.10996, 0, -0.10996, 0.993936, 0, 1.38674, -0.104304)
 stream = SubResource("AudioStreamInteractive_603yn")
 volume_db = -20.0
+unit_size = 5.0
 bus = &"Robots"
 emission_angle_enabled = true
 emission_angle_degrees = 43.0
