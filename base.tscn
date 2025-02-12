@@ -543,6 +543,29 @@ layout_mode = 2
 step = 0.1
 value = 50.0
 
+[node name="MouseAccLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "CAMERA ACCELERATION"
+
+[node name="MouseAccSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 30.0
+step = 0.1
+value = 20.0
+
+[node name="CameraShakeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "CAMERA SHAKE"
+
+[node name="CameraShakeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
 [node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -1826,12 +1849,14 @@ outline_size = 3
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.69159, 1.42308, 24.995)
 pixel_size = 0.001
+modulate = Color(0, 0, 0, 1)
 text = "Tasks
 - Shutdown robots with anomalies
   (Robots with full battery don't have anomalies)
 - Charge batteries for all robots
 "
 font_size = 60
+outline_size = 5
 horizontal_alignment = 0
 
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
@@ -2046,6 +2071,8 @@ volume_db = -10.0
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseAccSlider" to="." method="_on_mouse_acc_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
 [connection signal="toggled" from="Control/PauseMenu/Control/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]

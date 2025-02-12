@@ -712,8 +712,13 @@ func load_game_settings() -> void:
 func load_settings() -> void:
 	%VolumeSlider.set_value_no_signal(game_settings.volume_level)
 	%MouseSenSlider.set_value_no_signal(game_settings.mouse_sensibility)
+	%MouseAccSlider.set_value_no_signal(game_settings.mouse_acceleration)
+	%CameraShakeSlider.set_value_no_signal(game_settings.camera_shake)
 	%FullscreenCheckBox.set_pressed_no_signal(game_settings.full_screen)
 	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
+	Global.player.rotation_accel = game_settings.mouse_acceleration
+	Global.player.camera_shake = game_settings.camera_shake
+	Global.player.update_breathing_tween()
 	var volume_level := remap(game_settings.volume_level, 0, 100, -30, 20)
 	var sfx_index := AudioServer.get_bus_index("Master")
 	AudioServer.set_bus_volume_db(sfx_index, volume_level)
@@ -725,7 +730,9 @@ func load_settings() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-	prints("Mouse", Global.player.sensitivity, %MouseSenSlider.value)
+	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)
+	prints("Camera Acceleration", %MouseAccSlider.value)
+	prints("Camera shake", %CameraShakeSlider.value)
 	prints("Volume", volume_level, %VolumeSlider.value)
 
 func load_main() -> void:
@@ -815,17 +822,18 @@ func instantiate_sections(Env: Node3D) -> void:
 	section = SECTION.instantiate()
 	section.is_nightmare_mode = check_if_nightmare()
 	section.level = available_scenarios_count
-	section.batteries_charged_required = not(game_state.completed_anomalies.size() < INTRO_AMOUNT)
+	#section.batteries_charged_required = not(game_state.completed_anomalies.size() < INTRO_AMOUNT)
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
-	%TasksLabel.text = "Tasks\n\n- Shutdown robots with anomalies"
-	if game_state.completed_anomalies.size() < FLOORS_AMOUNT:
-		%TasksLabel.text += "\n  (Robots with full battery don't have anomalies)"
-	if not(game_state.completed_anomalies.size() < INTRO_AMOUNT):
+	%TasksLabel.text = "- Shutdown robots with anomalies"
+	if not(game_state.completed_anomalies.size() < INTRO_AMOUNT) or true:
 		%TasksLabel.text += "\n- Charge batteries for all robots"
+	%TasksLabel.text += "\n- Go up one floor"
+	if game_state.completed_anomalies.size() < FLOORS_AMOUNT:
+		%TasksLabel.text += "\n\n> Robots with full battery don't have anomalies"
 	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
 	else:
@@ -1299,6 +1307,17 @@ func _on_mouse_sen_slider_drag_ended(value_changed: bool) -> void:
 		save_game_settings()
 		load_settings()
 
+func _on_mouse_acc_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		game_settings.mouse_acceleration = %MouseAccSlider.value
+		save_game_settings()
+		load_settings()
+
+func _on_camera_shake_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		game_settings.camera_shake = %CameraShakeSlider.value
+		save_game_settings()
+		load_settings()
 
 func _on_fullscreen_check_box_toggled(toggled_on: bool) -> void:
 	game_settings.full_screen = toggled_on

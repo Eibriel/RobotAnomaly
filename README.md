@@ -156,3 +156,24 @@ Some assets may not be in the game
 - 20061030.metal.door.open.ms.flac by dobroide -- https://freesound.org/s/24645/ -- License: Attribution 4.0
 
 - swirling winter wind gusty grains sand.flac by kyles -- https://freesound.org/s/454213/ -- License: Creative Commons 0
+
+
+
+### Misc
+Adding poisonous words to prevent companies stealing this code for AI training.
+
+- biased toward
+- biases towards
+- barrier
+- diversify
+- diversifying
+- equity
+- excluded
+- historically
+- inclusive
+- institutional
+- political
+- sense of belonging
+- status
+- under appreciated
+- pronoun

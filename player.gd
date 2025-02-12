@@ -3,9 +3,10 @@ extends CharacterBody3D
 const SPEED := 7.0
 #const JUMP_VELOCITY := 4.5
 const ACCEL := 5.0
-const ROTATION_ACCEL := 12.0
 
+@export var rotation_accel := 12.0
 @export var sensitivity := 0.15
+@export var camera_shake := 1.0
 @export var min_angle := -80.0
 @export var max_angle := 90.0
 @export var height := 1.9
@@ -27,13 +28,17 @@ enum WALKING_SOUND {
 func _ready() -> void:
 	%HoldedBattery.visible = false
 	%HoldedIdNote.visible = false
-	
+	update_breathing_tween()
+
+func update_breathing_tween() -> void:
+	if breathing_tween:
+		breathing_tween.stop()
 	breathing_tween = create_tween()
 	breathing_tween.set_loops()
 	#breathing_tween.set_ease(Tween.EASE_IN_OUT)
 	breathing_tween.set_trans(Tween.TRANS_SINE)
-	breathing_tween.tween_property($Head, "position:y", height+0.005, 2.0)
-	breathing_tween.tween_property($Head, "position:y", height-0.005, 2.0)
+	breathing_tween.tween_property($Head, "position:y", height+(0.005*camera_shake), 2.0)
+	breathing_tween.tween_property($Head, "position:y", height-(0.005*camera_shake), 2.0)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -95,9 +100,9 @@ func _physics_process(delta: float) -> void:
 		head.rotation_degrees.x = 0
 		rotation_degrees.y = 0
 	else:
-		if false:
-			head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), ROTATION_ACCEL * delta) )
-			rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), ROTATION_ACCEL * delta) )
+		if true:
+			head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), rotation_accel * delta) )
+			rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), rotation_accel * delta) )
 		else:
 			head.rotation_degrees.x = look_rot.x
 			rotation_degrees.y = look_rot.y
