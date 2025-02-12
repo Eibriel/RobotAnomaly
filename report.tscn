@@ -84,3 +84,10 @@ texture = ExtResource("6_tc3ll")
 
 [node name="Whiteboard" parent="." instance=ExtResource("7_tc3ll")]
 transform = Transform3D(-3.71547e-08, -0.85, 3.71547e-08, 0, -3.71547e-08, -0.85, 0.85, -3.71547e-08, 1.62408e-15, 0.182003, 0, -0.0152206)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.341797, 0.260376, 0.0145264)
+pixel_size = 0.001
+text = "Errors
+- None"
+horizontal_alignment = 0

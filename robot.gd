@@ -154,6 +154,7 @@ func _ready() -> void:
 	motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
 
 func rotate_base(delta: float, reverse:=false) -> void:
+	return
 	if not base_visible: return
 	if glitch == GLITCHES.WALKS_NOT_LOOKING: return
 	if glitch == GLITCHES.BLOCKING_PATH: return
@@ -183,13 +184,19 @@ func charge_battery(delta: float) -> void:
 	if prev_level != battery_charge and battery_charge >= 100.0:
 		%RobotBatteryAudioPlayer.play()
 
-func shutdown(delta: float) -> void:
-	if not power_on: return
-	if is_demo or is_event: return
-	shutdown_time -= delta * 0.4
-	if shutdown_time <= 0.0:
-		%RobotShutdownAudioPlayer.play()
-		shut_down()
+func shutdown(delta: float) -> bool:
+	if is_demo or is_event: return false
+	if power_on:
+		shutdown_time -= delta * 0.4
+		if shutdown_time <= 0.0:
+			shut_down()
+			return true
+	else:
+		shutdown_time += delta * 0.4
+		if shutdown_time >= 1.0:
+			turn_on()
+			return true
+	return false
 
 func _process(delta: float) -> void:
 	if power_on:
@@ -625,6 +632,7 @@ func add_detail(rnode: Node, detail_texture) -> void:
 		add_detail(c, detail_texture)
 
 func shut_down() -> void:
+	%RobotShutdownAudioPlayer.play()
 	power_on = false
 	anim.play("Shut_Down", 1.0)
 	var shut_down_tween := create_tween()
@@ -633,6 +641,16 @@ func shut_down() -> void:
 	shut_down_tween.tween_callback(turn_off_glitches)
 	#%RobotLaughAudioPlayer.stop()ss
 	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Off"
+
+func turn_on() -> void:
+	power_on = true
+	anim.play("Idle", 1.0)
+	#var shut_down_tween := create_tween()
+	#shut_down_tween.tween_property(%RobotLaughAudioPlayer, "pitch_scale", 0.2, 3)
+	#shut_down_tween.tween_callback(%RobotLaughAudioPlayer.stop)
+	#shut_down_tween.tween_callback(turn_off_glitches)
+	#%RobotLaughAudioPlayer.stop()ss
+	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Working"
 
 func turn_off_glitches() -> void:
 	robj["red_eyes"].visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=140 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -60,7 +60,10 @@
 [ext_resource type="PackedScene" uid="uid://cf6p14trpy2lu" path="res://objects/props/VintageLamp.gltf" id="36_0xwag"]
 [ext_resource type="ArrayMesh" uid="uid://dgr3y7c3cei3s" path="res://meshes/static_robot.res" id="39_kajva"]
 [ext_resource type="LightmapGIData" uid="uid://bcg5v5t32j3kj" path="res://lightmaps/design_office.lmbake" id="40_8wt8o"]
+[ext_resource type="PackedScene" uid="uid://djfvpbucf72m4" path="res://picture_frame.tscn" id="41_60t3g"]
 [ext_resource type="PackedScene" uid="uid://ny5qqve526e" path="res://objects/props/BookJournalOpen.gltf" id="42_hjerm"]
+[ext_resource type="Texture2D" uid="uid://bev3fwbdle4vn" path="res://textures/CEO01_composition.png" id="42_td0b0"]
+[ext_resource type="Texture2D" uid="uid://c6o18fs3ypter" path="res://textures/CEO02_composition.png" id="43_s1vco"]
 [ext_resource type="Texture2D" uid="uid://dsy0lo6mui8jm" path="res://textures/whiteboard_design_02.png" id="44_q1yh3"]
 [ext_resource type="LightmapGIData" uid="uid://ctabip4ieeiap" path="res://lightmaps/museum_office.lmbake" id="44_y4n4r"]
 [ext_resource type="Texture2D" uid="uid://dcu7h6o0x8bc6" path="res://textures/whiteboard_design_01.png" id="45_aw26h"]
@@ -879,6 +882,15 @@ shape = SubResource("BoxShape3D_60t3g")
 transform = Transform3D(0.0650897, 0, 0.99788, 0, 1, 0, -0.99788, 0, 0.0650897, -3.48508, 0, 17.6797)
 design = 1
 
+[node name="ToExecutiveLabel" type="Label3D" parent="OfficeNode/DressingNode/office_party"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+Executive"
+font_size = 50
+outline_size = 3
+
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -952,6 +964,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.86538, 2.32023, 19.0588)
 
 [node name="ShirtDisplay2" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("34_mfqcl")]
 transform = Transform3D(0.80187, 0, -0.597499, 0, 1, 0, 0.597499, 0, 0.80187, -3.75696, -0.00610992, 20.0792)
+
+[node name="ToMeetingRoomLabel" type="Label3D" parent="OfficeNode/DressingNode/office_marketing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+Meetingroom"
+font_size = 50
+outline_size = 3
 
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1051,6 +1072,34 @@ shape = SubResource("BoxShape3D_i2k0m")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.58749, 0.110805, 1.12169)
 shape = SubResource("CylinderShape3D_i2k0m")
 
+[node name="CompanyLogo" type="Label3D" parent="OfficeNode/DressingNode/office_lobby"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.18346, 2.37525, 18.0163)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "The
+Tescreal
+company"
+font_size = 200
+
+[node name="ToProductionLabel" type="Label3D" parent="OfficeNode/DressingNode/office_lobby"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+Production"
+font_size = 50
+outline_size = 3
+
+[node name="PictureFrame" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -4.24219, 2.02212, 15.6662)
+texture = ExtResource("42_td0b0")
+size = Vector2(1.77, 1)
+
+[node name="PictureFrame2" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -4.24219, 2.53888, 18.2748)
+texture = ExtResource("43_s1vco")
+size = Vector2(1.77, 1)
+
 [node name="office_lab" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -1126,6 +1175,15 @@ transform = Transform3D(0.759033, -0.651052, 0, -2.84584e-08, -3.31784e-08, 1, -
 
 [node name="Pinter3D" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("28_fq8n2")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 1.60133, 1.15425, 19.1649)
+
+[node name="ToMarketingLabel" type="Label3D" parent="OfficeNode/DressingNode/office_lab"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+Marketing"
+font_size = 50
+outline_size = 3
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1272,6 +1330,16 @@ shape = SubResource("BoxShape3D_1dlgw")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/ObjectsStaticBody3D"]
 transform = Transform3D(0.707699, 0, -0.706514, 0, 1, 0, 0.706514, 0, 0.707699, 1.70193, 0.0454118, -2.0773)
 shape = SubResource("BoxShape3D_dtkpj")
+
+[node name="PictureFrame3" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1.31134e-07, 0, 1, -0.0818515, 0.996645, 1.07335e-08, -0.996645, -0.0818515, 1.30694e-07, -4.24219, 2.61899, 15.6662)
+texture = ExtResource("42_td0b0")
+size = Vector2(1.77, 1)
+
+[node name="PictureFrame4" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("41_60t3g")]
+transform = Transform3D(0.00374756, 0.149074, 0.988819, -0.0248491, -0.988507, 0.149121, 0.999684, -0.0251301, -1.31093e-07, -4.17084, 0.533375, 18.4283)
+texture = ExtResource("43_s1vco")
+size = Vector2(1.77, 1)
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1429,6 +1497,15 @@ transform = Transform3D(0.0747699, 0, -0.997201, 0, 1, 0, 0.997201, 0, 0.0747699
 
 [node name="Brain2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("54_p3pq8")]
 transform = Transform3D(0.0646342, -0.129867, -0.478495, 0.33007, 0.371343, -0.0561997, 0.369968, -0.308608, 0.133733, -1.99418, 1.26515, 16.7449)
+
+[node name="ToDesignLabel" type="Label3D" parent="OfficeNode/DressingNode/office_design"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+Design"
+font_size = 50
+outline_size = 3
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1646,6 +1723,15 @@ shape = SubResource("BoxShape3D_td0b0")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.5944, 0.0777106, -0.846888)
 shape = SubResource("BoxShape3D_s1vco")
 
+[node name="ToUnknownLabel" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+the unknown"
+font_size = 50
+outline_size = 3
+
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -1726,6 +1812,27 @@ unique_name_in_owner = true
 [node name="PhysicsBalloon" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("74_o1ods")]
 transform = Transform3D(1, 0, 0, 0, 0.543248, 0.839572, 0, -0.839572, 0.543248, 3.6782, 0.217978, 6.51786)
 visible = false
+
+[node name="ToDesignLabel" type="Label3D" parent="OfficeNode/DressingNode/office_congrats"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52521, 1.26238, -24.9596)
+pixel_size = 0.002
+modulate = Color(0, 0, 0, 1)
+text = "To
+Design"
+font_size = 50
+outline_size = 3
+
+[node name="TasksLabel" type="Label3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.69159, 1.42308, 24.995)
+pixel_size = 0.001
+text = "Tasks
+- Shutdown robots with anomalies
+  (Robots with full battery don't have anomalies)
+- Charge batteries for all robots
+"
+font_size = 60
+horizontal_alignment = 0
 
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true

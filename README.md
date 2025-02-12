@@ -122,6 +122,8 @@ Some assets may not be in the game
 
 - "Armband" (https://skfb.ly/ptCv6) by buzzkirill is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+"Rigged T-Pose Human Male w 50 Face Blendshapes" (https://skfb.ly/6QTJ9) by Mike Alger is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 
 
 

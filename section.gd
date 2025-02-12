@@ -10,6 +10,7 @@ signal request_environment_change
 @export var last := false
 @export var last_day := false
 @export var is_nightmare_mode := false
+@export var batteries_charged_required := true
 
 var robots: Array[Robot] = []
 var finished := false
@@ -294,14 +295,17 @@ func is_success() -> bool:
 			print("Failed! robot without glitch, and power is off")
 			success = false
 			rok = false
-		if r.glitch == Robot.GLITCHES.NONE and r.battery_charge < 100.0:
-			print("Failed! robot without glitch, and battery is low. %f" % r.battery_charge)
-			success = false
-			rok = false
+		if batteries_charged_required:
+			if r.glitch == Robot.GLITCHES.NONE and r.battery_charge < 100.0:
+				print("Failed! robot without glitch, and battery is low. %f" % r.battery_charge)
+				success = false
+				rok = false
 		report.append({
 			"power": r.power_on,
 			"glitched": r.glitch != Robot.GLITCHES.NONE,
-			"handled_correctly": rok
+			"handled_correctly": rok,
+			"batteries_charged_required": batteries_charged_required,
+			"full_battery": r.battery_charge == 100.0
 		})
 	return success
 

@@ -98,7 +98,7 @@ var congrats_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.WALKS_NOT_LOOKING
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -127,6 +127,9 @@ func _ready() -> void:
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
 		state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
 	state_override.completed_anomalies.shuffle()
+	#
+	# Deprecate Tutorial, its confusing
+	tutorial_completed = true
 	#
 	Global.player = %Player
 	load_game_state()
@@ -229,6 +232,7 @@ func start_game() -> void:
 	# Reset vacuum position
 	%RobotVacuum.position = Vector3(3, 0, 24)
 	%RobotVacuum.rotation_degrees = Vector3(0, -180, 0)
+	%RobotVacuum.current_state = %RobotVacuum.STATES.FORWARD
 
 func test_fix_scenario_order() -> void:
 	print("test_fix_scenario_order")
@@ -320,7 +324,8 @@ func _process(delta: float) -> void:
 			TASKS.BATTERY_CHARGE:
 				robot_collected.charge_battery(delta)
 			TASKS.SHUT_DOWN:
-				robot_collected.shutdown(delta)
+				if robot_collected.shutdown(delta):
+					current_task = TASKS.NONE
 	
 	var robot_id = -1
 	if robot_collected:
@@ -810,11 +815,17 @@ func instantiate_sections(Env: Node3D) -> void:
 	section = SECTION.instantiate()
 	section.is_nightmare_mode = check_if_nightmare()
 	section.level = available_scenarios_count
+	section.batteries_charged_required = not(game_state.completed_anomalies.size() < INTRO_AMOUNT)
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
+	%TasksLabel.text = "Tasks\n\n- Shutdown robots with anomalies"
+	if game_state.completed_anomalies.size() < FLOORS_AMOUNT:
+		%TasksLabel.text += "\n  (Robots with full battery don't have anomalies)"
+	if not(game_state.completed_anomalies.size() < INTRO_AMOUNT):
+		%TasksLabel.text += "\n- Charge batteries for all robots"
 	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
 	else:
@@ -838,6 +849,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	prints("message_id", message_id)
 	if scenario == -2: # Tutorial
 		dressing_visible(%office_tutorial)
+		dressing_visible(%office_lobby)
 	elif scenario == -3: # Executive
 		%MessageLabel.text = "Executive"
 		dressing_visible(%office_executive)
@@ -1090,7 +1102,7 @@ func fire_ray(button_index: int) -> void:
 		#print(coll.name)
 		if coll.has_meta("is_id"):
 			robot_collected = coll.get_parent().get_parent().get_parent()
-			if not robot_collected.power_on:
+			if not robot_collected.power_on and false:
 				current_task = TASKS.ROTATE
 			else:
 				%Player.note_visible(true)
