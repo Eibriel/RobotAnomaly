@@ -191,22 +191,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.8995e-05, -0.00370862)
 visible = false
 size = Vector3(0.0244141, 0.0302734, 0.0224609)
 
-[node name="RotateArea" type="Area3D" parent="RobotBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559995, 0.67213, -0.134562)
-visible = false
-collision_layer = 2
-metadata/is_rotate = true
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/RotateArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00545126)
-shape = SubResource("BoxShape3D_h41k0")
-disabled = true
-
-[node name="RotateButton" type="CSGBox3D" parent="RobotBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.560628, 0.670734, -0.139736)
-visible = false
-size = Vector3(0.113525, 0.105713, 0.0257568)
-
 [node name="ShutdownNode" type="Node3D" parent="RobotBody"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61246, -0.123518)
@@ -240,9 +224,25 @@ font_size = 10
 
 [node name="PowerRadialProgress" parent="RobotBody/ShutdownNode" instance=ExtResource("3_hvhn1")]
 unique_name_in_owner = true
-transform = Transform3D(-0.07, 0, -1.05697e-08, 0, 0.07, 0, 1.05697e-08, 0, -0.07, 0, 0.00786471, -0.00593566)
+transform = Transform3D(-0.1, 0, -1.50996e-08, 0, 0.1, 0, 1.50996e-08, 0, -0.1, 0, 0.00786471, -0.00593566)
 value = 100.0
 color_scheme = 1
+
+[node name="RotateArea" type="Area3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559995, 0.67213, -0.134562)
+visible = false
+collision_layer = 2
+metadata/is_rotate = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/RotateArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00545126)
+shape = SubResource("BoxShape3D_h41k0")
+disabled = true
+
+[node name="RotateButton" type="CSGBox3D" parent="RobotBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.560628, 0.670734, -0.139736)
+visible = false
+size = Vector3(0.113525, 0.105713, 0.0257568)
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
 unique_name_in_owner = true
@@ -277,7 +277,7 @@ omni_attenuation = 2.157
 
 [node name="robotObject" parent="RobotBody" instance=ExtResource("2_kdi4s")]
 unique_name_in_owner = true
-transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
 
 [node name="RobotShadowPlane" type="MeshInstance3D" parent="RobotBody/robotObject"]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.00955091, 0.0097605)

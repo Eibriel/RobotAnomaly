@@ -40,7 +40,8 @@ func _ready() -> void:
 	if false:
 		setup_congrats()
 	elif scenario == -2:
-		setup_tutorial()
+		#setup_tutorial()
+		pass
 	elif scenario == -1:
 		setup_congrats()
 	elif scenario == -3:
@@ -158,6 +159,9 @@ func setup_ending() -> void:
 	r.robot_rotation(deg_to_rad(45))
 	r.remove_base()
 
+func get_random_battery_value() -> float:
+	return 100 #randi_range(20, 40)
+
 func start_day() -> void:
 	#if randf() < 0.0:
 		#anomaly = Robot.GLITCHES.NONE
@@ -178,9 +182,9 @@ func start_day() -> void:
 			var r := Global.get_robot_instance()
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
-			r.battery_charge = 100
+			r.battery_charge = 0
 			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF and not is_nightmare_mode:
-				r.battery_charge = randi_range(60, 80)
+				r.battery_charge = get_random_battery_value()
 			robots.append(r)
 			%Robots.add_child.call_deferred(r)
 			var dist := DIST_X + (ry * DIST_X_INCREASE)
@@ -208,7 +212,7 @@ func start_day() -> void:
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
 		if not is_nightmare_mode:
-			sr.battery_charge = randi_range(70, 80)
+			sr.battery_charge = get_random_battery_value()
 		
 	
 	if anomaly == Robot.GLITCHES.LIGHTS_OFF:
@@ -219,20 +223,22 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.DOOR_OPEN:
 		request_environment_change.emit(Section.ENV_CHANGE.OPEN_DOOR)
 	if anomaly == Robot.GLITCHES.GRABS_BATTERY:
-		sr.battery_charge = 66
+		sr.battery_charge = get_random_battery_value()
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		robots[robots.size()-1].set_glitch(anomaly)
 		robots[robots.size()-1-y_count].set_glitch(anomaly)
 		if not is_nightmare_mode:
-			robots[robots.size()-1].battery_charge = randi_range(60, 80)
-			robots[robots.size()-1-y_count].battery_charge = randi_range(60, 80)
+			robots[robots.size()-1].battery_charge = get_random_battery_value()
+			robots[robots.size()-1-y_count].battery_charge = get_random_battery_value()
 	if anomaly == Robot.GLITCHES.BLOCKING_PATH:
 		robots[0].set_glitch(anomaly)
 		robots[0].block_id = 0
-		robots[0].battery_charge = randi_range(60, 80)
+		robots[0].battery_charge = get_random_battery_value()
+		#robots[0].connect("anomaly_failed", on_failed_glitch)
 		robots[1].set_glitch(anomaly)
 		robots[1].block_id = 1
-		robots[1].battery_charge = randi_range(60, 80)
+		robots[1].battery_charge = get_random_battery_value()
+		#robots[1].connect("anomaly_failed", on_failed_glitch)
 	if false:
 		var charger := BATTERY_CHARGER.instantiate()
 		add_child(charger)
@@ -296,8 +302,8 @@ func is_success() -> bool:
 			success = false
 			rok = false
 		if batteries_charged_required:
-			if r.glitch == Robot.GLITCHES.NONE and r.battery_charge < 100.0:
-				print("Failed! robot without glitch, and battery is low. %f" % r.battery_charge)
+			if r.glitch == Robot.GLITCHES.NONE and r.battery_charge > 0.0:
+				print("Failed! robot with battery charge. %f" % r.battery_charge)
 				success = false
 				rok = false
 		report.append({

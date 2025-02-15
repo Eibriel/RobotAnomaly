@@ -98,7 +98,7 @@ var congrats_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.WALKS_NOT_LOOKING
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -128,9 +128,6 @@ func _ready() -> void:
 		state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
 	state_override.completed_anomalies.shuffle()
 	#
-	# Deprecate Tutorial, its confusing
-	tutorial_completed = true
-	#
 	Global.player = %Player
 	load_game_state()
 	load_game_settings()
@@ -157,12 +154,17 @@ func _ready() -> void:
 	for w in width:
 		for d in depth:
 			var trf := Transform3D()
-			trf = trf.scaled(Vector3.ONE * 1.25)
+			trf = trf.scaled(Vector3.ONE * 1.4)
 			var x := (width_margin*w) - ((width / 2) * width_margin)
 			x += randf() * 0.2
 			var z := (width_margin*d) - ((depth / 2) * width_margin)
 			trf = trf.translated(Vector3(x, 0, z))
 			multi.set_instance_transform((w*width)+d, trf)
+	
+	if not tutorial_completed:
+		%Player.global_position = %InitialPositionInt.global_position
+		%Player.look_rot.y = rad_to_deg(%InitialPositionInt.rotation.y)
+		
 	unpause()
 
 func check_if_nightmare() -> bool:
@@ -305,16 +307,6 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	return sel_scenarios
 
 func _process(delta: float) -> void:
-	#if not [TASKS.NONE, TASKS.ROTATE].has(current_task):
-		#task_timer += delta
-		#if task_timer >= task_duration:
-			#task_timer = 0.0
-			#match current_task:
-				#TASKS.BATTERY_CHARGE:
-					#robot_collected.battery_charge = 100
-				#TASKS.SHUT_DOWN:
-					#shutdown_robot()
-			#current_task = TASKS.NONE
 	if robot_collected:
 		match current_task:
 			TASKS.ROTATE:
@@ -333,35 +325,12 @@ func _process(delta: float) -> void:
 	%RobotIdLabel.text = "R%d - %d" % [robot_id, battery_collected]
 	%TimeLabel.text = "Day %d" % day
 	
-	if false:
-		# Deprecated section.anomaly
-		if section.anomaly == Robot.GLITCHES.LIGHTS_OFF:
-			$WorldEnvironment.environment.background_energy_multiplier = 0.1
-			if section.time > 10:
-				process_failed_queue(section.scenario)
-				reset_position()
-				load_main()
-		else:
-			$WorldEnvironment.environment.background_energy_multiplier = 1.0
-		if section.anomaly == Robot.GLITCHES.COUNTDOWN:
-			print(section.time)
-			if section.time > 30:
-				print("Countdown complete!")
-				process_failed_queue(section.scenario)
-				reset_position()
-				load_main()
-		
-	#%SideDoor.visible = true
-	#%SideDoor.use_collision = true
-	#if section.anomaly == Robot.GLITCHES.DOOR_OPEN:
-		#%SideDoor.visible = false
-		#%SideDoor.use_collision = false
-	
 	%TaskProgressBar.value = (100.0 / task_duration) * task_timer
 	
 	update_executive()
 	update_congrats()
 	update_events(delta)
+	update_cursor(delta)
 	refresh_reflection_probe(delta)
 
 func maybe_enable_event() -> void:
@@ -660,8 +629,8 @@ func on_executive_finished():
 		#completed_scenarios.resize(0)
 		selected_scenarios.resize(0)
 		failed_scenarios.resize(0)
-		reset_position()
 		start_game()
+		reset_position()
 	
 	var exec_tween := create_tween()
 	exec_tween.tween_interval(2.5)
@@ -743,6 +712,8 @@ func load_main() -> void:
 
 func reset_dressing() -> void:
 	var dressing_nodes: Array[Node3D]= [
+		%office_warehouse,
+		%office_start,
 		%office_tutorial,
 		%office_lobby,
 		%office_design,
@@ -828,24 +799,29 @@ func instantiate_sections(Env: Node3D) -> void:
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
-	%TasksLabel.text = "- Shutdown robots with anomalies"
+	%TasksLabel.text = "Anomalous activity detected!\n\n- Shutdown any suspicious robot"
 	if not(game_state.completed_anomalies.size() < INTRO_AMOUNT) or true:
-		%TasksLabel.text += "\n- Charge batteries for all robots"
-	%TasksLabel.text += "\n- Go up one floor"
+		%TasksLabel.text += "\n- Remove the battery from all robots"
+	%TasksLabel.text += "\n- Go to the ground floor"
 	if game_state.completed_anomalies.size() < FLOORS_AMOUNT:
-		%TasksLabel.text += "\n\n> Robots with full battery don't have anomalies"
+		%TasksLabel.text += "\n\n> Remember, A robot without battery is a harmless robot"
+	%TasksLabel.text += "\n\n> Never go back!"
 	if [-1, -2, -3, -4].has(scenario):
 		%LevelCountLabel.mesh.text = "-"
 	else:
-		%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
-	if game_state.completed_anomalies.size() < INTRO_AMOUNT and not game_state.congrats_completed:
-		%TotalLevelsCountLabel.mesh.text = "/ %d" % INTRO_AMOUNT
-	#elif game_state.executive_completed:
-	#	%TotalLevelsCountLabel.mesh.text = "/ %d" % (anomalies_count-completed_anomalies_count)
-	elif game_state.completed_anomalies.size() < FLOORS_AMOUNT:
-		%TotalLevelsCountLabel.mesh.text = "/ %d" % FLOORS_AMOUNT
+		#%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
+		%LevelCountLabel.mesh.text = "%d" % (scenarios_amount - game_state.completed_anomalies.size())
+	if false:
+		if game_state.completed_anomalies.size() < INTRO_AMOUNT and not game_state.congrats_completed:
+			%TotalLevelsCountLabel.mesh.text = "/ %d" % INTRO_AMOUNT
+		#elif game_state.executive_completed:
+		#	%TotalLevelsCountLabel.mesh.text = "/ %d" % (anomalies_count-completed_anomalies_count)
+		elif game_state.completed_anomalies.size() < FLOORS_AMOUNT:
+			%TotalLevelsCountLabel.mesh.text = "/ %d" % FLOORS_AMOUNT
+		else:
+			%TotalLevelsCountLabel.mesh.text = "/ %d" % scenarios_amount
 	else:
-		%TotalLevelsCountLabel.mesh.text = "/ %d" % scenarios_amount
+		%TotalLevelsCountLabel.mesh.text = ""
 		
 	#main.level = scenarios.size() - n
 	section.scenario = scenario
@@ -856,8 +832,10 @@ func instantiate_sections(Env: Node3D) -> void:
 	reset_dressing()
 	prints("message_id", message_id)
 	if scenario == -2: # Tutorial
-		dressing_visible(%office_tutorial)
-		dressing_visible(%office_lobby)
+		#dressing_visible(%office_tutorial)
+		#dressing_visible(%office_lobby)
+		dressing_visible(%office_start)
+		dressing_visible(%office_warehouse)
 	elif scenario == -3: # Executive
 		%MessageLabel.text = "Executive"
 		dressing_visible(%office_executive)
@@ -876,21 +854,27 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif message_id <= 0:
 		%MessageLabel.text = "Lobby"
 		dressing_visible(%office_lobby)
+		dressing_visible(%office_warehouse)
 	elif message_id <= 7:
 		%MessageLabel.text = "Empty Room"
 		dressing_visible(%office_lobby)
+		dressing_visible(%office_warehouse)
 	elif message_id <= 12:
 		%MessageLabel.text = "Design Room"
 		dressing_visible(%office_design)
+		dressing_visible(%office_warehouse)
 	elif message_id <= 18:
 		%MessageLabel.text = "Lab"
 		dressing_visible(%office_lab)
+		dressing_visible(%office_warehouse)
 	elif message_id <= 25:
 		%MessageLabel.text = "Marketing"
 		dressing_visible(%office_marketing)
+		dressing_visible(%office_warehouse)
 	elif message_id <= 28:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
+		dressing_visible(%office_warehouse)
 	else:
 		# Random
 		var pick_dressing := randi_range(0, 4)
@@ -1073,26 +1057,17 @@ func _on_end_day() -> void:
 
 func reset_position() -> void:
 	#current_side = SIDES.Z_PLUS
+	Global.is_player_grabbed = false
 	Global.player.get_camera().current = true
 	%OfficeNode.rotation.y = deg_to_rad(0)
 	%Player.halt_velocity = true
 	%Player.global_position = %InitialPosition.global_position
 	%Player.look_rot.y = rad_to_deg(%InitialPosition.rotation.y)
-	if false:
-		if introduction_done:
-			#%Player.global_position = %InitialPosition.global_position
-			#%Player.look_rot.y = rad_to_deg(%InitialPosition.rotation.y)
-			%Player.position.y -= 4.1
-		else:
-			%Player.look_rot.x = 0.0
-			%Player.velocity = Vector3.ZERO
-			%Player.global_position = %InitialPosition.global_position
-			#%Player.global_position = %InitialPosition.global_position
-			#%Player.look_rot.y = rad_to_deg(%InitialPosition.rotation.y)
-			#%Player.look_rot.y += rad_to_deg(180)
-		introduction_done = true
+	if section.anomaly == -2:
+		%Player.global_position = %InitialPositionInt.global_position
+		%Player.look_rot.y = rad_to_deg(%InitialPositionInt.rotation.y)
 
-func fire_ray(button_index: int) -> void:
+func build_ray() -> Dictionary:
 	var ray_range := 6.0
 	var center := Vector2(get_viewport().get_visible_rect().size / 2)
 	var cam := get_viewport().get_camera_3d()
@@ -1105,6 +1080,10 @@ func fire_ray(button_index: int) -> void:
 	if intersection.is_empty():
 		new_intersection.collide_with_bodies = true
 		intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	return intersection
+
+func fire_ray(button_index: int) -> void:
+	var intersection := build_ray()
 	if not intersection.is_empty():
 		var coll: Node3D = intersection.collider
 		#print(coll.name)
@@ -1170,6 +1149,42 @@ func fire_ray(button_index: int) -> void:
 	if current_task == TASKS.ROTATE:
 		if button_index == 1:
 			current_task = TASKS.ROTATE_INVERSE
+
+func update_cursor(delta) -> void:
+	var intersection := build_ray()
+	var robot_node: Robot
+	var cursor_type := 0
+	if intersection:
+		var coll: Node3D = intersection.collider
+		if coll.has_meta("is_battery"):
+			#print("Battery")
+			robot_node = coll.get_parent().get_parent().get_parent()
+			if not robot_node.is_demo and not robot_node.is_event:
+				cursor_type = 1
+		if coll.has_meta("is_id"):
+			#print("Id")
+			robot_node = coll.get_parent().get_parent().get_parent()
+			if not robot_node.is_demo and not robot_node.is_event:
+				cursor_type = 2
+		if coll.has_meta("is_robot"):
+			#print("Robot")
+			if coll.get_parent().get_parent() is Robot:
+				robot_node = coll.get_parent().get_parent()
+			else:
+				robot_node = coll.get_parent().get_parent().get_parent()
+			#prints(robot_node.is_demo, robot_node.is_event, robot_node is Robot)
+			if (not robot_node.is_demo) and (not robot_node.is_event):
+				cursor_type = 1
+	
+	match cursor_type:
+		0:
+			%FPSCursor.modulate.a = 0.0
+		1:
+			%FPSCursor.modulate.a = 0.459
+			%FPSCursor.scale = Vector2.ONE * 0.15
+		2:
+			%FPSCursor.modulate.a = 0.6
+			%FPSCursor.scale = Vector2.ONE * 0.2
 
 func charge_battery(robot: Robot) -> void:
 	# On Robot
@@ -1249,16 +1264,7 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 func _on_loop_up_body_entered(_body: Node3D) -> void:
 	print("Loop Up") # Player is going Down
 	%Player.position.y += 4.1
-	if check_if_nightmare():
-		tutorial_completed = false
-		museum_completed = false
-		process_failed_queue(section.scenario)
-		load_main()
-		return
-
-
-func _on_loop_down_body_entered(_body: Node3D) -> void:
-	print("Loop Down") # Player is going Up
+	#
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
 	if %Player.position.z > 0:
@@ -1267,20 +1273,41 @@ func _on_loop_down_body_entered(_body: Node3D) -> void:
 		%OfficeNode.rotation.y = deg_to_rad(180)
 	if level_started:
 		end_level = true
-	%Player.position.y -= 4.1
 	if end_level:
 		var sc := section.is_success()
 		prints("\nsuccess:", sc)
 		_on_finished(sc, section.scenario, false)
 
 
+func _on_loop_down_body_entered(_body: Node3D) -> void:
+	print("Loop Down") # Player is going Up
+	%Player.position.y -= 4.1
+	#
+	if check_if_nightmare():
+		tutorial_completed = false
+		museum_completed = false
+		process_failed_queue(section.scenario)
+		load_main()
+		return
+
+
 func on_glitch_failed() -> void:
-	#var sc := section.is_success()
-	#prints("\nsuccess:", sc)
-	#TODO sometimes reset_position don't reset velocity
-	reset_position()
-	section.is_success() # Force generate report
-	_on_finished(false, section.scenario, false)
+	var reset := func():
+		#var sc := section.is_success()
+		#prints("\nsuccess:", sc)
+		section.is_success() # Force generate report
+		_on_finished(false, section.scenario, false)
+		#TODO sometimes reset_position don't reset velocity
+		reset_position()
+	
+	var exec_tween := create_tween()
+	#exec_tween.tween_interval(2.5)
+	#
+	exec_tween.tween_property(%FadeBlack, "modulate:a", 1.0, 1.0)
+	exec_tween.tween_callback(reset.call_deferred)
+	exec_tween.tween_interval(1.0)
+	exec_tween.tween_callback($AudioStreamPlayer.play)
+	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 4.0)
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true

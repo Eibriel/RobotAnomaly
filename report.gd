@@ -34,7 +34,7 @@ func update_report(data: Array) -> void:
 			if r.power and not r.handled_correctly:
 				robot_with_anomaly = true
 		else:
-			if not r.full_battery:
+			if r.full_battery:
 				robot_without_battery = true
 		icon.scale = Vector2.ONE * 0.2
 		r_row += 1
@@ -47,7 +47,7 @@ func update_report(data: Array) -> void:
 	if robot_with_anomaly:
 		text += "- Robot with anomaly was on\n"
 	if batteries_charged_required and robot_without_battery:
-		text += "- Robot had the battery drained"
+		text += "- A Robot had full battery"
 	if not robot_with_anomaly and not (batteries_charged_required and robot_without_battery):
 		text += "- None"
 	$Label3D.text = text

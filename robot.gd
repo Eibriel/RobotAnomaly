@@ -9,6 +9,7 @@ signal executive_finished
 @export var pose: POSES = POSES.NONE
 @export var stalk_player: STALK
 @export var sometimes_missing: bool
+@export var is_event := false
 
 enum STALK {
 	DISABLED,
@@ -84,14 +85,16 @@ var pose_dirty := true
 var base_visible := true
 var block_id := 0
 var shutdown_time := 1.0
+var recharge_cooldown := 0.0
 
 var snap_countdown := 0.0
 var snap_rate := 2.0
+var snap_completed := false
 var stalk_completed := false
+var follow_completed := false
 var anim_camera_weight := 0.0
 
 var is_demo := false
-var is_event := false
 
 var tween: Tween
 
@@ -154,10 +157,12 @@ func _ready() -> void:
 	motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
 
 func rotate_base(delta: float, reverse:=false) -> void:
-	return
 	if not base_visible: return
 	if glitch == GLITCHES.WALKS_NOT_LOOKING: return
 	if glitch == GLITCHES.BLOCKING_PATH: return
+	if glitch == GLITCHES.COUNTDOWN: return
+	if glitch == GLITCHES.EXTRA_ROBOTS: return
+	if glitch == GLITCHES.DOOR_OPEN: return
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
 	if reverse:
 		%RobotBody.rotate_y(deg_to_rad(-120) * delta)
@@ -178,11 +183,22 @@ func play_animation(anim_name: String) -> void:
 func charge_battery(delta: float) -> void:
 	if not power_on: return
 	if is_demo or is_event: return
+	if glitch == GLITCHES.DOOR_OPEN: return
 	var prev_level = battery_charge
-	battery_charge += delta * 14.0
-	battery_charge = minf(battery_charge, 100.0)
+	battery_charge -= delta * 14.0 * 4.0
+	battery_charge = clampf(battery_charge, 0.0, 100.0)
 	if prev_level != battery_charge and battery_charge >= 100.0:
+		#%RobotBatteryAudioPlayer.play()
+		pass
+	if prev_level != battery_charge and battery_charge <= 0.0:
 		%RobotBatteryAudioPlayer.play()
+	recharge_cooldown = 20.0
+
+func update_auto_battery(delta) -> void:
+	if glitch == GLITCHES.NONE: return
+	if not power_on: return
+	if recharge_cooldown == 0:
+		battery_charge += delta * 14.0 * 0.5
 
 func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
@@ -199,6 +215,8 @@ func shutdown(delta: float) -> bool:
 	return false
 
 func _process(delta: float) -> void:
+	recharge_cooldown -= delta
+	recharge_cooldown = max(recharge_cooldown, 0)
 	if power_on:
 		shutdown_time += delta * 0.1
 		shutdown_time = min(shutdown_time, 1.0)
@@ -237,6 +255,7 @@ func _process(delta: float) -> void:
 	update_blocking_path()
 	update_door_open()
 	update_stalk()
+	update_auto_battery(delta)
 
 func update_stalk() -> void:
 	if stalk_player == STALK.DISABLED: return
@@ -261,6 +280,8 @@ func update_stalk() -> void:
 				grab_player()
 
 func grab_player() -> void:
+	if Global.is_player_grabbed: return
+	Global.is_player_grabbed = true
 	var cam := get_viewport().get_camera_3d()
 	%CameraRobot.keep_aspect = cam.keep_aspect
 	%CameraRobot.fov = cam.fov
@@ -276,19 +297,22 @@ func grab_player() -> void:
 
 func _on_attack_anim_finished(anim_name: String) -> void:
 	if anim_name == "AttackExec":
-		executive_finished.emit()
+		#executive_finished.emit()
+		anomaly_failed.emit()
 
 func update_door_open() -> void:
 	if glitch != GLITCHES.DOOR_OPEN: return
 	if is_demo: return
 	var player_pos := Global.player.global_position
 	player_pos.y = 0
+	%RobotBody.position = Vector3(-4.5, 0, 0)
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
 	var dist := robot_pos.distance_to(player_pos)
-	if dist < 10.0:
-		anomaly_failed.emit()
-	if dist < 13.0:
+	if dist < 1.0:
+		#anomaly_failed.emit()
+		grab_player()
+	if dist < 4.0:
 		Global.player.rumble(0.1)
 
 func update_blocking_path() -> void:
@@ -300,20 +324,23 @@ func update_blocking_path() -> void:
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
 	if robot_pos.distance_to(player_pos) < 1.0:
-		anomaly_failed.emit()
+		grab_player()
+		#anomaly_failed.emit()
 	var dist := robot_pos.distance_to(player_pos)
-	if dist < 2.0:
+	if dist < 4.0:
 		Global.player.rumble(0.1)
 
 func update_follow(delta: float) -> void:
 	if glitch != GLITCHES.WALKS_NOT_LOOKING:
 		return
 	if is_demo: return
-	var player_pos := to_local(Global.player.global_position)
-	player_pos.y = 0
-	var robot_pos: Vector3 = %RobotBody.global_position
-	robot_pos.y = 0
+	if follow_completed: return
+	
 	if not is_on_screen() and Global.is_player_in_room and power_on:
+		var player_pos := to_local(Global.player.global_position)
+		player_pos.y = 0
+		var robot_pos: Vector3 = %RobotBody.global_position
+		robot_pos.y = 0
 		var player_pos_2d := Vector2(player_pos.x, player_pos.z)
 		var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
 		var angle := robot_pos_2d.angle_to_point(player_pos_2d)
@@ -335,13 +362,20 @@ func update_follow(delta: float) -> void:
 		%RobotBody.position += dir_to_player * delta * 2.0
 		%RobotBody.rotation.y = -angle + deg_to_rad(90)
 		#print(robot_pos.distance_to(player_pos))
-		if robot_pos.distance_to(player_pos) < 2.0:
-			anomaly_failed.emit()
 	else:
 		%RobotStepsAudioPlayer.stop()
-	
-	if robot_pos.distance_to(player_pos) < 1.0:
-		Global.player.rumble(0.1)
+	if power_on:
+		var player_pos := Global.player.global_position
+		player_pos.y = 0
+		var robot_pos: Vector3 = %RobotBody.global_position
+		robot_pos.y = 0
+		#prints("rumble", robot_pos, player_pos, robot_pos.distance_to(player_pos))
+		if robot_pos.distance_to(player_pos) < 3.0:
+			Global.player.rumble(0.1)
+		if robot_pos.distance_to(player_pos) < 1.0:
+			#anomaly_failed.emit()
+			grab_player()
+			follow_completed = true
 
 func update_base() -> void:
 	$BaseShadowPlane.position = %RobotBase.position
@@ -349,6 +383,7 @@ func update_base() -> void:
 
 func update_snap(delta: float) -> void:
 	if glitch != GLITCHES.COUNTDOWN: return
+	if snap_completed: return
 	if not power_on: return
 	if Global.is_player_in_room:
 		snap_countdown += delta
@@ -359,6 +394,7 @@ func update_snap(delta: float) -> void:
 		if snap_rate < 0.1:
 			snap_rate = 0.1
 			anomaly_failed.emit()
+			snap_completed = true
 		var speed := 1.0
 		if snap_rate < anim.get_animation("Timer").length:
 			speed = anim.get_animation("Timer").length / snap_rate
@@ -550,10 +586,11 @@ func update_glitch() -> void:
 		GLITCHES.EXTRA_ROBOTS:
 			if not is_demo:
 				var pos := %RobotBody.position as Vector3
-				pos.x += randf() * 0.2
-				pos.y = 0.2
-				pos.z += randf() * 0.2
+				pos.x += randf() * 0.3
+				pos.y = 0.0
+				pos.z += randf() * 0.3
 				robot_position(pos)
+				remove_base()
 
 #func remove_glitch():
 	##is_glitching = false
@@ -634,6 +671,7 @@ func add_detail(rnode: Node, detail_texture) -> void:
 func shut_down() -> void:
 	%RobotShutdownAudioPlayer.play()
 	power_on = false
+	battery_charge = 0.0
 	anim.play("Shut_Down", 1.0)
 	var shut_down_tween := create_tween()
 	shut_down_tween.tween_property(%RobotLaughAudioPlayer, "pitch_scale", 0.2, 3)

@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 	var text := mat.albedo_texture.gradient as Gradient
 	var limited_value := clampf(value, 0.0, 100.0)
 	if limited_value < 100:
-		text.offsets[1] = limited_value / 105.0
+		text.offsets[1] = limited_value / 100.0
 	else:
 		text.offsets[1] = 0.99
 	match color_scheme:

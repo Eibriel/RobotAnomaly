@@ -3,6 +3,7 @@ extends Node
 var player: CharacterBody3D
 var is_player_in_room: bool = false
 var is_player_in_storage: bool = false
+var is_player_grabbed: bool = false
 
 var reset_save := false
 
