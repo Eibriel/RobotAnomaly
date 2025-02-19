@@ -9,23 +9,37 @@
 		{
 			"name":"WoodCrate",
 			"nodes":[
-				0
+				0,
+				1
 			]
 		}
 	],
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Wood_Crate_B_Wood_Crate_B_0"
+			"name":"Wood_High"
+		},
+		{
+			"mesh":1,
+			"name":"Collision.001",
+			"scale":[
+				0.6731119751930237,
+				1.3341310024261475,
+				0.6711905598640442
+			],
+			"translation":[
+				0,
+				1.3248281478881836,
+				-0.011685832403600216
+			]
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"Wood_Crate_B",
+			"name":"Wood_High",
 			"normalTexture":{
-				"index":0,
-				"scale":0.05000000074505806
+				"index":0
 			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
@@ -39,7 +53,7 @@
 	],
 	"meshes":[
 		{
-			"name":"Wood_Crate_B_Wood_Crate_B_0",
+			"name":"Wood_Crate_B_Wood_Crate_B_0.001",
 			"primitives":[
 				{
 					"attributes":{
@@ -49,6 +63,19 @@
 					},
 					"indices":3,
 					"material":0
+				}
+			]
+		},
+		{
+			"name":"Cube.004",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":4,
+						"NORMAL":5,
+						"TEXCOORD_0":6
+					},
+					"indices":7
 				}
 			]
 		}
@@ -70,18 +97,18 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"WoodCrate_Normal",
-			"uri":"props_textures/WoodCrate_Normal.png"
+			"name":"WoodCrate_High_Normal",
+			"uri":"props_textures/WoodCrate_High_Normal.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"WoodCrate_Base",
-			"uri":"props_textures/WoodCrate_Base.png"
+			"name":"WoodCrate_High_Base",
+			"uri":"props_textures/WoodCrate_High_Base.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"WoodCrate_MR",
-			"uri":"props_textures/WoodCrate_MR.png"
+			"name":"WoodCrate_High_MR",
+			"uri":"props_textures/WoodCrate_High_MR.png"
 		}
 	],
 	"accessors":[
@@ -90,14 +117,14 @@
 			"componentType":5126,
 			"count":675,
 			"max":[
-				0.6646682620048523,
-				2.6661555767059326,
-				0.6711488366127014
+				0.6666043400764465,
+				2.6803412437438965,
+				0.6605709195137024
 			],
 			"min":[
-				-0.6646683216094971,
-				-0.006403291132301092,
-				-0.7022737860679626
+				-0.6715894341468811,
+				-0.010024428367614746,
+				-0.7220026850700378
 			],
 			"type":"VEC3"
 		},
@@ -117,6 +144,40 @@
 			"bufferView":3,
 			"componentType":5123,
 			"count":1242,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":24,
+			"max":[
+				1,
+				1,
+				1
+			],
+			"min":[
+				-1,
+				-1,
+				-1
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":5,
+			"componentType":5126,
+			"count":24,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":24,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":7,
+			"componentType":5123,
+			"count":36,
 			"type":"SCALAR"
 		}
 	],
@@ -144,6 +205,30 @@
 			"byteLength":2484,
 			"byteOffset":21600,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":288,
+			"byteOffset":24084,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":288,
+			"byteOffset":24372,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":24660,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":72,
+			"byteOffset":24852,
+			"target":34963
 		}
 	],
 	"samplers":[
@@ -154,7 +239,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":24084,
+			"byteLength":24924,
 			"uri":"WoodCrate.bin"
 		}
 	]

@@ -10,6 +10,7 @@ signal executive_finished
 @export var stalk_player: STALK
 @export var sometimes_missing: bool
 @export var is_event := false
+@export var force_no_battery := false
 
 enum STALK {
 	DISABLED,
@@ -69,7 +70,8 @@ enum GLITCHES {
 enum POSES {
 	NONE,
 	CLAPPING,
-	SITTING
+	SITTING,
+	SITTING_BODY
 }
 
 #var is_glitching := false
@@ -197,6 +199,7 @@ func charge_battery(delta: float) -> void:
 func update_auto_battery(delta) -> void:
 	if glitch == GLITCHES.NONE: return
 	if not power_on: return
+	if force_no_battery: return
 	if recharge_cooldown == 0:
 		battery_charge += delta * 14.0 * 0.5
 
@@ -220,6 +223,9 @@ func _process(delta: float) -> void:
 	if power_on:
 		shutdown_time += delta * 0.1
 		shutdown_time = min(shutdown_time, 1.0)
+	else:
+		shutdown_time -= delta * 0.1
+		shutdown_time = max(shutdown_time, 0.0)
 	%GlitchLabel.text = "%s" % GLITCHES.find_key(glitch)
 	%IdLabel.text = "R%d" % robot_id
 	%BatteryLabel.text = "%d%%" % battery_charge
@@ -337,13 +343,15 @@ func update_follow(delta: float) -> void:
 	if follow_completed: return
 	
 	if not is_on_screen() and Global.is_player_in_room and power_on:
-		var player_pos := to_local(Global.player.global_position)
+		var player_pos := Global.player.global_position
 		player_pos.y = 0
 		var robot_pos: Vector3 = %RobotBody.global_position
 		robot_pos.y = 0
-		var player_pos_2d := Vector2(player_pos.x, player_pos.z)
 		var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
-		var angle := robot_pos_2d.angle_to_point(player_pos_2d)
+		
+		var local_player_pos := %RobotBody.to_local(player_pos) as Vector3
+		var player_pos_2d := Vector2(local_player_pos.x, local_player_pos.z)
+		var angle: float = Vector2.ZERO.angle_to_point(player_pos_2d) - %RobotBody.global_rotation.y
 		
 		var dir_to_player := (player_pos - robot_pos).normalized()
 		var player_pos_short := robot_pos + dir_to_player
@@ -354,14 +362,12 @@ func update_follow(delta: float) -> void:
 		if not intersection.is_empty():
 			%RobotStepsAudioPlayer.stop()
 			return
-		else:
-			Global.player.rumble()
-			if not %RobotStepsAudioPlayer.playing:
-				%RobotStepsAudioPlayer.play()
 		
-		%RobotBody.position += dir_to_player * delta * 2.0
-		%RobotBody.rotation.y = -angle + deg_to_rad(90)
-		#print(robot_pos.distance_to(player_pos))
+		Global.player.rumble()
+		if not %RobotStepsAudioPlayer.playing:
+			%RobotStepsAudioPlayer.play()
+		%RobotBody.global_position += dir_to_player * delta * 2.0
+		%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
 	else:
 		%RobotStepsAudioPlayer.stop()
 	if power_on:
@@ -430,6 +436,8 @@ func update_pose() -> void:
 			%RobotClappingAudioPlayer.play(randf()*2)
 		POSES.SITTING:
 			anim.play("ExecutiveSitting")
+		POSES.SITTING_BODY:
+			anim.play("SittingBody")
 
 func update_glitch() -> void:
 	if not glitch_dirty: return

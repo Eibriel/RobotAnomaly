@@ -98,6 +98,7 @@ func setup_tutorial() -> void:
 func setup_congrats() -> void:
 	for r_x in 2:
 		for r_y in 4:
+			continue
 			var r := Global.get_robot_instance()
 			r.robot_id = 42
 			r.battery_charge = 100
@@ -127,15 +128,16 @@ func setup_congrats() -> void:
 
 func setup_ending() -> void:
 	var r := Global.get_robot_instance()
-	r.robot_id = 666
-	r.battery_charge = 90
-	r.set_pose(Robot.POSES.SITTING)
-	r.remove_base()
-	robots.append(r)
-	r.get_node("%robotObject").scale = Vector3.ONE
-	#r.looking_player = true
-	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(0, 0, -5))
+	if false:
+		r.robot_id = 666
+		r.battery_charge = 90
+		r.set_pose(Robot.POSES.SITTING)
+		r.remove_base()
+		robots.append(r)
+		r.get_node("%robotObject").scale = Vector3.ONE
+		#r.looking_player = true
+		%Robots.add_child.call_deferred(r)
+		r.robot_position(Vector3(0, 0, -5))
 	#
 	r = Global.get_robot_instance()
 	r.robot_id = 24
@@ -183,7 +185,7 @@ func start_day() -> void:
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
 			r.battery_charge = 0
-			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF and not is_nightmare_mode:
+			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
 				r.battery_charge = get_random_battery_value()
 			robots.append(r)
 			%Robots.add_child.call_deferred(r)
@@ -211,8 +213,7 @@ func start_day() -> void:
 	]
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
-		if not is_nightmare_mode:
-			sr.battery_charge = get_random_battery_value()
+		sr.battery_charge = get_random_battery_value()
 		
 	
 	if anomaly == Robot.GLITCHES.LIGHTS_OFF:
@@ -227,9 +228,8 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		robots[robots.size()-1].set_glitch(anomaly)
 		robots[robots.size()-1-y_count].set_glitch(anomaly)
-		if not is_nightmare_mode:
-			robots[robots.size()-1].battery_charge = get_random_battery_value()
-			robots[robots.size()-1-y_count].battery_charge = get_random_battery_value()
+		robots[robots.size()-1].battery_charge = get_random_battery_value()
+		robots[robots.size()-1-y_count].battery_charge = get_random_battery_value()
 	if anomaly == Robot.GLITCHES.BLOCKING_PATH:
 		robots[0].set_glitch(anomaly)
 		robots[0].block_id = 0
@@ -255,6 +255,11 @@ func start_day() -> void:
 		reset = RESET_BUTTON.instantiate()
 		add_child(reset)
 		reset.position = Vector3(-2.5, 0, -20)
+		
+	if is_nightmare_mode:
+		for r in robots:
+			r.battery_charge = 0
+			r.force_no_battery = true
 
 func _process(delta: float) -> void:
 	time += delta

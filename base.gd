@@ -84,8 +84,8 @@ var enable_attempts := 0
 var tonemap_tween: Tween
 var target_exposure := 0.0
 
-const FLOORS_AMOUNT := 29
-const INTRO_AMOUNT := 8
+const FLOORS_AMOUNT := 20 #29
+const INTRO_AMOUNT := 10 #8
 const NONE_RATIO := 4
 
 var exe_phase_2 := false
@@ -102,7 +102,7 @@ var force_anomaly := Robot.GLITCHES.WALKS_NOT_LOOKING
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := false
+var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
 #var force_completed_scenarios := 10
@@ -117,7 +117,7 @@ func _ready() -> void:
 		override_state = false
 		fail_all = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
@@ -230,11 +230,12 @@ func start_game() -> void:
 	if fail_all:
 		failed_scenarios = selected_scenarios.duplicate()
 		selected_scenarios.resize(0)
-	load_main()
 	# Reset vacuum position
 	%RobotVacuum.position = Vector3(3, 0, 24)
 	%RobotVacuum.rotation_degrees = Vector3(0, -180, 0)
 	%RobotVacuum.current_state = %RobotVacuum.STATES.FORWARD
+	#
+	load_main()
 
 func test_fix_scenario_order() -> void:
 	print("test_fix_scenario_order")
@@ -262,6 +263,10 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	prints("adjusted_floor_amount", adjusted_floor_amount)
 	prints("adjusted_intro_amount", adjusted_intro_amount)
 	# None anomaly spread evenly and without repetition
+	if sel_scenarios[0] != Robot.GLITCHES.NONE:
+		var none_key = sel_scenarios.find(Robot.GLITCHES.NONE)
+		sel_scenarios[none_key] = sel_scenarios[0]
+		sel_scenarios[0] = Robot.GLITCHES.NONE
 	# Door anomaly before Executive
 	if adjusted_floor_amount > 0:
 		var door_open_key = sel_scenarios.find(Robot.GLITCHES.DOOR_OPEN) 
@@ -810,7 +815,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		#%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
-		%LevelCountLabel.mesh.text = "%d" % (scenarios_amount - game_state.completed_anomalies.size())
+		%LevelCountLabel.mesh.text = "%d" % (FLOORS_AMOUNT - game_state.completed_anomalies.size())
 	if false:
 		if game_state.completed_anomalies.size() < INTRO_AMOUNT and not game_state.congrats_completed:
 			%TotalLevelsCountLabel.mesh.text = "/ %d" % INTRO_AMOUNT
@@ -877,6 +882,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_warehouse)
 	else:
 		# Random
+		dressing_visible(%office_warehouse)
 		var pick_dressing := randi_range(0, 4)
 		match pick_dressing:
 			0:

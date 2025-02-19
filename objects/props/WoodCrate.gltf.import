@@ -34,10 +34,10 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "nodes": {
-"PATH:Wood_Crate_B_Wood_Crate_B_0": {
+"PATH:Collision_001": {
 "generate/physics": true,
-"physics/mask": 768,
-"physics/shape_type": 1
+"mesh_instance/layers": 0,
+"physics/shape_type": 3
 }
 }
 }
