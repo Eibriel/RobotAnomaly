@@ -33,6 +33,20 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path="uid://5c4gqq2s84y1"
 _subresources={
+"materials": {
+"Celing": {
+"use_external/enabled": true,
+"use_external/path": "uid://bvd3td7awq4t"
+},
+"MI_umonbbqdy": {
+"use_external/enabled": true,
+"use_external/path": "uid://bljj0t5odfl1h"
+},
+"Wall": {
+"use_external/enabled": true,
+"use_external/path": "uid://ct6ya1121r44a"
+}
+},
 "nodes": {
 "PATH:Division_001": {
 "mesh_instance/cast_shadow": 0

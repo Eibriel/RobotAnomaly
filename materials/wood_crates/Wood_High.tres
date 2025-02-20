@@ -1,0 +1,19 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://cyqp5spqxuur0"]
+
+[ext_resource type="Texture2D" uid="uid://be1l4gv2pewiu" path="res://objects/props/props_textures/WoodCrate_High_Base.png" id="1_18hgk"]
+[ext_resource type="Texture2D" uid="uid://dnpb52l3brwxn" path="res://objects/props/props_textures/WoodCrate_High_MR.png" id="2_782x3"]
+[ext_resource type="Texture2D" uid="uid://d2yvakj2ekyec" path="res://objects/props/props_textures/WoodCrate_High_Normal.png" id="3_6xrjf"]
+
+[resource]
+resource_name = "Wood_High"
+cull_mode = 2
+albedo_texture = ExtResource("1_18hgk")
+metallic = 1.0
+metallic_specular = 0.2
+metallic_texture = ExtResource("2_782x3")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_782x3")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_scale = 0.5
+normal_texture = ExtResource("3_6xrjf")

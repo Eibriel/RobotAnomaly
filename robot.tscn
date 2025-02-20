@@ -191,6 +191,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.8995e-05, -0.00370862)
 visible = false
 size = Vector3(0.0244141, 0.0302734, 0.0224609)
 
+[node name="BatteryLight" type="OmniLight3D" parent="RobotBody/BatteryNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0218346)
+light_color = Color(0, 1, 0, 1)
+distance_fade_enabled = true
+distance_fade_begin = 20.0
+omni_range = 0.5
+
 [node name="ShutdownNode" type="Node3D" parent="RobotBody"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61246, -0.123518)
@@ -228,6 +236,11 @@ transform = Transform3D(-0.1, 0, -1.50996e-08, 0, 0.1, 0, 1.50996e-08, 0, -0.1, 
 value = 100.0
 color_scheme = 1
 
+[node name="PowerLight" type="OmniLight3D" parent="RobotBody/ShutdownNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.024038)
+omni_range = 0.5
+
 [node name="RotateArea" type="Area3D" parent="RobotBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.559995, 0.67213, -0.134562)
 visible = false
@@ -251,7 +264,7 @@ aabb = AABB(-0.348002, -0.811781, -0.223604, 0.696005, 2.19778, 0.447208)
 
 [node name="VisibleOnScreenNotifier3D2" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31167, -0.0395755)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31167, -0.0394221)
 aabb = AABB(-0.168825, -0.437233, -0.159335, 0.337649, 0.82759, 0.318671)
 
 [node name="RobotStaticBody" type="StaticBody3D" parent="RobotBody"]

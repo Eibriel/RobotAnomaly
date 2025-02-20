@@ -32,6 +32,29 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"materials": {
+"Robot_Clothes": {
+"use_external/enabled": true,
+"use_external/path": "uid://4w2epbfv7gf0"
+},
+"Robot_Hinges": {
+"use_external/enabled": true,
+"use_external/path": "uid://syqudcn8j0pi"
+},
+"Robot_face": {
+"use_external/enabled": true,
+"use_external/path": "uid://dmc5jdfahwx86"
+},
+"Robot_shoes": {
+"use_external/enabled": true,
+"use_external/path": "uid://bb42hdjyc151e"
+},
+"Robot_skin": {
+"use_external/enabled": true,
+"use_external/path": "uid://b2uky0x4h2f0h"
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

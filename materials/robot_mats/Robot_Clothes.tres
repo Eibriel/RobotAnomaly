@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://4w2epbfv7gf0"]
+
+[ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_nfafb"]
+
+[resource]
+resource_name = "Robot_Clothes"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.039574, 0.0404138, 0.0479383, 1)
+roughness = 0.422727
+ao_enabled = true
+ao_light_affect = 0.9
+ao_texture = ExtResource("1_nfafb")

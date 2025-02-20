@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cm3j6r88o454o"]
+
+[ext_resource type="Texture2D" uid="uid://bxan7wk2ve8pi" path="res://textures/walls_floor/ceiling_text.jpg" id="1_tltxf"]
+
+[resource]
+albedo_texture = ExtResource("1_tltxf")
+metallic_specular = 0.1
+uv1_scale = Vector3(0.5, 1, 1)
+uv1_triplanar = true
+uv1_world_triplanar = true

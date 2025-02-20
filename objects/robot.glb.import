@@ -32,6 +32,37 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path="uid://5c4gqq2s84y1"
-_subresources={}
+_subresources={
+"materials": {
+"Robot_Clothes": {
+"use_external/enabled": true,
+"use_external/path": "uid://4w2epbfv7gf0"
+},
+"Robot_Hinges": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/Robot_Hinges.tres"
+},
+"Robot_Red": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/Robot_Red.tres"
+},
+"Robot_Red_Glow": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/Robot_Red_Glow.tres"
+},
+"Robot_face": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/Robot_face.tres"
+},
+"Robot_shoes": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/Robot_shoes.tres"
+},
+"Robot_skin": {
+"use_external/enabled": true,
+"use_external/path": "uid://b2uky0x4h2f0h"
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

@@ -202,6 +202,7 @@ func update_auto_battery(delta) -> void:
 	if force_no_battery: return
 	if recharge_cooldown == 0:
 		battery_charge += delta * 14.0 * 0.5
+		battery_charge = min(100.0, battery_charge)
 
 func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
@@ -231,10 +232,15 @@ func _process(delta: float) -> void:
 	%BatteryLabel.text = "%d%%" % battery_charge
 	%BatteryRadialProgress.value = battery_charge
 	%PowerRadialProgress.value = shutdown_time * 100.0
-	if int(battery_charge) == 100:
+	%BatteryLight.light_energy = battery_charge * 0.01
+	%PowerLight.light_energy = shutdown_time
+	
+	if int(battery_charge) >= 100:
 		%BatteryIndicator.material = preload("res://materials/prototype_green_mat.tres")
+		%BatteryLight.light_color = Color.GREEN
 	else:
 		%BatteryIndicator.material = preload("res://materials/prototype_red_mat.tres")
+		%BatteryLight.light_color = Color.RED
 	#
 	var battery_bone := %robotObject.get_node("Armature/Skeleton3D/Battery_Attachment") as BoneAttachment3D
 	var shutdown_bone := %robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment") as BoneAttachment3D

@@ -33,6 +33,12 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
+"materials": {
+"Wood_High": {
+"use_external/enabled": true,
+"use_external/path": "uid://cyqp5spqxuur0"
+}
+},
 "nodes": {
 "PATH:Collision_001": {
 "generate/physics": true,
