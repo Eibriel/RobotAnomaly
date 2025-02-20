@@ -30,6 +30,8 @@ transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = ExtResource("2_ggrtt")
+metallic_specular = 0.23
+roughness = 0.2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_j41s1"]
 material = SubResource("StandardMaterial3D_27tam")

@@ -22,7 +22,10 @@
 				56,
 				57,
 				58,
-				59
+				59,
+				60,
+				61,
+				62
 			]
 		}
 	],
@@ -685,6 +688,51 @@
 				0,
 				24.989999771118164
 			]
+		},
+		{
+			"mesh":8,
+			"name":"LineaA",
+			"rotation":[
+				0.4999999403953552,
+				0.4999998211860657,
+				0.5000000596046448,
+				0.5000001788139343
+			],
+			"scale":[
+				0.8201334476470947,
+				1,
+				1
+			]
+		},
+		{
+			"mesh":9,
+			"name":"LineaB",
+			"rotation":[
+				0.4999999403953552,
+				0.4999998211860657,
+				0.5000000596046448,
+				0.5000001788139343
+			],
+			"scale":[
+				0.8201334476470947,
+				1,
+				1
+			]
+		},
+		{
+			"mesh":10,
+			"name":"LineaC",
+			"rotation":[
+				0.4999999403953552,
+				0.4999998211860657,
+				0.5000000596046448,
+				0.5000001788139343
+			],
+			"scale":[
+				0.8201334476470947,
+				1,
+				1
+			]
 		}
 	],
 	"materials":[
@@ -851,6 +899,48 @@
 				],
 				"roughnessFactor":0.331745982170105
 			}
+		},
+		{
+			"doubleSided":true,
+			"name":"LineaA",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.14112462103366852,
+					0.2844858765602112,
+					0.12893982231616974,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"LineaB",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.12893982231616974,
+					0.21368630230426788,
+					0.2844858765602112,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		},
+		{
+			"doubleSided":true,
+			"name":"LineaC",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.2844858765602112,
+					0.12893982231616974,
+					0.12893982231616974,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
 		}
 	],
 	"meshes":[
@@ -990,6 +1080,48 @@
 					},
 					"indices":38,
 					"material":8
+				}
+			]
+		},
+		{
+			"name":"OfficeWalls.001",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":42,
+						"NORMAL":43,
+						"TEXCOORD_0":44
+					},
+					"indices":45,
+					"material":9
+				}
+			]
+		},
+		{
+			"name":"OfficeWalls.002",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":46,
+						"NORMAL":47,
+						"TEXCOORD_0":48
+					},
+					"indices":45,
+					"material":10
+				}
+			]
+		},
+		{
+			"name":"OfficeWalls.003",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":49,
+						"NORMAL":50,
+						"TEXCOORD_0":51
+					},
+					"indices":45,
+					"material":11
 				}
 			]
 		}
@@ -1413,6 +1545,96 @@
 			"componentType":5126,
 			"count":18,
 			"type":"VEC2"
+		},
+		{
+			"bufferView":42,
+			"componentType":5126,
+			"count":16,
+			"max":[
+				1.646718144416809,
+				24.9888973236084,
+				-0.9999873638153076
+			],
+			"min":[
+				1.336634635925293,
+				-24.98769760131836,
+				-4.246514320373535
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":43,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":44,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":45,
+			"componentType":5123,
+			"count":24,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":46,
+			"componentType":5126,
+			"count":16,
+			"max":[
+				2.098824977874756,
+				24.9888973236084,
+				-0.9999873638153076
+			],
+			"min":[
+				1.7887413501739502,
+				-24.98769760131836,
+				-4.246514320373535
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":47,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":48,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":49,
+			"componentType":5126,
+			"count":16,
+			"max":[
+				2.539339542388916,
+				24.9888973236084,
+				-0.9999876022338867
+			],
+			"min":[
+				2.2292556762695312,
+				-24.98769760131836,
+				-4.246514320373535
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":50,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":51,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC2"
 		}
 	],
 	"bufferViews":[
@@ -1667,6 +1889,66 @@
 			"byteLength":144,
 			"byteOffset":65440,
 			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":65584,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":65776,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":128,
+			"byteOffset":65968,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":66096,
+			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":66144,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":66336,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":128,
+			"byteOffset":66528,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":66656,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":66848,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":128,
+			"byteOffset":67040,
+			"target":34962
 		}
 	],
 	"samplers":[
@@ -1677,7 +1959,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":65584,
+			"byteLength":67168,
 			"uri":"office.bin"
 		}
 	]

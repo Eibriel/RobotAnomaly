@@ -102,7 +102,7 @@ var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := true
+var override_state := false
 var state_override := GameStateResource.new()
 var fail_all := false
 #var force_completed_scenarios := 10
@@ -804,6 +804,10 @@ func instantiate_sections(Env: Node3D) -> void:
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
+	%FloorData_A2.text = "%d" % INTRO_AMOUNT
+	%FloorData_B2.text = "%d" % 0
+	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT-scenarios_amount)
+	#
 	%TasksLabel.text = "Anomalous activity detected!\n\n- Shutdown any suspicious robot"
 	if not(game_state.completed_anomalies.size() < INTRO_AMOUNT) or true:
 		%TasksLabel.text += "\n- Remove the battery from all robots"
@@ -1270,6 +1274,8 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 func _on_loop_up_body_entered(_body: Node3D) -> void:
 	print("Loop Up") # Player is going Down
 	%Player.position.y += 4.1
+	%StairObject.unlock()
+	%StairObject2.unlock()
 	#
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
@@ -1317,6 +1323,8 @@ func on_glitch_failed() -> void:
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true
+	%StairObject.lock()
+	%StairObject2.lock()
 
 
 func _on_quit_button_pressed() -> void:
