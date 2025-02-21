@@ -235,12 +235,17 @@ func _process(delta: float) -> void:
 	%BatteryLight.light_energy = battery_charge * 0.01
 	%PowerLight.light_energy = shutdown_time
 	
-	if int(battery_charge) >= 100:
-		%BatteryIndicator.material = preload("res://materials/prototype_green_mat.tres")
-		%BatteryLight.light_color = Color.GREEN
-	else:
+	if int(battery_charge) >= 100 or true:
 		%BatteryIndicator.material = preload("res://materials/prototype_red_mat.tres")
 		%BatteryLight.light_color = Color.RED
+	else:
+		%BatteryIndicator.material = preload("res://materials/prototype_green_mat.tres")
+		%BatteryLight.light_color = Color.GREEN
+	
+	if is_demo:
+		%BatteryLight.light_energy = 0
+		%PowerLight.light_energy = 0
+	
 	#
 	var battery_bone := %robotObject.get_node("Armature/Skeleton3D/Battery_Attachment") as BoneAttachment3D
 	var shutdown_bone := %robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment") as BoneAttachment3D

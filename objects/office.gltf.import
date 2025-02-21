@@ -42,6 +42,10 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "uid://bljj0t5odfl1h"
 },
+"PitchBlack": {
+"use_external/enabled": true,
+"use_external/path": "uid://brsil0vd5gwoq"
+},
 "Wall": {
 "use_external/enabled": true,
 "use_external/path": "uid://ct6ya1121r44a"

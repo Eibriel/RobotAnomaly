@@ -44,10 +44,10 @@ func _process(delta: float) -> void:
 		COLOR_SCHEME.WHITE:
 			text.colors[0] = Color.WHITE
 		COLOR_SCHEME.RED_GREEN:
-			if value >= 100:
-				text.colors[0] = Color.GREEN
-			else:
+			if value >= 100 or true:
 				text.colors[0] = Color.RED
+			else:
+				text.colors[0] = Color.GREEN
 	
 	if time_no_change == 0:
 		if not is_feedbacking:

@@ -84,8 +84,8 @@ var enable_attempts := 0
 var tonemap_tween: Tween
 var target_exposure := 0.0
 
-const FLOORS_AMOUNT := 20 #29
-const INTRO_AMOUNT := 10 #8
+const FLOORS_AMOUNT := 25 #29 # Top floor
+const INTRO_AMOUNT := 15 #8 # Ends section 1
 const NONE_RATIO := 4
 
 var exe_phase_2 := false
@@ -102,7 +102,7 @@ var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := false
+var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
 #var force_completed_scenarios := 10
@@ -117,11 +117,11 @@ func _ready() -> void:
 		override_state = false
 		fail_all = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = false
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 10
+	var force_completed_scenarios = Robot.GLITCHES.size() - 1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -252,6 +252,8 @@ func test_fix_scenario_order() -> void:
 	print()
 
 func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Array[Robot.GLITCHES]) -> Array[Robot.GLITCHES]:
+	if sel_scenarios.size() == 0:
+		return sel_scenarios
 	var can_be_moved := Robot.GLITCHES.values()
 	can_be_moved.erase(Robot.GLITCHES.NONE)
 	can_be_moved.erase(Robot.GLITCHES.DOOR_OPEN)
@@ -331,6 +333,10 @@ func _process(delta: float) -> void:
 	%TimeLabel.text = "Day %d" % day
 	
 	%TaskProgressBar.value = (100.0 / task_duration) * task_timer
+	
+	if check_if_nightmare():
+		%StairObject.chain_visible = false
+		%StairObject2.chain_visible = false
 	
 	update_executive()
 	update_congrats()
@@ -808,14 +814,15 @@ func instantiate_sections(Env: Node3D) -> void:
 	%FloorData_B2.text = "%d" % 0
 	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT-scenarios_amount)
 	#
-	%TasksLabel.text = "Anomalous activity detected!\n\n- Shutdown any suspicious robot"
-	if not(game_state.completed_anomalies.size() < INTRO_AMOUNT) or true:
-		%TasksLabel.text += "\n- Remove the battery from all robots"
-	%TasksLabel.text += "\n- Go to the ground floor"
-	if game_state.completed_anomalies.size() < FLOORS_AMOUNT:
-		%TasksLabel.text += "\n\n> Remember, A robot without battery is a harmless robot"
-	%TasksLabel.text += "\n\n> Never go back!"
-	if [-1, -2, -3, -4].has(scenario):
+	#%TasksLabel2.text = "Anomalous activity detected!"
+	#%TasksLabel3.text = "Shutdown any suspicious robot"
+	#if not(game_state.completed_anomalies.size() < INTRO_AMOUNT) or true:
+		#%TasksLabel.text = "Remove battery from all robots"
+	#%TasksLabel4.text = "Go to the ground floor"
+	#if game_state.completed_anomalies.size() < FLOORS_AMOUNT:
+		#%TasksLabel5.text = "Robot without battery, harmless robot"
+	#%TasksLabel.text += "\n\n> Never go back!"
+	if [-1, -2, -3, -4].has(scenario) and false:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		#%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
@@ -1274,8 +1281,8 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 func _on_loop_up_body_entered(_body: Node3D) -> void:
 	print("Loop Up") # Player is going Down
 	%Player.position.y += 4.1
-	%StairObject.unlock()
-	%StairObject2.unlock()
+	%StairObject.chain_visible = false
+	%StairObject2.chain_visible = false
 	#
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
@@ -1323,8 +1330,9 @@ func on_glitch_failed() -> void:
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true
-	%StairObject.lock()
-	%StairObject2.lock()
+	if not check_if_nightmare():
+		%StairObject.chain_visible = true
+		%StairObject2.chain_visible = true
 
 
 func _on_quit_button_pressed() -> void:

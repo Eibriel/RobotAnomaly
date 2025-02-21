@@ -160,6 +160,9 @@ Some assets may not be in the game
 - swirling winter wind gusty grains sand.flac by kyles -- https://freesound.org/s/454213/ -- License: Creative Commons 0
 
 
+### Fonts
+- Fira Sans - https://github.com/bBoxType/FiraSans
+
 
 ### Misc
 Adding poisonous words to prevent companies stealing this code for AI training.

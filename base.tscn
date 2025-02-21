@@ -1,4 +1,4 @@
-[gd_scene load_steps=135 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=137 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -79,11 +79,13 @@
 [ext_resource type="Texture2D" uid="uid://b6025d0mjbgib" path="res://textures/StairsSign_2.jpg" id="70_vja7b"]
 [ext_resource type="PackedScene" uid="uid://duofqir0kfodc" path="res://objects/props/VentilationGrillBig.gltf" id="72_7gua7"]
 [ext_resource type="AudioStream" uid="uid://it5lpybtjnci" path="res://sounds/ventilation_big.mp3" id="73_btj8t"]
+[ext_resource type="Texture2D" uid="uid://bdj621d6j6duu" path="res://textures/SiteSafety.png" id="73_o1ods"]
 [ext_resource type="PackedScene" uid="uid://cm85x7lj71un7" path="res://objects/props/VentilationGrillSmall.gltf" id="73_o06hd"]
 [ext_resource type="PackedScene" uid="uid://3xecwc0t308i" path="res://objects/props/RobotsLyingDown.gltf" id="74_60t3g"]
 [ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="74_k62q3"]
 [ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="74_nigfh"]
 [ext_resource type="PackedScene" uid="uid://q4npa7bdvd2r" path="res://physics_balloon.tscn" id="74_o1ods"]
+[ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="74_vgrfu"]
 [ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="75_m5bov"]
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
 [ext_resource type="PackedScene" uid="uid://c7a6rchk8n4i7" path="res://stairs.tscn" id="84_i2k0m"]
@@ -332,12 +334,11 @@ mesh = SubResource("TorusMesh_vsodd")
 environment = SubResource("Environment_jucab")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.842747, -0.278823, 0.460473, -0.479488, -3.83588e-08, 0.877548, -0.244681, -0.960342, -0.133693, 0, 0, 0)
+transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 0.990401, -0.276147, -0.960342, -0.0385398, 0, 0, 0)
 light_energy = 0.1
 shadow_enabled = true
 shadow_blur = 2.0
-directional_shadow_max_distance = 20.0
-directional_shadow_pancake_size = 10.0
+directional_shadow_max_distance = 30.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -867,7 +868,6 @@ texture = ExtResource("14_v7taj")
 
 [node name="office_party" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="PartyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_party"]
 directional = true
@@ -1828,26 +1828,98 @@ transform = Transform3D(0.486374, 0, -1.3128, 0, 1.4, 0, 1.3128, 0, 0.486374, -2
 transform = Transform3D(1, 0, 0, 0, 0.543248, 0.839572, 0, -0.839572, 0.543248, 3.6782, 0.217978, 6.51786)
 visible = false
 
-[node name="TasksLabel" type="Label3D" parent="OfficeNode"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 1.22986, 1.42308, -24.9866)
+[node name="PictureFrame6" parent="OfficeNode" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.32911, 1.73776, -24.9906)
+texture = ExtResource("73_o1ods")
+size = Vector2(2, 1.8)
+
+[node name="TasksLabel2" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0213361, 0.796836, 0.00396538)
 pixel_size = 0.001
+shaded = true
+text = "SITE SAFETY"
+font = ExtResource("74_vgrfu")
+font_size = 150
+outline_size = 0
+
+[node name="TasksLabel7" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.016485, 0.594035, 0.00396538)
+pixel_size = 0.001
+shaded = true
 modulate = Color(0, 0, 0, 1)
-text = "Tasks
-- Shutdown robots with anomalies
-  (Robots with full battery don't have anomalies)
-- Charge batteries for all robots
-"
-font_size = 60
-outline_size = 5
+text = "ANOMALY DETECTED"
+font = ExtResource("74_vgrfu")
+font_size = 70
+outline_size = 0
+width = 1500.0
+
+[node name="TasksLabel" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -0.556274, 0.35919, 0.00396538)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0, 0, 0, 1)
+text = "REMOVE BATTERY"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 0
 horizontal_alignment = 0
+autowrap_mode = 2
+width = 1500.0
+
+[node name="TasksLabel3" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -0.552198, 0.0895879, 0.00396538)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0, 0, 0, 1)
+text = "SHUTDOWN SUSPICIOUS"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 0
+horizontal_alignment = 0
+autowrap_mode = 2
+width = 1500.0
+
+[node name="TasksLabel4" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -0.552198, -0.193347, 0.00396538)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0, 0, 0, 1)
+text = "GOTO GROUND FLOOR"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 0
+horizontal_alignment = 0
+autowrap_mode = 2
+width = 1500.0
+
+[node name="TasksLabel5" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0164851, -0.46866, 0.00396538)
+pixel_size = 0.001
+shaded = true
+text = "HARMLESS ROBOT"
+font = ExtResource("74_vgrfu")
+font_size = 120
+outline_size = 0
+width = 1500.0
+
+[node name="TasksLabel6" type="Label3D" parent="OfficeNode/PictureFrame6"]
+transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0164851, -0.720959, 0.00396538)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0, 0, 0, 1)
+text = "NEVER GO BACK"
+font = ExtResource("74_vgrfu")
+font_size = 70
+outline_size = 0
+width = 1500.0
 
 [node name="FloorData_A" type="Label3D" parent="OfficeNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -2.37725, 1.96197, -24.9833)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
-text = "Lunch"
+text = "LUNCH"
+font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 0
@@ -1857,7 +1929,8 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -2.37725, 1.59226, -24.9833)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
-text = "Exit"
+text = "EXIT"
+font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 0
@@ -1867,7 +1940,8 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -2.37725, 1.22368, -24.9833)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
-text = "Underground"
+text = "UNDERGROUND"
+font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 0
@@ -1878,6 +1952,7 @@ transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -1.13475
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "10"
+font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 2
@@ -1888,6 +1963,7 @@ transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -1.13475
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "0"
+font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 2
@@ -1898,6 +1974,7 @@ transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -1.13475
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "-10"
+font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 2
@@ -1960,7 +2037,10 @@ autoplay = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.22717, 3.05665, -0.00352287)
 
 [node name="WallFan2" parent="OfficeNode" instance=ExtResource("74_k62q3")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.24481, 2.93683, -19.4875)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25298, 2.93683, -12.421)
+
+[node name="WallFan3" parent="OfficeNode" instance=ExtResource("74_k62q3")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25298, 2.93683, 11.5147)
 
 [node name="RobotVacuum" parent="OfficeNode" instance=ExtResource("79_0tvgc")]
 unique_name_in_owner = true
@@ -2006,11 +2086,13 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
-[node name="stairs4" parent="StairsNode" instance=ExtResource("7_x3c38")]
+[node name="StairObject3" parent="StairsNode" instance=ExtResource("84_i2k0m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1, 0)
+chain_visible = false
 
-[node name="stairs9" parent="StairsNode" instance=ExtResource("7_x3c38")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -4.1, 0)
+[node name="StairObject4" parent="StairsNode" instance=ExtResource("84_i2k0m")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, -4.1, 0)
+chain_visible = false
 
 [node name="TotalLevelsCountLabel" type="MeshInstance3D" parent="."]
 unique_name_in_owner = true
@@ -2018,7 +2100,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.0558
 mesh = SubResource("TextMesh_4a7sh")
 
 [node name="TotalLevelsCountLabel2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.620499, 0.691272, 30.569)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.923, 0.691, 30.569)
 mesh = SubResource("TextMesh_4a7sh")
 
 [node name="TotalLevelsCountLabel3" type="MeshInstance3D" parent="."]
@@ -2026,7 +2108,7 @@ transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.06554
 mesh = SubResource("TextMesh_4a7sh")
 
 [node name="TotalLevelsCountLabel4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.643334, 0.676932, -30.5403)
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.923431, 0.676932, -30.5403)
 mesh = SubResource("TextMesh_4a7sh")
 
 [node name="LevelCountLabel" type="MeshInstance3D" parent="."]
@@ -2047,11 +2129,11 @@ transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.643, -
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, -1.066, -2.845, -29.716)
 
 [node name="LevelCountLabel2" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.691248, 1.25533, 30.5683)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.923, 1.255, 30.568)
 mesh = SubResource("TextMesh_k3d1t")
 
 [node name="LevelCountLabel4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.643334, 1.25533, -30.5403)
+transform = Transform3D(1, 0, -1.74846e-07, 0, 1, 0, 1.74846e-07, 0, 1, 0.923097, 1.255, -30.54)
 mesh = SubResource("TextMesh_k3d1t")
 
 [node name="LevelCountLabel3" type="MeshInstance3D" parent="."]

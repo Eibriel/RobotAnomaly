@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmewd6xg3wis"]
+[gd_scene load_steps=11 format=3 uid="uid://cmewd6xg3wis"]
 
 [ext_resource type="Script" uid="uid://22d1g3ar5bjk" path="res://robot_cutout.gd" id="1_27tam"]
 [ext_resource type="Texture2D" uid="uid://ugyihlnof8n" path="res://textures/RobotCutout.png" id="1_g1wll"]
@@ -19,13 +19,23 @@ transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = ExtResource("1_g1wll")
+metallic_specular = 0.23
+roughness = 0.2
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_omiq8"]
 material = SubResource("StandardMaterial3D_g1wll")
 size = Vector2(1, 3)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j41s1"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+cull_mode = 1
+albedo_color = Color(0.0126695, 0.00764438, 0, 1)
+albedo_texture = ExtResource("2_ggrtt")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27tam"]
-next_pass = SubResource("StandardMaterial3D_0e2qw")
+next_pass = SubResource("StandardMaterial3D_j41s1")
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0

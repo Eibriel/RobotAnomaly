@@ -3,6 +3,8 @@
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "VOLUME","Volume","Volume","Volumen","Lautstärke","Volume","Volume","Volume","Громкость","Ένταση","Ses Şiddeti","Volumen","Volum","Volym","Volume","Głośność","Äänenvoimakkuus","ボリューム","音量","音量","음량","Hlasitost","Hangerő","Volum","ความดัง","Гръмкост","עוצמה","مستوى الصوت","Jačina Zvuka",
 "MOUSE SENSIBILITY","Mouse sensitivity","Sensibilité de la souris","Sensibilidad","Mausempfindlichkeit","Sensibilità mouse","Sensibilidade do mouse","Sensibilidade do rato","Чувствительность мыши","Ευαισθησία ποντικιού","Fare hassasiyeti","Musefølsomhed","Musesensitivitet","Muskänslighet","Muis gevoeligheid","Czułość myszy","Hiiren herkkyys","マウス感度","鼠标灵敏度","鼠標靈敏度","마우스 감도","Citlivost myši","Egérérzékenység","Sensitivitate mouse","ความไวการรับค่าเมาส์","Чувствителност на мишката","רגישות עכבר","حساسية الفأرة","Osjetljivost Miša",
+"CAMERA ACCELERATION","Camera acceleration",,"Aceleración de cámara",,,,,,,,,,,,,,,,,,,,,,,,,,
+"CAMERA SHAKE","Camera shake",,"Temblor de cámara",,,,,,,,,,,,,,,,,,,,,,,,,,
 "FULLSCREEN","Fullscreen","Plein écran","Pantalla completa","Vollbild","Schermo intero","Tela cheia","Ecrã inteiro","Во весь экран","Πλήρης οθόνη","Tam ekran","Fuld skærm","Fullskjerm","Fullskärm","Volledig scherm","Pełny ekran","Kokoruutu","フルスクリーン","全屏","全屏","전체화면","Celá obrazovka","Teljes képernyő","Ecran complet","เต็มหน้าจอ","На цял екран","מסך מלא","تكبير الشاشة Fullscreen","Cijeli Zaslon",
 "ALL PROGRESS WILL BE LOST","All progress will be lost",,"Todo el progreso se perderá",,,,,,,,,,,,,,,,,,,,,,,,,,
 "YES RESET GAME","Yes, reset game",,"Si, reiniciar juego",,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -10,3 +12,14 @@
 "QUIT","Quit","Quitter","Salir","Beenden","Esci","Sair","Sair","Выход","Έξοδος","Oyunu Kapat","Afslut","Avslutt","Avsluta","Stoppen","Wyjdź","Lopeta","終了する","退出","退出","종료","Ukončit hru","Bezárás","Închidere","ออก","Изход","הפסק","خروج","Izaći",
 "RESUME","Resume","Reprendre","Reanudar","Fortsetzen","Continua","Continuar",,"Продолжить",,"Devam et",,,"Fortsätt","Doorgaan","Kontynuuj","Jatka",,"继续",,"재개",,"Folytatás","Continua",,"Продължете",,,,"Продовжити"
 "RESET GAME","Reset game","Remettre à zéro","Reiniciar juego","Zurücksetzen","Ripristinare le impostazioni?","Limpar",,"Сбросить",,,,,"Återställ",,"Przywróć","Palauta",,"还原",,"리셋",,"Visszaállítás","Resetati",,"Нулиране",,,,"Повернутися до початкових значень"
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"LUNCH","Lunch",,"Comedor",,,,,,,,,,,,,,,,,,,,,,,,,,
+"EXIT","Exit",,"Salida",,,,,,,,,,,,,,,,,,,,,,,,,,
+"UNDERGROUND","Underground",,"Subsuelo",,,,,,,,,,,,,,,,,,,,,,,,,,
+"SITE SAFETY","Site Safery",,"Seguridad",,,,,,,,,,,,,,,,,,,,,,,,,,
+"ANOMALY DETECTED","Anomalous activity detected!",,"¡Actividad anómala detectada!",,,,,,,,,,,,,,,,,,,,,,,,,,
+"REMOVE BATTERY","Remove battery from all robots",,"Remover batería de todos los robots",,,,,,,,,,,,,,,,,,,,,,,,,,
+"SHUTDOWN SUSPICIOUS","Shutdown any suspicious robot",,"Apagar cualquier robot sospechoso",,,,,,,,,,,,,,,,,,,,,,,,,,
+"GOTO GROUND FLOOR","Go to the exit",,"Dirigirse a la salida",,,,,,,,,,,,,,,,,,,,,,,,,,
+"HARMLESS ROBOT","Robot without battery, harmless robot",,"Robot sin batería, robot inofensivo",,,,,,,,,,,,,,,,,,,,,,,,,,
+"NEVER GO BACK","Never go back",,"Nunca vuelvas hacia atrás",,,,,,,,,,,,,,,,,,,,,,,,,,
