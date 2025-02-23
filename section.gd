@@ -143,6 +143,7 @@ func setup_ending() -> void:
 	r.robot_id = 24
 	r.battery_charge = 100
 	r.looking_player = true
+	r.lock_buttons = true
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
@@ -154,6 +155,7 @@ func setup_ending() -> void:
 	r.robot_id = 24
 	r.battery_charge = 100
 	r.looking_player = true
+	r.lock_buttons = true
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)

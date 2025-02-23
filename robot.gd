@@ -11,6 +11,9 @@ signal executive_finished
 @export var sometimes_missing: bool
 @export var is_event := false
 @export var force_no_battery := false
+@export var hide_base := false
+@export var lock_buttons := false
+@export var battery_charge := 0.0
 
 enum STALK {
 	DISABLED,
@@ -71,14 +74,16 @@ enum POSES {
 	NONE,
 	CLAPPING,
 	SITTING,
-	SITTING_BODY
+	SITTING_BODY,
+	HOLDING_VACUUM,
+	HOLDING_VACUUM_B
 }
 
 #var is_glitching := false
 #var is_glitch_visible := false
 var robot_id := 0
 #var is_battery_loaded := true
-var battery_charge := 0.0
+#var battery_charge := 0.0
 var power_on := true
 var glitch_executed := false
 var glitch_dirty := true
@@ -157,6 +162,11 @@ func _ready() -> void:
 	var motor_sound_delay := create_tween()
 	motor_sound_delay.tween_interval(randf()*2)
 	motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
+	
+	const ROBOT_SITTINGBODY = preload("res://objects/robot_sittingbody.glb")
+	var sit_anim := ROBOT_SITTINGBODY.get_animation("SittingBody")
+	var global_library = anim.get_animation_library("")
+	global_library.add_animation("SittingBody", sit_anim)
 
 func rotate_base(delta: float, reverse:=false) -> void:
 	if not base_visible: return
@@ -186,6 +196,7 @@ func charge_battery(delta: float) -> void:
 	if not power_on: return
 	if is_demo or is_event: return
 	if glitch == GLITCHES.DOOR_OPEN: return
+	if lock_buttons: return
 	var prev_level = battery_charge
 	battery_charge -= delta * 14.0 * 4.0
 	battery_charge = clampf(battery_charge, 0.0, 100.0)
@@ -206,6 +217,7 @@ func update_auto_battery(delta) -> void:
 
 func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
+	if lock_buttons: return false
 	if power_on:
 		shutdown_time -= delta * 0.4
 		if shutdown_time <= 0.0:
@@ -262,6 +274,9 @@ func _process(delta: float) -> void:
 	%CameraNode.global_rotation.x = lerp_angle(player_cam_rot.x, anim_cam_rot.x, anim_camera_weight)
 	%CameraNode.global_rotation.y = lerp_angle(player_cam_rot.y, anim_cam_rot.y, anim_camera_weight)
 	%CameraNode.global_rotation.z = lerp_angle(player_cam_rot.z, anim_cam_rot.z, anim_camera_weight)
+	
+	if hide_base:
+		remove_base()
 	
 	update_snap(delta)
 	follow_head(delta)
@@ -449,6 +464,10 @@ func update_pose() -> void:
 			anim.play("ExecutiveSitting")
 		POSES.SITTING_BODY:
 			anim.play("SittingBody")
+		POSES.HOLDING_VACUUM:
+			anim.play("HoldingVacuum")
+		POSES.HOLDING_VACUUM_B:
+			anim.play("HoldingVacuum_b")
 
 func update_glitch() -> void:
 	if not glitch_dirty: return

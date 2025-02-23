@@ -117,11 +117,11 @@ func _ready() -> void:
 		override_state = false
 		fail_all = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 1
+	var force_completed_scenarios = 35 #Robot.GLITCHES.size() - 1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -164,7 +164,7 @@ func _ready() -> void:
 	if not tutorial_completed:
 		%Player.global_position = %InitialPositionInt.global_position
 		%Player.look_rot.y = rad_to_deg(%InitialPositionInt.rotation.y)
-		
+	#
 	unpause()
 
 func check_if_nightmare() -> bool:
@@ -673,7 +673,8 @@ func load_game_state() -> void:
 		print("Reset game save")
 		return
 	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
-		game_state.completed_anomalies.resize(0)
+		if not override_state:
+			game_state.completed_anomalies.resize(0)
 	else:
 		print("Tutorial completed")
 		tutorial_completed = true
@@ -768,6 +769,14 @@ func setup_museum() -> void:
 			anom_displays[gid].set_anomaly_unknown()
 		gid += 1
 		if gid >= anom_displays.size(): break
+	
+	if selected_scenarios.size() == 0:
+		%VacuumReveal.position.y = 0
+		%RobotVacuum.global_position = %VacuumRevealMarker.global_position
+		%RobotVacuum.global_rotation = %VacuumRevealMarker.global_rotation
+		%RobotVacuum.current_state = %RobotVacuum.STATES.STILL
+	else:
+		%VacuumReveal.position.y = -20
 
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
@@ -810,9 +819,9 @@ func instantiate_sections(Env: Node3D) -> void:
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
-	%FloorData_A2.text = "%d" % INTRO_AMOUNT
+	%FloorData_A2.text = "%d" % (FLOORS_AMOUNT - INTRO_AMOUNT)
 	%FloorData_B2.text = "%d" % 0
-	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT-scenarios_amount)
+	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT - scenarios_amount)
 	#
 	#%TasksLabel2.text = "Anomalous activity detected!"
 	#%TasksLabel3.text = "Shutdown any suspicious robot"
@@ -867,45 +876,35 @@ func instantiate_sections(Env: Node3D) -> void:
 		setup_museum()
 	elif scenario == -1: # Congrats
 		dressing_visible(%office_congrats)
-	elif message_id <= 0:
-		%MessageLabel.text = "Lobby"
-		dressing_visible(%office_lobby)
-		dressing_visible(%office_warehouse)
+	#elif message_id <= 0:
+		#%MessageLabel.text = "Lobby"
+		#dressing_visible(%office_lobby)
+		#dressing_visible(%office_warehouse)
 	elif message_id <= 7:
-		%MessageLabel.text = "Empty Room"
-		dressing_visible(%office_lobby)
-		dressing_visible(%office_warehouse)
-	elif message_id <= 12:
-		%MessageLabel.text = "Design Room"
-		dressing_visible(%office_design)
-		dressing_visible(%office_warehouse)
-	elif message_id <= 18:
 		%MessageLabel.text = "Lab"
 		dressing_visible(%office_lab)
 		dressing_visible(%office_warehouse)
-	elif message_id <= 25:
+	elif message_id <= 15:
+		%MessageLabel.text = "Design Room"
+		dressing_visible(%office_design)
+		dressing_visible(%office_warehouse)
+	#elif message_id <= 25:
+		#%MessageLabel.text = "Lab"
+		#dressing_visible(%office_lab)
+		#dressing_visible(%office_warehouse)
+	elif message_id <= 20:
 		%MessageLabel.text = "Marketing"
 		dressing_visible(%office_marketing)
 		dressing_visible(%office_warehouse)
-	elif message_id <= 28:
+	elif message_id <= 25:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
 		dressing_visible(%office_warehouse)
 	else:
-		# Random
+		# Underground
+		%MessageLabel.text = "Underground"
+		dressing_visible(%office_lobby)
 		dressing_visible(%office_warehouse)
-		var pick_dressing := randi_range(0, 4)
-		match pick_dressing:
-			0:
-				dressing_visible(%office_lobby)
-			1:
-				dressing_visible(%office_design)
-			2:
-				dressing_visible(%office_lab)
-			3:
-				dressing_visible(%office_marketing)
-			4:
-				dressing_visible(%office_party)
 	
 	if force_dressing > 0:
 		reset_dressing()

@@ -11,6 +11,7 @@ var rotating_time := 0.0
 var bump_level := 100.0
 
 enum STATES {
+	STILL,
 	FORWARD,
 	COLLISION,
 	PROCESSING_COLLISION,
@@ -24,6 +25,7 @@ func _ready() -> void:
 	brush_02 = $Roomba.get_node("RoombaBrush_002") as MeshInstance3D
 
 func _process(delta: float) -> void:
+	if current_state == STATES.STILL: return
 	bump_level += delta * 1.4
 	bump_level = min(bump_level, 100.0)
 	#print(bump_level)
@@ -72,4 +74,5 @@ func bump(with_sound:bool) -> void:
 
 func _on_area_3d_body_entered(_body: Node3D) -> void:
 	if current_state == STATES.CIRCLES: return
+	if current_state == STATES.STILL: return
 	bump(true)

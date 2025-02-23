@@ -126,6 +126,10 @@ Some assets may not be in the game
 
 - "Post and Chain" (https://skfb.ly/p8s6y) by mehmetkiran is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+- "CC0 - Pillow" (https://skfb.ly/oZJx9) by plaggy is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+- "Simple Tiara" (https://skfb.ly/owzuJ) by Que3D is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 
 
 

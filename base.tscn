@@ -1,4 +1,4 @@
-[gd_scene load_steps=137 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=139 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -68,6 +68,7 @@
 [ext_resource type="PackedScene" uid="uid://cl1crkfvab5km" path="res://objects/props/Sketchbook01.gltf" id="53_sqt58"]
 [ext_resource type="PackedScene" uid="uid://cuo1y84kf32rd" path="res://objects/props/Brain.gltf" id="54_p3pq8"]
 [ext_resource type="PackedScene" uid="uid://bhm6dawxjwtq0" path="res://objects/props/WoodCrate.gltf" id="55_telh7"]
+[ext_resource type="PackedScene" uid="uid://d2yurw1lxtr4w" path="res://objects/props/Tiara.gltf" id="56_td0b0"]
 [ext_resource type="PackedScene" uid="uid://bq4jv3pu31j74" path="res://objects/props/MagazinePile01.gltf" id="62_3bu5q"]
 [ext_resource type="PackedScene" uid="uid://coulw5ubmqyvj" path="res://objects/robot_gi1_figure.glb" id="63_rvcyw"]
 [ext_resource type="PackedScene" uid="uid://bi55y02bb77tw" path="res://objects/robot_maid_figure.glb" id="64_rnjy8"]
@@ -90,6 +91,7 @@
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
 [ext_resource type="PackedScene" uid="uid://c7a6rchk8n4i7" path="res://stairs.tscn" id="84_i2k0m"]
 [ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
+[ext_resource type="PackedScene" uid="uid://dss6dnx2wu6rd" path="res://objects/props/Pillow.gltf" id="91_vgrfu"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -868,6 +870,7 @@ texture = ExtResource("14_v7taj")
 
 [node name="office_party" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="PartyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_party"]
 directional = true
@@ -1320,21 +1323,50 @@ texture = ExtResource("43_s1vco")
 size = Vector2(1.77, 1)
 
 [node name="Robot" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
-transform = Transform3D(0.733552, 0, -0.679633, 0, 1, 0, 0.679633, 0, 0.733552, 1.10073, 0.181093, -7.55668)
+transform = Transform3D(0.733552, 0, -0.679633, 0, 1, 0, 0.679633, 0, 0.733552, 0.715119, 0.181093, -8.21555)
 pose = 3
+hide_base = true
+lock_buttons = true
+battery_charge = 100.0
 
 [node name="WoodCrate3" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
-transform = Transform3D(0.809212, 0.587517, 0, 2.56812e-08, -3.53718e-08, -1, -0.587517, 0.809212, -4.37114e-08, -0.0231704, 0.673444, -9.62992)
+transform = Transform3D(0.809212, 0.587517, 0, 2.56812e-08, -3.53718e-08, -1, -0.587517, 0.809212, -4.37114e-08, -0.408781, 0.673444, -10.2888)
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
 directional = true
 interior = true
 texel_scale = 5.0
 light_data = ExtResource("44_y4n4r")
+
+[node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
+unique_name_in_owner = true
+
+[node name="Tiara" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("56_td0b0")]
+transform = Transform3D(1, 0, 0, 0, 0.942752, -0.333494, 0, 0.333494, 0.942752, -0.00505149, 1.7614, -23.7301)
+
+[node name="VacuumRevealMarker" type="Marker3D" parent="OfficeNode/DressingNode/office_museum/VacuumReveal"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.942752, -0.333494, 0, 0.333494, 0.942752, -0.00505149, 1.6482, -23.7701)
+
+[node name="Pillow2" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("91_vgrfu")]
+transform = Transform3D(1, 0, 0, 0, 0.949135, -0.314871, 0, 0.314871, 0.949135, 0, 1.57328, -23.7966)
+
+[node name="Robot" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.630979, 0, -24.1166)
+pose = 4
+hide_base = true
+lock_buttons = true
+battery_charge = 100.0
+
+[node name="Robot2" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.568677, 0, -24.1166)
+pose = 5
+hide_base = true
+lock_buttons = true
+battery_charge = 100.0
 
 [node name="NightmareModeIndicator" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true

@@ -112,7 +112,7 @@ void fragment() {
 	float ao_2 = dot(triplanar_texture(texture_ambient_occlusion, uv3_power_normal, uv3_triplanar_pos), ao_texture_channel);
 	AO = mix(ao_1, ao_2, texture(noise, UV).r);
 	AO_LIGHT_AFFECT = ao_light_affect;
-	
+
 	//ALBEDO = texture(noise, UV).rgb;
 }
 "

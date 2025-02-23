@@ -19,6 +19,8 @@ func iterate(node):
 		#print_rich("Post-import: [b]%s[/b] -> [b]%s[/b]" % [node.name, "modified_" + node.name])
 		#node.name = "modified_" + node.name
 		if node is MeshInstance3D:
+			if root_name == "office":
+				node.extra_cull_margin = 2
 			var meshnode := node.mesh as Mesh
 			var change_lod := false
 			if node.name.begins_with("tight_"):
