@@ -17,6 +17,7 @@ func _process(delta: float) -> void:
 	if stack_timer > 0.1 and robot_stack.size() < 50:
 		robot_stack.append(ROBOT.instantiate())
 		stack_timer = 0.0
+		#print("Instantiate robot")
 
 func get_robot_instance() -> Robot:
 	if robot_stack.size() > 0:

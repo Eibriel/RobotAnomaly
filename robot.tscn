@@ -194,6 +194,7 @@ size = Vector3(0.0244141, 0.0302734, 0.0224609)
 [node name="BatteryLight" type="OmniLight3D" parent="RobotBody/BatteryNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0218346)
+visible = false
 light_color = Color(0, 1, 0, 1)
 distance_fade_enabled = true
 distance_fade_begin = 20.0
@@ -239,6 +240,7 @@ color_scheme = 1
 [node name="PowerLight" type="OmniLight3D" parent="RobotBody/ShutdownNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.024038)
+visible = false
 omni_range = 0.5
 
 [node name="RotateArea" type="Area3D" parent="RobotBody"]

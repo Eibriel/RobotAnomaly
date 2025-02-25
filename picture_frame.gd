@@ -14,6 +14,11 @@ extends Node3D
 		size = value
 		dirty = true
 
+@export var banner_scale: float = 1.0 :
+	set(value):
+		banner_scale = value
+		dirty = true
+
 enum BANNER_TYPE {
 	SMALL,
 	TALL,
@@ -38,6 +43,6 @@ func _process(_delta: float) -> void:
 			#$Banner02.visible = true
 		#BANNER_TYPE.MEDIUM:
 			#$Banner03.visible = true
-	$Picture.mesh.size = size
+	$Picture.mesh.size = size * banner_scale
 	if texture:
 		mat.albedo_texture = texture

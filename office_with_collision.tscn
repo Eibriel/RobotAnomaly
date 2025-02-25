@@ -1,5 +1,6 @@
-[gd_scene load_steps=21 format=3 uid="uid://nxe8rqga76l0"]
+[gd_scene load_steps=22 format=3 uid="uid://nxe8rqga76l0"]
 
+[ext_resource type="Script" uid="uid://cjuxwckib7hce" path="res://office_with_collision.gd" id="1_jgcm1"]
 [ext_resource type="PackedScene" uid="uid://0q6b4obnk0g0" path="res://objects/office.gltf" id="2_q2i1j"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8l7vi"]
@@ -64,6 +65,7 @@ radius = 0.2
 height = 0.4
 
 [node name="OfficeWithCollision" type="Node3D"]
+script = ExtResource("1_jgcm1")
 
 [node name="office2" parent="." instance=ExtResource("2_q2i1j")]
 

@@ -8,9 +8,25 @@ extends Node3D
 
 var dirty := false
 var chain: Node3D
+var lines: Dictionary
+
+enum LINE_NAMES {
+	LINEA_A,
+	LINEA_B,
+	LINEA_C,
+	LINEA_A_END,
+	LINEA_B_END,
+	LINEA_C_END
+}
 
 func _ready() -> void:
 	chain = $stairs/Chain
+	lines[LINE_NAMES.LINEA_A] = $stairs/LineaA_stairs
+	lines[LINE_NAMES.LINEA_B] = $stairs/LineaB_stairs
+	lines[LINE_NAMES.LINEA_C] = $stairs/LineaC_stairs
+	lines[LINE_NAMES.LINEA_A_END] = $stairs/LineaA_stairs
+	lines[LINE_NAMES.LINEA_B_END] = $stairs/LineaB_stairs
+	lines[LINE_NAMES.LINEA_C_END] = $stairs/LineaC_stairs
 
 func _process(delta: float) -> void:
 	if not dirty: return
@@ -22,3 +38,10 @@ func _process(delta: float) -> void:
 		true:
 			%BlockStairs.position.y = 0
 			chain.visible = true
+
+func hide_all_lines() -> void:
+	for n in lines:
+		lines[n].visible = false
+
+func show_line(line_id: int) -> void:
+	lines[line_id].visible = true

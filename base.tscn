@@ -1,4 +1,4 @@
-[gd_scene load_steps=139 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=145 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
 [ext_resource type="AudioStream" uid="uid://di1eg1p80okdk" path="res://sounds/storage_door_open.mp3" id="6_lnhvi"]
+[ext_resource type="AudioStream" uid="uid://cl11hmvraeedy" path="res://sounds/street_level.mp3" id="6_s1vco"]
+[ext_resource type="AudioStream" uid="uid://ci7hnmfv5tdhk" path="res://sounds/underground_drone.ogg" id="7_e1v60"]
 [ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
 [ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
 [ext_resource type="AudioStream" uid="uid://c2nplkohgw54b" path="res://sounds/event_ventilation_scape.mp3" id="9_i2k0m"]
@@ -92,6 +94,8 @@
 [ext_resource type="PackedScene" uid="uid://c7a6rchk8n4i7" path="res://stairs.tscn" id="84_i2k0m"]
 [ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
 [ext_resource type="PackedScene" uid="uid://dss6dnx2wu6rd" path="res://objects/props/Pillow.gltf" id="91_vgrfu"]
+[ext_resource type="AudioStream" uid="uid://dirslqdal0cqc" path="res://sounds/creepy_music.ogg" id="93_s1vco"]
+[ext_resource type="PackedScene" uid="uid://djxmebq1ftsmu" path="res://objects/props/GlassDoor.gltf" id="95_iw8h4"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -168,6 +172,9 @@ buffer = PackedFloat32Array(1.23314e-43, 1.4013e-45, 3.64338e-44, 1.4013e-45, 3.
 [sub_resource type="BoxShape3D" id="BoxShape3D_dtkpj"]
 size = Vector3(2.14914, 0.115479, 0.708984)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_e1v60"]
+size = Vector3(2.03418, 2.96698, 0.324463)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_vgrfu"]
 size = Vector3(0.780762, 0.18512, 0.941406)
 
@@ -176,6 +183,9 @@ size = Vector3(1.245, 0.18512, 0.0981445)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s1vco"]
 size = Vector3(0.30249, 0.18512, 0.767151)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tjsd2"]
+size = Vector3(1.38965, 1.06079, 2.07324)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5pcrg"]
 size = Vector3(1.89258, 0.53821, 1)
@@ -611,17 +621,50 @@ layout_mode = 2
 layout_mode = 2
 text = "QUIT"
 
-[node name="CityAudio" type="AudioStreamPlayer3D" parent="."]
+[node name="OutdoorAudios" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 36)
+
+[node name="CityAudio" type="AudioStreamPlayer3D" parent="OutdoorAudios"]
+unique_name_in_owner = true
 stream = ExtResource("5_k62q3")
 volume_db = -10.0
 unit_size = 5.0
 autoplay = true
 
-[node name="CityAudio2" type="AudioStreamPlayer3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -36)
+[node name="StreetAudio" type="AudioStreamPlayer3D" parent="OutdoorAudios"]
+unique_name_in_owner = true
+stream = ExtResource("6_s1vco")
+volume_db = -25.0
+unit_size = 5.0
+autoplay = true
+
+[node name="UndergroundAudio" type="AudioStreamPlayer3D" parent="OutdoorAudios"]
+unique_name_in_owner = true
+stream = ExtResource("7_e1v60")
+unit_size = 5.0
+autoplay = true
+
+[node name="OutdoorAudios2" type="Node3D" parent="."]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -36)
+
+[node name="CityAudio2" type="AudioStreamPlayer3D" parent="OutdoorAudios2"]
+unique_name_in_owner = true
 stream = ExtResource("5_k62q3")
 volume_db = -10.0
+unit_size = 5.0
+autoplay = true
+
+[node name="StreetAudio2" type="AudioStreamPlayer3D" parent="OutdoorAudios2"]
+unique_name_in_owner = true
+stream = ExtResource("6_s1vco")
+volume_db = -25.0
+unit_size = 5.0
+autoplay = true
+
+[node name="UndergroundAudio2" type="AudioStreamPlayer3D" parent="OutdoorAudios2"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -6.29444e-06, 0, -72)
+stream = ExtResource("7_e1v60")
 unit_size = 5.0
 autoplay = true
 
@@ -741,6 +784,7 @@ stream = ExtResource("9_i2k0m")
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="WoodCrate_02" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("55_telh7")]
 transform = Transform3D(0.37166, 0, -0.928369, 0, 1, 0, 0.928369, 0, 0.37166, -3.32445, 0.00988079, -23.8157)
@@ -929,11 +973,6 @@ shape = SubResource("BoxShape3D_iw8h4")
 transform = Transform3D(0.0650897, 0, 0.99788, 0, 1, 0, -0.99788, 0, 0.0650897, -3.48508, 0, 17.6797)
 design = 1
 
-[node name="PictureFrame4" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("41_60t3g")]
-transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.00401, 2.19628, 19.8844)
-texture = ExtResource("25_telh7")
-size = Vector2(1, 1.77)
-
 [node name="PictureFrame5" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.03981, 2.06384, 20.6267)
 texture = ExtResource("26_lnhvi")
@@ -1110,16 +1149,6 @@ text = "89
 Storage"
 font_size = 200
 
-[node name="PictureFrame" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
-transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.83996, 19.5477)
-texture = ExtResource("42_td0b0")
-size = Vector2(1.77, 1)
-
-[node name="PictureFrame2" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
-transform = Transform3D(1.30197e-07, -0.119357, 0.992851, 1.56518e-08, 0.992851, 0.119357, -1, 0, 1.31134e-07, -4.18711, 1.84173, 20.2362)
-texture = ExtResource("43_s1vco")
-size = Vector2(1.77, 1)
-
 [node name="office_lab" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -1193,6 +1222,12 @@ transform = Transform3D(0.961813, -0.273668, 0.00462879, -2.8871e-08, 0.0169114,
 [node name="Pinter3D" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("28_fq8n2")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 3.85633, 1.32324, 18.9569)
 
+[node name="PictureFrame4" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.15773, 1.6418, 20.8553)
+texture = ExtResource("25_telh7")
+size = Vector2(1, 1.77)
+banner_scale = 0.35
+
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -1219,12 +1254,6 @@ transform = Transform3D(0.99447, 0, 0.105014, 0, 1, 0, -0.105014, 0, 0.99447, 0.
 
 [node name="Body" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("23_x13uo")]
 transform = Transform3D(0.711462, 0, 0.702724, 0, 1, 0, -0.702724, 0, 0.711462, 1.84357, -0.00400959, -6.50181)
-
-[node name="WoodCrate" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
-transform = Transform3D(0.996175, 0, -0.0873818, 0, 1, 0, 0.0873818, 0, 0.996175, -0.674205, 0.00509131, -23.9635)
-
-[node name="WoodCrate2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
-transform = Transform3D(-0.109197, 0, 0.99402, 0, 1, 0, -0.99402, 0, -0.109197, 0.86398, 0.00509131, -24.0152)
 
 [node name="RobotCrowd01" type="StaticBody3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -1312,6 +1341,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.58797)
 transform = Transform3D(0.707699, 0, -0.706514, 0, 1, 0, 0.706514, 0, 0.707699, 1.70193, 0.0454118, -2.0773)
 shape = SubResource("BoxShape3D_dtkpj")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/ObjectsStaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.98349, -20.6868)
+shape = SubResource("BoxShape3D_e1v60")
+
 [node name="PictureFrame3" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("41_60t3g")]
 transform = Transform3D(-4.3324e-08, 0.132845, -0.991137, 5.80682e-09, 0.991137, 0.132845, 1, 0, -4.37114e-08, 4.16357, 0.512141, 20.0698)
 texture = ExtResource("42_td0b0")
@@ -1331,6 +1364,15 @@ battery_charge = 100.0
 
 [node name="WoodCrate3" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
 transform = Transform3D(0.809212, 0.587517, 0, 2.56812e-08, -3.53718e-08, -1, -0.587517, 0.809212, -4.37114e-08, -0.408781, 0.673444, -10.2888)
+
+[node name="GlassDoor2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("95_iw8h4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.003, -25.218)
+
+[node name="PictureFrame5" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("41_60t3g")]
+transform = Transform3D(0.598436, -0.80117, 5.00352e-08, -4.37114e-08, 2.98023e-08, 1, -0.80117, -0.598437, -1.71855e-08, -3.51084, 1.34401, 20.0693)
+texture = ExtResource("42_td0b0")
+size = Vector2(1.77, 1)
+banner_scale = 0.5
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1574,6 +1616,24 @@ shape = SubResource("BoxShape3D_td0b0")
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3.5944, 0.0777106, -0.846888)
 shape = SubResource("BoxShape3D_s1vco")
 
+[node name="ObjectsStaticBody3D" type="StaticBody3D" parent="OfficeNode/DressingNode/office_museum"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/ObjectsStaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, -1.66377)
+shape = SubResource("BoxShape3D_tjsd2")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/ObjectsStaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, 1.88994)
+shape = SubResource("BoxShape3D_tjsd2")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/ObjectsStaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, 5.1656)
+shape = SubResource("BoxShape3D_tjsd2")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/ObjectsStaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, -5.05615)
+shape = SubResource("BoxShape3D_tjsd2")
+
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -1592,6 +1652,7 @@ transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483
 
 [node name="Whiteboard1" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("33_1dlgw")]
 transform = Transform3D(0.996379, 3.71621e-09, -0.085017, 0.0850169, -4.35531e-08, 0.996379, -2.21751e-16, -1, -4.37114e-08, -4.15709, 2.09236, 20.4474)
+visible = false
 drawing = ExtResource("44_q1yh3")
 
 [node name="Whiteboard2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("33_1dlgw")]
@@ -1718,6 +1779,18 @@ transform = Transform3D(0.982574, 0, -0.185872, 0, 1, 0, 0.185872, 0, 0.982574, 
 
 [node name="Brain2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("54_p3pq8")]
 transform = Transform3D(0.218748, -0.129262, 0.430628, 0.33007, 0.371343, -0.0561997, -0.305292, 0.308862, 0.247793, -3.74455, 1.3787, 19.1175)
+
+[node name="PictureFrame" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.64649, 19.5477)
+texture = ExtResource("42_td0b0")
+size = Vector2(1.77, 1)
+banner_scale = 0.6
+
+[node name="PictureFrame2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("41_60t3g")]
+transform = Transform3D(1.30197e-07, -0.119357, 0.992851, 1.56518e-08, 0.992851, 0.119357, -1, 0, 1.31134e-07, -4.18711, 1.64826, 20.2362)
+texture = ExtResource("43_s1vco")
+size = Vector2(1.77, 1)
+banner_scale = 0.6
 
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1945,9 +2018,22 @@ font_size = 70
 outline_size = 0
 width = 1500.0
 
-[node name="FloorData_A" type="Label3D" parent="OfficeNode"]
+[node name="BackgroundEnd_Position" type="Marker3D" parent="OfficeNode"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -2.37725, 1.96197, -24.9833)
+transform = Transform3D(-4.37114e-08, 1, -4.37114e-08, 0, -4.37114e-08, -1, -1, -4.37114e-08, 1.91069e-15, -4.245, 1.226, 9.75573)
+
+[node name="BackgroundFull_Position" type="Marker3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.764, 1.226, -24.984)
+
+[node name="FloorDataBackground_C" type="MeshInstance3D" parent="OfficeNode"]
+unique_name_in_owner = true
+transform = Transform3D(0.3, -2.62268e-08, 1.14641e-15, 0, -1.31134e-08, -0.3, 2.62268e-08, 0.3, -1.31134e-08, -1.76416, 1.9588, -24.9837)
+mesh = SubResource("PlaneMesh_i2k0m")
+
+[node name="FloorData_A" type="Label3D" parent="OfficeNode/FloorDataBackground_C"]
+unique_name_in_owner = true
+transform = Transform3D(3.33333, 1.76465e-20, 2.91409e-07, -2.91409e-07, -1.45704e-07, 3.33333, 1.27379e-14, -3.33333, -1.45704e-07, -2.04363, 0.00133514, -0.0105667)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "LUNCH"
@@ -1956,31 +2042,9 @@ font_size = 100
 outline_size = 5
 horizontal_alignment = 0
 
-[node name="FloorData_B" type="Label3D" parent="OfficeNode"]
+[node name="FloorData_A2" type="Label3D" parent="OfficeNode/FloorDataBackground_C"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -2.37725, 1.59226, -24.9833)
-pixel_size = 0.001
-modulate = Color(0, 0, 0, 1)
-text = "EXIT"
-font = ExtResource("74_vgrfu")
-font_size = 100
-outline_size = 5
-horizontal_alignment = 0
-
-[node name="FloorData_C" type="Label3D" parent="OfficeNode"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -2.37725, 1.22368, -24.9833)
-pixel_size = 0.001
-modulate = Color(0, 0, 0, 1)
-text = "UNDERGROUND"
-font = ExtResource("74_vgrfu")
-font_size = 100
-outline_size = 5
-horizontal_alignment = 0
-
-[node name="FloorData_A2" type="Label3D" parent="OfficeNode"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -1.13475, 1.96197, -24.9833)
+transform = Transform3D(3.33333, 1.76465e-20, 2.91409e-07, -2.91409e-07, -1.45704e-07, 3.33333, 1.27379e-14, -3.33333, -1.45704e-07, 2.09803, 0.00133514, -0.0105667)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "10"
@@ -1989,9 +2053,25 @@ font_size = 100
 outline_size = 5
 horizontal_alignment = 2
 
-[node name="FloorData_B2" type="Label3D" parent="OfficeNode"]
+[node name="FloorDataBackground_B" type="MeshInstance3D" parent="OfficeNode"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -1.13475, 1.59226, -24.9833)
+transform = Transform3D(0.3, -2.62268e-08, 1.14641e-15, 0, -1.31134e-08, -0.3, 2.62268e-08, 0.3, -1.31134e-08, -1.76416, 1.59568, -24.9837)
+mesh = SubResource("PlaneMesh_i2k0m")
+
+[node name="FloorData_B" type="Label3D" parent="OfficeNode/FloorDataBackground_B"]
+unique_name_in_owner = true
+transform = Transform3D(3.33333, 1.76465e-20, 2.91409e-07, -2.91409e-07, -1.45704e-07, 3.33333, 1.27379e-14, -3.33333, -1.45704e-07, -2.04363, 0.00133514, 0.0114002)
+pixel_size = 0.001
+modulate = Color(0, 0, 0, 1)
+text = "EXIT"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 0
+
+[node name="FloorData_B2" type="Label3D" parent="OfficeNode/FloorDataBackground_B"]
+unique_name_in_owner = true
+transform = Transform3D(3.33333, 1.76465e-20, 2.91409e-07, -2.91409e-07, -1.45704e-07, 3.33333, 1.27379e-14, -3.33333, -1.45704e-07, 2.09803, 0.00133514, 0.0114002)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "0"
@@ -2000,9 +2080,25 @@ font_size = 100
 outline_size = 5
 horizontal_alignment = 2
 
-[node name="FloorData_C2" type="Label3D" parent="OfficeNode"]
+[node name="FloorDataBackground_A" type="MeshInstance3D" parent="OfficeNode"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -1.13475, 1.22368, -24.9833)
+transform = Transform3D(0.3, 0, 0, 0, -1.31134e-08, -0.3, 0, 0.3, -1.31134e-08, -1.764, 1.226, -24.984)
+mesh = SubResource("PlaneMesh_i2k0m")
+
+[node name="FloorData_C" type="Label3D" parent="OfficeNode/FloorDataBackground_A"]
+unique_name_in_owner = true
+transform = Transform3D(3.33333, 1.76465e-20, 2.91409e-07, -2.91409e-07, -1.45704e-07, 3.33333, 1.27379e-14, -3.33333, -1.45704e-07, -2.04363, 0.00133514, 0.00710011)
+pixel_size = 0.001
+modulate = Color(0, 0, 0, 1)
+text = "UNDERGROUND"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 0
+
+[node name="FloorData_C2" type="Label3D" parent="OfficeNode/FloorDataBackground_A"]
+unique_name_in_owner = true
+transform = Transform3D(3.33333, 1.76465e-20, 2.91409e-07, -2.91409e-07, -1.45704e-07, 3.33333, 1.27379e-14, -3.33333, -1.45704e-07, 2.09803, 0.00133514, 0.00710011)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "-10"
@@ -2010,18 +2106,6 @@ font = ExtResource("74_vgrfu")
 font_size = 100
 outline_size = 5
 horizontal_alignment = 2
-
-[node name="FloorDataBackground_A" type="MeshInstance3D" parent="OfficeNode"]
-transform = Transform3D(0.3, -2.62268e-08, 1.14641e-15, 0, -1.31134e-08, -0.3, 2.62268e-08, 0.3, -1.31134e-08, -1.76416, 1.9588, -24.9837)
-mesh = SubResource("PlaneMesh_i2k0m")
-
-[node name="FloorDataBackground_B" type="MeshInstance3D" parent="OfficeNode"]
-transform = Transform3D(0.3, -2.62268e-08, 1.14641e-15, 0, -1.31134e-08, -0.3, 2.62268e-08, 0.3, -1.31134e-08, -1.76416, 1.59568, -24.9837)
-mesh = SubResource("PlaneMesh_i2k0m")
-
-[node name="FloorDataBackground_C" type="MeshInstance3D" parent="OfficeNode"]
-transform = Transform3D(0.3, -2.62268e-08, 1.14641e-15, 0, -1.31134e-08, -0.3, 2.62268e-08, 0.3, -1.31134e-08, -1.76416, 1.22581, -24.9837)
-mesh = SubResource("PlaneMesh_i2k0m")
 
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true
@@ -2119,10 +2203,12 @@ unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
 
 [node name="StairObject3" parent="StairsNode" instance=ExtResource("84_i2k0m")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1, 0)
 chain_visible = false
 
 [node name="StairObject4" parent="StairsNode" instance=ExtResource("84_i2k0m")]
+unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, -4.1, 0)
 chain_visible = false
 
@@ -2238,6 +2324,12 @@ metadata/_edit_lock_ = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("85_5ilav")
 volume_db = -10.0
+
+[node name="CreepyMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("93_s1vco")
+volume_db = -20.0
+autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]

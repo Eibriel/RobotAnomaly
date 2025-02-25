@@ -25,7 +25,10 @@
 				59,
 				60,
 				61,
-				62
+				62,
+				63,
+				64,
+				65
 			]
 		}
 	],
@@ -733,6 +736,51 @@
 				1,
 				1
 			]
+		},
+		{
+			"mesh":11,
+			"name":"LineaA_End",
+			"rotation":[
+				0.4999999403953552,
+				0.4999998211860657,
+				0.5000000596046448,
+				0.5000001788139343
+			],
+			"scale":[
+				0.8201334476470947,
+				1,
+				1
+			]
+		},
+		{
+			"mesh":12,
+			"name":"LineaB_End",
+			"rotation":[
+				0.4999999403953552,
+				0.4999998211860657,
+				0.5000000596046448,
+				0.5000001788139343
+			],
+			"scale":[
+				0.8201334476470947,
+				1,
+				1
+			]
+		},
+		{
+			"mesh":13,
+			"name":"LineaC_End",
+			"rotation":[
+				0.4999999403953552,
+				0.4999998211860657,
+				0.5000000596046448,
+				0.5000001788139343
+			],
+			"scale":[
+				0.8201334476470947,
+				1,
+				1
+			]
 		}
 	],
 	"materials":[
@@ -1121,6 +1169,48 @@
 						"TEXCOORD_0":51
 					},
 					"indices":45,
+					"material":11
+				}
+			]
+		},
+		{
+			"name":"OfficeWalls.010",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":52,
+						"NORMAL":53,
+						"TEXCOORD_0":54
+					},
+					"indices":55,
+					"material":9
+				}
+			]
+		},
+		{
+			"name":"OfficeWalls.011",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":56,
+						"NORMAL":57,
+						"TEXCOORD_0":58
+					},
+					"indices":55,
+					"material":10
+				}
+			]
+		},
+		{
+			"name":"OfficeWalls.012",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":59,
+						"NORMAL":60,
+						"TEXCOORD_0":61
+					},
+					"indices":55,
 					"material":11
 				}
 			]
@@ -1635,6 +1725,96 @@
 			"componentType":5126,
 			"count":16,
 			"type":"VEC2"
+		},
+		{
+			"bufferView":52,
+			"componentType":5126,
+			"count":8,
+			"max":[
+				1.646718144416809,
+				24.9888973236084,
+				-0.9999873638153076
+			],
+			"min":[
+				1.3366347551345825,
+				8.997758865356445,
+				-4.24649715423584
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":53,
+			"componentType":5126,
+			"count":8,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":54,
+			"componentType":5126,
+			"count":8,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":55,
+			"componentType":5123,
+			"count":12,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":56,
+			"componentType":5126,
+			"count":8,
+			"max":[
+				2.098824977874756,
+				24.9888973236084,
+				-0.9999873638153076
+			],
+			"min":[
+				1.7887415885925293,
+				8.997758865356445,
+				-4.24649715423584
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":57,
+			"componentType":5126,
+			"count":8,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":58,
+			"componentType":5126,
+			"count":8,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":59,
+			"componentType":5126,
+			"count":8,
+			"max":[
+				2.539339542388916,
+				24.9888973236084,
+				-0.9999876022338867
+			],
+			"min":[
+				2.2292559146881104,
+				8.997758865356445,
+				-4.24649715423584
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":60,
+			"componentType":5126,
+			"count":8,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":61,
+			"componentType":5126,
+			"count":8,
+			"type":"VEC2"
 		}
 	],
 	"bufferViews":[
@@ -1949,6 +2129,66 @@
 			"byteLength":128,
 			"byteOffset":67040,
 			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":67168,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":67264,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":64,
+			"byteOffset":67360,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":24,
+			"byteOffset":67424,
+			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":67448,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":67544,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":64,
+			"byteOffset":67640,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":67704,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":67800,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":64,
+			"byteOffset":67896,
+			"target":34962
 		}
 	],
 	"samplers":[
@@ -1959,7 +2199,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":67168,
+			"byteLength":67960,
 			"uri":"office.bin"
 		}
 	]

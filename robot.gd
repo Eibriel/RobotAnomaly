@@ -258,6 +258,10 @@ func _process(delta: float) -> void:
 		%BatteryLight.light_energy = 0
 		%PowerLight.light_energy = 0
 	
+	if %BatteryLight.light_energy > 0:
+		%BatteryLight.visible = true
+	if %PowerLight.light_energy > 0:
+		%PowerLight.visible = true
 	#
 	var battery_bone := %robotObject.get_node("Armature/Skeleton3D/Battery_Attachment") as BoneAttachment3D
 	var shutdown_bone := %robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment") as BoneAttachment3D

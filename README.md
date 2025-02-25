@@ -130,6 +130,7 @@ Some assets may not be in the game
 
 - "Simple Tiara" (https://skfb.ly/owzuJ) by Que3D is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+- "Glass Doors" (https://skfb.ly/otLAB) by carlcapu9 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 
 
@@ -162,6 +163,12 @@ Some assets may not be in the game
 - 20061030.metal.door.open.ms.flac by dobroide -- https://freesound.org/s/24645/ -- License: Attribution 4.0
 
 - swirling winter wind gusty grains sand.flac by kyles -- https://freesound.org/s/454213/ -- License: Creative Commons 0
+
+- Night Street Traffic by Romano.Tercero -- https://freesound.org/s/726615/ -- License: Creative Commons 0
+
+- Cave Drone by EminYILDIRIM -- https://freesound.org/s/536242/ -- License: Attribution 4.0
+
+- Dark Cave Background 2.wav by SolarPhasing -- https://freesound.org/s/490585/ -- License: Attribution 4.0
 
 
 ### Fonts

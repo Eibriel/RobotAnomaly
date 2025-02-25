@@ -116,12 +116,12 @@ func _ready() -> void:
 		reset_save = false
 		override_state = false
 		fail_all = false
-	state_override.congrats_completed = true
+	state_override.congrats_completed = false
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = 35 #Robot.GLITCHES.size() - 1
+	var force_completed_scenarios = 20 #Robot.GLITCHES.size() - 1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -835,7 +835,10 @@ func instantiate_sections(Env: Node3D) -> void:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		#%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
-		%LevelCountLabel.mesh.text = "%d" % (FLOORS_AMOUNT - game_state.completed_anomalies.size())
+		var floor_number := FLOORS_AMOUNT - game_state.completed_anomalies.size()
+		if game_state.executive_completed:
+			floor_number -= 1
+		%LevelCountLabel.mesh.text = "%d" % floor_number
 	if false:
 		if game_state.completed_anomalies.size() < INTRO_AMOUNT and not game_state.congrats_completed:
 			%TotalLevelsCountLabel.mesh.text = "/ %d" % INTRO_AMOUNT
@@ -856,18 +859,26 @@ func instantiate_sections(Env: Node3D) -> void:
 	var message_id := game_state.completed_anomalies.size()
 	reset_dressing()
 	prints("message_id", message_id)
+	hide_all_lines()
+	var LINE_NAMES = %MainOfficeWithCollision.LINE_NAMES
 	if scenario == -2: # Tutorial
 		#dressing_visible(%office_tutorial)
 		#dressing_visible(%office_lobby)
 		dressing_visible(%office_start)
 		dressing_visible(%office_warehouse)
+		show_line_upto(LINE_NAMES.LINEA_C)
 	elif scenario == -3: # Executive
 		%MessageLabel.text = "Executive"
 		dressing_visible(%office_executive)
 		setup_executive()
+		show_line_upto(LINE_NAMES.LINEA_B_END)
 	elif scenario == -4: # Museum
 		%MessageLabel.text = "Museum"
 		dressing_visible(%office_museum)
+		if selected_scenarios.size() == 0:
+			show_line_upto(LINE_NAMES.LINEA_A_END)
+		else:
+			show_line_upto(LINE_NAMES.LINEA_A)
 		#check_if_nightmare()
 		#if Global.is_nightmare_mode:
 			#%NightmareModeIndicator.visible = true
@@ -876,6 +887,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		setup_museum()
 	elif scenario == -1: # Congrats
 		dressing_visible(%office_congrats)
+		show_line_upto(LINE_NAMES.LINEA_C_END)
 	#elif message_id <= 0:
 		#%MessageLabel.text = "Lobby"
 		#dressing_visible(%office_lobby)
@@ -884,10 +896,12 @@ func instantiate_sections(Env: Node3D) -> void:
 		%MessageLabel.text = "Lab"
 		dressing_visible(%office_lab)
 		dressing_visible(%office_warehouse)
+		show_line_upto(LINE_NAMES.LINEA_C)
 	elif message_id <= 15:
 		%MessageLabel.text = "Design Room"
 		dressing_visible(%office_design)
 		dressing_visible(%office_warehouse)
+		show_line_upto(LINE_NAMES.LINEA_B)
 	#elif message_id <= 25:
 		#%MessageLabel.text = "Lab"
 		#dressing_visible(%office_lab)
@@ -896,15 +910,18 @@ func instantiate_sections(Env: Node3D) -> void:
 		%MessageLabel.text = "Marketing"
 		dressing_visible(%office_marketing)
 		dressing_visible(%office_warehouse)
-	elif message_id <= 25:
+		show_line_upto(LINE_NAMES.LINEA_B)
+	elif message_id <= 25 and not game_state.executive_completed:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
 		dressing_visible(%office_warehouse)
+		show_line_upto(LINE_NAMES.LINEA_B)
 	else:
 		# Underground
 		%MessageLabel.text = "Underground"
 		dressing_visible(%office_lobby)
 		dressing_visible(%office_warehouse)
+		show_line_upto(LINE_NAMES.LINEA_A)
 	
 	if force_dressing > 0:
 		reset_dressing()
@@ -923,7 +940,45 @@ func instantiate_sections(Env: Node3D) -> void:
 				dressing_visible(%office_executive)
 	
 	%StairSign2.visible = check_if_nightmare()
-	
+	const audio_distance := 50.0
+	var city_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, 0, audio_distance), 0, audio_distance)
+	var street_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, audio_distance, 0), 0, audio_distance)
+	prints("city_audio_distance", city_audio_distance)
+	prints("street_audio_distance", street_audio_distance)
+	%CityAudio.position.z = city_audio_distance
+	%CityAudio2.position.z = city_audio_distance
+	%StreetAudio.position.z = street_audio_distance
+	%StreetAudio2.position.z = street_audio_distance
+	if message_id > 25:
+		%CityAudio.stop()
+		%CityAudio2.stop()
+		%StreetAudio.stop()
+		%StreetAudio2.stop()
+		if not %UndergroundAudio.playing:
+			%UndergroundAudio.play()
+		if not %UndergroundAudio2.playing:
+			%UndergroundAudio2.play()
+	else:
+		%UndergroundAudio.stop()
+		%UndergroundAudio2.stop()
+		if not %CityAudio.playing:
+			%CityAudio.play()
+		if not %CityAudio2.playing:
+			%CityAudio2.play()
+		if not %StreetAudio.playing:
+			%StreetAudio.play()
+		if not %StreetAudio2.playing:
+			%StreetAudio2.play()
+	#
+	var creepy_music_tween := create_tween()
+	const creepy_music_volume := -20.0
+	if [-1, -3, -4].has(scenario):
+		#$CreepyMusic.play()
+		creepy_music_tween.tween_property($CreepyMusic, "volume_db", creepy_music_volume, 20.0)
+	else:
+		creepy_music_tween.tween_property($CreepyMusic, "volume_db", -80, 20.0)
+		#creepy_music_tween.tween_callback($CreepyMusic.stop)
+	#
 	#message_id = min(message_id, MESSAGES.size()-1)
 	#main.message = "%d" % message_id
 	#%MessageLabel.text = MESSAGES[message_id]
@@ -944,6 +999,107 @@ func instantiate_sections(Env: Node3D) -> void:
 	#	loby.show_counter()
 	#
 	maybe_enable_event()
+
+func hide_all_lines() -> void:
+	%MainOfficeWithCollision.hide_all_lines()
+	%StairObject.hide_all_lines()
+	%StairObject2.hide_all_lines()
+	%StairObject3.hide_all_lines()
+	%StairObject4.hide_all_lines()
+	%FloorDataBackground_A.visible = false
+	%FloorDataBackground_B.visible = false
+	%FloorDataBackground_C.visible = false
+
+func show_line_upto(line_id:int) -> void:
+	var LINE_NAMES = %MainOfficeWithCollision.LINE_NAMES
+	var next_stair_line: int
+	match line_id:
+		LINE_NAMES.LINEA_A:
+			next_stair_line = LINE_NAMES.LINEA_A
+		LINE_NAMES.LINEA_B:
+			next_stair_line = LINE_NAMES.LINEA_B
+		LINE_NAMES.LINEA_C:
+			next_stair_line = LINE_NAMES.LINEA_C
+		LINE_NAMES.LINEA_A_END:
+			next_stair_line = -1
+		LINE_NAMES.LINEA_B_END:
+			next_stair_line = LINE_NAMES.LINEA_A
+		LINE_NAMES.LINEA_C_END:
+			next_stair_line = LINE_NAMES.LINEA_B
+	
+	var lines_ordered := [
+		LINE_NAMES.LINEA_A_END,
+		LINE_NAMES.LINEA_A,
+		LINE_NAMES.LINEA_B_END,
+		LINE_NAMES.LINEA_B,
+		LINE_NAMES.LINEA_C_END,
+		LINE_NAMES.LINEA_C
+	]
+	
+	for l in lines_ordered:
+		show_line(l)
+		if l == line_id: break
+	
+	if Global.player.global_position.z > 0:
+		for l in lines_ordered:
+			%StairObject.show_line(l)
+			%StairObject3.show_line(l)
+			if l == line_id: break
+		for ln in lines_ordered:
+			if next_stair_line == -1: break
+			%StairObject2.show_line(ln)
+			%StairObject4.show_line(ln)
+			if ln == next_stair_line: break
+	else:
+		for l in lines_ordered:
+			%StairObject2.show_line(l)
+			%StairObject3.show_line(l)
+			if l == line_id: break
+		for ln in lines_ordered:
+			if next_stair_line == -1: break
+			%StairObject.show_line(ln)
+			%StairObject4.show_line(ln)
+			if ln == next_stair_line: break
+
+func show_line(line_id: int) -> void:
+	var LINE_NAMES = %MainOfficeWithCollision.LINE_NAMES
+	%MainOfficeWithCollision.show_line(line_id)
+	if [LINE_NAMES.LINEA_A, LINE_NAMES.LINEA_A_END].has(line_id):
+		#%FloorData_A.visible = true
+		#%FloorData_A2.visible = true
+		%FloorDataBackground_A.visible = true
+		if LINE_NAMES.LINEA_A_END == line_id:
+			%FloorDataBackground_A.rotation.y = %BackgroundEnd_Position.rotation.y
+			%FloorDataBackground_A.position.x = %BackgroundEnd_Position.position.x
+			%FloorDataBackground_A.position.z = %BackgroundEnd_Position.position.z
+		else:
+			%FloorDataBackground_A.rotation.y = %BackgroundFull_Position.rotation.y
+			%FloorDataBackground_A.position.x = %BackgroundFull_Position.position.x
+			%FloorDataBackground_A.position.z = %BackgroundFull_Position.position.z
+	elif [LINE_NAMES.LINEA_B, LINE_NAMES.LINEA_B_END].has(line_id):
+		#%FloorData_B.visible = true
+		#%FloorData_B2.visible = true
+		%FloorDataBackground_B.visible = true
+		if LINE_NAMES.LINEA_B_END == line_id:
+			%FloorDataBackground_B.rotation.y = %BackgroundEnd_Position.rotation.y
+			%FloorDataBackground_B.position.x = %BackgroundEnd_Position.position.x
+			%FloorDataBackground_B.position.z = %BackgroundEnd_Position.position.z
+		else:
+			%FloorDataBackground_B.rotation.y = %BackgroundFull_Position.rotation.y
+			%FloorDataBackground_B.position.x = %BackgroundFull_Position.position.x
+			%FloorDataBackground_B.position.z = %BackgroundFull_Position.position.z
+	elif [LINE_NAMES.LINEA_C, LINE_NAMES.LINEA_C_END].has(line_id):
+		#%FloorData_C.visible = true
+		#%FloorData_C2.visible = true
+		%FloorDataBackground_C.visible = true
+		if LINE_NAMES.LINEA_C_END == line_id:
+			%FloorDataBackground_C.rotation.y = %BackgroundEnd_Position.rotation.y
+			%FloorDataBackground_C.position.x = %BackgroundEnd_Position.position.x
+			%FloorDataBackground_C.position.z = %BackgroundEnd_Position.position.z
+		else:
+			%FloorDataBackground_C.rotation.y = %BackgroundFull_Position.rotation.y
+			%FloorDataBackground_C.position.x = %BackgroundFull_Position.position.x
+			%FloorDataBackground_C.position.z = %BackgroundFull_Position.position.z
 
 func pause() -> void:
 	%PauseMenu.visible = true
