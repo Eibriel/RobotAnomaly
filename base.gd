@@ -75,7 +75,7 @@ enum EVENTS {
 	CEILING
 }
 var available_events: Array[EVENTS] = []
-var current_event := EVENTS.VENTILATION
+var current_event := EVENTS.NONE
 var event_watch_timer := 0.0
 var next_event_in := 3
 var enable_attempts := 0
@@ -105,6 +105,7 @@ var reset_save := false
 var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
+var force_event := EVENTS.REPORT
 #var force_completed_scenarios := 10
 
 func _ready() -> void:
@@ -116,12 +117,13 @@ func _ready() -> void:
 		reset_save = false
 		override_state = false
 		fail_all = false
-	state_override.congrats_completed = false
+		force_event = EVENTS.NONE
+	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = 20 #Robot.GLITCHES.size() - 1
+	var force_completed_scenarios = 25 #Robot.GLITCHES.size() - 1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -346,6 +348,11 @@ func _process(delta: float) -> void:
 
 func maybe_enable_event() -> void:
 	#if current_event != EVENTS.NONE: return
+	if force_event != EVENTS.NONE:
+		current_event = force_event
+		setup_events(current_event)
+		prints("Forced event", EVENTS.find_key(current_event))
+		return
 	enable_attempts += 1
 	prints("enable_attempts",enable_attempts)
 	const disabled_sections := [
@@ -408,12 +415,12 @@ func setup_events(_event:EVENTS=EVENTS.NONE) -> void:
 	print(current_event)
 	event_watch_timer = 0
 
-func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0) -> bool:
+func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0) -> float:
 	var cam := get_viewport().get_camera_3d()
 	var screen_pos := cam.unproject_position(object.global_position) / get_viewport().get_visible_rect().size
 	var dist := Vector2(0.5, 0.5).distance_to(screen_pos)
 	if cam.is_position_behind(object.global_position):
-		dist += 10.0
+		return 0.0
 	
 	var object_vector := (cam.global_position - object.global_position).normalized()
 	
@@ -426,9 +433,12 @@ func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: f
 	flat_player_position.y = 0
 	
 	var player_dist := flat_object_position.distance_to(flat_player_position)
-	#print(player_dist)
-	#print(dot)
-	return dist < cursor_treshold and dot > angle_treshold and player_dist < distance
+	
+	# dist < cursor_treshold
+	# dot > angle_treshold
+	# player_dist < distance
+	
+	#return 
 
 func too_close_to_event(event_pos: Node3D, robot: Robot, min_dist: float = 0.0) -> bool:
 	var flat_object_position := event_pos.global_position
@@ -446,10 +456,7 @@ func too_close_to_event(event_pos: Node3D, robot: Robot, min_dist: float = 0.0) 
 func update_events(delta: float) -> void:
 	match current_event:
 		EVENTS.VENTILATION:
-			if is_point_centered(%EventVentilationVisible, 0.15, 0.6, 10.0):
-				event_watch_timer += delta
-			else:
-				event_watch_timer = 0.0
+			event_watch_timer += delta * is_point_centered(%EventVentilationVisible, 0.15, 0.6, 10.0)
 			if event_watch_timer > 2:
 				current_event = EVENTS.NONE
 				#%RobotEventVentilation.visible = false
@@ -922,6 +929,16 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_lobby)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_A)
+		var robot_pics: Array[Node3D]= [
+			%RobotPictureFrame,
+			%RobotPictureFrame2,
+			%RobotPictureFrame3,
+			%RobotPictureFrame4
+		]
+		for rp in robot_pics:
+			rp.visible = false
+		var rp:Node3D = robot_pics.pick_random()
+		rp.visible = true
 	
 	if force_dressing > 0:
 		reset_dressing()

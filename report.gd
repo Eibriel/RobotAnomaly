@@ -43,11 +43,11 @@ func update_report(data: Array) -> void:
 			r_column += 1
 		batteries_charged_required = r.batteries_charged_required
 	
-	var text := "Error\n"
 	if robot_with_anomaly:
-		text += "- Robot with anomaly was on\n"
+		$PowerErrorLabel.text = tr("ERROR ANOMALY ON")
+	else:
+		$PowerErrorLabel.text = tr("NO ERROR")
 	if batteries_charged_required and robot_without_battery:
-		text += "- A Robot had full battery"
-	if not robot_with_anomaly and not (batteries_charged_required and robot_without_battery):
-		text += "- None"
-	$Label3D.text = text
+		$BatteryErrorLabel.text = tr("ERROR FULL BATTERY")
+	else:
+		$BatteryErrorLabel.text = tr("NO ERROR")

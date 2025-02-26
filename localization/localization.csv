@@ -23,3 +23,8 @@
 "GOTO GROUND FLOOR","Go to the exit",,"Dirigirse a la salida",,,,,,,,,,,,,,,,,,,,,,,,,,
 "HARMLESS ROBOT","Robot without battery, harmless robot",,"Robot sin batería, robot inofensivo",,,,,,,,,,,,,,,,,,,,,,,,,,
 "NEVER GO BACK","Never go back",,"Nunca vuelvas hacia atrás",,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"ERRORS","Errors",,"Errores",,,,,,,,,,,,,,,,,,,,,,,,,,
+"ERROR ANOMALY ON","Robot with anomaly was on",,"Un robot anomaló estaba encendido",,,,,,,,,,,,,,,,,,,,,,,,,,
+"ERROR FULL BATTERY","A Robot had full battery",,"Un robot tenía la batería cargada",,,,,,,,,,,,,,,,,,,,,,,,,,
+"NO ERROR","No errors",,"Sin errores",,,,,,,,,,,,,,,,,,,,,,,,,,

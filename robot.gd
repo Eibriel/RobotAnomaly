@@ -14,6 +14,7 @@ signal executive_finished
 @export var hide_base := false
 @export var lock_buttons := false
 @export var battery_charge := 0.0
+@export var looking_player := false
 
 enum STALK {
 	DISABLED,
@@ -87,7 +88,6 @@ var robot_id := 0
 var power_on := true
 var glitch_executed := false
 var glitch_dirty := true
-var looking_player := false
 var pose_dirty := true
 var base_visible := true
 var block_id := 0
