@@ -722,11 +722,17 @@ unique_name_in_owner = true
 [node name="RobotEventVentilation" parent="OfficeNode/EventsNode/EventVentilation" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
 transform = Transform3D(-0.0317246, 0, -0.999497, 0, 1, 0, 0.999497, 0, -0.0317246, 4.21494, 2.71105, -0.0322841)
+looking_player = true
 
 [node name="EventVentilationVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventVentilation"]
 unique_name_in_owner = true
 transform = Transform3D(-0.925355, -0.379101, 7.45058e-08, -0.379101, 0.925355, 4.47035e-08, -8.9407e-08, 7.45058e-09, -1, 4.25185, 3.121, 0)
 gizmo_extents = 0.62
+
+[node name="EventVentilationOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventVentilation"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18783, 3.10718, 0)
+aabb = AABB(-0.0507831, -0.338558, -0.320064, 0.101566, 0.677115, 0.640127)
 
 [node name="EventVentilationAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventVentilation"]
 unique_name_in_owner = true
@@ -751,12 +757,23 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.49465, 1.16887, 24.2526)
 stream = ExtResource("9_i2k0m")
 
+[node name="EventReportOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventReport"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.91825, 1.15024, 24.6481)
+aabb = AABB(-0.300481, -1.12848, -0.320064, 0.600962, 2.25697, 0.640127)
+
 [node name="EventExit" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="EventExitOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventExit"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.792719, 1.15024, -25.648)
+aabb = AABB(-0.220623, -1.12848, -0.234616, 0.441246, 2.25697, 0.469233)
 
 [node name="RobotEventExit" parent="OfficeNode/EventsNode/EventExit" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
 transform = Transform3D(0.99233, 0, -0.123619, 0, 1, 0, 0.123619, 0, 0.99233, 1.26611, 0.00749612, -25.7459)
 is_event = true
+looking_player = true
 
 [node name="EventExitVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventExit"]
 unique_name_in_owner = true
@@ -770,10 +787,16 @@ stream = ExtResource("9_i2k0m")
 
 [node name="EventCeiling" type="Node3D" parent="OfficeNode/EventsNode"]
 
+[node name="EventCeilingOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventCeiling"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75887, 2.92723, 24.5458)
+aabb = AABB(-0.485565, -0.0151155, -0.451106, 0.971129, 1.12667, 0.902212)
+
 [node name="RobotEventCeiling" parent="OfficeNode/EventsNode/EventCeiling" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
 transform = Transform3D(-0.678365, 0, -0.734725, 0, 1, 0, 0.734725, 0, -0.678365, 3.51562, 3.38963, 24.3181)
 is_event = true
+looking_player = true
 
 [node name="EventCeilingVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventCeiling"]
 unique_name_in_owner = true
@@ -870,8 +893,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.99921, 0.00988079, -13.836
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.83996, 19.5477)
 texture = ExtResource("43_s1vco")
 size = Vector2(1.77, 1)
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="office_tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -984,8 +1005,6 @@ transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 
 texture = ExtResource("27_e1v60")
 size = Vector2(1.5, 1)
 banner_scale = 2.0
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1057,8 +1076,6 @@ transform = Transform3D(1.30197e-07, -0.119357, 0.992851, 1.56518e-08, 0.992851,
 texture = ExtResource("40_e1v60")
 size = Vector2(0.864, 1)
 banner_scale = 1.5
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1172,8 +1189,6 @@ visible = false
 texture = ExtResource("44_tjsd2")
 size = Vector2(1, 0.6)
 banner_scale = 3.0
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="RobotPictureFrame2" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
 unique_name_in_owner = true
@@ -1182,8 +1197,6 @@ visible = false
 texture = ExtResource("45_5p1dh")
 size = Vector2(1, 0.7)
 banner_scale = 3.0
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="RobotPictureFrame3" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
 unique_name_in_owner = true
@@ -1192,8 +1205,6 @@ visible = false
 texture = ExtResource("46_foy6r")
 size = Vector2(0.65, 1)
 banner_scale = 2.5
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="RobotPictureFrame4" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("41_60t3g")]
 unique_name_in_owner = true
@@ -1201,8 +1212,6 @@ transform = Transform3D(-4.37114e-08, 0.107999, -0.994151, 0, 0.994151, 0.107999
 texture = ExtResource("47_y1lda")
 size = Vector2(1, 0.7)
 banner_scale = 2.5
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="office_lab" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1282,8 +1291,6 @@ transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 
 texture = ExtResource("25_telh7")
 size = Vector2(1, 1.77)
 banner_scale = 0.35
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1434,7 +1441,6 @@ transform = Transform3D(-0.929873, -0.367881, -1.60806e-08, 1.43085e-15, -4.3711
 texture = ExtResource("40_e1v60")
 size = Vector2(0.86, 1)
 broken = true
-broken_scale = 1.0
 broken_offset = Vector2(0.575, 0.677)
 
 [node name="PictureFrame7" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("41_60t3g")]
@@ -1871,8 +1877,6 @@ transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 
 texture = ExtResource("42_td0b0")
 size = Vector2(1.77, 1)
 banner_scale = 0.6
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -2019,8 +2023,6 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.32911, 1.73776, -24.9906)
 texture = ExtResource("73_o1ods")
 size = Vector2(2, 1.8)
-broken_scale = 1.0
-broken_offset = Vector2(1, 1)
 
 [node name="TasksLabel2" type="Label3D" parent="OfficeNode/PictureFrame6"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0213361, 0.796836, 0.00396538)

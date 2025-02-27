@@ -93,6 +93,7 @@ var base_visible := true
 var block_id := 0
 var shutdown_time := 1.0
 var recharge_cooldown := 0.0
+var neck_rotation_y := 0.0
 
 var snap_countdown := 0.0
 var snap_rate := 2.0
@@ -119,6 +120,7 @@ func _ready() -> void:
 	%robotObject.get_node("Armature/Skeleton3D/Battery_Attachment/Battery_Attachment").visible = false
 	%robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment/ShutDown_Attachment").visible = false
 	%robotObject.get_node("Armature/Skeleton3D/Camera_Attachment/Camera_Attachment").visible = false
+	%robotObject.get_node("Armature/Skeleton3D/Head_Attachment/Head_Attachment").visible = false
 	#if OS.has_feature("debug"):
 	#	$GlitchLabel.visible = false
 	robj["octopus"] = %robotObject.get_node("Armature/Skeleton3D/BackTentacles")
@@ -653,7 +655,27 @@ func disable_colliders() -> void:
 	for c:CollisionShape3D in %RobotStaticBody.get_children():
 		c.disabled = true
 
-func follow_head(_delta: float) -> void:
+func follow_head(delta: float) -> void:
+	if not looking_player or not power_on:
+		skeleton.clear_bones_global_pose_override()
+		return
+	var head_attachment: Node3D= %robotObject.get_node("Armature/Skeleton3D/Head_Attachment/Head_Attachment")
+	var head_id := skeleton.find_bone("head")
+	var player_eyes := Global.player.global_position + Vector3(0, 1.7, 0)
+	head_attachment.look_at(player_eyes, Vector3.UP, true)
+	var neck_rotation: Vector3 = head_attachment.rotation_degrees
+	neck_rotation.x = clamp(neck_rotation.x, -60, 80)
+	neck_rotation.y = clamp(neck_rotation.y, -90, 90)
+	
+	neck_rotation_y = lerp_angle(neck_rotation_y, deg_to_rad(neck_rotation.y), 2 * delta)
+	
+	var new_rotation := Quaternion.from_euler(
+		Vector3(deg_to_rad(neck_rotation.x), neck_rotation_y, 0))
+	skeleton.set_bone_pose_rotation(head_id, new_rotation)
+	
+
+func follow_head_old(_delta: float) -> void:
+	# TODO use LookAtBone3D
 	var head_id := skeleton.find_bone("head")
 	if not looking_player or not power_on:
 		skeleton.clear_bones_global_pose_override()
@@ -680,7 +702,6 @@ func follow_head(_delta: float) -> void:
 	#print(local_angle)
 	if local_angle > 0.1 and local_angle < 3.0:
 		bone_look_at(head_id, pos, skeleton.to_local(player_eyes))
-
 
 func bone_look_at(bone_index:int, bone_global_position:Vector3, target_global_position:Vector3, lerp_amount:float = 1.0):
 	var bone_transform = skeleton.get_bone_global_pose_no_override(bone_index)

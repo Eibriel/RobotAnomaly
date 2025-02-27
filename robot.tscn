@@ -132,6 +132,10 @@ shape = SubResource("CylinderShape3D_yyxj1")
 [node name="RobotBody" type="Node3D" parent="."]
 unique_name_in_owner = true
 
+[node name="DummyNeck" type="Marker3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11764, 0)
+
 [node name="GlitchLabel" type="Label3D" parent="RobotBody"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.23541, -0.0175738)
@@ -262,7 +266,7 @@ size = Vector3(0.113525, 0.105713, 0.0257568)
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.821723, -0.0395755)
-aabb = AABB(-0.348002, -0.811781, -0.223604, 0.696005, 2.19778, 0.447208)
+aabb = AABB(-0.348002, -0.865892, -0.223604, 0.696005, 2.306, 0.447208)
 
 [node name="VisibleOnScreenNotifier3D2" type="VisibleOnScreenNotifier3D" parent="RobotBody"]
 unique_name_in_owner = true

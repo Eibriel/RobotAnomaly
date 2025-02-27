@@ -24,3 +24,13 @@ func get_robot_instance() -> Robot:
 		return robot_stack.pop_front()
 	else:
 		return ROBOT.instantiate()
+
+func is_nomber_between(number: float, min: float, max: float) -> bool:
+	if min > max:
+		var tmp := min
+		min = max
+		max = tmp
+	if number > min and number < max:
+		return true
+	else:
+		return false
