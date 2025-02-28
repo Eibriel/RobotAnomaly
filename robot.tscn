@@ -34,6 +34,18 @@ height = 0.5
 height = 1.64136
 radius = 0.414551
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkaji"]
+transparency = 1
+shading_mode = 0
+specular_mode = 2
+disable_ambient_light = true
+disable_fog = true
+albedo_texture = ExtResource("5_7xofo")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ru5oq"]
+material = SubResource("StandardMaterial3D_bkaji")
+size = Vector2(1, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjjcf"]
 albedo_color = Color(1, 0, 0, 1)
 
@@ -46,18 +58,6 @@ size = Vector3(0.366211, 0.260818, 0.00749184)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4sq5"]
 radius = 0.378354
 height = 2.27088
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkaji"]
-transparency = 1
-shading_mode = 0
-specular_mode = 2
-disable_ambient_light = true
-disable_fog = true
-albedo_texture = ExtResource("5_7xofo")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_ru5oq"]
-material = SubResource("StandardMaterial3D_bkaji")
-size = Vector2(1, 1)
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_603yn"]
 clip_count = 2
@@ -132,9 +132,15 @@ shape = SubResource("CylinderShape3D_yyxj1")
 [node name="RobotBody" type="Node3D" parent="."]
 unique_name_in_owner = true
 
-[node name="DummyNeck" type="Marker3D" parent="RobotBody"]
+[node name="robotObject" parent="RobotBody" instance=ExtResource("2_kdi4s")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.11764, 0)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
+
+[node name="RobotShadowPlane" type="MeshInstance3D" parent="RobotBody/robotObject"]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.00955091, 0.0097605)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_ru5oq")
+skeleton = NodePath("../../..")
 
 [node name="GlitchLabel" type="Label3D" parent="RobotBody"]
 unique_name_in_owner = true
@@ -293,16 +299,6 @@ distance_fade_enabled = true
 distance_fade_begin = 15.0
 omni_range = 0.573438
 omni_attenuation = 2.157
-
-[node name="robotObject" parent="RobotBody" instance=ExtResource("2_kdi4s")]
-unique_name_in_owner = true
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
-
-[node name="RobotShadowPlane" type="MeshInstance3D" parent="RobotBody/robotObject"]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.00955091, 0.0097605)
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_ru5oq")
-skeleton = NodePath("../../..")
 
 [node name="RobotAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
 unique_name_in_owner = true

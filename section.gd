@@ -187,7 +187,7 @@ func start_day() -> void:
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
 			r.battery_charge = 0
-			if randf() < 0.09 and anomaly != Robot.GLITCHES.LIGHTS_OFF:
+			if randf() < 0.09:# and anomaly != Robot.GLITCHES.LIGHTS_OFF:
 				r.battery_charge = get_random_battery_value()
 			robots.append(r)
 			%Robots.add_child.call_deferred(r)
@@ -210,19 +210,14 @@ func start_day() -> void:
 	var sr := robots.pick_random() as Robot
 	var no_anomaly: Array[int] = [
 		Robot.GLITCHES.EXTRA_ROBOTS,
-		Robot.GLITCHES.LIGHTS_OFF,
+		#Robot.GLITCHES.LIGHTS_OFF,
 		Robot.GLITCHES.BLOCKING_PATH
 	]
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
 		sr.battery_charge = get_random_battery_value()
-		
 	
-	if anomaly == Robot.GLITCHES.LIGHTS_OFF:
-		# Create countdown
-		# If the level is not completed before countdown
-		# game over
-		pass
+	
 	if anomaly == Robot.GLITCHES.DOOR_OPEN:
 		request_environment_change.emit(Section.ENV_CHANGE.OPEN_DOOR)
 	if anomaly == Robot.GLITCHES.GRABS_BATTERY:
@@ -269,10 +264,10 @@ func _process(delta: float) -> void:
 		glitch_time += delta
 	if time > 0.5:
 		activate()
-	if scenario == Robot.GLITCHES.LIGHTS_OFF and glitch_time > 10:
-		glitch_failed.emit()
-	if scenario == Robot.GLITCHES.LIGHTS_OFF and Global.is_player_in_room:
-		Global.player.rumble(0.1)
+	#if scenario == Robot.GLITCHES.LIGHTS_OFF and glitch_time > 10:
+		#glitch_failed.emit()
+	#if scenario == Robot.GLITCHES.LIGHTS_OFF and Global.is_player_in_room:
+		#Global.player.rumble(0.1)
 	#%LevelCountLabel.text = "%d" % level
 	
 	#Check if day is complete

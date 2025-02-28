@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2vbdqvccwtcs"]
+
+[ext_resource type="Script" uid="uid://btr20e3no3eyu" path="res://light_switch.gd" id="1_dv7nh"]
+[ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="1_nw67r"]
+[ext_resource type="AudioStream" uid="uid://ceav4kikp8jb6" path="res://sounds/light_switch_off.ogg" id="3_5deac"]
+[ext_resource type="AudioStream" uid="uid://def0w4v48p5ln" path="res://sounds/light_switch_on.ogg" id="3_o3261"]
+[ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="3_v46xo"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nw67r"]
+size = Vector3(0.263428, 0.363281, 0.00747681)
+
+[node name="LightSwitch" type="Node3D"]
+script = ExtResource("1_dv7nh")
+
+[node name="LightSwitchNew" parent="." instance=ExtResource("1_nw67r")]
+
+[node name="LightSwitchOld" parent="." instance=ExtResource("3_v46xo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.000709355)
+
+[node name="Area3D" type="StaticBody3D" parent="."]
+collision_layer = 2
+metadata/is_lightswitch = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00317571)
+shape = SubResource("BoxShape3D_nw67r")
+
+[node name="SwitchOnAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_o3261")
+
+[node name="SwitchOffAudio" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_5deac")
+bus = &"Environment"

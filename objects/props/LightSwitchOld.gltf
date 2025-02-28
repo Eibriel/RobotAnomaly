@@ -9,14 +9,24 @@
 		{
 			"name":"LightSwitchOld",
 			"nodes":[
-				0
+				0,
+				1
 			]
 		}
 	],
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"LightSwitchOld",
+			"name":"LightSwitchOld_Down",
+			"scale":[
+				1.5,
+				1.5,
+				1.5
+			]
+		},
+		{
+			"mesh":1,
+			"name":"LightSwitchOld_Up",
 			"scale":[
 				1.5,
 				1.5,
@@ -51,6 +61,20 @@
 					"material":0
 				}
 			]
+		},
+		{
+			"name":"Object_1.007",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":4,
+						"NORMAL":5,
+						"TEXCOORD_0":6
+					},
+					"indices":3,
+					"material":0
+				}
+			]
 		}
 	],
 	"textures":[
@@ -72,14 +96,14 @@
 			"componentType":5126,
 			"count":230,
 			"max":[
-				0.05206737667322159,
-				0.09043261408805847,
-				0.02273029088973999
+				0.05093010514974594,
+				0.08567515015602112,
+				0.022748028859496117
 			],
 			"min":[
-				-0.04978211969137192,
-				-0.07827089726924896,
-				9.061675518751144e-05
+				-0.050919391214847565,
+				-0.08302836120128632,
+				0.00010835472494363785
 			],
 			"type":"VEC3"
 		},
@@ -100,6 +124,34 @@
 			"componentType":5123,
 			"count":936,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":230,
+			"max":[
+				0.05093010514974594,
+				0.08567515015602112,
+				0.022748034447431564
+			],
+			"min":[
+				-0.050919391214847565,
+				-0.08302836120128632,
+				0.00010835472494363785
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":5,
+			"componentType":5126,
+			"count":230,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":230,
+			"type":"VEC2"
 		}
 	],
 	"bufferViews":[
@@ -126,6 +178,24 @@
 			"byteLength":1872,
 			"byteOffset":7360,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":2760,
+			"byteOffset":9232,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":2760,
+			"byteOffset":11992,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1840,
+			"byteOffset":14752,
+			"target":34962
 		}
 	],
 	"samplers":[
@@ -136,7 +206,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":9232,
+			"byteLength":16592,
 			"uri":"LightSwitchOld.bin"
 		}
 	]

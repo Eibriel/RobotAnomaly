@@ -170,6 +170,12 @@ Some assets may not be in the game
 
 - Dark Cave Background 2.wav by SolarPhasing -- https://freesound.org/s/490585/ -- License: Attribution 4.0
 
+- Light switch on off.wav by greatsoundstube -- https://freesound.org/s/631534/ -- License: Creative Commons 0
+
+- Horror Stinger 14_Cruel Fate.wav by Ulrich_Wehner -- https://freesound.org/s/638397/ -- License: Attribution 4.0
+
+- BS _Swarm of roaches.wav by szczur_banshee -- https://freesound.org/s/380769/ -- License: Creative Commons 0
+
 
 ### Fonts
 - Fira Sans - https://github.com/bBoxType/FiraSans

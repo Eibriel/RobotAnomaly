@@ -15,6 +15,7 @@ signal executive_finished
 @export var lock_buttons := false
 @export var battery_charge := 0.0
 @export var looking_player := false
+@export var cast_shadows := true
 
 enum STALK {
 	DISABLED,
@@ -68,7 +69,7 @@ enum GLITCHES {
 	WALKS_NOT_LOOKING,
 	DOOR_OPEN,
 	COUNTDOWN, #DROPS FROM CEILING
-	LIGHTS_OFF
+	#LIGHTS_OFF
 }
 
 enum POSES {
@@ -160,6 +161,10 @@ func _ready() -> void:
 	anim.get_animation("Rocking").loop_mode = Animation.LOOP_LINEAR
 	#anim.get_animation("Timer").loop_mode = Animation.LOOP_LINEAR
 	#anim.play("TouchingFace")
+	## NOTE this allows the head to point at player while
+	## an animation is running, don't know why
+	anim.process_thread_group = Node.PROCESS_THREAD_GROUP_MAIN_THREAD
+	anim.process_thread_messages = true
 	
 	var motor_sound_delay := create_tween()
 	motor_sound_delay.tween_interval(randf()*2)
@@ -169,6 +174,15 @@ func _ready() -> void:
 	var sit_anim := ROBOT_SITTINGBODY.get_animation("SittingBody")
 	var global_library = anim.get_animation_library("")
 	global_library.add_animation("SittingBody", sit_anim)
+	
+	if not cast_shadows:
+		recursive_cast_shadows_off(%robotObject)
+
+func recursive_cast_shadows_off(node) -> void:
+	for c in node.get_children():
+		if c is MeshInstance3D:
+			c.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		recursive_cast_shadows_off(c)
 
 func rotate_base(delta: float, reverse:=false) -> void:
 	if not base_visible: return
@@ -190,6 +204,9 @@ func robot_position(pos: Vector3) -> void:
 	%RobotBody.position = pos
 	%RobotBase.position = pos
 	update_base()
+
+func first_frame_animation(anim_name: String) -> void:
+	anim.play(anim_name, -1, 0)
 
 func play_animation(anim_name: String) -> void:
 	anim.play(anim_name)
@@ -283,6 +300,9 @@ func _process(delta: float) -> void:
 	
 	if hide_base:
 		remove_base()
+	
+	# NOTE stupid workaround to wrong AABB
+	#%robotObject.position.y = randf() * 0.01
 	
 	update_snap(delta)
 	follow_head(delta)

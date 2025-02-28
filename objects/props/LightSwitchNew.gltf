@@ -9,14 +9,19 @@
 		{
 			"name":"LightSwitchNew",
 			"nodes":[
-				0
+				0,
+				1
 			]
 		}
 	],
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"Object_3"
+			"name":"SwitchDown"
+		},
+		{
+			"mesh":1,
+			"name":"SwitchUp"
 		}
 	],
 	"materials":[
@@ -46,6 +51,20 @@
 					"material":0
 				}
 			]
+		},
+		{
+			"name":"Object_0.010",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":4,
+						"NORMAL":5,
+						"TEXCOORD_0":6
+					},
+					"indices":3,
+					"material":0
+				}
+			]
 		}
 	],
 	"textures":[
@@ -67,14 +86,14 @@
 			"componentType":5126,
 			"count":230,
 			"max":[
-				0.07467599213123322,
-				0.11203859746456146,
-				0.034203097224235535
+				0.07639516144990921,
+				0.12850765883922577,
+				0.033248573541641235
 			],
 			"min":[
-				-0.07809823751449585,
-				-0.14101660251617432,
-				0.0001475634053349495
+				-0.07637906819581985,
+				-0.12454754114151001,
+				-0.0008069593459367752
 			],
 			"type":"VEC3"
 		},
@@ -95,6 +114,34 @@
 			"componentType":5123,
 			"count":936,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":230,
+			"max":[
+				0.07639516144990921,
+				0.12850765883922577,
+				0.0332086943089962
+			],
+			"min":[
+				-0.07637906819581985,
+				-0.12454754114151001,
+				-0.0008069593459367752
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":5,
+			"componentType":5126,
+			"count":230,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":230,
+			"type":"VEC2"
 		}
 	],
 	"bufferViews":[
@@ -121,6 +168,24 @@
 			"byteLength":1872,
 			"byteOffset":7360,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":2760,
+			"byteOffset":9232,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":2760,
+			"byteOffset":11992,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1840,
+			"byteOffset":14752,
+			"target":34962
 		}
 	],
 	"samplers":[
@@ -131,7 +196,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":9232,
+			"byteLength":16592,
 			"uri":"LightSwitchNew.bin"
 		}
 	]

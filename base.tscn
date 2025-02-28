@@ -1,4 +1,4 @@
-[gd_scene load_steps=149 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=150 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -90,16 +90,17 @@
 [ext_resource type="PackedScene" uid="uid://cm85x7lj71un7" path="res://objects/props/VentilationGrillSmall.gltf" id="73_o06hd"]
 [ext_resource type="PackedScene" uid="uid://3xecwc0t308i" path="res://objects/props/RobotsLyingDown.gltf" id="74_60t3g"]
 [ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="74_k62q3"]
-[ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="74_nigfh"]
 [ext_resource type="PackedScene" uid="uid://q4npa7bdvd2r" path="res://physics_balloon.tscn" id="74_o1ods"]
 [ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="74_vgrfu"]
-[ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="75_m5bov"]
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
 [ext_resource type="PackedScene" uid="uid://c7a6rchk8n4i7" path="res://stairs.tscn" id="84_i2k0m"]
 [ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
+[ext_resource type="PackedScene" uid="uid://d2vbdqvccwtcs" path="res://light_switch.tscn" id="87_3so84"]
 [ext_resource type="PackedScene" uid="uid://dss6dnx2wu6rd" path="res://objects/props/Pillow.gltf" id="91_vgrfu"]
 [ext_resource type="AudioStream" uid="uid://dirslqdal0cqc" path="res://sounds/creepy_music.ogg" id="93_s1vco"]
 [ext_resource type="PackedScene" uid="uid://djxmebq1ftsmu" path="res://objects/props/GlassDoor.gltf" id="95_iw8h4"]
+[ext_resource type="AudioStream" uid="uid://cly68phk1fb4h" path="res://sounds/stinger.ogg" id="101_3so84"]
+[ext_resource type="PackedScene" uid="uid://dc70y7uw3de26" path="res://objects/props/CSPRoboticsLogo.gltf" id="102_ksmmt"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -354,6 +355,7 @@ transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 
 light_energy = 0.1
 shadow_enabled = true
 shadow_blur = 2.0
+directional_shadow_mode = 1
 directional_shadow_max_distance = 30.0
 
 [node name="Control" type="Control" parent="."]
@@ -716,6 +718,9 @@ font_size = 40
 unique_name_in_owner = true
 
 [node name="EventsNode" type="Node3D" parent="OfficeNode"]
+process_thread_group = 1
+process_thread_group_order = 0
+process_thread_messages = 0
 
 [node name="EventVentilation" type="Node3D" parent="OfficeNode/EventsNode"]
 
@@ -723,10 +728,16 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 transform = Transform3D(-0.0317246, 0, -0.999497, 0, 1, 0, 0.999497, 0, -0.0317246, 4.21494, 2.71105, -0.0322841)
 looking_player = true
+cast_shadows = false
 
 [node name="EventVentilationVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventVentilation"]
 unique_name_in_owner = true
 transform = Transform3D(-0.925355, -0.379101, 7.45058e-08, -0.379101, 0.925355, 4.47035e-08, -8.9407e-08, 7.45058e-09, -1, 4.25185, 3.121, 0)
+gizmo_extents = 0.62
+
+[node name="EventVentilationAngle" type="Marker3D" parent="OfficeNode/EventsNode/EventVentilation"]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.252, 0.568789, 0)
 gizmo_extents = 0.62
 
 [node name="EventVentilationOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventVentilation"]
@@ -743,24 +754,25 @@ stream = ExtResource("9_i2k0m")
 
 [node name="RobotEventReport" parent="OfficeNode/EventsNode/EventReport" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
-transform = Transform3D(-0.730854, 0, 0.682534, 0, 1, 0, -0.682534, 0, -0.730854, -3.90532, 0.00749612, 24.6837)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.78664, 0.463978, 22.091)
 is_event = true
 looking_player = true
+cast_shadows = false
 
 [node name="EventReportVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventReport"]
 unique_name_in_owner = true
-transform = Transform3D(0.841614, 0, 0.540079, 0, 1, 0, -0.540079, 0, 0.841614, -3.94995, 1.65858, 24.7741)
+transform = Transform3D(0.651145, 0, 0.758953, 0, 1, 0, -0.758953, 0, 0.651145, -3.94995, 1.54618, 22.1065)
 gizmo_extents = 0.62
 
 [node name="EventReportAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventReport"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.49465, 1.16887, 24.2526)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.64132, 1.42783, 22.0251)
 stream = ExtResource("9_i2k0m")
 
 [node name="EventReportOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventReport"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.91825, 1.15024, 24.6481)
-aabb = AABB(-0.300481, -1.12848, -0.320064, 0.600962, 2.25697, 0.640127)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.66251, 1.6424, 21.9272)
+aabb = AABB(-0.428739, -0.363674, -0.136696, 0.857477, 0.727358, 0.273391)
 
 [node name="EventExit" type="Node3D" parent="OfficeNode/EventsNode"]
 
@@ -774,6 +786,7 @@ unique_name_in_owner = true
 transform = Transform3D(0.99233, 0, -0.123619, 0, 1, 0, 0.123619, 0, 0.99233, 1.26611, 0.00749612, -25.7459)
 is_event = true
 looking_player = true
+cast_shadows = false
 
 [node name="EventExitVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventExit"]
 unique_name_in_owner = true
@@ -789,23 +802,24 @@ stream = ExtResource("9_i2k0m")
 
 [node name="EventCeilingOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventCeiling"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.75887, 2.92723, 24.5458)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.75104, 2.92723, -24.4342)
 aabb = AABB(-0.485565, -0.0151155, -0.451106, 0.971129, 1.12667, 0.902212)
 
 [node name="RobotEventCeiling" parent="OfficeNode/EventsNode/EventCeiling" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
-transform = Transform3D(-0.678365, 0, -0.734725, 0, 1, 0, 0.734725, 0, -0.678365, 3.51562, 3.38963, 24.3181)
+transform = Transform3D(0.743868, 0, 0.668326, 0, 1, 0, -0.668326, 0, 0.743868, -3.58417, 3.20597, -24.2294)
 is_event = true
 looking_player = true
+cast_shadows = false
 
 [node name="EventCeilingVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventCeiling"]
 unique_name_in_owner = true
-transform = Transform3D(-0.703331, -0.399991, 0.58765, -0.489895, 0.871753, 0.00703738, -0.515101, -0.282937, -0.809084, 4.14114, 3.6699, 24.6924)
+transform = Transform3D(-0.703331, -0.399991, 0.58765, -0.489895, 0.871753, 0.00703738, -0.515101, -0.282937, -0.809084, -3.36877, 3.6699, -24.2876)
 gizmo_extents = 0.62
 
 [node name="EventCeilingAudio" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventCeiling"]
 unique_name_in_owner = true
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 3.68501, 3.37846, 24.3526)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -3.8249, 3.37846, -24.6274)
 stream = ExtResource("9_i2k0m")
 
 [node name="DressingNode" type="Node3D" parent="OfficeNode"]
@@ -1079,6 +1093,7 @@ banner_scale = 1.5
 
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="LobbyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lobby"]
 directional = true
@@ -1467,7 +1482,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.003, -25.218)
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
 directional = true
@@ -1618,9 +1632,6 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475
 
 [node name="AnomalyDisplayElement15" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.12372)
-
-[node name="AnomalyDisplayElement16" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
-transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.16199)
 
 [node name="AnomalyDisplayElement17" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.52274)
@@ -2193,6 +2204,9 @@ font_size = 100
 outline_size = 5
 horizontal_alignment = 2
 
+[node name="CSPRoboticsLogo" parent="OfficeNode" instance=ExtResource("102_ksmmt")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 1.7535, 2.02197, 24.9882)
+
 [node name="LevelReport" parent="OfficeNode" instance=ExtResource("22_1uwki")]
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1.74804, 1.54811, 24.9728)
@@ -2211,16 +2225,18 @@ unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -8.52317, 0, 0.211295)
 multimesh = SubResource("MultiMesh_p3pq8")
 
-[node name="LightSwitchOld2" parent="OfficeNode" instance=ExtResource("74_nigfh")]
+[node name="LightSwitch4" parent="OfficeNode" instance=ExtResource("87_3so84")]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -4.25175, 1.25307, 1.06682)
+skin = 0
 
-[node name="LightSwitchNew" parent="OfficeNode" instance=ExtResource("75_m5bov")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, 21)
+[node name="LightSwitch" parent="OfficeNode" instance=ExtResource("87_3so84")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, 8)
 
-[node name="LightSwitchNew2" parent="OfficeNode" instance=ExtResource("75_m5bov")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, -21)
+[node name="LightSwitch2" parent="OfficeNode" instance=ExtResource("87_3so84")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, -8)
 
-[node name="LightSwitchNew3" parent="OfficeNode" instance=ExtResource("75_m5bov")]
+[node name="LightSwitch3" parent="OfficeNode" instance=ExtResource("87_3so84")]
+unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, 0)
 
 [node name="clock2" parent="OfficeNode" instance=ExtResource("21_yc71e")]
@@ -2415,6 +2431,11 @@ volume_db = -10.0
 stream = ExtResource("93_s1vco")
 volume_db = -20.0
 autoplay = true
+bus = &"Music"
+
+[node name="Stinger" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("101_3so84")
+volume_db = -10.0
 bus = &"Music"
 
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]

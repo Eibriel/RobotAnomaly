@@ -47,7 +47,7 @@ const anomaly_name = {
 	Robot.GLITCHES.WALKS_NOT_LOOKING: "Play with me",
 	Robot.GLITCHES.DOOR_OPEN: "Pst!",
 	Robot.GLITCHES.COUNTDOWN: "Timing", #DROPS FROM CEILING
-	Robot.GLITCHES.LIGHTS_OFF: "Nyctophobia"
+	#Robot.GLITCHES.LIGHTS_OFF: "Nyctophobia"
 }
 
 func set_anomaly(anomaly: Robot.GLITCHES) -> void:
