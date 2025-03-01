@@ -176,6 +176,11 @@ Some assets may not be in the game
 
 - BS _Swarm of roaches.wav by szczur_banshee -- https://freesound.org/s/380769/ -- License: Creative Commons 0
 
+- Breaking bones 1 by studiobonk -- https://freesound.org/s/649115/ -- License: Attribution 4.0
+
+- Thud / Falling on wooden floor / Snapping, breaking neck by Breviceps -- https://freesound.org/s/447922/ -- License: Creative Commons 0
+
+- Necksnap_build.wav by danielrutterfilms -- https://freesound.org/s/134025/ -- License: Creative Commons 0
 
 ### Fonts
 - Fira Sans - https://github.com/bBoxType/FiraSans

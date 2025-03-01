@@ -4,12 +4,16 @@
 		"generator":"Khronos glTF Blender I/O v4.3.47",
 		"version":"2.0"
 	},
+	"extensionsUsed":[
+		"KHR_materials_specular"
+	],
 	"scene":0,
 	"scenes":[
 		{
 			"name":"WallFan",
 			"nodes":[
-				0
+				0,
+				1
 			]
 		}
 	],
@@ -17,6 +21,15 @@
 		{
 			"mesh":0,
 			"name":"WallFan"
+		},
+		{
+			"mesh":1,
+			"name":"WallFan_AO",
+			"translation":[
+				0,
+				0,
+				0.0032204510644078255
+			]
 		}
 	],
 	"materials":[
@@ -33,6 +46,22 @@
 				"metallicRoughnessTexture":{
 					"index":2
 				}
+			}
+		},
+		{
+			"alphaMode":"BLEND",
+			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
+			},
+			"name":"WallFan_WallAO",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":3
+				},
+				"metallicFactor":0
 			}
 		}
 	],
@@ -53,6 +82,20 @@
 					"material":0
 				}
 			]
+		},
+		{
+			"name":"Plane.005",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":7,
+						"NORMAL":8,
+						"TEXCOORD_0":9
+					},
+					"indices":10,
+					"material":1
+				}
+			]
 		}
 	],
 	"textures":[
@@ -67,6 +110,10 @@
 		{
 			"sampler":0,
 			"source":2
+		},
+		{
+			"sampler":0,
+			"source":3
 		}
 	],
 	"images":[
@@ -84,6 +131,11 @@
 			"mimeType":"image/png",
 			"name":"WallFan_MR",
 			"uri":"props_textures/WallFan_MR.png"
+		},
+		{
+			"mimeType":"image/png",
+			"name":"WallFan_WallAO",
+			"uri":"props_textures/WallFan_WallAO.png"
 		}
 	],
 	"accessors":[
@@ -138,6 +190,40 @@
 			"componentType":5123,
 			"count":57426,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":7,
+			"componentType":5126,
+			"count":4,
+			"max":[
+				0.8959842920303345,
+				0.895984411239624,
+				0
+			],
+			"min":[
+				-0.8959842920303345,
+				-0.895984411239624,
+				0
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":8,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":9,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":10,
+			"componentType":5123,
+			"count":6,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -182,6 +268,30 @@
 			"byteLength":114852,
 			"byteOffset":834624,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":949476,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":949524,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":32,
+			"byteOffset":949572,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":12,
+			"byteOffset":949604,
+			"target":34963
 		}
 	],
 	"samplers":[
@@ -192,7 +302,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":949476,
+			"byteLength":949616,
 			"uri":"WallFan.bin"
 		}
 	]

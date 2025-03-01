@@ -20,6 +20,8 @@ var time := 0.0
 var glitch_time := 0.0
 var anomaly: Robot.GLITCHES
 var report: Array
+var robots_to_add: Array[Robot]
+var add_robot_time := 0.0
 
 const RESET_BUTTON = preload("res://reset_button.tscn")
 #const ROBOT = preload("res://robot.tscn")
@@ -181,6 +183,7 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		y_count += 1
 	
+	robots_to_add.resize(0)
 	for rx in 2:
 		for ry in y_count:
 			var r := Global.get_robot_instance()
@@ -190,7 +193,9 @@ func start_day() -> void:
 			if randf() < 0.09:# and anomaly != Robot.GLITCHES.LIGHTS_OFF:
 				r.battery_charge = get_random_battery_value()
 			robots.append(r)
-			%Robots.add_child.call_deferred(r)
+			#%Robots.add_child.call_deferred(r)
+			#%Robots.add_child(r)
+			robots_to_add.append(r)
 			var dist := DIST_X + (ry * DIST_X_INCREASE)
 			#r.position.x = (rx * dist) - (dist * 0.5)
 			#r.position.y = 0.4
@@ -260,10 +265,18 @@ func start_day() -> void:
 
 func _process(delta: float) -> void:
 	time += delta
+	add_robot_time += delta
 	if Global.is_player_in_room:
 		glitch_time += delta
 	if time > 0.5:
 		activate()
+		
+	if robots_to_add.size() > 0 and add_robot_time > 0.02:
+		var r:Robot = robots_to_add.pop_front()
+		%Robots.add_child(r)
+		print("Add child robot")
+		add_robot_time = 0.0
+		
 	#if scenario == Robot.GLITCHES.LIGHTS_OFF and glitch_time > 10:
 		#glitch_failed.emit()
 	#if scenario == Robot.GLITCHES.LIGHTS_OFF and Global.is_player_in_room:

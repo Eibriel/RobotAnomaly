@@ -81,3 +81,10 @@ lights_and_shadows/positional_shadow/atlas_16_bits=false
 anti_aliasing/quality/msaa_3d=1
 limits/opengl/max_renderable_lights=64
 limits/opengl/max_lights_per_object=16
+
+[shader_globals]
+
+blood_vignete={
+"type": "float",
+"value": 0.0
+}

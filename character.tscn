@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://coeaj8kxwl40n"]
+[gd_scene load_steps=11 format=3 uid="uid://coeaj8kxwl40n"]
 
 [ext_resource type="Script" uid="uid://dt72ltgn4jxc1" path="res://player.gd" id="1_nh0s5"]
 [ext_resource type="AudioStream" uid="uid://hqkyh1cub5m3" path="res://sounds/steps.mp3" id="2_pjt0s"]
 [ext_resource type="AudioStream" uid="uid://b6mrxjvkccgjg" path="res://sounds/stair_01.mp3" id="3_wa5vi"]
 [ext_resource type="AudioStream" uid="uid://cjbghldrpbny0" path="res://sounds/stair_end.mp3" id="4_wfnr8"]
 [ext_resource type="AudioStream" uid="uid://bmo4suh4msaig" path="res://sounds/stair_end_short.mp3" id="5_px5sl"]
+[ext_resource type="AudioStream" uid="uid://b2tkdrrbmbf4i" path="res://sounds/rumble.ogg" id="6_0qfo5"]
+[ext_resource type="AudioStream" uid="uid://d4jjgjoe68hd7" path="res://sounds/silence.ogg" id="7_yxww1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tvkt6"]
 
@@ -37,6 +39,30 @@ Vector2i(0, 2): {
 "fade_mode": 3,
 "from_time": 0,
 "to_time": 1
+}
+}
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_0qfo5"]
+clip_count = 2
+clip_0/name = &"Rumble"
+clip_0/stream = ExtResource("6_0qfo5")
+clip_0/auto_advance = 0
+clip_1/name = &"Silence"
+clip_1/stream = ExtResource("7_yxww1")
+clip_1/auto_advance = 0
+initial_clip = 1
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 1.0,
+"fade_mode": 2,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(1, 0): {
+"fade_beats": 1.0,
+"fade_mode": 1,
+"from_time": 0,
+"to_time": 2
 }
 }
 
@@ -78,6 +104,12 @@ bus = &"Player"
 
 [node name="StairAudio" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_px5sl")
+volume_db = -10.0
+autoplay = true
+bus = &"Player"
+
+[node name="RumbleAudio" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_0qfo5")
 volume_db = -10.0
 autoplay = true
 bus = &"Player"

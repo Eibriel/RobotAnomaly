@@ -15,6 +15,8 @@ const ACCEL := 5.0
 
 var look_rot : Vector2
 var rumble_tween: Tween
+var rumble_time := 0.0
+var rumble_pause := 0.0
 var breathing_tween: Tween
 var halt_velocity:= false
 var walking_sound_state: WALKING_SOUND
@@ -109,14 +111,42 @@ func _physics_process(delta: float) -> void:
 	
 	halt_velocity = false
 
+func _process(delta: float) -> void:
+	if rumble_time > 0.0:
+		if rumble_pause > 0.0:
+			rumble_pause -= delta
+		else:
+			rumble_time -= delta
+		if $RumbleAudio["parameters/switch_to_clip"] != "Rumble":
+			$RumbleAudio["parameters/switch_to_clip"] = "Rumble"
+		if not(rumble_tween and rumble_tween.is_running()):
+			rumble_tween = create_tween()
+			rumble_tween.tween_property(%CharacterCamera, "position", Vector3(
+				randf()*0.03,
+				randf()*0.03,
+				randf()*0.03,
+			), 0.02)
+	else:
+		if $RumbleAudio["parameters/switch_to_clip"] != "Silence":
+			$RumbleAudio["parameters/switch_to_clip"] = "Silence"
+			%CharacterCamera.position = Vector3.ZERO
+		
+
 func rumble(pause: float = 0.0) -> void:
+	rumble_pause = pause
+	rumble_time = 0.3
+
+func rumble_old(pause: float = 0.0) -> void:
 	if rumble_tween and rumble_tween.is_running():
 		return
 	if rumble_tween:
 		rumble_tween.stop()
 		#rumble_tween.free() # Can't free a RefCounted object.
+	if not $RumbleAudio.playing:
+		$RumbleAudio.play()
 	rumble_tween = create_tween()
 	rumble_tween.tween_interval(pause)
+	rumble_tween.tween_callback($RumbleAudio.set_stream_paused.bind(false))
 	for _n in 15:
 		rumble_tween.tween_property(%CharacterCamera, "position", Vector3(
 			randf()*0.03,
@@ -124,3 +154,4 @@ func rumble(pause: float = 0.0) -> void:
 			randf()*0.03,
 		), 0.02)
 	rumble_tween.tween_property(%CharacterCamera, "position", Vector3.ZERO, 0.02)
+	rumble_tween.tween_callback($RumbleAudio.set_stream_paused.bind(true))

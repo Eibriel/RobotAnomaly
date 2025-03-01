@@ -25,6 +25,9 @@ func get_robot_instance() -> Robot:
 	else:
 		return ROBOT.instantiate()
 
+func set_blood_vignete(value: float) -> void:
+	RenderingServer.global_shader_parameter_set("blood_vignete", value)
+
 func is_nomber_between(number: float, min: float, max: float) -> bool:
 	if min > max:
 		var tmp := min

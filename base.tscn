@@ -1,17 +1,16 @@
-[gd_scene load_steps=150 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=151 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
-[ext_resource type="LightmapGIData" uid="uid://d06gsukwh0nvk" path="res://lightmaps/executive_office.lmbake" id="3_ipkxx"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
 [ext_resource type="Texture2D" uid="uid://dm5io0xk3hqbv" path="res://textures/cursor.png" id="4_vja7b"]
 [ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
+[ext_resource type="Shader" uid="uid://786770x7836f" path="res://filters/screen_filter.gdshader" id="5_y1lda"]
 [ext_resource type="PackedScene" uid="uid://nxe8rqga76l0" path="res://office_with_collision.tscn" id="6_8uljb"]
 [ext_resource type="AudioStream" uid="uid://di1eg1p80okdk" path="res://sounds/storage_door_open.mp3" id="6_lnhvi"]
 [ext_resource type="AudioStream" uid="uid://cl11hmvraeedy" path="res://sounds/street_level.mp3" id="6_s1vco"]
 [ext_resource type="AudioStream" uid="uid://ci7hnmfv5tdhk" path="res://sounds/underground_drone.ogg" id="7_e1v60"]
 [ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
-[ext_resource type="PackedScene" uid="uid://lhc12hyww0qv" path="res://objects/stairs.glb" id="7_x3c38"]
 [ext_resource type="AudioStream" uid="uid://c2nplkohgw54b" path="res://sounds/event_ventilation_scape.mp3" id="9_i2k0m"]
 [ext_resource type="PackedScene" uid="uid://b1is8gno7qy4u" path="res://objects/props/WoodCrate02.gltf" id="11_lnhvi"]
 [ext_resource type="PackedScene" uid="uid://3xvfo5vte47f" path="res://objects/props/WoodCrate03.gltf" id="12_i2k0m"]
@@ -20,7 +19,6 @@
 [ext_resource type="PackedScene" uid="uid://fqxnbyrmfge3" path="res://banner.tscn" id="14_cs1hs"]
 [ext_resource type="FontFile" uid="uid://cgl1eo1pwl65v" path="res://fonts/Bungee-Regular.otf" id="14_gaoim"]
 [ext_resource type="Texture2D" uid="uid://bglukvw1mv30k" path="res://textures/banner_robot_rejected.png" id="14_jym3p"]
-[ext_resource type="LightmapGIData" uid="uid://uq3osk8ewav4" path="res://lightmaps/party_office.lmbake" id="14_k1vn5"]
 [ext_resource type="Material" uid="uid://do2w3hnmraobn" path="res://materials/floor_number.tres" id="14_sgv64"]
 [ext_resource type="Texture2D" uid="uid://clt2fh5qtesu7" path="res://textures/banner_robot_ok.png" id="14_v7taj"]
 [ext_resource type="Texture2D" uid="uid://c7n1vpir0on6b" path="res://textures/banner_robot_charge_battery.png" id="16_50rgw"]
@@ -99,6 +97,8 @@
 [ext_resource type="PackedScene" uid="uid://dss6dnx2wu6rd" path="res://objects/props/Pillow.gltf" id="91_vgrfu"]
 [ext_resource type="AudioStream" uid="uid://dirslqdal0cqc" path="res://sounds/creepy_music.ogg" id="93_s1vco"]
 [ext_resource type="PackedScene" uid="uid://djxmebq1ftsmu" path="res://objects/props/GlassDoor.gltf" id="95_iw8h4"]
+[ext_resource type="PackedScene" uid="uid://dlsiw0kbq14w0" path="res://objects/stairs.gltf" id="95_ksmmt"]
+[ext_resource type="Texture2D" uid="uid://jrtig6k02mbh" path="res://icon.png" id="98_3so84"]
 [ext_resource type="AudioStream" uid="uid://cly68phk1fb4h" path="res://sounds/stinger.ogg" id="101_3so84"]
 [ext_resource type="PackedScene" uid="uid://dc70y7uw3de26" path="res://objects/props/CSPRoboticsLogo.gltf" id="102_ksmmt"]
 
@@ -324,6 +324,9 @@ flip_faces = true
 radius = 50.0
 height = 100.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3so84"]
+shader = ExtResource("5_y1lda")
+
 [node name="Base" type="Node3D"]
 script = ExtResource("1_ut1kh")
 
@@ -355,277 +358,7 @@ transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 
 light_energy = 0.1
 shadow_enabled = true
 shadow_blur = 2.0
-directional_shadow_mode = 1
 directional_shadow_max_distance = 30.0
-
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="FPSCursor" type="TextureRect" parent="Control"]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.458824)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.15, 0.15)
-pivot_offset = Vector2(32, 32)
-texture = ExtResource("4_vja7b")
-
-[node name="RobotIdLabel" type="Label" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -23.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 30
-text = "R-1"
-horizontal_alignment = 1
-
-[node name="TimeLabel" type="Label" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 23.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 40
-text = "00:00"
-horizontal_alignment = 1
-
-[node name="GameOverLabel" type="Label" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -43.5
-offset_top = -11.5
-offset_right = 43.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 150
-text = "Game Over"
-horizontal_alignment = 1
-
-[node name="ShiftOverLabel" type="Label" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -43.5
-offset_top = -11.5
-offset_right = 43.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 150
-text = "Shift Over!"
-horizontal_alignment = 1
-
-[node name="TaskProgressBar" type="ProgressBar" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -115.0
-offset_top = -285.0
-offset_right = 115.0
-offset_bottom = -258.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="FadeWhite" type="ColorRect" parent="Control"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="FadeBlack" type="ColorRect" parent="Control"]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="PauseMenu" type="Control" parent="Control"]
-unique_name_in_owner = true
-process_mode = 2
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.921569)
-
-[node name="Control" type="Control" parent="Control/PauseMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -111.0
-offset_top = -185.0
-offset_right = 111.0
-offset_bottom = 185.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ResumeButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "RESUME"
-
-[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "VOLUME"
-
-[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 50.0
-rounded = true
-
-[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "MOUSE SENSIBILITY"
-
-[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-step = 0.1
-value = 50.0
-
-[node name="MouseAccLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "CAMERA ACCELERATION"
-
-[node name="MouseAccSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-min_value = 1.0
-max_value = 30.0
-step = 0.1
-value = 20.0
-
-[node name="CameraShakeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "CAMERA SHAKE"
-
-[node name="CameraShakeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "FULLSCREEN"
-
-[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-
-[node name="ResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "RESET GAME"
-
-[node name="ConfirmResetContainer" type="VBoxContainer" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="ResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
-layout_mode = 2
-text = "ALL PROGRESS WILL BE LOST"
-
-[node name="ConfirmResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
-visible = false
-layout_mode = 2
-text = "ARE YOU SURE?"
-
-[node name="ConfirmResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
-layout_mode = 2
-text = "YES RESET GAME"
-
-[node name="CancelResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
-layout_mode = 2
-text = "CANCEL"
-
-[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-
-[node name="QuitButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "QUIT"
 
 [node name="OutdoorAudios" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 36)
@@ -960,7 +693,6 @@ visible = false
 [node name="PartyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_party"]
 directional = true
 interior = true
-light_data = ExtResource("14_k1vn5")
 
 [node name="Balloon2" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
 transform = Transform3D(0.351106, 0.936336, 0, -0.936336, 0.351106, 0, 0, 0, 1, -0.538308, 0.111563, 15.5546)
@@ -1315,7 +1047,6 @@ visible = false
 directional = true
 interior = true
 texel_scale = 4.0
-light_data = ExtResource("3_ipkxx")
 
 [node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -2240,7 +1971,7 @@ unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, 0)
 
 [node name="clock2" parent="OfficeNode" instance=ExtResource("21_yc71e")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 3.24633, 24.837)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.24139e-08, 3.24633, 24.979)
 
 [node name="VentilationGrillBig2" parent="OfficeNode" instance=ExtResource("72_7gua7")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.15568, 3.1294, 0)
@@ -2279,22 +2010,22 @@ shape = SubResource("BoxShape3D_5ho0w")
 [node name="ExtraStairs" type="Node3D" parent="StairsNode"]
 unique_name_in_owner = true
 
-[node name="stairs3" parent="StairsNode/ExtraStairs" instance=ExtResource("7_x3c38")]
+[node name="stairs" parent="StairsNode/ExtraStairs" instance=ExtResource("95_ksmmt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0)
 
-[node name="stairs2" parent="StairsNode/ExtraStairs" instance=ExtResource("7_x3c38")]
+[node name="stairs4" parent="StairsNode/ExtraStairs" instance=ExtResource("95_ksmmt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.1, 0)
 
-[node name="stairs5" parent="StairsNode/ExtraStairs" instance=ExtResource("7_x3c38")]
+[node name="stairs6" parent="StairsNode/ExtraStairs" instance=ExtResource("95_ksmmt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.2, 0)
 
-[node name="stairs7" parent="StairsNode/ExtraStairs" instance=ExtResource("7_x3c38")]
+[node name="stairs9" parent="StairsNode/ExtraStairs" instance=ExtResource("95_ksmmt")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 4.1, 0)
 
-[node name="stairs8" parent="StairsNode/ExtraStairs" instance=ExtResource("7_x3c38")]
+[node name="stairs11" parent="StairsNode/ExtraStairs" instance=ExtResource("95_ksmmt")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 8.2, 0)
 
-[node name="stairs10" parent="StairsNode/ExtraStairs" instance=ExtResource("7_x3c38")]
+[node name="stairs12" parent="StairsNode/ExtraStairs" instance=ExtResource("95_ksmmt")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -8.2, 0)
 
 [node name="StairObject" parent="StairsNode" instance=ExtResource("84_i2k0m")]
@@ -2423,6 +2154,285 @@ ambient_mode = 0
 mesh = SubResource("SphereMesh_61cie")
 metadata/_edit_lock_ = true
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FPSCursor" type="TextureRect" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.458824)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.15, 0.15)
+pivot_offset = Vector2(32, 32)
+texture = ExtResource("4_vja7b")
+
+[node name="RobotIdLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "R-1"
+horizontal_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 40
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "Game Over"
+horizontal_alignment = 1
+
+[node name="ShiftOverLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.5
+offset_top = -11.5
+offset_right = 43.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "Shift Over!"
+horizontal_alignment = 1
+
+[node name="TaskProgressBar" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -115.0
+offset_top = -285.0
+offset_right = 115.0
+offset_bottom = -258.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BloodTexture" type="TextureRect" parent="Control"]
+material = SubResource("ShaderMaterial_3so84")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("98_3so84")
+
+[node name="FadeWhite" type="ColorRect" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FadeBlack" type="ColorRect" parent="Control"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="Control" parent="Control"]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="Control" type="Control" parent="Control/PauseMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -185.0
+offset_right = 111.0
+offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "RESUME"
+
+[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "VOLUME"
+
+[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+rounded = true
+
+[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "MOUSE SENSIBILITY"
+
+[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.1
+value = 50.0
+
+[node name="MouseAccLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "CAMERA ACCELERATION"
+
+[node name="MouseAccSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 30.0
+step = 0.1
+value = 20.0
+
+[node name="CameraShakeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "CAMERA SHAKE"
+
+[node name="CameraShakeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FULLSCREEN"
+
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "RESET GAME"
+
+[node name="ConfirmResetContainer" type="VBoxContainer" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "ALL PROGRESS WILL BE LOST"
+
+[node name="ConfirmResetLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+visible = false
+layout_mode = 2
+text = "ARE YOU SURE?"
+
+[node name="ConfirmResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "YES RESET GAME"
+
+[node name="CancelResetButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer"]
+layout_mode = 2
+text = "CANCEL"
+
+[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="QuitButton" type="Button" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("85_5ilav")
 volume_db = -10.0
@@ -2438,6 +2448,14 @@ stream = ExtResource("101_3so84")
 volume_db = -10.0
 bus = &"Music"
 
+[connection signal="body_entered" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_entered"]
+[connection signal="body_exited" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_exited"]
+[connection signal="body_entered" from="FinishArea" to="." method="_on_finish_area_body_entered"]
+[connection signal="body_entered" from="InsideArea" to="." method="_on_inside_area_body_entered"]
+[connection signal="body_exited" from="InsideArea" to="." method="_on_inside_area_body_exited"]
+[connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]
+[connection signal="body_entered" from="LoopDown" to="." method="_on_loop_down_body_entered"]
+[connection signal="body_entered" from="StartLevel" to="." method="_on_start_level_body_entered"]
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
@@ -2448,11 +2466,3 @@ bus = &"Music"
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/Control/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="body_entered" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_entered"]
-[connection signal="body_exited" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_exited"]
-[connection signal="body_entered" from="FinishArea" to="." method="_on_finish_area_body_entered"]
-[connection signal="body_entered" from="InsideArea" to="." method="_on_inside_area_body_entered"]
-[connection signal="body_exited" from="InsideArea" to="." method="_on_inside_area_body_exited"]
-[connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]
-[connection signal="body_entered" from="LoopDown" to="." method="_on_loop_down_body_entered"]
-[connection signal="body_entered" from="StartLevel" to="." method="_on_start_level_body_entered"]

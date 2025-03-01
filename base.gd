@@ -94,7 +94,7 @@ var congrats_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.BLOCKING_PATH
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -119,7 +119,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = 25 #Robot.GLITCHES.size() - 1
+	var force_completed_scenarios = 20 #Robot.GLITCHES.size() - 1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -1374,6 +1374,7 @@ func reset_position() -> void:
 	#current_side = SIDES.Z_PLUS
 	Global.is_player_grabbed = false
 	Global.player.get_camera().current = true
+	Global.set_blood_vignete(0.0)
 	%OfficeNode.rotation.y = deg_to_rad(0)
 	%Player.halt_velocity = true
 	%Player.global_position = %InitialPosition.global_position

@@ -347,8 +347,12 @@ func grab_player() -> void:
 	#%CameraNode.global_transform = cam.global_transform
 	var cam_tween := create_tween()
 	cam_tween.tween_property(self, "anim_camera_weight", 1.0, 0.2)
+	var blood_tween := create_tween()
+	blood_tween.tween_method(Global.set_blood_vignete, 0.0, 1.0, 1.0)
+	#Global.set_blood_vignete(1.0)
 	%CameraRobot.current = true
 	if not anim.is_playing():
+		$AttackSound.play()
 		anim.play("AttackExec")
 		Global.player.rumble(0.1)
 		anim.connect("animation_finished", _on_attack_anim_finished)
