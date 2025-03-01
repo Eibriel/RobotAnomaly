@@ -66,11 +66,16 @@ enum EVENTS {
 	VENTILATION,
 	REPORT,
 	EXIT,
-	CEILING
+	CEILING,
+	LINE
 }
 var available_events: Array[EVENTS] = []
 var current_events: Array[EVENTS] = []
 var events_enableable_time: Dictionary
+var event_enable_time: Dictionary
+var event_disable_time: Dictionary
+var event_execute_time: Dictionary
+var event_was_visible: Dictionary
 var event_light_timer := 0.0
 
 #var current_side := SIDES.Z_PLUS
@@ -94,7 +99,7 @@ var congrats_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.BLOCKING_PATH
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -114,6 +119,7 @@ func _ready() -> void:
 		override_state = false
 		fail_all = false
 		force_events = false
+		%LogLabel.visible = false
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
@@ -165,6 +171,10 @@ func _ready() -> void:
 	#
 	for e in EVENTS:
 		events_enableable_time[EVENTS[e]] = get_next_event_time(EVENTS[e])
+		event_enable_time[EVENTS[e]] = 0.0
+		event_disable_time[EVENTS[e]] = 0.0
+		event_execute_time[EVENTS[e]] = 0.0
+		event_was_visible[EVENTS[e]] = false
 		disable_event(EVENTS[e], true)
 	#
 	#next_event_in = get_next_event_time() + 60.0
@@ -349,7 +359,7 @@ func _process(delta: float) -> void:
 	]
 	
 	if not lights_on:
-		print(section.scenario)
+		#print(section.scenario)
 		if disabled_sections.has(section.scenario):
 			lights_timer += delta * 10.0
 		else:
@@ -387,6 +397,8 @@ func turn_lights_off(delay:=0.0) -> void:
 		lights_delay = delay
 
 func get_next_event_time(event: EVENTS) -> float:
+	if force_events:
+		return 5.0
 	return randf_range(60.0*4, 60.0*10)
 
 func reset_events_timer(event: EVENTS, short_reset:=false) -> void:
@@ -407,8 +419,11 @@ func event_enable_conditions(event: EVENTS) -> bool:
 	if section.scenario == Robot.GLITCHES.EXTRA_ROBOTS and event == EVENTS.REPORT:
 		return false
 	
+	#if current_events.has(event): return false
+	
 	#if seen_events.has(event): return false
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
+	#print(player_pos)
 	var enable := false
 	
 	var ventilation_pos_2d := Vector2(%EventVentilationAngle.position.x, %EventVentilationAngle.position.z)
@@ -416,6 +431,8 @@ func event_enable_conditions(event: EVENTS) -> bool:
 	var angle_rad := player_pos_2d.angle_to_point(ventilation_pos_2d)
 	var ventilation_angle := rad_to_deg(angle_rad)
 	#prints(ventilation_angle)
+	
+	%LogLabel.text = "%d, %d" % [player_pos_2d.x, player_pos_2d.y]
 	
 	match event:
 		EVENTS.VENTILATION:
@@ -427,40 +444,122 @@ func event_enable_conditions(event: EVENTS) -> bool:
 						Global.is_nomber_between(ventilation_angle, -37, 15) or\
 						Global.is_nomber_between(ventilation_angle, -64, -48) or\
 						Global.is_nomber_between(ventilation_angle, 37, 55)\
-					)and \
+					) and \
 					not (%EventVentilationOnScreen.is_on_screen() and \
-					not current_events.has(EVENTS.VENTILATION)):
+					not current_events.has(EVENTS.VENTILATION))\
+					# Keeps event enabled if is on screen and already enabled
+					# or (%EventVentilationOnScreen.is_on_screen() and current_events.has(EVENTS.VENTILATION)):
+					:
 				enable = true
 		EVENTS.REPORT:
 			# Player at center, not looking at ventilation
 			if Global.is_player_in_room and \
-					Global.is_nomber_between(player_pos.z, 10, 18) and \
-					not (%EventReportOnScreen.is_on_screen() and not current_events.has(EVENTS.REPORT)):
+					(
+						Global.is_point_inside(-2, 2, 8, 15, player_pos_2d) or\
+						Global.is_nomber_between(player_pos.z, 15, 18)
+					) and \
+					not (%EventReportOnScreen.is_on_screen() and not current_events.has(EVENTS.REPORT))\
+					# Keeps event enabled if is on screen and already enabled
+					# or (%EventReportOnScreen.is_on_screen() and current_events.has(EVENTS.REPORT)):
+					:
 				enable = true
 		EVENTS.EXIT:
 			# Player at center, not looking at ventilation
 			if Global.is_player_in_room and \
-					Global.is_nomber_between(player_pos.z, -20, -15) and \
-					not (%EventExitOnScreen.is_on_screen() and not current_events.has(EVENTS.EXIT)):
+					(
+						#Global.is_nomber_between(player_pos.z, -20, -16) or \
+						# Center
+						Global.is_point_inside(-2, 2, -8, -19, player_pos_2d) or \
+						# Left
+						Global.is_point_inside(-4, -2, -10, -16, player_pos_2d)
+					) and \
+					not (%EventExitOnScreen.is_on_screen() and not current_events.has(EVENTS.EXIT))\
+					# Keeps event enabled if is on screen and already enabled
+					#or (%EventExitOnScreen.is_on_screen() and current_events.has(EVENTS.EXIT)):
+					:
 				enable = true
 		EVENTS.CEILING:
 			# Player at center, not looking at ventilation
 			if Global.is_player_in_room and \
-					player_pos.z < -15 and \
-					not (%EventCeilingOnScreen.is_on_screen() and not current_events.has(EVENTS.CEILING)):
+					(
+						player_pos.z < -16 or \
+						# Center
+						Global.is_point_inside(-2, 2, -8, -19, player_pos_2d) or \
+						# Left
+						Global.is_point_inside(-4, -2, -16, -7, player_pos_2d) or \
+						# Right
+						Global.is_point_inside(2, 4, -16, -13, player_pos_2d) \
+					) and\
+					not (%EventCeilingOnScreen.is_on_screen() and not current_events.has(EVENTS.CEILING))\
+					# Keeps event enabled if is on screen and already enabled
+					#or (%EventCeilingOnScreen.is_on_screen() and current_events.has(EVENTS.CEILING)):
+					:
 				enable = true
+		EVENTS.LINE:
+			if Global.is_player_in_room and \
+					Global.is_nomber_between(player_pos.z, 0, 17) and \
+					player_pos.x > 3 and \
+					not (%OnScreenEventLine.is_on_screen() and not current_events.has(EVENTS.LINE)) \
+					# Keeps event enabled if is on screen and already enabled
+					#or (%OnScreenEventLine.is_on_screen() and current_events.has(EVENTS.LINE)):
+					:
+				enable = true
+		
+		
+	match event:
+		EVENTS.VENTILATION:
+			if current_events.has(EVENTS.VENTILATION):
+				if %EventVentilationOnScreen.is_on_screen():
+					event_was_visible[EVENTS.VENTILATION] = true
+				elif event_was_visible[EVENTS.VENTILATION]:
+					enable = false
+		EVENTS.REPORT:
+			if current_events.has(EVENTS.REPORT):
+				if %EventReportOnScreen.is_on_screen():
+					event_was_visible[EVENTS.REPORT] = true
+				elif event_was_visible[EVENTS.REPORT]:
+					enable = false
+		EVENTS.EXIT:
+			if current_events.has(EVENTS.EXIT):
+				if %EventExitOnScreen.is_on_screen():
+					event_was_visible[EVENTS.EXIT] = true
+				elif event_was_visible[EVENTS.EXIT]:
+					enable = false
+		EVENTS.CEILING:
+			if current_events.has(EVENTS.CEILING):
+				if %EventCeilingOnScreen.is_on_screen():
+					event_was_visible[EVENTS.CEILING] = true
+				elif event_was_visible[EVENTS.CEILING]:
+					enable = false
+		EVENTS.LINE:
+			#print(event_was_visible[EVENTS.LINE])
+			if current_events.has(EVENTS.LINE):
+				if %OnScreenEventLine.is_on_screen():
+					event_was_visible[EVENTS.LINE] = true
+				elif event_was_visible[EVENTS.LINE]:
+					enable = false
+				
 	return enable
 
+# TODO add timer to disable and enable
 func maybe_enable_event(delta: float) -> void:
+	const time_threshold := 0.5
 	for event in EVENTS.values():
 		if event_enable_conditions(event):
-			enable_event(event)
+			event_enable_time[event] += delta
+			event_disable_time[event] = 0.0
+			if event_enable_time[event] > time_threshold:
+				enable_event(event)
 		else:
-			disable_event(event)
+			event_disable_time[event] += delta
+			event_enable_time[event] = 0.0
+			if event_disable_time[event] > time_threshold:
+				disable_event(event)
 
 func disable_event(_event:EVENTS, force:=false) -> void:
 	if not current_events.has(_event) and not force: return
 	prints("Disabling event", EVENTS.find_key(_event))
+	event_was_visible[_event] = false
 	current_events.erase(_event)
 	reset_events_timer(_event, true)
 	match _event:
@@ -488,6 +587,12 @@ func disable_event(_event:EVENTS, force:=false) -> void:
 			%RobotEventCeiling.visible = false
 			%RobotEventCeiling.disable_colliders()
 			%RobotEventCeiling.silence_motor()
+		EVENTS.LINE:
+			%RobotEventLine.remove_base()
+			%RobotEventLine.play_animation("EventLine")
+			%RobotEventLine.visible = false
+			%RobotEventLine.disable_colliders()
+			%RobotEventLine.silence_motor()
 
 func enable_event(_event:EVENTS) -> void:
 	if current_events.has(_event): return
@@ -505,7 +610,10 @@ func enable_event(_event:EVENTS) -> void:
 		EVENTS.CEILING:
 			%RobotEventCeiling.visible = true
 			%RobotEventCeiling.first_frame_animation("EventCeiling")
-	print(_event)
+		EVENTS.LINE:
+			%RobotEventLine.visible = true
+			%RobotEventLine.first_frame_animation("EventLine")
+	#print(_event)
 
 func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0) -> bool:
 	var cam := get_viewport().get_camera_3d()
@@ -576,9 +684,16 @@ func update_events(delta: float) -> void:
 		events_enableable_time[EVENTS[e]] -= delta
 	maybe_enable_event(delta)
 	
+	const execute_threshold := 0.3
+	
 	if current_events.has(EVENTS.VENTILATION):
 		if is_point_centered(%EventVentilationVisible, 0.4, 0.6, 10.0):
+			event_execute_time[EVENTS.VENTILATION] += delta
+		else:
+			event_execute_time[EVENTS.VENTILATION] = 0.0
+		if event_execute_time[EVENTS.VENTILATION] > execute_threshold:
 			print("Executing event Ventilation")
+			event_execute_time[EVENTS.VENTILATION] = 0.0
 			reset_events_timer(EVENTS.VENTILATION)
 			%EventVentilationAudio.position.x = 4.148
 			current_events.erase(EVENTS.VENTILATION)
@@ -596,9 +711,14 @@ func update_events(delta: float) -> void:
 			tween.tween_property(%EventVentilationAudio, "position:x", 50, 3)
 			#tween.parallel().tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.02)
 	if current_events.has(EVENTS.REPORT):
-		if is_point_centered(%EventReportVisible, 0.1, 0.5, 20.0) or \
+		if is_point_centered(%EventReportVisible, 0.2, 0.5, 20.0) or \
 				too_close_to_event(%EventReportVisible, %RobotEventReport, 2.0):
+			event_execute_time[EVENTS.REPORT] += delta
+		else:
+			event_execute_time[EVENTS.REPORT] = 0.0
+		if event_execute_time[EVENTS.REPORT] > execute_threshold:
 			print("Executing event Report")
+			event_execute_time[EVENTS.REPORT] = 0.0
 			reset_events_timer(EVENTS.REPORT)
 			current_events.erase(EVENTS.REPORT)
 			#seen_events.append(EVENTS.REPORT)
@@ -615,9 +735,14 @@ func update_events(delta: float) -> void:
 			#tween.tween_interval(0.1)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 	if current_events.has(EVENTS.EXIT):
-		if is_point_centered(%EventExitVisible, 0.3, 0.55, 10.0) or \
+		if is_point_centered(%EventExitVisible, 0.2, 0.55, 10.0) or \
 				too_close_to_event(%EventExitVisible, %RobotEventExit, 4.0):
+			event_execute_time[EVENTS.EXIT] += delta
+		else:
+			event_execute_time[EVENTS.EXIT] = 0.0
+		if event_execute_time[EVENTS.EXIT] > execute_threshold:
 			print("Executing event Exit")
+			event_execute_time[EVENTS.EXIT] = 0.0
 			reset_events_timer(EVENTS.EXIT)
 			current_events.erase(EVENTS.EXIT)
 			#seen_events.append(EVENTS.EXIT)
@@ -635,6 +760,11 @@ func update_events(delta: float) -> void:
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 	if current_events.has(EVENTS.CEILING):
 		if is_point_centered(%EventCeilingVisible, 0.1, 0.6, 20.0):
+			event_execute_time[EVENTS.CEILING] += delta
+		else:
+			event_execute_time[EVENTS.CEILING] = 0.0
+		if event_execute_time[EVENTS.CEILING] > execute_threshold:
+			event_execute_time[EVENTS.CEILING] = 0.0
 			print("Executing event Ceiling")
 			reset_events_timer(EVENTS.CEILING)
 			current_events.erase(EVENTS.CEILING)
@@ -651,6 +781,21 @@ func update_events(delta: float) -> void:
 			#tween.tween_callback(%EventCeilingAudio.play)
 			#tween.tween_interval(0.1)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
+	if current_events.has(EVENTS.LINE):
+		if is_point_centered(%VisibleEventLine, 0.3, 0.6, 20.0):
+			event_execute_time[EVENTS.LINE] += delta
+		else:
+			event_execute_time[EVENTS.LINE] = 0.0
+		if event_execute_time[EVENTS.LINE] > execute_threshold:
+			print("Executing event Line")
+			event_execute_time[EVENTS.LINE] = 0.0
+			reset_events_timer(EVENTS.LINE)
+			current_events.erase(EVENTS.LINE)
+			%RobotEventLine.play_animation("EventLine")
+			$Stinger.play()
+			var tween := create_tween()
+			tween.tween_interval(0.733)
+			tween.tween_callback(%RobotEventLine.set_visible.bind(false))
 
 func setup_executive() -> void:
 	%RobotCrowd01.visible = false

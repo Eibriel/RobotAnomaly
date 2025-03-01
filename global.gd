@@ -37,3 +37,8 @@ func is_nomber_between(number: float, min: float, max: float) -> bool:
 		return true
 	else:
 		return false
+
+func is_point_inside(x_min: float, x_max: float, y_min: float, y_max: float, point_2d: Vector2) -> bool:
+	return is_nomber_between(point_2d.x, x_min, x_max) and \
+		is_nomber_between(point_2d.y, y_min, y_max)
+	

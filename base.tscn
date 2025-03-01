@@ -1,4 +1,4 @@
-[gd_scene load_steps=151 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=150 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -307,10 +307,7 @@ size = Vector3(2.81738, 3.20459, 1.60182)
 size = Vector3(2.06641, 3.20459, 1.60938)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fnj5f"]
-size = Vector3(2.1275, 3.07764, 2.18982)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_he4mn"]
-size = Vector3(1.78955, 3.20459, 1.87488)
+size = Vector3(2.43436, 3.07764, 0.329682)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v15f4"]
 shading_mode = 0
@@ -462,6 +459,7 @@ unique_name_in_owner = true
 transform = Transform3D(-0.0317246, 0, -0.999497, 0, 1, 0, 0.999497, 0, -0.0317246, 4.21494, 2.71105, -0.0322841)
 looking_player = true
 cast_shadows = false
+red_eyes = true
 
 [node name="EventVentilationVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventVentilation"]
 unique_name_in_owner = true
@@ -491,6 +489,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -3.786
 is_event = true
 looking_player = true
 cast_shadows = false
+red_eyes = true
 
 [node name="EventReportVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventReport"]
 unique_name_in_owner = true
@@ -520,6 +519,7 @@ transform = Transform3D(0.99233, 0, -0.123619, 0, 1, 0, 0.123619, 0, 0.99233, 1.
 is_event = true
 looking_player = true
 cast_shadows = false
+red_eyes = true
 
 [node name="EventExitVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventExit"]
 unique_name_in_owner = true
@@ -544,6 +544,7 @@ transform = Transform3D(0.743868, 0, 0.668326, 0, 1, 0, -0.668326, 0, 0.743868, 
 is_event = true
 looking_player = true
 cast_shadows = false
+red_eyes = true
 
 [node name="EventCeilingVisible" type="Marker3D" parent="OfficeNode/EventsNode/EventCeiling"]
 unique_name_in_owner = true
@@ -554,6 +555,26 @@ gizmo_extents = 0.62
 unique_name_in_owner = true
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -3.8249, 3.37846, -24.6274)
 stream = ExtResource("9_i2k0m")
+
+[node name="EventLine" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="RobotEventLine" parent="OfficeNode/EventsNode/EventLine" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(0.99643, 0, -0.0844255, 0, 1, 0, 0.0844255, 0, 0.99643, 2.00858, 0, -11.0879)
+is_event = true
+looking_player = true
+cast_shadows = false
+red_eyes = true
+
+[node name="OnScreenEventLine" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventLine"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.05752, 1.12457, -11.0452)
+aabb = AABB(-0.283535, -1.11362, -0.136696, 0.56707, 2.22725, 0.273391)
+
+[node name="VisibleEventLine" type="Marker3D" parent="OfficeNode/EventsNode/EventLine"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.02079, 1.54618, -11.0838)
+gizmo_extents = 0.62
 
 [node name="DressingNode" type="Node3D" parent="OfficeNode"]
 
@@ -754,7 +775,6 @@ banner_scale = 2.0
 
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="MarketingLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_marketing"]
 quality = 2
@@ -1213,6 +1233,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.003, -25.218)
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
 directional = true
@@ -2136,12 +2157,12 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StartLevel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.319778, 1.60833, 26.1363)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16635, 1.60833, 24.5905)
 shape = SubResource("BoxShape3D_fnj5f")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="StartLevel"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.121158, 1.75943, -26.3112)
-shape = SubResource("BoxShape3D_he4mn")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00929309, 1.75943, -24.3986)
+shape = SubResource("BoxShape3D_fnj5f")
 
 [node name="ReflectionProbe" type="ReflectionProbe" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.87743, 0)
@@ -2180,6 +2201,12 @@ grow_vertical = 2
 scale = Vector2(0.15, 0.15)
 pivot_offset = Vector2(32, 32)
 texture = ExtResource("4_vja7b")
+
+[node name="LogLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="RobotIdLabel" type="Label" parent="Control"]
 unique_name_in_owner = true

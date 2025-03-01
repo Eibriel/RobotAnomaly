@@ -10,4 +10,3 @@ void fragment() {
 	COLOR = mix(screen_color, screen_color * vec4(1.0, 0.1, 0.1, 1.0), blood_vignete);
 	//COLOR = vec4(1, 0, 0, 1);
 }
-

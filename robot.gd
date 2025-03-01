@@ -16,6 +16,7 @@ signal executive_finished
 @export var battery_charge := 0.0
 @export var looking_player := false
 @export var cast_shadows := true
+@export var red_eyes := false
 
 enum STALK {
 	DISABLED,
@@ -526,6 +527,9 @@ func update_glitch() -> void:
 	robj["back_box"].visible = false
 	robj["long_fingers"].visible = false
 	robj["knife"].visible = false
+	
+	if red_eyes:
+		robj["red_eyes"].visible = true
 	#
 	if glitch == GLITCHES.NONE:
 		if tween and tween.is_valid():
