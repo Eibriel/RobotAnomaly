@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c3mm4vs8sgbsm"]
+
+[ext_resource type="Shader" uid="uid://bc4v8agdo3mi5" path="res://materials/robot_mats/Robot_Battery.gdshader" id="1_ug6mq"]
+[ext_resource type="Texture2D" uid="uid://bhwj438d726vq" path="res://textures/radial_gradient.png" id="2_b60yg"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ug6mq")
+shader_parameter/albedo = Color(1, 0, 0, 1)
+shader_parameter/emission_amount = 6.0
+shader_parameter/texture_gradient = ExtResource("2_b60yg")

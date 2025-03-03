@@ -41,8 +41,10 @@ _subresources={
 },
 "nodes": {
 "PATH:Collider": {
+"generate/physics": true,
 "mesh_instance/cast_shadow": 0,
-"mesh_instance/layers": 0
+"mesh_instance/layers": 0,
+"physics/shape_type": 3
 }
 }
 }

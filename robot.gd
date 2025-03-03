@@ -114,6 +114,8 @@ var robj: Dictionary
 var anim: AnimationPlayer
 var skeleton: Skeleton3D
 
+var pressing_off_button := 0.0
+
 func _ready() -> void:
 	#skeleton = %robotObject.get_node("Armature/Skeleton3D") as Skeleton3D
 	#var battery_attachment := BoneAttachment3D.new()
@@ -141,12 +143,16 @@ func _ready() -> void:
 	robj["telescopic_eye"] = %robotObject.get_node("Armature/Skeleton3D/EyeTelescopic")
 	robj["brain_extension"] = %robotObject.get_node("Armature/Skeleton3D/BrainExtension")
 	robj["long_antena"] = %robotObject.get_node("Armature/Skeleton3D/AntenaLong_L")
-	robj["red_eyes"] = %robotObject.get_node("Armature/Skeleton3D/RedEyes")
+	robj["red_eyes"] = %robotObject.get_node("Armature/Skeleton3D/RedEyes/RedEyes")
+	robj["white_eyes"] = %robotObject.get_node("Armature/Skeleton3D/WhiteEyes/WhiteEyes")
 	robj["back_box"] = %robotObject.get_node("Armature/Skeleton3D/BackBox")
 	robj["eye_left"] = %robotObject.get_node("Armature/Skeleton3D/Eye_L")
 	robj["long_fingers"] = %robotObject.get_node("Armature/Skeleton3D/LongFingers_R")
 	robj["knife"] = %robotObject.get_node("Armature/Skeleton3D/Knife")
 	robj["arm"] = %robotObject.get_node("Armature/Skeleton3D/arm_L")
+	robj["battery_radial"] = %robotObject.get_node("Armature/Skeleton3D/Battery_RadialProgress/Battery_RadialProgress")
+	robj["power_radial"] = %robotObject.get_node("Armature/Skeleton3D/OffButton_RadialProgress/OffButton_RadialProgress")
+	robj["off_button"] = %robotObject.get_node("Armature/Skeleton3D/OffButton/OffButton")
 	
 	#prints("GC", GLITCHES.size())
 	%RobotBase.rotate_y(deg_to_rad(randf_range(0, 360)))
@@ -178,6 +184,38 @@ func _ready() -> void:
 	
 	if not cast_shadows:
 		recursive_cast_shadows_off(%robotObject)
+	
+	# NOTE White Eyes are deprecated
+	const ROBOT_FACE = preload("res://materials/robot_mats/Robot_face.tres")
+	var white_eyes_mesh:Mesh = robj["white_eyes"].mesh as Mesh
+	white_eyes_mesh.surface_set_material(0, ROBOT_FACE)
+	robj["white_eyes"].visible = false
+	
+	#robj["off_button"].visible = false
+	
+	#battery_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	#battery_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	#battery_mat.albedo_texture = battery_grad
+	#battery_mat.emission_enabled = true
+	#battery_mat.emission_texture = battery_grad
+	#battery_mat.emission_energy_multiplier = 2.0
+	#battery_grad.fill = GradientTexture2D.FILL_RADIAL
+	#battery_grad.gradient = Gradient.new()
+	#battery_grad.gradient.colors[0] = Color.RED
+	#battery_grad.gradient.colors[1] = Color.BLACK
+	#battery_grad.gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
+	#robj["battery_radial"].mesh.surface_set_material(0, battery_mat)
+	
+	#power_mat.albedo_texture = power_grad
+	#power_mat.emission_enabled = true
+	#power_mat.emission_texture = power_grad
+	#power_mat.emission_energy_multiplier = 2.0
+	#power_grad.fill = GradientTexture2D.FILL_RADIAL
+	#power_grad.gradient = Gradient.new()
+	#power_grad.gradient.colors[0] = Color.WHITE
+	#power_grad.gradient.colors[1] = Color.BLACK
+	#power_grad.gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
+	#robj["power_radial"].mesh.surface_set_material(0, power_mat)
 
 func recursive_cast_shadows_off(node) -> void:
 	for c in node.get_children():
@@ -192,6 +230,7 @@ func rotate_base(delta: float, reverse:=false) -> void:
 	if glitch == GLITCHES.COUNTDOWN: return
 	if glitch == GLITCHES.EXTRA_ROBOTS: return
 	if glitch == GLITCHES.DOOR_OPEN: return
+	return
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
 	if reverse:
 		%RobotBody.rotate_y(deg_to_rad(-120) * delta)
@@ -239,11 +278,13 @@ func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
 	if lock_buttons: return false
 	if power_on:
+		pressing_off_button += delta * 8.0
 		shutdown_time -= delta * 0.4
 		if shutdown_time <= 0.0:
 			shut_down()
 			return true
 	else:
+		pressing_off_button += delta * 8.0
 		shutdown_time += delta * 0.4
 		if shutdown_time >= 1.0:
 			turn_on()
@@ -315,6 +356,32 @@ func _process(delta: float) -> void:
 	update_door_open()
 	update_stalk()
 	update_auto_battery(delta)
+	update_radial(delta)
+
+func update_radial(delta: float) -> void:
+	pressing_off_button -= delta * 2.0
+	pressing_off_button = clampf(pressing_off_button, 0, 0.2)
+	robj["off_button"].position.x = -pressing_off_button * 0.01
+	
+	var battery_instance:MeshInstance3D = robj["battery_radial"]
+	battery_instance["instance_shader_parameters/amount"] = battery_charge * 0.01
+	
+	var power_instance:MeshInstance3D = robj["power_radial"]
+	power_instance["instance_shader_parameters/amount"] = shutdown_time
+	
+	#var value := shutdown_time * 100.0
+	#var limited_value := clampf(value, 0.0, 100.0)
+	#if limited_value < 100:
+		#power_grad.gradient.offsets[1] = limited_value / 100.0
+	#else:
+		#power_grad.gradient.offsets[1] = 0.99
+	#
+	#value = battery_charge
+	#limited_value = clampf(value, 0.0, 100.0)
+	#if limited_value < 100:
+		#battery_grad.gradient.offsets[1] = limited_value / 100.0
+	#else:
+		#battery_grad.gradient.offsets[1] = 0.99
 
 func update_stalk() -> void:
 	if stalk_player == STALK.DISABLED: return
@@ -652,6 +719,7 @@ func update_glitch() -> void:
 		GLITCHES.DOOR_OPEN:
 			%RobotBody.position = Vector3(-15, 0, 0)
 			%RobotBody.rotation.y = deg_to_rad(90)
+			robj["red_eyes"].visible = true
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.position = Vector3.ZERO
 			%RobotBody.rotation.y = deg_to_rad(0)
@@ -753,10 +821,12 @@ func add_detail(rnode: Node, detail_texture) -> void:
 				var mat := c.mesh.surface_get_material(s) as StandardMaterial3D
 				# TODO reuse materials
 				# Todo only apply on arms
-				mat = mat.duplicate(true)
-				mat.detail_enabled = true
-				mat.detail_mask = detail_texture
-				c.mesh.surface_set_material(s, mat)
+				#print(c.name)
+				if mat:
+					mat = mat.duplicate(true)
+					mat.detail_enabled = true
+					mat.detail_mask = detail_texture
+					c.mesh.surface_set_material(s, mat)
 		add_detail(c, detail_texture)
 
 func shut_down() -> void:
@@ -764,6 +834,11 @@ func shut_down() -> void:
 	power_on = false
 	battery_charge = 0.0
 	anim.play("Shut_Down", 1.0)
+	#const ROBOT_FACE = preload("res://materials/robot_mats/Robot_face.tres")
+	#var white_eyes_mesh:Mesh = robj["white_eyes"].mesh as Mesh
+	#white_eyes_mesh.surface_set_material(0, ROBOT_FACE)
+	#var red_eyes_mesh:Mesh = robj["red_eyes"].mesh as Mesh
+	#red_eyes_mesh.surface_set_material(0, ROBOT_FACE)
 	var shut_down_tween := create_tween()
 	shut_down_tween.tween_property(%RobotLaughAudioPlayer, "pitch_scale", 0.2, 3)
 	shut_down_tween.tween_callback(%RobotLaughAudioPlayer.stop)
@@ -774,6 +849,13 @@ func shut_down() -> void:
 func turn_on() -> void:
 	power_on = true
 	anim.play("Idle", 1.0)
+	#
+	#const ROBOT_RED_GLOW = preload("res://materials/robot_mats/Robot_Red_Glow.tres")
+	#const ROBOT_WHITE_GLOW = preload("res://materials/robot_mats/Robot_White_Glow.tres")
+	#var white_eyes_mesh:Mesh = robj["white_eyes"].mesh as Mesh
+	#white_eyes_mesh.surface_set_material(0, ROBOT_WHITE_GLOW)
+	#var red_eyes_mesh:Mesh = robj["red_eyes"].mesh as Mesh
+	#red_eyes_mesh.surface_set_material(0, ROBOT_RED_GLOW)
 	#var shut_down_tween := create_tween()
 	#shut_down_tween.tween_property(%RobotLaughAudioPlayer, "pitch_scale", 0.2, 3)
 	#shut_down_tween.tween_callback(%RobotLaughAudioPlayer.stop)

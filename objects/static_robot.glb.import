@@ -46,6 +46,10 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "uid://bbqoq5b4m21a2"
 },
+"Robot_Red_Glow": {
+"use_external/enabled": true,
+"use_external/path": "uid://yarvdtrtd64j"
+},
 "Robot_face": {
 "use_external/enabled": true,
 "use_external/path": "uid://dmc5jdfahwx86"

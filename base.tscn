@@ -1,6 +1,7 @@
-[gd_scene load_steps=148 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=149 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
+[ext_resource type="LightmapGIData" uid="uid://b45wbnmqqw4fv" path="res://lightmaps/marketing_office.lmbake" id="2_5p1dh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
 [ext_resource type="Texture2D" uid="uid://dm5io0xk3hqbv" path="res://textures/cursor.png" id="4_vja7b"]
@@ -30,7 +31,6 @@
 [ext_resource type="PackedScene" uid="uid://8n8bq2mhmijd" path="res://objects/props/Balloon.gltf" id="19_8a3cd"]
 [ext_resource type="PackedScene" uid="uid://cx67mnaredgil" path="res://objects/props/RobotArm.gltf" id="19_n0uqe"]
 [ext_resource type="Texture2D" uid="uid://do46f1qxantx4" path="res://textures/StairsSign.jpg" id="20_wudxj"]
-[ext_resource type="PackedScene" uid="uid://d3rw145oxvkjk" path="res://objects/clock.glb" id="21_yc71e"]
 [ext_resource type="PackedScene" uid="uid://nampk5kyqul6" path="res://report.tscn" id="22_1uwki"]
 [ext_resource type="PackedScene" uid="uid://d2uebb6pnho2" path="res://objects/props/Body.gltf" id="23_x13uo"]
 [ext_resource type="PackedScene" uid="uid://cp3bk1xsmjnxj" path="res://robot.tscn" id="24_2bbbl"]
@@ -83,12 +83,13 @@
 [ext_resource type="Texture2D" uid="uid://bdj621d6j6duu" path="res://textures/SiteSafety.png" id="73_o1ods"]
 [ext_resource type="PackedScene" uid="uid://cm85x7lj71un7" path="res://objects/props/VentilationGrillSmall.gltf" id="73_o06hd"]
 [ext_resource type="PackedScene" uid="uid://3xecwc0t308i" path="res://objects/props/RobotsLyingDown.gltf" id="74_60t3g"]
-[ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="74_k62q3"]
 [ext_resource type="PackedScene" uid="uid://q4npa7bdvd2r" path="res://physics_balloon.tscn" id="74_o1ods"]
 [ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="74_vgrfu"]
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
+[ext_resource type="PackedScene" uid="uid://8g1gsachc30n" path="res://clock.tscn" id="81_tjsd2"]
 [ext_resource type="PackedScene" uid="uid://c7a6rchk8n4i7" path="res://stairs.tscn" id="84_i2k0m"]
 [ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
+[ext_resource type="PackedScene" uid="uid://b1nmbimgecws1" path="res://wall_fan_moving.tscn" id="86_5p1dh"]
 [ext_resource type="PackedScene" uid="uid://d2vbdqvccwtcs" path="res://light_switch.tscn" id="87_3so84"]
 [ext_resource type="PackedScene" uid="uid://dss6dnx2wu6rd" path="res://objects/props/Pillow.gltf" id="91_vgrfu"]
 [ext_resource type="AudioStream" uid="uid://dirslqdal0cqc" path="res://sounds/creepy_music.ogg" id="93_s1vco"]
@@ -340,6 +341,7 @@ interior = true
 use_denoiser = false
 texel_scale = 5.0
 environment_custom_energy = 10.0
+light_data = ExtResource("2_5p1dh")
 
 [node name="LightMapHelpers" type="Node3D" parent="."]
 visible = false
@@ -379,6 +381,14 @@ environment = SubResource("Environment_jucab")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 0.990401, -0.276147, -0.960342, -0.0385398, 0, 0, 0)
+light_energy = 0.1
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_max_distance = 30.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 0.990401, -0.276147, -0.960342, -0.0385398, 0, 0, 0)
+visible = false
 light_energy = 0.1
 shadow_enabled = true
 shadow_blur = 2.0
@@ -607,6 +617,7 @@ gizmo_extents = 0.62
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -749,6 +760,12 @@ transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.06063,
 [node name="WoodCrate_AOSmall18" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
 transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -1.99561, 0.00460753, 14.0374)
 
+[node name="WoodCrate_AOSmall19" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 0.353959, 0.00460753, 24.1512)
+
+[node name="WoodCrate_AOSmall20" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(0.98102, 0, 0.193909, 0, 1, 0, -0.193909, 0, 0.98102, -1.08292, 0.00460753, 24.1604)
+
 [node name="office_tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -852,7 +869,6 @@ banner_scale = 2.0
 
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="RobotHead" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("17_yc71e")]
 transform = Transform3D(0.404103, 0.534656, -0.742187, -0.030718, 0.818862, 0.573166, 0.914197, -0.20882, 0.347329, 3.73417, 1.41207, 19.4671)
@@ -1213,6 +1229,8 @@ aabb = AABB(-4.22158, -1.20055, -3.78352, 8.44316, 1.31835, 7.56705)
 [node name="RobotStrike" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
 transform = Transform3D(-0.0525974, 0, -0.998616, 0, 1, 0, 0.998616, 0, -0.0525974, -3.89019, 0, 0.492243)
+looking_player = true
+red_eyes = true
 
 [node name="TrashBin_Knocked" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("31_kaldw")]
 transform = Transform3D(0.118646, 0, -0.992937, 0, 1, 0, 0.992937, 0, 0.118646, 3.14266, 0.00375604, -5.68086)
@@ -1277,6 +1295,7 @@ pose = 3
 hide_base = true
 lock_buttons = true
 battery_charge = 100.0
+red_eyes = true
 
 [node name="WoodCrate3" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("55_telh7")]
 transform = Transform3D(0.809212, 0.587517, 0, 2.56812e-08, -3.53718e-08, -1, -0.587517, 0.809212, -4.37114e-08, -0.408781, 0.673444, -10.2888)
@@ -1310,6 +1329,7 @@ pose = 4
 hide_base = true
 lock_buttons = true
 battery_charge = 100.0
+red_eyes = true
 
 [node name="Robot2" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("24_2bbbl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.568677, 0, -24.1166)
@@ -1317,6 +1337,7 @@ pose = 5
 hide_base = true
 lock_buttons = true
 battery_charge = 100.0
+red_eyes = true
 
 [node name="NightmareModeIndicator" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -2032,8 +2053,9 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 
 unique_name_in_owner = true
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25, 1.408, 0)
 
-[node name="clock2" parent="OfficeNode" instance=ExtResource("21_yc71e")]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -1.24139e-08, 3.24633, 24.979)
+[node name="Clock" parent="OfficeNode" instance=ExtResource("81_tjsd2")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, 1.50996e-07, 0, 1, 0, -1.50996e-07, 0, -1, -1.24139e-08, 3.24633, 24.979)
 
 [node name="VentilationGrillBig2" parent="OfficeNode" instance=ExtResource("72_7gua7")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.15568, 3.1294, 0)
@@ -2047,10 +2069,10 @@ autoplay = true
 [node name="VentilationGrillSmall2" parent="OfficeNode" instance=ExtResource("73_o06hd")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.22717, 3.05665, -0.00352287)
 
-[node name="WallFan2" parent="OfficeNode" instance=ExtResource("74_k62q3")]
+[node name="WallFanMoving2" parent="OfficeNode" instance=ExtResource("86_5p1dh")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25298, 2.93683, -12.421)
 
-[node name="WallFan3" parent="OfficeNode" instance=ExtResource("74_k62q3")]
+[node name="WallFanMoving" parent="OfficeNode" instance=ExtResource("86_5p1dh")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.25298, 2.93683, 11.5147)
 
 [node name="RobotVacuum" parent="OfficeNode" instance=ExtResource("79_0tvgc")]

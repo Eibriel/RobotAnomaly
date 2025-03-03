@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://8g1gsachc30n"]
+
+[ext_resource type="Script" uid="uid://d2q5n41whnsfo" path="res://clock.gd" id="1_kig64"]
+[ext_resource type="PackedScene" uid="uid://d3rw145oxvkjk" path="res://objects/clock.glb" id="1_venu5"]
+
+[node name="Clock" type="Node3D"]
+script = ExtResource("1_kig64")
+
+[node name="clock" parent="." instance=ExtResource("1_venu5")]

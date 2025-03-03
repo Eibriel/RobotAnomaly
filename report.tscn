@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://nampk5kyqul6"]
+[gd_scene load_steps=18 format=3 uid="uid://nampk5kyqul6"]
 
 [ext_resource type="Script" uid="uid://b8icw5u44i4e0" path="res://report.gd" id="1_7ngoa"]
 [ext_resource type="Texture2D" uid="uid://bo5wcpjnd40aq" path="res://icon.svg" id="1_mmd0k"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://d4lbuo3ney345" path="res://objects/props/Whiteboard.gltf" id="7_tc3ll"]
 [ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="8_28x75"]
 [ext_resource type="Texture2D" uid="uid://c4wple6miuclj" path="res://textures/ErrorList.png" id="8_h6cc1"]
+[ext_resource type="AudioStream" uid="uid://b0nrrtjpubu2n" path="res://sounds/correct_bell.ogg" id="10_yh7gd"]
+[ext_resource type="AudioStream" uid="uid://c53wnas06h8bi" path="res://sounds/incorrect_buzzer.ogg" id="11_yfjh8"]
+[ext_resource type="PackedScene" uid="uid://bw1p6obtd4l81" path="res://objects/props/ReportLight.gltf" id="12_4hof2"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_6kybn"]
 viewport_path = NodePath("SubViewport")
@@ -101,6 +104,7 @@ visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.173208, 0.00177254)
 pixel_size = 0.001
 text = "ERRORS"
+font_size = 50
 outline_size = 0
 
 [node name="BatteryErrorLabel" type="Label3D" parent="."]
@@ -123,3 +127,18 @@ horizontal_alignment = 0
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_yh7gd")
+
+[node name="CorrectSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("10_yh7gd")
+volume_db = -15.0
+bus = &"Environment"
+
+[node name="IncorrectSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("11_yfjh8")
+volume_db = -20.0
+bus = &"Environment"
+
+[node name="ReportLight" parent="." instance=ExtResource("12_4hof2")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.290473, 0.00256839)

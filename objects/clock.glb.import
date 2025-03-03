@@ -39,6 +39,15 @@ _subresources={
 },
 "PATH:clock_ao": {
 "mesh_instance/cast_shadow": 0
+},
+"PATH:clock_hour": {
+"mesh_instance/cast_shadow": 0
+},
+"PATH:clock_minute": {
+"mesh_instance/cast_shadow": 0
+},
+"PATH:clock_second": {
+"mesh_instance/cast_shadow": 0
 }
 }
 }

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1nmbimgecws1"]
+
+[ext_resource type="Script" uid="uid://bbtv2g1sq3g3" path="res://wall_fan_moving.gd" id="1_qrmlb"]
+[ext_resource type="PackedScene" uid="uid://8q7noacc65fk" path="res://objects/props/WallFan.gltf" id="1_qvti4"]
+
+[node name="WallFanMoving" type="Node3D"]
+script = ExtResource("1_qrmlb")
+
+[node name="WallFan" parent="." instance=ExtResource("1_qvti4")]

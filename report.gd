@@ -13,7 +13,20 @@ var ERROR = [
 	preload("res://textures/whiteboard_cross_04.jpg"),
 ]
 
+var sound_played := false
+var correct := false
+var something_to_report := false
+
+var light_mat: StandardMaterial3D
+
+func _ready() -> void:
+	light_mat = $ReportLight/ReportLight.mesh.surface_get_material(1)
+	light_mat.emission = Color.BLACK
+	light_mat.albedo_color = Color.BLACK
+
 func update_report(data: Array) -> void:
+	sound_played = false
+	something_to_report = true
 	for c in %ReportSubviewportNode.get_children():
 		c.queue_free()
 	var robot_with_anomaly := false
@@ -43,11 +56,27 @@ func update_report(data: Array) -> void:
 			r_column += 1
 		batteries_charged_required = r.batteries_charged_required
 	
+	correct = true
 	if robot_with_anomaly:
 		$PowerErrorLabel.text = tr("ERROR ANOMALY ON")
+		correct = false
 	else:
 		$PowerErrorLabel.text = tr("NO ERROR")
 	if batteries_charged_required and robot_without_battery:
 		$BatteryErrorLabel.text = tr("ERROR FULL BATTERY")
+		correct = false
 	else:
 		$BatteryErrorLabel.text = tr("NO ERROR")
+
+func play_sound() -> void:
+	if not something_to_report: return
+	if sound_played: return
+	sound_played = true
+	if correct:
+		$CorrectSound.play()
+		light_mat.emission = Color.GREEN
+		light_mat.albedo_color = Color.GREEN
+	else:
+		$IncorrectSound.play()
+		light_mat.emission = Color.RED
+		light_mat.albedo_color = Color.RED

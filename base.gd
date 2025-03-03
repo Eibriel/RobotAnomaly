@@ -121,11 +121,11 @@ func _ready() -> void:
 		force_events = false
 		%LogLabel.visible = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = false
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = 20 #Robot.GLITCHES.size() - 1
+	var force_completed_scenarios = Robot.GLITCHES.size()
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -373,6 +373,9 @@ func _process(delta: float) -> void:
 		lights_delay -= delta
 		if lights_delay < 0.0 and not disabled_sections.has(section.scenario):
 			turn_lights_off()
+	
+	game_state.seconds += delta
+	%Clock.seconds = game_state.seconds
 	
 	update_executive()
 	update_congrats()
@@ -945,7 +948,9 @@ func load_game_state() -> void:
 	if override_state:
 		game_state = state_override
 	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save:
+		var old_seconds := game_state.seconds
 		game_state = GameStateResource.new()
+		game_state.seconds = old_seconds
 		Global.reset_save = false
 		print("Reset game save")
 		return
@@ -1161,6 +1166,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		#else:
 			#%NightmareModeIndicator.visible = false
 		setup_museum()
+		$UberLightmapGI.light_data = preload("res://lightmaps/museum_office.lmbake")
 	elif scenario == -1: # Congrats
 		dressing_visible(%office_congrats)
 		show_line_upto(LINE_NAMES.LINEA_C_END)
@@ -1173,11 +1179,13 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_lab)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
+		$UberLightmapGI.light_data = preload("res://lightmaps/lab_office.lmbake")
 	elif message_id <= 15:
 		%MessageLabel.text = "Design Room"
 		dressing_visible(%office_design)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
+		$UberLightmapGI.light_data = preload("res://lightmaps/design_office.lmbake")
 	#elif message_id <= 25:
 		#%MessageLabel.text = "Lab"
 		#dressing_visible(%office_lab)
@@ -1187,11 +1195,13 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_marketing)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_B)
+		$UberLightmapGI.light_data = preload("res://lightmaps/marketing_office.lmbake")
 	elif message_id <= 25 and not game_state.executive_completed:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_B)
+		#$UberLightmapGI.light_data = preload("res://lightmaps/party_office.lmbake")
 	else:
 		# Underground
 		%MessageLabel.text = "Underground"
@@ -1472,7 +1482,6 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 	#$OfficeWithCollision2.rotate_y(deg_to_rad(180))
 	#$OfficeWithCollision3.rotate_y(deg_to_rad(180))
 	#print("Rotate")
-	%LevelReport.update_report(section.report)
 	level_started = false
 	if scenario == -2: # Tutorial
 		if not success:
@@ -1495,6 +1504,7 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 		museum_completed = true
 		load_main()
 		return
+	%LevelReport.update_report(section.report)
 	if not success:
 		process_failed_queue(scenario)
 		load_main()
@@ -1789,6 +1799,7 @@ func on_glitch_failed() -> void:
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true
+	%LevelReport.play_sound()
 	if not check_if_nightmare():
 		%StairObject.chain_visible = true
 		%StairObject2.chain_visible = true

@@ -45,6 +45,9 @@ _subresources={
 },
 "PATH:WallFan_AO": {
 "mesh_instance/cast_shadow": 0
+},
+"PATH:WallFan_blade": {
+"mesh_instance/cast_shadow": 0
 }
 }
 }

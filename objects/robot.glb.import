@@ -34,6 +34,10 @@ animation/import_rest_as_RESET=false
 import_script/path="uid://5c4gqq2s84y1"
 _subresources={
 "materials": {
+"Robot_Battery": {
+"use_external/enabled": true,
+"use_external/path": "uid://c3mm4vs8sgbsm"
+},
 "Robot_Clothes": {
 "use_external/enabled": true,
 "use_external/path": "uid://4w2epbfv7gf0"
@@ -42,6 +46,10 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "res://materials/robot_mats/Robot_Hinges.tres"
 },
+"Robot_Power": {
+"use_external/enabled": true,
+"use_external/path": "uid://bbs5yn17fvkqi"
+},
 "Robot_Red": {
 "use_external/enabled": true,
 "use_external/path": "res://materials/robot_mats/Robot_Red.tres"
@@ -49,6 +57,10 @@ _subresources={
 "Robot_Red_Glow": {
 "use_external/enabled": true,
 "use_external/path": "res://materials/robot_mats/Robot_Red_Glow.tres"
+},
+"Robot_White_Glow": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/Robot_White_Glow.tres"
 },
 "Robot_face": {
 "use_external/enabled": true,

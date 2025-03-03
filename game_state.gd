@@ -9,6 +9,8 @@ extends Resource
 
 @export var executive_completed := false
 
+@export var seconds := 0.0
+
 #@export var nightmare_mode := false
 
 #@export var tutorial_completed := false

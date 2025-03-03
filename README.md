@@ -132,6 +132,8 @@ Some assets may not be in the game
 
 - "Glass Doors" (https://skfb.ly/otLAB) by carlcapu9 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+- "216972, 216974 Urbano Lightstar Overhead light" (https://skfb.ly/6SEMQ) by LIGHTSTAR GROUP is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 
 
 ### Sounds
@@ -181,6 +183,13 @@ Some assets may not be in the game
 - Thud / Falling on wooden floor / Snapping, breaking neck by Breviceps -- https://freesound.org/s/447922/ -- License: Creative Commons 0
 
 - Necksnap_build.wav by danielrutterfilms -- https://freesound.org/s/134025/ -- License: Creative Commons 0
+
+-Game Sound Correct.wav by Bertrof -- https://freesound.org/s/131660/ -- License: Attribution 3.0
+
+- Correct.mp3 by LittleRainySeasons -- https://freesound.org/s/335908/ -- License: Creative Commons 0
+
+- buzzer.wav by guitarguy1985 -- https://freesound.org/s/54047/ -- License: Creative Commons 0
+
 
 ### Fonts
 - Fira Sans - https://github.com/bBoxType/FiraSans
