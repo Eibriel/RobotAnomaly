@@ -339,7 +339,6 @@ directional = true
 use_texture_for_bounces = false
 interior = true
 use_denoiser = false
-texel_scale = 5.0
 environment_custom_energy = 10.0
 light_data = ExtResource("2_5p1dh")
 
