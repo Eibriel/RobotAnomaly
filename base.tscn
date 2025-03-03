@@ -1,4 +1,4 @@
-[gd_scene load_steps=150 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=148 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -10,13 +10,14 @@
 [ext_resource type="AudioStream" uid="uid://di1eg1p80okdk" path="res://sounds/storage_door_open.mp3" id="6_lnhvi"]
 [ext_resource type="AudioStream" uid="uid://cl11hmvraeedy" path="res://sounds/street_level.mp3" id="6_s1vco"]
 [ext_resource type="AudioStream" uid="uid://ci7hnmfv5tdhk" path="res://sounds/underground_drone.ogg" id="7_e1v60"]
-[ext_resource type="LightmapGIData" uid="uid://1mohstux2ai2" path="res://lightmaps/tutorial_office.lmbake" id="7_u7ijn"]
 [ext_resource type="AudioStream" uid="uid://c2nplkohgw54b" path="res://sounds/event_ventilation_scape.mp3" id="9_i2k0m"]
 [ext_resource type="PackedScene" uid="uid://b1is8gno7qy4u" path="res://objects/props/WoodCrate02.gltf" id="11_lnhvi"]
+[ext_resource type="PackedScene" uid="uid://yw3h1f0168jv" path="res://objects/props/WoodCrate_AOBig.gltf" id="11_tjsd2"]
 [ext_resource type="PackedScene" uid="uid://3xvfo5vte47f" path="res://objects/props/WoodCrate03.gltf" id="12_i2k0m"]
 [ext_resource type="PackedScene" uid="uid://dxf6m0rru2xb0" path="res://objects/props/PartyTable.gltf" id="13_d5d72"]
 [ext_resource type="PackedScene" uid="uid://dlelw0wocytng" path="res://objects/props/LobbyChair.gltf" id="13_jym3p"]
 [ext_resource type="PackedScene" uid="uid://fqxnbyrmfge3" path="res://banner.tscn" id="14_cs1hs"]
+[ext_resource type="PackedScene" uid="uid://camfevxgufdsk" path="res://objects/props/WoodCrate_AOSmall.gltf" id="14_e1v60"]
 [ext_resource type="FontFile" uid="uid://cgl1eo1pwl65v" path="res://fonts/Bungee-Regular.otf" id="14_gaoim"]
 [ext_resource type="Texture2D" uid="uid://bglukvw1mv30k" path="res://textures/banner_robot_rejected.png" id="14_jym3p"]
 [ext_resource type="Material" uid="uid://do2w3hnmraobn" path="res://materials/floor_number.tres" id="14_sgv64"]
@@ -26,18 +27,15 @@
 [ext_resource type="PackedScene" uid="uid://br45idlc583vq" path="res://objects/props/RobotHead.gltf" id="17_yc71e"]
 [ext_resource type="PackedScene" uid="uid://lyxknjxm317x" path="res://objects/props/RobotLeg.gltf" id="18_2btif"]
 [ext_resource type="PackedScene" uid="uid://dorx7tjyxp3pr" path="res://turnstile.tscn" id="18_4a7sh"]
-[ext_resource type="LightmapGIData" uid="uid://b45wbnmqqw4fv" path="res://lightmaps/marketing_office.lmbake" id="18_vjpxa"]
 [ext_resource type="PackedScene" uid="uid://8n8bq2mhmijd" path="res://objects/props/Balloon.gltf" id="19_8a3cd"]
 [ext_resource type="PackedScene" uid="uid://cx67mnaredgil" path="res://objects/props/RobotArm.gltf" id="19_n0uqe"]
 [ext_resource type="Texture2D" uid="uid://do46f1qxantx4" path="res://textures/StairsSign.jpg" id="20_wudxj"]
 [ext_resource type="PackedScene" uid="uid://d3rw145oxvkjk" path="res://objects/clock.glb" id="21_yc71e"]
 [ext_resource type="PackedScene" uid="uid://nampk5kyqul6" path="res://report.tscn" id="22_1uwki"]
-[ext_resource type="LightmapGIData" uid="uid://b4bhfy1s7cvgx" path="res://lightmaps/lobby_office.lmbake" id="23_h3qio"]
 [ext_resource type="PackedScene" uid="uid://d2uebb6pnho2" path="res://objects/props/Body.gltf" id="23_x13uo"]
 [ext_resource type="PackedScene" uid="uid://cp3bk1xsmjnxj" path="res://robot.tscn" id="24_2bbbl"]
 [ext_resource type="Texture2D" uid="uid://w1dhautmxw6l" path="res://textures/ceo/CEO04_composition.png" id="25_telh7"]
 [ext_resource type="PackedScene" uid="uid://irlxxm1a2475" path="res://objects/props/HardwarePress.gltf" id="26_5pcrg"]
-[ext_resource type="LightmapGIData" uid="uid://dk8rxslo1oapj" path="res://lightmaps/lab_office.lmbake" id="26_e6erj"]
 [ext_resource type="Texture2D" uid="uid://h7donx0eebpa" path="res://textures/ceo/CEO07_composition.png" id="27_e1v60"]
 [ext_resource type="PackedScene" uid="uid://b0p7qjrnq2h6v" path="res://objects/props/OldWrench.gltf" id="27_fe1od"]
 [ext_resource type="PackedScene" uid="uid://dggavdycpsnar" path="res://objects/props/Printer3D.gltf" id="28_fq8n2"]
@@ -53,14 +51,12 @@
 [ext_resource type="PackedScene" uid="uid://dfc4m4r2gr4vd" path="res://objects/props/ShirtDisplay.gltf" id="34_mfqcl"]
 [ext_resource type="PackedScene" uid="uid://duyldqu45oa85" path="res://objects/props/CabezaFemenina.gltf" id="35_5pcrg"]
 [ext_resource type="ArrayMesh" uid="uid://dgr3y7c3cei3s" path="res://meshes/static_robot.res" id="39_kajva"]
-[ext_resource type="LightmapGIData" uid="uid://bcg5v5t32j3kj" path="res://lightmaps/design_office.lmbake" id="40_8wt8o"]
 [ext_resource type="Texture2D" uid="uid://by2hfu5fdeffp" path="res://textures/ceo/CEO06_composition.png" id="40_e1v60"]
 [ext_resource type="PackedScene" uid="uid://djfvpbucf72m4" path="res://picture_frame.tscn" id="41_60t3g"]
 [ext_resource type="Texture2D" uid="uid://bev3fwbdle4vn" path="res://textures/ceo/CEO01_composition.png" id="42_td0b0"]
 [ext_resource type="Texture2D" uid="uid://c6o18fs3ypter" path="res://textures/ceo/CEO02_composition.png" id="43_s1vco"]
 [ext_resource type="Texture2D" uid="uid://dsy0lo6mui8jm" path="res://textures/whiteboard_design_02.png" id="44_q1yh3"]
 [ext_resource type="Texture2D" uid="uid://d1qe87j4jcqbm" path="res://textures/robot_pics/RobotPic_01_composition.png" id="44_tjsd2"]
-[ext_resource type="LightmapGIData" uid="uid://ctabip4ieeiap" path="res://lightmaps/museum_office.lmbake" id="44_y4n4r"]
 [ext_resource type="Texture2D" uid="uid://dwtxq15benscx" path="res://textures/robot_pics/RobotPic_02_composition.png" id="45_5p1dh"]
 [ext_resource type="Texture2D" uid="uid://dcu7h6o0x8bc6" path="res://textures/whiteboard_design_01.png" id="45_aw26h"]
 [ext_resource type="Texture2D" uid="uid://du4qmfciyy71" path="res://textures/robot_pics/RobotPic_03_composition.png" id="46_foy6r"]
@@ -101,6 +97,16 @@
 [ext_resource type="Texture2D" uid="uid://jrtig6k02mbh" path="res://icon.png" id="98_3so84"]
 [ext_resource type="AudioStream" uid="uid://cly68phk1fb4h" path="res://sounds/stinger.ogg" id="101_3so84"]
 [ext_resource type="PackedScene" uid="uid://dc70y7uw3de26" path="res://objects/props/CSPRoboticsLogo.gltf" id="102_ksmmt"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e1v60"]
+lightmap_size_hint = Vector2i(22, 252)
+add_uv2 = true
+size = Vector2(4, 50)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tjsd2"]
+lightmap_size_hint = Vector2i(22, 252)
+add_uv2 = true
+size = Vector2(4, 50)
 
 [sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
 inner_radius = 0.05
@@ -326,6 +332,27 @@ shader = ExtResource("5_y1lda")
 
 [node name="Base" type="Node3D"]
 script = ExtResource("1_ut1kh")
+
+[node name="UberLightmapGI" type="LightmapGI" parent="."]
+directional = true
+use_texture_for_bounces = false
+interior = true
+use_denoiser = false
+texel_scale = 5.0
+environment_custom_energy = 10.0
+
+[node name="LightMapHelpers" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightMapHelpers"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 4.234, 1.943, 0)
+gi_lightmap_texel_scale = 0.01
+mesh = SubResource("PlaneMesh_e1v60")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LightMapHelpers"]
+transform = Transform3D(4.37114e-08, 1, -8.74228e-08, 1, -4.37114e-08, 0, -3.82137e-15, -8.74228e-08, -1, -4.22847, 1.943, 0)
+gi_lightmap_texel_scale = 0.01
+mesh = SubResource("PlaneMesh_tjsd2")
 
 [node name="Player" parent="." instance=ExtResource("2_c28jh")]
 unique_name_in_owner = true
@@ -581,6 +608,15 @@ gizmo_extents = 0.62
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 
+[node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
+transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
+
+[node name="WoodCrate_AOBig3" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
+transform = Transform3D(0.999905, 0, -0.0170062, 0, 1, 0, 0.0137702, 0, 1.23488, -3.55561, 0.0188208, 20.1333)
+
+[node name="WoodCrate_AOBig4" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
+transform = Transform3D(-0.98166, 0, -0.190638, 0, 1, 0, 0.190638, 0, -0.98166, 3.24462, 0.0188208, -22.1665)
+
 [node name="WoodCrate_02" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("55_telh7")]
 transform = Transform3D(0.37166, 0, -0.928369, 0, 1, 0, 0.928369, 0, 0.37166, -3.32445, 0.00988079, -23.8157)
 
@@ -598,6 +634,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.50324, 0.00121135, -19.871)
 
 [node name="WoodCrate03_02" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("12_i2k0m")]
 transform = Transform3D(-0.16243, 0, -0.98672, 0, 1, 0, 0.98672, 0, -0.16243, -3.33317, 0.00121135, -22.1093)
+
+[node name="WoodCrate_AOSmall2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("14_e1v60")]
+transform = Transform3D(0.986697, 0, -0.162568, 0, 1, 0, 0.162568, 0, 0.986697, -3.31832, 0.00460753, -22.091)
+
+[node name="WoodCrate_AOSmall3" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("14_e1v60")]
+transform = Transform3D(0.930743, 0, 0.365673, 0, 1, 0, -0.365673, 0, 0.930743, -3.30553, 0.00460753, -23.8154)
+
+[node name="WoodCrate_AOSmall4" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 3.49956, 0.00460753, -19.8796)
 
 [node name="office_start" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -662,15 +707,51 @@ transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 
 texture = ExtResource("43_s1vco")
 size = Vector2(1.77, 1)
 
+[node name="WoodCrate_AOSmall5" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.05667, 0.00460753, -13.8372)
+
+[node name="WoodCrate_AOSmall6" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -2.00986, 0.00460753, -13.8352)
+
+[node name="WoodCrate_AOSmall7" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.05909, 0.00460753, -9.07131)
+
+[node name="WoodCrate_AOSmall8" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -2.00526, 0.00460753, -9.06438)
+
+[node name="WoodCrate_AOSmall9" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.06126, 0.00460753, -4.78152)
+
+[node name="WoodCrate_AOSmall10" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -2.00309, 0.00460753, -4.77459)
+
+[node name="WoodCrate_AOSmall11" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.06368, 0.00460753, 0.00235081)
+
+[node name="WoodCrate_AOSmall12" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -2.00067, 0.00460753, 0.00928116)
+
+[node name="WoodCrate_AOSmall13" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.06772, 0.00460753, 7.98563)
+
+[node name="WoodCrate_AOSmall14" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -2.00408, 0.00460753, 7.99256)
+
+[node name="WoodCrate_AOSmall15" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.0484, 0.00460753, 11.0153)
+
+[node name="WoodCrate_AOSmall16" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -2.00784, 0.00460753, 11.0222)
+
+[node name="WoodCrate_AOSmall17" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 2.06063, 0.00460753, 14.0305)
+
+[node name="WoodCrate_AOSmall18" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, -1.99561, 0.00460753, 14.0374)
+
 [node name="office_tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
-
-[node name="TutorialLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_tutorial"]
-directional = true
-interior = true
-texel_scale = 2.0
-light_data = ExtResource("7_u7ijn")
 
 [node name="Banner" parent="OfficeNode/DressingNode/office_tutorial" instance=ExtResource("14_cs1hs")]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -1.20731, 0.0134775, -9.20166)
@@ -710,10 +791,6 @@ texture = ExtResource("14_v7taj")
 [node name="office_party" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
-
-[node name="PartyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_party"]
-directional = true
-interior = true
 
 [node name="Balloon2" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
 transform = Transform3D(0.351106, 0.936336, 0, -0.936336, 0.351106, 0, 0, 0, 1, -0.538308, 0.111563, 15.5546)
@@ -775,15 +852,7 @@ banner_scale = 2.0
 
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-
-[node name="MarketingLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_marketing"]
-quality = 2
-supersampling = true
-bounces = 4
-directional = true
-interior = true
-texel_scale = 3.0
-light_data = ExtResource("18_vjpxa")
+visible = false
 
 [node name="RobotHead" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("17_yc71e")]
 transform = Transform3D(0.404103, 0.534656, -0.742187, -0.030718, 0.818862, 0.573166, 0.914197, -0.20882, 0.347329, 3.73417, 1.41207, 19.4671)
@@ -846,11 +915,6 @@ banner_scale = 1.5
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
-
-[node name="LobbyLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lobby"]
-directional = true
-interior = true
-light_data = ExtResource("23_h3qio")
 
 [node name="LobbyChair" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("13_jym3p")]
 transform = Transform3D(0.405955, 0, 0.913893, 0, 1, 0, -0.913893, 0, 0.405955, 3.24909, 0.00768442, 16.9117)
@@ -984,12 +1048,6 @@ banner_scale = 2.5
 unique_name_in_owner = true
 visible = false
 
-[node name="LabLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_lab"]
-directional = true
-interior = true
-texel_scale = 6.0
-light_data = ExtResource("26_e6erj")
-
 [node name="RobotHead" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("17_yc71e")]
 transform = Transform3D(-0.854441, 0.292719, -0.429239, 0, 0.826177, 0.563411, 0.519549, 0.481401, -0.705919, 3.75863, 1.40643, 20.7814)
 
@@ -1062,11 +1120,6 @@ banner_scale = 0.35
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
-
-[node name="ExecutiveLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_executive"]
-directional = true
-interior = true
-texel_scale = 4.0
 
 [node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -1231,15 +1284,12 @@ transform = Transform3D(0.809212, 0.587517, 0, 2.56812e-08, -3.53718e-08, -1, -0
 [node name="GlassDoor2" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("95_iw8h4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.003, -25.218)
 
+[node name="WoodCrate_AOBig5" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("11_tjsd2")]
+transform = Transform3D(-0.800009, 0, -0.599988, 0, 1, 0, 0.599988, 0, -0.800009, 0.383328, 0.0188208, -9.20284)
+
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
-
-[node name="MuseumLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_museum"]
-directional = true
-interior = true
-texel_scale = 5.0
-light_data = ExtResource("44_y4n4r")
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -1492,15 +1542,6 @@ shape = SubResource("BoxShape3D_tjsd2")
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
-
-[node name="DesignLightmapGI" type="LightmapGI" parent="OfficeNode/DressingNode/office_design"]
-quality = 2
-supersampling = true
-bounces = 5
-directional = true
-interior = true
-texel_scale = 5.0
-light_data = ExtResource("40_8wt8o")
 
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)
@@ -2172,6 +2213,7 @@ cull_mask = 1048574
 ambient_mode = 0
 
 [node name="Sky" type="MeshInstance3D" parent="."]
+cast_shadow = 0
 mesh = SubResource("SphereMesh_61cie")
 metadata/_edit_lock_ = true
 

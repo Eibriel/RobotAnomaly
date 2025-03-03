@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bt01gyecu1oqv"]
+
+[ext_resource type="Texture2D" uid="uid://x8iy285ojagj" path="res://objects/ambient_occlusion/Vacuum_AOSelf.png" id="1_jvywc"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.0666667, 0.0745098, 0.0588235, 0.858824)
+albedo_texture = ExtResource("1_jvywc")

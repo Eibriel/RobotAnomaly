@@ -1,0 +1,28 @@
+[remap]
+
+importer="2d_array_texture"
+type="CompressedTexture2DArray"
+uid="uid://cp0q6isgsymfs"
+path.bptc="res://.godot/imported/start_office.exr-4a5a7d6661f1cbdd593a18f435ca71ea.bptc.ctexarray"
+path.astc="res://.godot/imported/start_office.exr-4a5a7d6661f1cbdd593a18f435ca71ea.astc.ctexarray"
+metadata={
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://lightmaps/start_office.exr"
+dest_files=["res://.godot/imported/start_office.exr-4a5a7d6661f1cbdd593a18f435ca71ea.bptc.ctexarray", "res://.godot/imported/start_office.exr-4a5a7d6661f1cbdd593a18f435ca71ea.astc.ctexarray"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/channel_pack=1
+mipmaps/generate=false
+mipmaps/limit=-1
+slices/horizontal=1
+slices/vertical=8

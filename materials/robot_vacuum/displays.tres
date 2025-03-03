@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b8mc1aky5ak6p"]
+
+[ext_resource type="Material" uid="uid://bt01gyecu1oqv" path="res://materials/robot_vacuum/robot_vacuum_self_ao.tres" id="1_kplg7"]
+
+[resource]
+resource_name = "displays"
+next_pass = ExtResource("1_kplg7")
+cull_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+metallic = 0.538182
+roughness = 0.0981818

@@ -33,6 +33,12 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
+"materials": {
+"WallFan": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/misc/WallFan.tres"
+}
+},
 "nodes": {
 "PATH:WallFan": {
 "mesh_instance/cast_shadow": 0

@@ -32,6 +32,34 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"materials": {
+"Body_material": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_vacuum/Body_material.tres"
+},
+"additional_details": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_vacuum/additional_details.tres"
+},
+"displays": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_vacuum/displays.tres"
+},
+"material.002": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_vacuum/material.002.tres"
+},
+"wheels": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_vacuum/wheels.tres"
+}
+},
+"nodes": {
+"PATH:VacuumAO": {
+"mesh_instance/cast_shadow": 0
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

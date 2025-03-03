@@ -1,0 +1,25 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://ce03f13dntjm7"]
+
+[ext_resource type="Texture2D" uid="uid://dkyvp2mys8tom" path="res://objects/props/props_textures/WallFan_Base.png" id="1_73244"]
+[ext_resource type="Texture2D" uid="uid://evm7fyqq6cxf" path="res://objects/props/props_textures/WallFan_MR.png" id="2_p4e7y"]
+[ext_resource type="Texture2D" uid="uid://6osrvj1k1hn3" path="res://objects/props/props_textures/WallFan_Normal.png" id="3_6op8w"]
+[ext_resource type="Texture2D" uid="uid://e1vfnoynifn1" path="res://objects/ambient_occlusion/WallFan_SelfAO.png" id="3_p4e7y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6op8w"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.0666667, 0.0745098, 0.0588235, 1)
+albedo_texture = ExtResource("3_p4e7y")
+
+[resource]
+resource_name = "WallFan"
+next_pass = SubResource("StandardMaterial3D_6op8w")
+cull_mode = 2
+albedo_texture = ExtResource("1_73244")
+metallic = 1.0
+metallic_texture = ExtResource("2_p4e7y")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_p4e7y")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("3_6op8w")

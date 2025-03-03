@@ -31,7 +31,7 @@ animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
-import_script/path=""
+import_script/path="uid://5c4gqq2s84y1"
 _subresources={
 "materials": {
 "Wood_High_Small": {
@@ -42,6 +42,7 @@ _subresources={
 "nodes": {
 "PATH:Collision": {
 "generate/physics": true,
+"mesh_instance/cast_shadow": 0,
 "mesh_instance/layers": 0,
 "physics/shape_type": 3
 }

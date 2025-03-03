@@ -43,7 +43,15 @@ func iterate(node):
 						#mat.metallic = 0.0
 					if root_name == "FemaleAnatomy":
 						mat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+		if node is MeshInstance3D:
+			if (root_name == "WoodCrate02" and node.name == "Collider") or\
+				(root_name == "WoodCrate" and node.name == "Collision_001") or\
+				(root_name == "WoodCrate03" and node.name == "Collision"):
+					node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 		if root_name == "office":
+			if node is MeshInstance3D:
+				if node.name != "Suelo":
+					node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 			if node.name == "LightInstancing":
 				#node.mesh = null
 				pass

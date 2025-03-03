@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://btogan611cu0u"]
+
+[ext_resource type="Material" uid="uid://bt01gyecu1oqv" path="res://materials/robot_vacuum/robot_vacuum_self_ao.tres" id="1_mmijy"]
+
+[resource]
+resource_name = "Body_material"
+next_pass = ExtResource("1_mmijy")
+cull_mode = 2
+albedo_color = Color(0.0261211, 0.0255735, 0.0237266, 1)
+roughness = 0.762727

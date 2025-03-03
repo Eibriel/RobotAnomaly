@@ -59,9 +59,10 @@
 					"attributes":{
 						"POSITION":0,
 						"NORMAL":1,
-						"TEXCOORD_0":2
+						"TEXCOORD_0":2,
+						"TEXCOORD_1":3
 					},
-					"indices":3,
+					"indices":4,
 					"material":0
 				}
 			]
@@ -71,11 +72,11 @@
 			"primitives":[
 				{
 					"attributes":{
-						"POSITION":4,
-						"NORMAL":5,
-						"TEXCOORD_0":6
+						"POSITION":5,
+						"NORMAL":6,
+						"TEXCOORD_0":7
 					},
-					"indices":7
+					"indices":8
 				}
 			]
 		}
@@ -115,7 +116,7 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":571,
+			"count":892,
 			"max":[
 				0.6690967082977295,
 				1.3440656661987305,
@@ -131,23 +132,29 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":571,
+			"count":892,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":571,
+			"count":892,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
+			"componentType":5126,
+			"count":892,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":4,
 			"componentType":5123,
 			"count":1242,
 			"type":"SCALAR"
 		},
 		{
-			"bufferView":4,
+			"bufferView":5,
 			"componentType":5126,
 			"count":24,
 			"max":[
@@ -163,19 +170,19 @@
 			"type":"VEC3"
 		},
 		{
-			"bufferView":5,
+			"bufferView":6,
 			"componentType":5126,
 			"count":24,
 			"type":"VEC3"
 		},
 		{
-			"bufferView":6,
+			"bufferView":7,
 			"componentType":5126,
 			"count":24,
 			"type":"VEC2"
 		},
 		{
-			"bufferView":7,
+			"bufferView":8,
 			"componentType":5123,
 			"count":36,
 			"type":"SCALAR"
@@ -184,50 +191,56 @@
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":6852,
+			"byteLength":10704,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6852,
-			"byteOffset":6852,
+			"byteLength":10704,
+			"byteOffset":10704,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4568,
-			"byteOffset":13704,
+			"byteLength":7136,
+			"byteOffset":21408,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":7136,
+			"byteOffset":28544,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":2484,
-			"byteOffset":18272,
+			"byteOffset":35680,
 			"target":34963
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":20756,
+			"byteOffset":38164,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":288,
-			"byteOffset":21044,
+			"byteOffset":38452,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":192,
-			"byteOffset":21332,
+			"byteOffset":38740,
 			"target":34962
 		},
 		{
 			"buffer":0,
 			"byteLength":72,
-			"byteOffset":21524,
+			"byteOffset":38932,
 			"target":34963
 		}
 	],
@@ -239,7 +252,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":21596,
+			"byteLength":39004,
 			"uri":"WoodCrate03.bin"
 		}
 	]

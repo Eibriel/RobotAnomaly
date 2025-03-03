@@ -15,7 +15,8 @@
 			"nodes":[
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		}
 	],
@@ -45,6 +46,15 @@
 				0.04246038198471069,
 				0.012402579188346863,
 				0.08683115243911743
+			]
+		},
+		{
+			"mesh":2,
+			"name":"VacuumAO",
+			"translation":[
+				0,
+				0.0015429079066962004,
+				0
 			]
 		}
 	],
@@ -193,6 +203,22 @@
 				"metallicFactor":0,
 				"roughnessFactor":0.8636360168457031
 			}
+		},
+		{
+			"alphaMode":"BLEND",
+			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
+			},
+			"name":"Vacuum_AO",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
+				"metallicFactor":0
+			}
 		}
 	],
 	"meshes":[
@@ -286,6 +312,33 @@
 					"material":2
 				}
 			]
+		},
+		{
+			"name":"Plane.009",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":36,
+						"NORMAL":37,
+						"TEXCOORD_0":38
+					},
+					"indices":39,
+					"material":8
+				}
+			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/png",
+			"name":"Vacuum_AOFloor",
+			"uri":"props_textures/Vacuum_AOFloor.png"
 		}
 	],
 	"accessors":[
@@ -594,6 +647,40 @@
 			"componentType":5123,
 			"count":96,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":36,
+			"componentType":5126,
+			"count":4,
+			"max":[
+				0.26159417629241943,
+				0,
+				0.26159417629241943
+			],
+			"min":[
+				-0.26159417629241943,
+				0,
+				-0.26159417629241943
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":37,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":38,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":39,
+			"componentType":5123,
+			"count":6,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -812,11 +899,41 @@
 			"byteLength":192,
 			"byteOffset":1019772,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":1019964,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":1020012,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":32,
+			"byteOffset":1020060,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":12,
+			"byteOffset":1020092,
+			"target":34963
+		}
+	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":1019964,
+			"byteLength":1020104,
 			"uri":"RobotVacuum.bin"
 		}
 	]

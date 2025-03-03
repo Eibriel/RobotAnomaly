@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dl3od8mmkd8yj"]
+
+[ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_vwjj4"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.0681039, 0.0764109, 0.0589974, 0.788235)
+albedo_texture = ExtResource("1_vwjj4")
