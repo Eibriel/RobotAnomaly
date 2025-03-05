@@ -26,5 +26,8 @@
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERRORS","Errors",,"Errores",,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERROR ANOMALY ON","Robot with anomaly was on",,"Un robot anomaló estaba encendido",,,,,,,,,,,,,,,,,,,,,,,,,,
+"ERROR OFF NO ANOMALY","Robot without anomaly was off",,"Un robot sin anomalía estaba apagado",,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERROR FULL BATTERY","A Robot had full battery",,"Un robot tenía la batería cargada",,,,,,,,,,,,,,,,,,,,,,,,,,
 "NO ERROR","No errors",,"Sin errores",,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"FOLLOW ME","Follow me on:",,"Sigueme en:",,,,,,,,,,,,,,,,,,,,,,,,,,

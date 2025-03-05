@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" load_steps=4 format=3 uid="uid://ucshp4qnp5v0"]
+
+[ext_resource type="Texture2D" uid="uid://cqo4ualvrvrxq" path="res://objects/robot_BarbedWire_BaseColor.png" id="1_vkrhp"]
+[ext_resource type="Texture2D" uid="uid://bu1clud601e6r" path="res://objects/robot_BarbedWire_MR.png" id="2_scrgn"]
+[ext_resource type="Texture2D" uid="uid://cf7xl8qmc61o2" path="res://objects/robot_BarbedWire_Normal.png" id="3_x7873"]
+
+[resource]
+resource_name = "BarbedWire"
+transparency = 2
+alpha_scissor_threshold = 0.233
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_color = Color(0.172833, 0.172833, 0.172833, 1)
+albedo_texture = ExtResource("1_vkrhp")
+metallic = 1.0
+metallic_specular = 0.0
+metallic_texture = ExtResource("2_scrgn")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("2_scrgn")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_scale = 0.1
+normal_texture = ExtResource("3_x7873")

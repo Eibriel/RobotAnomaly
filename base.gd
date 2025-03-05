@@ -96,6 +96,7 @@ var saw_crowd_03 := false
 var saw_crowd_04 := false
 
 var congrats_explosion_executed := false
+var museum_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
@@ -121,11 +122,11 @@ func _ready() -> void:
 		force_events = false
 		%LogLabel.visible = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size()
+	var force_completed_scenarios = Robot.GLITCHES.size() - 10
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -179,6 +180,9 @@ func _ready() -> void:
 	#
 	#next_event_in = get_next_event_time() + 60.0
 	turn_lights_on()
+	#
+	%FadeWhite.visible = true
+	%FadeBlack.visible = true
 
 func check_if_nightmare() -> bool:
 	return game_state.executive_completed
@@ -334,10 +338,15 @@ func _process(delta: float) -> void:
 			TASKS.ROTATE_INVERSE:
 				robot_collected.rotate_base(delta, true)
 			TASKS.BATTERY_CHARGE:
-				robot_collected.charge_battery(delta)
+				robot_collected.play_process()
+				if robot_collected.charge_battery(delta):
+					current_task = TASKS.NONE
+					robot_collected.play_process(true)
 			TASKS.SHUT_DOWN:
+				robot_collected.play_process()
 				if robot_collected.shutdown(delta):
 					current_task = TASKS.NONE
+					robot_collected.play_process(true)
 	
 	var robot_id = -1
 	if robot_collected:
@@ -371,7 +380,9 @@ func _process(delta: float) -> void:
 	event_light_timer -= delta
 	if lights_delay >= 0.0:
 		lights_delay -= delta
-		if lights_delay < 0.0 and not disabled_sections.has(section.scenario):
+		if lights_delay < 0.0 and \
+				not disabled_sections.has(section.scenario) and \
+				Global.is_player_in_room:
 			turn_lights_off()
 	
 	game_state.seconds += delta
@@ -379,6 +390,7 @@ func _process(delta: float) -> void:
 	
 	update_executive()
 	update_congrats()
+	update_museum()
 	update_events(delta)
 	update_cursor(delta)
 	refresh_reflection_probe(delta)
@@ -604,6 +616,7 @@ func enable_event(_event:EVENTS) -> void:
 	match _event:
 		EVENTS.VENTILATION:
 			%RobotEventVentilation.visible = true
+			%RobotEventVentilation.first_frame_animation("EventVentilation")
 		EVENTS.REPORT:
 			%RobotEventReport.visible = true
 			%RobotEventReport.first_frame_animation("EventReport")
@@ -701,12 +714,13 @@ func update_events(delta: float) -> void:
 			%EventVentilationAudio.position.x = 4.148
 			current_events.erase(EVENTS.VENTILATION)
 			#seen_events.append(EVENTS.VENTILATION)
+			%RobotEventVentilation.play_animation("EventVentilation")
 			$Stinger.play()
 			var tween := create_tween()
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 			#tween.tween_interval(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
-			#tween.tween_interval(0.4)
+			tween.tween_interval(1.0)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 			tween.tween_callback(%RobotEventVentilation.set_visible.bind(false))
 			tween.tween_callback(%EventVentilationAudio.play)
@@ -825,6 +839,8 @@ func setup_executive() -> void:
 	%RobotVacuum.global_position = %ExecVacuumMarker.global_position
 	%RobotVacuum.global_rotation = %ExecVacuumMarker.global_rotation
 	%RobotVacuum.current_state = %RobotVacuum.STATES.CIRCLES
+	#
+	%StairSign.visible = false
 
 var exec_done := false
 var door_open := false
@@ -886,8 +902,10 @@ func update_congrats() -> void:
 	if section.scenario != -1: return
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
 	var pos: float = player_pos.z + 25
-	if pos < 5:
+	if pos < 15 and not game_state.congrats_completed:
+		turn_lights_off()
 		game_state.congrats_completed = true
+		%RobotsOnTheFloor.visible = false
 	if not congrats_explosion_executed:
 		if pos < 45:
 			var tween_particles := create_tween()
@@ -1026,10 +1044,27 @@ func reset_dressing() -> void:
 	%CongratsParticlesBigExplosion2.emitting = false
 	%CrowdMultiMeshStorage.visible = false
 	#
+	%StairSign.visible = true
 
 func dressing_visible(dressing_node: Node3D) -> void:
 	dressing_node.visible = true
 	dressing_node.position.y = 0
+
+func update_museum() -> void:
+	if section.scenario != -4: return
+	if selected_scenarios.size() != 0: return
+	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
+	var pos: float = player_pos.z + 25
+	if not museum_explosion_executed:
+		if pos < 20:
+			var tween_particles := create_tween()
+			tween_particles.tween_callback(%CongratsParticlesBigExplosion3.set_emitting.bind(true))
+			tween_particles.tween_callback(%CongratsParticlesAudio3.play)
+			tween_particles.tween_interval(0.1)
+			tween_particles.tween_callback(%CongratsParticlesBigExplosion4.set_emitting.bind(true))
+			tween_particles.tween_callback(%CongratsParticlesAudio4.play)
+			tween_particles.tween_callback(%CongratsParticlesBig2.set_emitting.bind(true))
+			museum_explosion_executed = true
 
 func setup_museum() -> void:
 	var anomalies_count := 0
@@ -1053,6 +1088,8 @@ func setup_museum() -> void:
 	
 	if selected_scenarios.size() == 0:
 		%VacuumReveal.position.y = 0
+		%StairSign.visible = false
+		%StairSign2.visible = false
 		%RobotVacuum.global_position = %VacuumRevealMarker.global_position
 		%RobotVacuum.global_rotation = %VacuumRevealMarker.global_rotation
 		%RobotVacuum.current_state = %RobotVacuum.STATES.STILL
@@ -1180,7 +1217,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
 		$UberLightmapGI.light_data = preload("res://lightmaps/lab_office.lmbake")
-	elif message_id <= 15:
+	elif message_id <= 14:
 		%MessageLabel.text = "Design Room"
 		dressing_visible(%office_design)
 		dressing_visible(%office_warehouse)
@@ -1236,6 +1273,8 @@ func instantiate_sections(Env: Node3D) -> void:
 				dressing_visible(%office_executive)
 	
 	%StairSign2.visible = check_if_nightmare()
+	if scenario == -3:
+		%StairSign2.visible = false
 	const audio_distance := 50.0
 	var city_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, 0, audio_distance), 0, audio_distance)
 	var street_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, audio_distance, 0), 0, audio_distance)
@@ -1407,6 +1446,7 @@ func unpause() -> void:
 	%PauseMenu.visible = false
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	release_action_button()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_text_delete"):
@@ -1419,10 +1459,15 @@ func _input(event: InputEvent) -> void:
 		if event.pressed:
 			fire_ray(event.button_index)
 		else:
-			task_timer = 0.0
-			current_task = TASKS.NONE
-			if event_light_timer < 0 and Global.is_player_in_room:
-				turn_lights_off(randf_range(3.0, 6.0))
+			release_action_button()
+
+func release_action_button() -> void:
+	task_timer = 0.0
+	current_task = TASKS.NONE
+	if robot_collected:
+		robot_collected.play_process(true)
+	if event_light_timer < 0 and Global.is_player_in_room:
+		turn_lights_off(randf_range(3.0, 6.0))
 
 func process_failed_queue(scenario: int) -> void:
 	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
@@ -1672,6 +1717,7 @@ func charge_battery(robot: Robot) -> void:
 	# On Robot
 	if robot.power_on and robot.glitch == Robot.GLITCHES.GRABS_BATTERY:
 		robot.grab_battery()
+		$Stinger.play()
 		return
 	task_timer = 0.0
 	current_task = TASKS.BATTERY_CHARGE
@@ -1850,6 +1896,7 @@ func _on_storage_area_body_exited(_body: Node3D) -> void:
 	Global.is_player_in_storage = false
 
 func _on_reset_button_pressed() -> void:
+	%ResetButton.visible = false
 	%ConfirmResetContainer.visible = true
 
 func _on_confirm_reset_button_pressed() -> void:
@@ -1857,4 +1904,15 @@ func _on_confirm_reset_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://base.tscn")
 
 func _on_cancel_reset_button_pressed() -> void:
+	%ResetButton.visible = true
 	%ConfirmResetContainer.visible = false
+
+
+func _on_follow_itchio_button_pressed() -> void:
+	OS.shell_open("https://eibriel.itch.io/") 
+
+func _on_follow_steam_button_pressed() -> void:
+	OS.shell_open("https://store.steampowered.com/developer/eibriel")
+
+func _on_follow_mastodon_button_pressed() -> void:
+	OS.shell_open("https://sigmoid.social/@eibriel")

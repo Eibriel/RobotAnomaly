@@ -151,8 +151,21 @@ func _ready() -> void:
 	robj["knife"] = %robotObject.get_node("Armature/Skeleton3D/Knife")
 	robj["arm"] = %robotObject.get_node("Armature/Skeleton3D/arm_L")
 	robj["battery_radial"] = %robotObject.get_node("Armature/Skeleton3D/Battery_RadialProgress/Battery_RadialProgress")
+	robj["battery_body"] = %robotObject.get_node("Armature/Skeleton3D/BatteryBody/BatteryBody")
 	robj["power_radial"] = %robotObject.get_node("Armature/Skeleton3D/OffButton_RadialProgress/OffButton_RadialProgress")
 	robj["off_button"] = %robotObject.get_node("Armature/Skeleton3D/OffButton/OffButton")
+	#
+	robj["bw_head"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Head")
+	robj["bw_chest"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Chest")
+	robj["bw_waist"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Waist")
+	robj["bw_forearm_l"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_ForeArm_L")
+	robj["bw_forearm_r"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_ForeArm_R")
+	robj["bw_upperarm_l"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_UpperArm_L")
+	robj["bw_upperarm_r"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_UpperArm_R")
+	robj["bw_leg_l"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Leg_L")
+	robj["bw_leg_r"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Leg_R")
+	robj["bw_legb_l"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_LegB_L")
+	robj["bw_legb_r"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_LegB_R")
 	
 	#prints("GC", GLITCHES.size())
 	%RobotBase.rotate_y(deg_to_rad(randf_range(0, 360)))
@@ -190,6 +203,19 @@ func _ready() -> void:
 	var white_eyes_mesh:Mesh = robj["white_eyes"].mesh as Mesh
 	white_eyes_mesh.surface_set_material(0, ROBOT_FACE)
 	robj["white_eyes"].visible = false
+	
+	if not is_event:
+		robj["bw_head"].visible = false
+		robj["bw_chest"].visible = false
+		robj["bw_waist"].visible = false
+		robj["bw_forearm_l"].visible = false
+		robj["bw_forearm_r"].visible = false
+		robj["bw_upperarm_l"].visible = false
+		robj["bw_upperarm_r"].visible = false
+		robj["bw_leg_l"].visible = false
+		robj["bw_leg_r"].visible = false
+		robj["bw_legb_l"].visible = false
+		robj["bw_legb_r"].visible = false
 	
 	#robj["off_button"].visible = false
 	
@@ -251,11 +277,11 @@ func first_frame_animation(anim_name: String) -> void:
 func play_animation(anim_name: String) -> void:
 	anim.play(anim_name)
 
-func charge_battery(delta: float) -> void:
-	if not power_on: return
-	if is_demo or is_event: return
-	if glitch == GLITCHES.DOOR_OPEN: return
-	if lock_buttons: return
+func charge_battery(delta: float) -> bool:
+	if not power_on: return false
+	if is_demo or is_event: return false
+	if glitch == GLITCHES.DOOR_OPEN: return false
+	if lock_buttons: return false
 	var prev_level = battery_charge
 	battery_charge -= delta * 14.0 * 4.0
 	battery_charge = clampf(battery_charge, 0.0, 100.0)
@@ -264,15 +290,26 @@ func charge_battery(delta: float) -> void:
 		pass
 	if prev_level != battery_charge and battery_charge <= 0.0:
 		%RobotBatteryAudioPlayer.play()
+		var bat_tween := create_tween()
+		bat_tween.tween_property(robj["battery_radial"], "position:z", 0.1, 0.2)
+		bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.1, 0.2)
+		bat_tween.tween_interval(1.0)
+		bat_tween.tween_callback(robj["battery_radial"].set_visible.bind(false))
+		bat_tween.tween_callback(robj["battery_body"].set_visible.bind(false))
 	recharge_cooldown = 20.0
+	if battery_charge == 0:
+		return true
+	return false
 
+## Deprecated
 func update_auto_battery(delta) -> void:
-	if glitch == GLITCHES.NONE: return
-	if not power_on: return
-	if force_no_battery: return
-	if recharge_cooldown == 0:
-		battery_charge += delta * 14.0 * 0.5
-		battery_charge = min(100.0, battery_charge)
+	if false:
+		if glitch == GLITCHES.NONE: return
+		if not power_on: return
+		if force_no_battery: return
+		if recharge_cooldown == 0:
+			battery_charge += delta * 14.0 * 0.5
+			battery_charge = min(100.0, battery_charge)
 
 func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
@@ -290,6 +327,15 @@ func shutdown(delta: float) -> bool:
 			turn_on()
 			return true
 	return false
+
+func play_process(stop:=false) -> void:
+	if is_demo: return
+	if lock_buttons: return
+	if stop:
+		%RobotButtonAudioPlayer.stop()
+		return
+	if not %RobotButtonAudioPlayer.playing:
+		%RobotButtonAudioPlayer.play()
 
 func _process(delta: float) -> void:
 	recharge_cooldown -= delta
@@ -358,6 +404,7 @@ func _process(delta: float) -> void:
 	update_auto_battery(delta)
 	update_radial(delta)
 
+
 func update_radial(delta: float) -> void:
 	pressing_off_button -= delta * 2.0
 	pressing_off_button = clampf(pressing_off_button, 0, 0.2)
@@ -368,20 +415,6 @@ func update_radial(delta: float) -> void:
 	
 	var power_instance:MeshInstance3D = robj["power_radial"]
 	power_instance["instance_shader_parameters/amount"] = shutdown_time
-	
-	#var value := shutdown_time * 100.0
-	#var limited_value := clampf(value, 0.0, 100.0)
-	#if limited_value < 100:
-		#power_grad.gradient.offsets[1] = limited_value / 100.0
-	#else:
-		#power_grad.gradient.offsets[1] = 0.99
-	#
-	#value = battery_charge
-	#limited_value = clampf(value, 0.0, 100.0)
-	#if limited_value < 100:
-		#battery_grad.gradient.offsets[1] = limited_value / 100.0
-	#else:
-		#battery_grad.gradient.offsets[1] = 0.99
 
 func update_stalk() -> void:
 	if stalk_player == STALK.DISABLED: return
@@ -691,7 +724,9 @@ func update_glitch() -> void:
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
 				tween.tween_interval(0.09)
 		GLITCHES.FACING_WRONG_DIRECTION:
-			%RobotBody.rotation.y = deg_to_rad(0+randi_range(-10, 10))
+			%RobotBody.rotation.y = deg_to_rad(5+randi_range(-10, 10))
+			if is_demo:
+				%RobotBody.rotation.y = deg_to_rad(90)
 		GLITCHES.MISSING_EYE:
 			robj["eye_left"].visible = false
 		GLITCHES.MISSING_ENTIRELY:
@@ -716,6 +751,8 @@ func update_glitch() -> void:
 			%RobotBody.position = Vector3(0.8, 0, 0)
 			%RobotBody.rotation.y = deg_to_rad(-45)
 			anim.play("Timer")
+			if is_demo:
+				%RobotBody.position.x = 0.0
 		GLITCHES.DOOR_OPEN:
 			%RobotBody.position = Vector3(-15, 0, 0)
 			%RobotBody.rotation.y = deg_to_rad(90)
@@ -849,6 +886,7 @@ func shut_down() -> void:
 func turn_on() -> void:
 	power_on = true
 	anim.play("Idle", 1.0)
+	%RobotPowerupAudioPlayer.play()
 	#
 	#const ROBOT_RED_GLOW = preload("res://materials/robot_mats/Robot_Red_Glow.tres")
 	#const ROBOT_WHITE_GLOW = preload("res://materials/robot_mats/Robot_White_Glow.tres")
@@ -864,7 +902,10 @@ func turn_on() -> void:
 	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Working"
 
 func turn_off_glitches() -> void:
+	if tween and tween.is_valid():
+		tween.stop()
 	robj["red_eyes"].visible = false
+	
 
 func grab_battery() -> void:
 	if glitch_executed:

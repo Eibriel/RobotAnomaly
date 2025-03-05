@@ -76,18 +76,18 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"Image_2",
-			"uri":"props_textures/Image_2.png"
+			"name":"OldWrench_Normal",
+			"uri":"props_textures/OldWrench_Normal.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"OldWrench",
-			"uri":"props_textures/OldWrench.png"
+			"name":"OldWrench_MR",
+			"uri":"props_textures/OldWrench_MR.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"Image_0",
-			"uri":"props_textures/Image_0.png"
+			"name":"OldWrench_Base",
+			"uri":"props_textures/OldWrench_Base.png"
 		}
 	],
 	"accessors":[

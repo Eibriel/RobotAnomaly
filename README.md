@@ -134,6 +134,10 @@ Some assets may not be in the game
 
 - "216972, 216974 Urbano Lightstar Overhead light" (https://skfb.ly/6SEMQ) by LIGHTSTAR GROUP is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+- "Sci-fi Battery" (https://skfb.ly/6TSWM) by andreas9343 is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+- "Barrier _ Wooden_ Barbed_ Wire Protection_13_MB" (https://skfb.ly/ptCM6) by Mehdi Shahsavan is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 
 
 ### Sounds
@@ -189,6 +193,16 @@ Some assets may not be in the game
 - Correct.mp3 by LittleRainySeasons -- https://freesound.org/s/335908/ -- License: Creative Commons 0
 
 - buzzer.wav by guitarguy1985 -- https://freesound.org/s/54047/ -- License: Creative Commons 0
+
+- Power Cord Unplug 1_2 by Joao_Janz -- https://freesound.org/s/477641/ -- License: Creative Commons 0
+
+- Power Cord Plug 1_1 by Joao_Janz -- https://freesound.org/s/477628/ -- License: Creative Commons 0
+
+- Robot_Noise_Rising.wav by ofuscapreto -- https://freesound.org/s/237486/ -- License: Creative Commons 0
+
+- Geiger (simulation) (Dosimeter) by rammbostein -- https://freesound.org/s/352959/ -- License: Creative Commons 0
+
+- Turning on a hi-tech room by xkeril -- https://freesound.org/s/613944/ -- License: Creative Commons 0
 
 
 ### Fonts

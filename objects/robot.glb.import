@@ -34,6 +34,10 @@ animation/import_rest_as_RESET=false
 import_script/path="uid://5c4gqq2s84y1"
 _subresources={
 "materials": {
+"BarbedWire": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/robot_mats/BarbedWire.tres"
+},
 "Robot_Battery": {
 "use_external/enabled": true,
 "use_external/path": "uid://c3mm4vs8sgbsm"

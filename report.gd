@@ -30,6 +30,7 @@ func update_report(data: Array) -> void:
 	for c in %ReportSubviewportNode.get_children():
 		c.queue_free()
 	var robot_with_anomaly := false
+	var robot_off_without_anomaly := false
 	var robot_without_battery := false
 	var r_row := 0
 	var r_column := 0
@@ -49,6 +50,8 @@ func update_report(data: Array) -> void:
 		else:
 			if r.full_battery:
 				robot_without_battery = true
+			if not r.power:
+				robot_off_without_anomaly = true
 		icon.scale = Vector2.ONE * 0.2
 		r_row += 1
 		if r_row == floor(data.size()*0.5):
@@ -57,7 +60,10 @@ func update_report(data: Array) -> void:
 		batteries_charged_required = r.batteries_charged_required
 	
 	correct = true
-	if robot_with_anomaly:
+	if robot_off_without_anomaly:
+		$PowerErrorLabel.text = tr("ERROR OFF NO ANOMALY")
+		correct = false
+	elif robot_with_anomaly:
 		$PowerErrorLabel.text = tr("ERROR ANOMALY ON")
 		correct = false
 	else:
