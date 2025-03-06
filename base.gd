@@ -85,8 +85,8 @@ var lights_on := true
 var lights_timer := 0.0
 var lights_delay := -1.0
 
-const FLOORS_AMOUNT := 25 #29 # Top floor
-const INTRO_AMOUNT := 15 #8 # Ends section 1
+const FLOORS_AMOUNT := 18 #29 # Top floor
+const INTRO_AMOUNT := 8 #8 # Ends section 1
 const NONE_RATIO := 4
 
 var exe_phase_2 := false
@@ -111,7 +111,7 @@ var force_events := true
 #var force_completed_scenarios := 10
 
 func _ready() -> void:
-	if OS.has_feature("template"):
+	if is_export():
 		#skip_tutorial = false
 		force_anomaly = Robot.GLITCHES.NONE
 		linear_game = false
@@ -121,6 +121,7 @@ func _ready() -> void:
 		fail_all = false
 		force_events = false
 		%LogLabel.visible = false
+		%FPSLabel.visible = false
 	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
@@ -186,6 +187,9 @@ func _ready() -> void:
 
 func check_if_nightmare() -> bool:
 	return game_state.executive_completed
+
+func is_export() -> bool:
+	return OS.has_feature("template")
 
 ## Initializes a game
 func start_game() -> void:
@@ -388,6 +392,9 @@ func _process(delta: float) -> void:
 	game_state.seconds += delta
 	%Clock.seconds = game_state.seconds
 	
+	if not is_export():
+		%FPSLabel.text = "%f" % Engine.get_frames_per_second()
+	
 	update_executive()
 	update_congrats()
 	update_museum()
@@ -398,7 +405,7 @@ func _process(delta: float) -> void:
 func turn_lights_on() -> void:
 	%LightSwitch3.turn_on_off()
 	lights_on = true
-	event_light_timer = randf_range(60.0*2, 60.0*4)
+	event_light_timer = randf_range(60.0*7, 60.0*15)
 	lights_timer = 0.0
 
 func turn_lights_off(delay:=0.0) -> void:
@@ -407,14 +414,14 @@ func turn_lights_off(delay:=0.0) -> void:
 		lights_on = false
 		lights_timer = 0.0
 	else:
-		event_light_timer = randf_range(60.0*2, 60.0*4)
+		event_light_timer = randf_range(60.0*7, 60.0*15)
 		# This function will be called in [delay] seconds
 		lights_delay = delay
 
 func get_next_event_time(event: EVENTS) -> float:
 	if force_events:
 		return 5.0
-	return randf_range(60.0*4, 60.0*10)
+	return randf_range(60.0*10, 60.0*20)
 
 func reset_events_timer(event: EVENTS, short_reset:=false) -> void:
 	events_enableable_time[event] = get_next_event_time(event)
@@ -703,7 +710,7 @@ func update_events(delta: float) -> void:
 	const execute_threshold := 0.3
 	
 	if current_events.has(EVENTS.VENTILATION):
-		if is_point_centered(%EventVentilationVisible, 0.4, 0.6, 10.0):
+		if is_point_centered(%EventVentilationVisible, 0.3, 0.6, 10.0):
 			event_execute_time[EVENTS.VENTILATION] += delta
 		else:
 			event_execute_time[EVENTS.VENTILATION] = 0.0
@@ -799,7 +806,7 @@ func update_events(delta: float) -> void:
 			#tween.tween_interval(0.1)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
 	if current_events.has(EVENTS.LINE):
-		if is_point_centered(%VisibleEventLine, 0.3, 0.6, 20.0):
+		if is_point_centered(%VisibleEventLine, 0.17, 0.6, 20.0):
 			event_execute_time[EVENTS.LINE] += delta
 		else:
 			event_execute_time[EVENTS.LINE] = 0.0
@@ -996,6 +1003,8 @@ func load_settings() -> void:
 	%MouseAccSlider.set_value_no_signal(game_settings.mouse_acceleration)
 	%CameraShakeSlider.set_value_no_signal(game_settings.camera_shake)
 	%FullscreenCheckBox.set_pressed_no_signal(game_settings.full_screen)
+	%VSyncCheckBox.set_pressed_no_signal(game_settings.vsync)
+	%MaxFPSSpin.set_value_no_signal(game_settings.max_fps)
 	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
 	Global.player.rotation_accel = game_settings.mouse_acceleration
 	Global.player.camera_shake = game_settings.camera_shake
@@ -1011,6 +1020,11 @@ func load_settings() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	if game_settings.vsync:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	else:
+		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	Engine.max_fps = game_settings.max_fps
 	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)
 	prints("Camera Acceleration", %MouseAccSlider.value)
 	prints("Camera shake", %CameraShakeSlider.value)
@@ -1071,7 +1085,7 @@ func setup_museum() -> void:
 	for _n in game_state.completed_anomalies:
 		if _n != Robot.GLITCHES.NONE:
 			anomalies_count += 1
-	%MuseumStatsLabel.text = "Found\n"
+	%MuseumStatsLabel.text = "%s\n" % tr("FOUND ANOMALIES")
 	%MuseumStatsLabel.text += "%d / %d\n" % [anomalies_count, Robot.GLITCHES.size()-1]
 	#for ss in game_state.completed_anomalies:
 	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
@@ -1886,6 +1900,16 @@ func _on_camera_shake_slider_drag_ended(value_changed: bool) -> void:
 
 func _on_fullscreen_check_box_toggled(toggled_on: bool) -> void:
 	game_settings.full_screen = toggled_on
+	save_game_settings()
+	load_settings()
+
+func _on_v_sync_check_box_toggled(toggled_on: bool) -> void:
+	game_settings.vsync = toggled_on
+	save_game_settings()
+	load_settings()
+
+func _on_max_fps_spin_value_changed(value: float) -> void:
+	game_settings.max_fps = value
 	save_game_settings()
 	load_settings()
 

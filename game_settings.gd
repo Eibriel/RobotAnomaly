@@ -10,3 +10,7 @@ extends Resource
 @export var camera_shake := 1.0
 
 @export var full_screen := true
+
+@export var vsync := true
+
+@export var max_fps :int = 60

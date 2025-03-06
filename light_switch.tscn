@@ -1,10 +1,23 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2vbdqvccwtcs"]
+[gd_scene load_steps=10 format=3 uid="uid://d2vbdqvccwtcs"]
 
 [ext_resource type="Script" uid="uid://btr20e3no3eyu" path="res://light_switch.gd" id="1_dv7nh"]
 [ext_resource type="PackedScene" uid="uid://dyuuqnvv7vqnw" path="res://objects/props/LightSwitchNew.gltf" id="1_nw67r"]
 [ext_resource type="AudioStream" uid="uid://ceav4kikp8jb6" path="res://sounds/light_switch_off.ogg" id="3_5deac"]
 [ext_resource type="AudioStream" uid="uid://def0w4v48p5ln" path="res://sounds/light_switch_on.ogg" id="3_o3261"]
 [ext_resource type="PackedScene" uid="uid://c8ys2b7nygqxy" path="res://objects/props/LightSwitchOld.gltf" id="3_v46xo"]
+[ext_resource type="PackedScene" uid="uid://bw1p6obtd4l81" path="res://objects/props/ReportLight.gltf" id="4_rk7si"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rk7si"]
+albedo_color = Color(0, 1, 0, 1)
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+emission_energy_multiplier = 6.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_rk7si"]
+material = SubResource("StandardMaterial3D_rk7si")
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.001
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nw67r"]
 size = Vector3(0.263428, 0.363281, 0.00747681)
@@ -16,6 +29,14 @@ script = ExtResource("1_dv7nh")
 
 [node name="LightSwitchOld" parent="." instance=ExtResource("3_v46xo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.000709355)
+
+[node name="ReportLight2" parent="." instance=ExtResource("4_rk7si")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -0.003, 0.156715, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ReportLight2"]
+transform = Transform3D(4, 0, 0, 0, -1.74846e-07, -4, 0, 4, -1.74846e-07, 0, 0, 0.0253906)
+mesh = SubResource("CylinderMesh_rk7si")
+skeleton = NodePath("../..")
 
 [node name="Area3D" type="StaticBody3D" parent="."]
 collision_layer = 2

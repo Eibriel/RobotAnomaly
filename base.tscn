@@ -1,8 +1,9 @@
-[gd_scene load_steps=153 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=156 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="LightmapGIData" uid="uid://b45wbnmqqw4fv" path="res://lightmaps/marketing_office.lmbake" id="2_5p1dh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
+[ext_resource type="Shader" uid="uid://bvs012k18h5am" path="res://filters/screen_filter_spatial.gdshader" id="3_3so84"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
 [ext_resource type="Texture2D" uid="uid://dm5io0xk3hqbv" path="res://textures/cursor.png" id="4_vja7b"]
 [ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
@@ -101,28 +102,21 @@
 [ext_resource type="AudioStream" uid="uid://cly68phk1fb4h" path="res://sounds/stinger.ogg" id="101_3so84"]
 [ext_resource type="PackedScene" uid="uid://dc70y7uw3de26" path="res://objects/props/CSPRoboticsLogo.gltf" id="102_ksmmt"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_e1v60"]
-lightmap_size_hint = Vector2i(22, 252)
-add_uv2 = true
-size = Vector2(4, 50)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ksmmt"]
+render_priority = 1
+shader = ExtResource("3_3so84")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_tjsd2"]
-lightmap_size_hint = Vector2i(22, 252)
-add_uv2 = true
-size = Vector2(4, 50)
-
-[sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
-inner_radius = 0.05
-outer_radius = 0.5
-rings = 32
-ring_segments = 12
+[sub_resource type="QuadMesh" id="QuadMesh_y1lda"]
+material = SubResource("ShaderMaterial_ksmmt")
+flip_faces = true
+size = Vector2(2, 2)
 
 [sub_resource type="Curve" id="Curve_k3d1t"]
 _data = [Vector2(0, 0), 0.0, 1.49357, 0, 0, Vector2(1, 1), 1.0, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_sgv64"]
-_data = [Vector2(0, 0), 0.0, 1.38676, 0, 0, Vector2(1, 1), 1.0, 0.0, 1, 0]
+_data = [Vector2(0, 0.01), 0.0, 1.38676, 0, 0, Vector2(1, 1), 0.99, 0.0, 1, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_gaoim"]
@@ -147,6 +141,22 @@ fog_light_color = Color(0.33, 0.1914, 0.21681, 1)
 adjustment_enabled = true
 adjustment_saturation = 1.2
 adjustment_color_correction = SubResource("CurveXYZTexture_n73o2")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e1v60"]
+lightmap_size_hint = Vector2i(22, 252)
+add_uv2 = true
+size = Vector2(4, 50)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tjsd2"]
+lightmap_size_hint = Vector2i(22, 252)
+add_uv2 = true
+size = Vector2(4, 50)
+
+[sub_resource type="TorusMesh" id="TorusMesh_vsodd"]
+inner_radius = 0.05
+outer_radius = 0.5
+rings = 32
+ring_segments = 12
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_18b1w"]
 size = Vector3(1.30359, 0.373169, 4.18152)
@@ -351,6 +361,31 @@ use_denoiser = false
 environment_custom_energy = 10.0
 light_data = ExtResource("2_5p1dh")
 
+[node name="PostprocessLayer" type="MeshInstance3D" parent="."]
+visible = false
+cast_shadow = 0
+extra_cull_margin = 100.0
+gi_mode = 0
+mesh = SubResource("QuadMesh_y1lda")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jucab")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.951124, -0.278823, 0.13274, -0.138222, 1.55104e-08, 0.990401, -0.276147, -0.960342, -0.0385395, 0, 0, 0)
+light_energy = 0.1
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_max_distance = 30.0
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.951124, -0.278823, 0.13274, -0.138222, 1.55104e-08, 0.990401, -0.276147, -0.960342, -0.0385395, 0, 0, 0)
+visible = false
+light_energy = 0.1
+shadow_enabled = true
+shadow_blur = 2.0
+directional_shadow_max_distance = 30.0
+
 [node name="LightMapHelpers" type="Node3D" parent="."]
 visible = false
 
@@ -383,24 +418,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0500393, -0.0113512, 19.425
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InitialPositionInt"]
 visible = false
 mesh = SubResource("TorusMesh_vsodd")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_jucab")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 0.990401, -0.276147, -0.960342, -0.0385398, 0, 0, 0)
-light_energy = 0.1
-shadow_enabled = true
-shadow_blur = 2.0
-directional_shadow_max_distance = 30.0
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.951124, -0.278823, 0.132741, -0.138222, -2.98023e-08, 0.990401, -0.276147, -0.960342, -0.0385398, 0, 0, 0)
-visible = false
-light_energy = 0.1
-shadow_enabled = true
-shadow_blur = 2.0
-directional_shadow_max_distance = 30.0
 
 [node name="OutdoorAudios" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 36)
@@ -2363,6 +2380,13 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
+[node name="FPSLabel" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 115.0
+offset_right = 155.0
+offset_bottom = 23.0
+
 [node name="RobotIdLabel" type="Label" parent="Control"]
 unique_name_in_owner = true
 visible = false
@@ -2634,6 +2658,23 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "FULLSCREEN"
 
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="VSyncCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "VSYNC"
+
+[node name="MaxFPSSpin" type="SpinBox" parent="Control/PauseMenu/Control/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 30.0
+max_value = 240.0
+value = 30.0
+rounded = true
+suffix = "fps"
+
 [node name="Control3" type="Control" parent="Control/PauseMenu"]
 layout_mode = 1
 anchor_left = 0.929
@@ -2709,6 +2750,8 @@ bus = &"Music"
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseAccSlider" to="." method="_on_mouse_acc_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
 [connection signal="toggled" from="Control/PauseMenu/Control/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
+[connection signal="toggled" from="Control/PauseMenu/Control/VBoxContainer/VSyncCheckBox" to="." method="_on_v_sync_check_box_toggled"]
+[connection signal="value_changed" from="Control/PauseMenu/Control/VBoxContainer/MaxFPSSpin" to="." method="_on_max_fps_spin_value_changed"]
 [connection signal="pressed" from="Control/PauseMenu/Control3/VBoxContainer/FollowItchioButton" to="." method="_on_follow_itchio_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/Control3/VBoxContainer/FollowSteamButton" to="." method="_on_follow_steam_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/Control3/VBoxContainer/FollowMastodonButton" to="." method="_on_follow_mastodon_button_pressed"]

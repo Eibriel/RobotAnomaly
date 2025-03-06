@@ -154,6 +154,7 @@ func _ready() -> void:
 	robj["battery_body"] = %robotObject.get_node("Armature/Skeleton3D/BatteryBody/BatteryBody")
 	robj["power_radial"] = %robotObject.get_node("Armature/Skeleton3D/OffButton_RadialProgress/OffButton_RadialProgress")
 	robj["off_button"] = %robotObject.get_node("Armature/Skeleton3D/OffButton/OffButton")
+	robj["off_button_base"] = %robotObject.get_node("Armature/Skeleton3D/OffButtonBase/OffButtonBase")
 	#
 	robj["bw_head"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Head")
 	robj["bw_chest"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_Chest")
@@ -217,7 +218,9 @@ func _ready() -> void:
 		robj["bw_legb_l"].visible = false
 		robj["bw_legb_r"].visible = false
 	
-	#robj["off_button"].visible = false
+	robj["off_button"].visible = false
+	robj["power_radial"].visible = false
+	robj["off_button_base"].visible = false
 	
 	#battery_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	#battery_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -312,6 +315,7 @@ func update_auto_battery(delta) -> void:
 			battery_charge = min(100.0, battery_charge)
 
 func shutdown(delta: float) -> bool:
+	return false
 	if is_demo or is_event: return false
 	if lock_buttons: return false
 	if power_on:
