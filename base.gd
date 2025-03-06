@@ -654,8 +654,8 @@ func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: f
 	
 	if Global.is_nomber_between(screen_ratio.x, cursor_treshold, 1.0-cursor_treshold) \
 			and Global.is_nomber_between(screen_ratio.y, cursor_treshold, 1.0-cursor_treshold):
-		prints("x:", screen_ratio.x, cursor_treshold, 1.0-cursor_treshold)
-		prints("y:", screen_ratio.y, cursor_treshold, 1.0-cursor_treshold)
+		#prints("x:", screen_ratio.x, cursor_treshold, 1.0-cursor_treshold)
+		#prints("y:", screen_ratio.y, cursor_treshold, 1.0-cursor_treshold)
 		return true
 	
 	return false
@@ -1453,6 +1453,7 @@ func show_line(line_id: int) -> void:
 func pause() -> void:
 	%PauseMenu.visible = true
 	%ConfirmResetContainer.visible = false
+	%ResetButton.visible = true
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
@@ -1484,13 +1485,24 @@ func release_action_button() -> void:
 		turn_lights_off(randf_range(3.0, 6.0))
 
 func process_failed_queue(scenario: int) -> void:
+	var append_scenario := true
 	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
-		#completed_scenarios.shuffle()d
+		# Force having a Robot.GLITCHES.NONE
+		# at the begining
+		if game_state.completed_anomalies.find(Robot.GLITCHES.NONE) >= 0:
+			game_state.completed_anomalies.erase(Robot.GLITCHES.NONE)
+			selected_scenarios.push_front(Robot.GLITCHES.NONE)
+		elif failed_scenarios.find(Robot.GLITCHES.NONE) >= 0:
+			failed_scenarios.erase(Robot.GLITCHES.NONE)
+			selected_scenarios.push_front(Robot.GLITCHES.NONE)
+		elif scenario == 0:
+			selected_scenarios.push_front(Robot.GLITCHES.NONE)
+			append_scenario = false
+		#
 		selected_scenarios.append_array(game_state.completed_anomalies)
 		game_state.completed_anomalies.resize(0)
-	#if not failed_scenarios.has(scenario):
-	failed_scenarios.append(scenario)
-	#failed_scenarios.shuffle()
+	if append_scenario:
+		failed_scenarios.append(scenario)
 
 func open_storage_door(with_crowd:=true) -> void:
 	var office_obj := %MainOfficeWithCollision.get_node("office2") as Node3D

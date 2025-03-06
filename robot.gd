@@ -218,9 +218,9 @@ func _ready() -> void:
 		robj["bw_legb_l"].visible = false
 		robj["bw_legb_r"].visible = false
 	
-	robj["off_button"].visible = false
-	robj["power_radial"].visible = false
-	robj["off_button_base"].visible = false
+	#robj["off_button"].visible = false
+	#robj["power_radial"].visible = false
+	#robj["off_button_base"].visible = false
 	
 	#battery_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
 	#battery_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -259,7 +259,7 @@ func rotate_base(delta: float, reverse:=false) -> void:
 	if glitch == GLITCHES.COUNTDOWN: return
 	if glitch == GLITCHES.EXTRA_ROBOTS: return
 	if glitch == GLITCHES.DOOR_OPEN: return
-	return
+	#return
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
 	if reverse:
 		%RobotBody.rotate_y(deg_to_rad(-120) * delta)
@@ -315,7 +315,6 @@ func update_auto_battery(delta) -> void:
 			battery_charge = min(100.0, battery_charge)
 
 func shutdown(delta: float) -> bool:
-	return false
 	if is_demo or is_event: return false
 	if lock_buttons: return false
 	if power_on:
