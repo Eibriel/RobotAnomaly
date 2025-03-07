@@ -117,6 +117,7 @@ func _process(delta: float) -> void:
 			rumble_pause -= delta
 		else:
 			rumble_time -= delta
+		Global.set_rumble_vignete(clampf(rumble_time, 0.0, 1.0))
 		if $RumbleAudio["parameters/switch_to_clip"] != "Rumble":
 			$RumbleAudio["parameters/switch_to_clip"] = "Rumble"
 		if not(rumble_tween and rumble_tween.is_running()):

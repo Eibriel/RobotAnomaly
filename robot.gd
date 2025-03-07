@@ -189,7 +189,7 @@ func _ready() -> void:
 	
 	var motor_sound_delay := create_tween()
 	motor_sound_delay.tween_interval(randf()*2)
-	motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
+	#motor_sound_delay.tween_callback(%RobotMotorAudioPlayer.play)
 	
 	const ROBOT_SITTINGBODY = preload("res://objects/robot_sittingbody.glb")
 	var sit_anim := ROBOT_SITTINGBODY.get_animation("SittingBody")
@@ -252,6 +252,7 @@ func recursive_cast_shadows_off(node) -> void:
 			c.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		recursive_cast_shadows_off(c)
 
+var rotation_sound_time := 0.0
 func rotate_base(delta: float, reverse:=false) -> void:
 	if not base_visible: return
 	if glitch == GLITCHES.WALKS_NOT_LOOKING: return
@@ -263,8 +264,17 @@ func rotate_base(delta: float, reverse:=false) -> void:
 	#%robotObject.rotate_y(deg_to_rad(120) * delta)
 	if reverse:
 		%RobotBody.rotate_y(deg_to_rad(-120) * delta)
+		%RobotBaseB.rotate_y(deg_to_rad(-120) * delta)
 	else:
 		%RobotBody.rotate_y(deg_to_rad(120) * delta)
+		%RobotBaseB.rotate_y(deg_to_rad(120) * delta)
+	
+	if not %RotatingRobotSound.playing:
+		%RotatingRobotSound.play(rotation_sound_time)
+
+func stop_rotation_sound() -> void:
+	rotation_sound_time = %RotatingRobotSound.get_playback_position()
+	%RotatingRobotSound.stop()
 
 func robot_rotation(angle: float) -> void:
 	%RobotBody.rotation.y = angle
@@ -272,6 +282,7 @@ func robot_rotation(angle: float) -> void:
 func robot_position(pos: Vector3) -> void:
 	%RobotBody.position = pos
 	%RobotBase.position = pos
+	%RobotBaseB.position = pos
 	update_base()
 
 func first_frame_animation(anim_name: String) -> void:
@@ -780,6 +791,7 @@ func update_glitch() -> void:
 
 func remove_base() -> void:
 	%RobotBase.visible = false
+	%RobotBaseB.visible = false
 	$BaseShadowPlane.visible = false
 	base_visible = false
 	for c:CollisionShape3D in %RobotBaseStaticBody.get_children():

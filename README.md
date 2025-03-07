@@ -204,6 +204,12 @@ Some assets may not be in the game
 
 - Turning on a hi-tech room by xkeril -- https://freesound.org/s/613944/ -- License: Creative Commons 0
 
+- Stingers and Stabs 001.wav by rodincoil -- https://freesound.org/s/271945/ -- License: Creative Commons 0
+
+- Horror Stinger 12.wav by F.M.Audio -- https://freesound.org/s/614717/ -- License: Attribution 4.0
+
+- Slam Kick 1.wav by MrCisum -- https://freesound.org/s/467140/ -- License: Creative Commons 0
+
 
 ### Fonts
 - Fira Sans - https://github.com/bBoxType/FiraSans

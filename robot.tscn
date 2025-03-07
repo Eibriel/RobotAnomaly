@@ -1,8 +1,9 @@
-[gd_scene load_steps=33 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=35 format=3 uid="uid://cp3bk1xsmjnxj"]
 
 [ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
 [ext_resource type="PackedScene" uid="uid://u6wf76jhmt4a" path="res://objects/robot_base.gltf" id="2_yhfw1"]
+[ext_resource type="AudioStream" uid="uid://bjtwlfb8oyi0n" path="res://sounds/rotating_robot.ogg" id="3_awah6"]
 [ext_resource type="PackedScene" uid="uid://cggahbp1gdgc0" path="res://radial_progress.tscn" id="3_hvhn1"]
 [ext_resource type="AudioStream" uid="uid://d082v84bxtv1d" path="res://sounds/snap.mp3" id="4_ru5oq"]
 [ext_resource type="Texture2D" uid="uid://bou7oymrscjod" path="res://textures/robot_shadow.png" id="5_7xofo"]
@@ -36,6 +37,11 @@ height = 0.5
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_yyxj1"]
 height = 1.64136
 radius = 0.414551
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_awah6"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("3_awah6")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bkaji"]
 transparency = 1
@@ -126,7 +132,7 @@ material = SubResource("StandardMaterial3D_ru5oq")
 unique_name_in_owner = true
 
 [node name="robot_base" parent="RobotBase" instance=ExtResource("2_yhfw1")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.797731, 0)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.75327, 0)
 
 [node name="RobotBaseStaticBody" type="StaticBody3D" parent="RobotBase"]
 unique_name_in_owner = true
@@ -136,6 +142,19 @@ collision_mask = 256
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBase/RobotBaseStaticBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.821167, 0.021225)
 shape = SubResource("CylinderShape3D_yyxj1")
+
+[node name="RotatingRobotSound" type="AudioStreamPlayer3D" parent="RobotBase"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_awah6")
+volume_db = -5.0
+unit_size = 2.0
+pitch_scale = 0.5
+
+[node name="RobotBaseB" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="robot_base2" parent="RobotBaseB" instance=ExtResource("2_yhfw1")]
+transform = Transform3D(-0.586367, 0, 1.59567, 0, 1.7, 0, -1.59567, 0, -0.586367, 0, -0.576181, 0)
 
 [node name="RobotBody" type="Node3D" parent="."]
 unique_name_in_owner = true

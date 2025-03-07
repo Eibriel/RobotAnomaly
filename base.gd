@@ -127,7 +127,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 10
+	var force_completed_scenarios = Robot.GLITCHES.size() - 15
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -169,7 +169,7 @@ func _ready() -> void:
 		%Player.global_position = %InitialPositionInt.global_position
 		%Player.look_rot.y = rad_to_deg(%InitialPositionInt.rotation.y)
 	#
-	unpause()
+	unpause(true)
 	#
 	for e in EVENTS:
 		events_enableable_time[EVENTS[e]] = get_next_event_time(EVENTS[e])
@@ -1456,12 +1456,17 @@ func pause() -> void:
 	%ResetButton.visible = true
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	$PauseSound.pitch_scale = 1.0
+	$PauseSound.play()
 
-func unpause() -> void:
+func unpause(no_sound:=false) -> void:
 	%PauseMenu.visible = false
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	release_action_button()
+	if not no_sound:
+		$PauseSound.pitch_scale = 1.1
+		$PauseSound.play()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_text_delete"):
@@ -1481,6 +1486,7 @@ func release_action_button() -> void:
 	current_task = TASKS.NONE
 	if robot_collected:
 		robot_collected.play_process(true)
+		robot_collected.stop_rotation_sound()
 	if event_light_timer < 0 and Global.is_player_in_room:
 		turn_lights_off(randf_range(3.0, 6.0))
 

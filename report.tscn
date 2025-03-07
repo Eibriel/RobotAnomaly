@@ -101,31 +101,34 @@ transform = Transform3D(-3.71547e-08, -0.85, 3.71547e-08, 0, -3.71547e-08, -0.85
 visible = false
 
 [node name="ErrorsLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.173208, 0.00177254)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106336, 0.00177254)
 pixel_size = 0.001
 text = "ERRORS"
-font_size = 50
+font_size = 100
 outline_size = 0
 
 [node name="BatteryErrorLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.257385, 0.0382288, 0.00177254)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.524475, -0.180865, 0.00177254)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "NO ERROR"
 font = ExtResource("8_28x75")
+font_size = 64
 outline_size = 0
 horizontal_alignment = 0
 
 [node name="PowerErrorLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.257385, -0.108317, 0.00177254)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.524475, -0.457492, 0.00177254)
 pixel_size = 0.001
 modulate = Color(0, 0, 0, 1)
 text = "NO ERROR"
 font = ExtResource("8_28x75")
+font_size = 64
 outline_size = 0
 horizontal_alignment = 0
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, -0.239105, 0)
 mesh = SubResource("PlaneMesh_yh7gd")
 
 [node name="CorrectSound" type="AudioStreamPlayer3D" parent="."]

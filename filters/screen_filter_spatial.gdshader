@@ -18,15 +18,17 @@ void fragment() {
 	#endif
 	vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
 	view.xyz /= view.w;
-	float linear_depth = -view.z / 10.0;
+	float linear_depth = -view.z / 3.0;
+	linear_depth -= 0.0;
 
 	vec4 world = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
 	vec3 world_position = world.xyz / world.w;
 
 	// Visualize linear depth
-	vec3 fog = vec3(1.0 - fract(linear_depth));
-	ALBEDO.rgb = texture(screen_texture, SCREEN_UV).rgb * fog;
-	//ALBEDO.rgb = fog;
+	float fog = 1.0 - fract(linear_depth);
+	//ALBEDO.rgb = texture(screen_texture, SCREEN_UV).rgb * vec3(fog+2.0);
+	//ALBEDO.rgb = vec3(fog+10.0);
+	ALBEDO.rgb = texture(screen_texture, SCREEN_UV).rgb * 5.0;
 
 	// Visualize world coordinates
 	//ALBEDO.rgb = fract(world_position).xyz;

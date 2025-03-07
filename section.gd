@@ -273,7 +273,7 @@ func _process(delta: float) -> void:
 	if time > 0.5:
 		activate()
 		
-	if robots_to_add.size() > 0 and add_robot_time > 0.02:
+	if robots_to_add.size() > 0:# and add_robot_time > 0.02:
 		var r:Robot = robots_to_add.pop_front()
 		%Robots.add_child(r)
 		print("Add child robot")
