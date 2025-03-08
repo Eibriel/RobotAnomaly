@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=37 format=3 uid="uid://cp3bk1xsmjnxj"]
 
 [ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
@@ -63,6 +63,12 @@ size = Vector3(0.147461, 0.175781, 0.0623397)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ioch8"]
 size = Vector3(0.366211, 0.260818, 0.00749184)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a145t"]
+size = Vector3(0.217041, 0.195557, 0.0224609)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_awah6"]
+size = Vector3(0.101318, 0.106445, 0.0302734)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4sq5"]
 radius = 0.378354
@@ -240,28 +246,29 @@ omni_range = 0.5
 
 [node name="ShutdownNode" type="Node3D" parent="RobotBody"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.61246, -0.123518)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000844963, 2.08412, -0.123033)
 
 [node name="BlockArea" type="Area3D" parent="RobotBody/ShutdownNode"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0077002, 0.0481478)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0732907, 0.0077002, 0.00312981)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
 metadata/is_robot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/BlockArea"]
-shape = SubResource("BoxShape3D_ioch8")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0632935, 0, 0.0406494)
+shape = SubResource("BoxShape3D_a145t")
 
 [node name="IdArea" type="Area3D" parent="RobotBody/ShutdownNode"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0017443, 0.0130765, -0.0110441)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0153346, -0.00112943, 0.00550067)
 collision_layer = 2
 collision_mask = 0
 monitoring = false
 metadata/is_id = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/IdArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00545126)
-shape = SubResource("BoxShape3D_h41k0")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0139122, -0.00488281, -0.00545126)
+shape = SubResource("BoxShape3D_awah6")
 
 [node name="Label3D" type="Label3D" parent="RobotBody/ShutdownNode"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.0183711, -0.0519184)
@@ -278,7 +285,7 @@ color_scheme = 1
 
 [node name="PowerLight" type="OmniLight3D" parent="RobotBody/ShutdownNode"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.024038)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000618398, -0.0516891, -0.0523729)
 visible = false
 omni_range = 0.5
 

@@ -110,6 +110,9 @@ var fail_all := false
 var force_events := true
 #var force_completed_scenarios := 10
 
+var shaders_cached := false
+var shaders_cached_frame := 0
+
 func _ready() -> void:
 	if is_export():
 		#skip_tutorial = false
@@ -122,12 +125,12 @@ func _ready() -> void:
 		force_events = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = true
+	state_override.congrats_completed = false
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 15
+	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 15
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -137,16 +140,7 @@ func _ready() -> void:
 	Global.player = %Player
 	load_game_state()
 	load_game_settings()
-	reset_dressing()
-	target_exposure = 6.0
-	$WorldEnvironment.environment.tonemap_exposure = target_exposure
-	start_game()
-	#
-	var tween := create_tween()
-	tween.tween_interval(1.0)
-	tween.tween_callback($AudioStreamPlayer.play)
-	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
-	#
+	
 	%RobotArm/AnimationPlayer.get_animation("HandTest").loop_mode = Animation.LoopMode.LOOP_LINEAR
 	%RobotArm/AnimationPlayer.play("HandTest")
 	#
@@ -181,9 +175,53 @@ func _ready() -> void:
 	#
 	#next_event_in = get_next_event_time() + 60.0
 	turn_lights_on()
+	target_exposure = 6.0
 	#
+	if is_export():
+		%FadeWhite.visible = true
+		%FadeBlack.visible = true
+	else:
+		%FadeWhite.visible = false
+		%FadeBlack.visible = false
+
+	# Making everything visible to cache shaders
+	%ShaderCache.visible = true
+	%CongratsParticlesBig_cache.emitting = true
+	%CongratsParticlesBigExplosion_cache.emitting = true
+	var dressing_nodes: Array[Node3D]= [
+		%office_warehouse,
+		%office_start,
+		%office_tutorial,
+		%office_lobby,
+		%office_design,
+		%office_lab,
+		%office_marketing,
+		%office_party,
+		%office_executive,
+		%office_museum,
+		%office_congrats
+	]
+	for dn in dressing_nodes:
+		dn.visible = true
+		dn.position.y = 0
+	
+
+func post_shader_cache() -> void:
 	%FadeWhite.visible = true
 	%FadeBlack.visible = true
+
+	%ShaderCache.visible = false
+	
+	reset_dressing()
+	$WorldEnvironment.environment.tonemap_exposure = target_exposure
+	start_game()
+	#
+	var tween := create_tween()
+	tween.tween_interval(1.0)
+	tween.tween_callback($AudioStreamPlayer.play)
+	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
+	#
+
 
 func check_if_nightmare() -> bool:
 	return game_state.executive_completed
@@ -335,6 +373,13 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	return sel_scenarios
 
 func _process(delta: float) -> void:
+	if shaders_cached_frame > 5 and not shaders_cached:
+		shaders_cached = true
+		post_shader_cache()
+	if not shaders_cached:
+		shaders_cached_frame += 1
+		return
+	
 	if robot_collected:
 		match current_task:
 			TASKS.ROTATE:
@@ -1225,13 +1270,13 @@ func instantiate_sections(Env: Node3D) -> void:
 		#%MessageLabel.text = "Lobby"
 		#dressing_visible(%office_lobby)
 		#dressing_visible(%office_warehouse)
-	elif message_id <= 7:
+	elif message_id <= 3:
 		%MessageLabel.text = "Lab"
 		dressing_visible(%office_lab)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
 		$UberLightmapGI.light_data = preload("res://lightmaps/lab_office.lmbake")
-	elif message_id <= 14:
+	elif message_id <= 7:
 		%MessageLabel.text = "Design Room"
 		dressing_visible(%office_design)
 		dressing_visible(%office_warehouse)
@@ -1241,13 +1286,13 @@ func instantiate_sections(Env: Node3D) -> void:
 		#%MessageLabel.text = "Lab"
 		#dressing_visible(%office_lab)
 		#dressing_visible(%office_warehouse)
-	elif message_id <= 20:
+	elif message_id <= 12:
 		%MessageLabel.text = "Marketing"
 		dressing_visible(%office_marketing)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_B)
 		$UberLightmapGI.light_data = preload("res://lightmaps/marketing_office.lmbake")
-	elif message_id <= 25 and not game_state.executive_completed:
+	elif message_id <= 17 and not game_state.executive_completed:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
 		dressing_visible(%office_warehouse)

@@ -98,7 +98,7 @@
 [ext_resource type="AudioStream" uid="uid://dirslqdal0cqc" path="res://sounds/creepy_music.ogg" id="93_s1vco"]
 [ext_resource type="PackedScene" uid="uid://djxmebq1ftsmu" path="res://objects/props/GlassDoor.gltf" id="95_iw8h4"]
 [ext_resource type="PackedScene" uid="uid://dlsiw0kbq14w0" path="res://objects/stairs.gltf" id="95_ksmmt"]
-[ext_resource type="Texture2D" uid="uid://jrtig6k02mbh" path="res://icon.png" id="98_3so84"]
+[ext_resource type="Texture2D" uid="uid://dgveyjm3n2gju" path="res://textures/film_noise.jpg" id="98_ksmmt"]
 [ext_resource type="AudioStream" uid="uid://cly68phk1fb4h" path="res://sounds/stinger.ogg" id="101_3so84"]
 [ext_resource type="PackedScene" uid="uid://dc70y7uw3de26" path="res://objects/props/CSPRoboticsLogo.gltf" id="102_ksmmt"]
 [ext_resource type="AudioStream" uid="uid://d08tbmvjg352q" path="res://sounds/pause_b.ogg" id="102_u28iu"]
@@ -144,7 +144,8 @@ fog_density = 0.001
 fog_depth_curve = 1.6818
 fog_depth_end = 50.0
 adjustment_enabled = true
-adjustment_brightness = 1.2
+adjustment_brightness = 1.4
+adjustment_contrast = 0.95
 adjustment_saturation = 1.2
 adjustment_color_correction = SubResource("CurveXYZTexture_n73o2")
 
@@ -356,6 +357,7 @@ height = 100.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3so84"]
 shader = ExtResource("5_y1lda")
 shader_parameter/alpha = 0.3
+shader_parameter/texture_alpha = 0.2
 shader_parameter/inner_radius = 0.4
 shader_parameter/outer_radius = 1.3
 
@@ -1675,7 +1677,6 @@ shape = SubResource("BoxShape3D_tjsd2")
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)
@@ -1811,7 +1812,7 @@ transform = Transform3D(0.982574, 0, -0.185872, 0, 1, 0, 0.185872, 0, 0.982574, 
 transform = Transform3D(0.218748, -0.129262, 0.430628, 0.33007, 0.371343, -0.0561997, -0.305292, 0.308862, 0.247793, -3.74455, 1.3787, 19.1175)
 
 [node name="PictureFrame" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("41_60t3g")]
-transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.64649, 19.5477)
+transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.64649, 20.0772)
 texture = ExtResource("42_td0b0")
 size = Vector2(1.77, 1)
 banner_scale = 0.6
@@ -1828,29 +1829,6 @@ emitting = false
 amount = 1200
 lifetime = 10.0
 process_material = SubResource("ParticleProcessMaterial_vja7b")
-draw_pass_1 = SubResource("PlaneMesh_q3v0p")
-
-[node name="CongratsParticlesBig_cache" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
-unique_name_in_owner = true
-editor_description = "Node used to cache the particle and avoid stuttering"
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.7886, 3.77485, 0)
-extra_cull_margin = 10.0
-emitting = false
-amount = 1200
-lifetime = 10.0
-process_material = SubResource("ParticleProcessMaterial_vja7b")
-draw_pass_1 = SubResource("PlaneMesh_q3v0p")
-
-[node name="CongratsParticlesBigExplosion_cache" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
-unique_name_in_owner = true
-editor_description = "Node used to cache the particle and avoid stuttering"
-transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, 46.9725, 0.655386, 5.21853)
-emitting = false
-amount = 600
-lifetime = 5.0
-one_shot = true
-explosiveness = 0.99
-process_material = SubResource("ParticleProcessMaterial_npl1d")
 draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 
 [node name="CongratsParticlesBigExplosion1" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
@@ -2483,7 +2461,7 @@ offset_bottom = -258.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BloodTexture" type="TextureRect" parent="Control"]
+[node name="ScreenFilter" type="TextureRect" parent="Control"]
 material = SubResource("ShaderMaterial_3so84")
 layout_mode = 1
 anchors_preset = 15
@@ -2491,7 +2469,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("98_3so84")
+texture = ExtResource("98_ksmmt")
 
 [node name="FadeWhite" type="ColorRect" parent="Control"]
 unique_name_in_owner = true
@@ -2747,6 +2725,32 @@ stream = ExtResource("102_u28iu")
 volume_db = -20.0
 max_polyphony = 2
 bus = &"Music"
+
+[node name="ShaderCache" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="CongratsParticlesBig_cache" type="GPUParticles3D" parent="ShaderCache"]
+unique_name_in_owner = true
+editor_description = "Node used to cache the particle and avoid stuttering"
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67406, 2.85553, 0)
+extra_cull_margin = 10.0
+emitting = false
+amount = 1200
+lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_vja7b")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
+
+[node name="CongratsParticlesBigExplosion_cache" type="GPUParticles3D" parent="ShaderCache"]
+unique_name_in_owner = true
+editor_description = "Node used to cache the particle and avoid stuttering"
+transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, -1.31091, 1.04793, 5.21853)
+emitting = false
+amount = 600
+lifetime = 5.0
+one_shot = true
+explosiveness = 0.99
+process_material = SubResource("ParticleProcessMaterial_npl1d")
+draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 
 [connection signal="body_entered" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_entered"]
 [connection signal="body_exited" from="OfficeNode/StorageArea" to="." method="_on_storage_area_body_exited"]

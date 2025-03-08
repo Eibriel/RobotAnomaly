@@ -304,12 +304,6 @@ func charge_battery(delta: float) -> bool:
 		pass
 	if prev_level != battery_charge and battery_charge <= 0.0:
 		%RobotBatteryAudioPlayer.play()
-		var bat_tween := create_tween()
-		bat_tween.tween_property(robj["battery_radial"], "position:z", 0.1, 0.2)
-		bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.1, 0.2)
-		bat_tween.tween_interval(1.0)
-		bat_tween.tween_callback(robj["battery_radial"].set_visible.bind(false))
-		bat_tween.tween_callback(robj["battery_body"].set_visible.bind(false))
 	recharge_cooldown = 20.0
 	if battery_charge == 0:
 		return true
@@ -328,6 +322,7 @@ func update_auto_battery(delta) -> void:
 func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
 	if lock_buttons: return false
+	if lock_power_button: return false
 	if power_on:
 		pressing_off_button += delta * 8.0
 		shutdown_time -= delta * 0.4
@@ -336,7 +331,7 @@ func shutdown(delta: float) -> bool:
 			return true
 	else:
 		pressing_off_button += delta * 8.0
-		shutdown_time += delta * 0.4
+		shutdown_time += 1.0 # delta * 0.4
 		if shutdown_time >= 1.0:
 			turn_on()
 			return true
@@ -366,7 +361,7 @@ func _process(delta: float) -> void:
 	%BatteryRadialProgress.value = battery_charge
 	%PowerRadialProgress.value = shutdown_time * 100.0
 	%BatteryLight.light_energy = battery_charge * 0.01
-	%PowerLight.light_energy = shutdown_time
+	%PowerLight.light_energy = shutdown_time * 0.3
 	
 	if int(battery_charge) >= 100 or true:
 		%BatteryIndicator.material = preload("res://materials/prototype_red_mat.tres")
@@ -420,9 +415,9 @@ func _process(delta: float) -> void:
 
 
 func update_radial(delta: float) -> void:
-	pressing_off_button -= delta * 2.0
-	pressing_off_button = clampf(pressing_off_button, 0, 0.2)
-	robj["off_button"].position.x = -pressing_off_button * 0.01
+	#pressing_off_button -= delta * 2.0
+	#pressing_off_button = clampf(pressing_off_button, 0, 0.2)
+	#robj["off_button"].position.x = -pressing_off_button * 0.01
 	
 	var battery_instance:MeshInstance3D = robj["battery_radial"]
 	battery_instance["instance_shader_parameters/amount"] = battery_charge * 0.01
@@ -881,9 +876,11 @@ func add_detail(rnode: Node, detail_texture) -> void:
 					c.mesh.surface_set_material(s, mat)
 		add_detail(c, detail_texture)
 
+var lock_power_button := false
 func shut_down() -> void:
 	%RobotShutdownAudioPlayer.play()
 	power_on = false
+	lock_power_button = true
 	battery_charge = 0.0
 	anim.play("Shut_Down", 1.0)
 	#const ROBOT_FACE = preload("res://materials/robot_mats/Robot_face.tres")
@@ -897,11 +894,27 @@ func shut_down() -> void:
 	shut_down_tween.tween_callback(turn_off_glitches)
 	#%RobotLaughAudioPlayer.stop()ss
 	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Off"
+	
+	var bat_tween := create_tween()
+	bat_tween.tween_property(robj["power_radial"], "position:z", -0.1, 0.2)
+	bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.1, 0.2)
+	bat_tween.parallel().tween_property(robj["off_button"], "position:x", 0.1, 0.2)
+	bat_tween.tween_interval(1.0)
+	bat_tween.tween_callback(robj["power_radial"].set_visible.bind(false))
+	bat_tween.tween_callback(robj["battery_body"].set_visible.bind(false))
+	bat_tween.tween_callback(robj["off_button"].set_visible.bind(false))
+	bat_tween.tween_callback(func(): lock_power_button = false)
 
 func turn_on() -> void:
 	power_on = true
 	anim.play("Idle", 1.0)
 	%RobotPowerupAudioPlayer.play()
+	robj["power_radial"].position.z = 0
+	robj["battery_body"].position.z = 0
+	robj["off_button"].position.x = 0
+	robj["power_radial"].set_visible(true)
+	robj["battery_body"].set_visible(true)
+	robj["off_button"].set_visible(true)
 	#
 	#const ROBOT_RED_GLOW = preload("res://materials/robot_mats/Robot_Red_Glow.tres")
 	#const ROBOT_WHITE_GLOW = preload("res://materials/robot_mats/Robot_White_Glow.tres")
