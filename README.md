@@ -210,6 +210,14 @@ Some assets may not be in the game
 
 - Slam Kick 1.wav by MrCisum -- https://freesound.org/s/467140/ -- License: Creative Commons 0
 
+- snd_box_smash_splatter.wav by mustardmuffin -- https://freesound.org/s/463829/ -- License: Creative Commons 0
+
+- Running on a carpet over wood floor.wav by tgerginov -- https://freesound.org/s/638510/ -- License: Creative Commons 0
+
+- Breaking Pieces of Wood Sound Effect Free High Quality Sound FX by deleted_user_7146007 -- https://freesound.org/s/383347/ -- License: Creative Commons 0
+
+- All Large Woods Falling Down On The Ground by jjchubby -- https://freesound.org/s/764799/ -- License: Creative Commons 0
+
 
 ### Fonts
 - Fira Sans - https://github.com/bBoxType/FiraSans

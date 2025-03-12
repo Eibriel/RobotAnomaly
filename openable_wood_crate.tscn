@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=3 uid="uid://04g62tet45dw"]
+
+[ext_resource type="PackedScene" uid="uid://c7k1k6b3kywp2" path="res://objects/props/WoodCrateOpen.gltf" id="1_3bch5"]
+[ext_resource type="Script" uid="uid://ce7tei4p8vjwv" path="res://openable_wood_crate.gd" id="1_a8i7p"]
+[ext_resource type="PackedScene" uid="uid://bhm6dawxjwtq0" path="res://objects/props/WoodCrate.gltf" id="1_v42qo"]
+[ext_resource type="PackedScene" uid="uid://camfevxgufdsk" path="res://objects/props/WoodCrate_AOSmall.gltf" id="3_rfxno"]
+[ext_resource type="AudioStream" uid="uid://cc3ginv0m117k" path="res://sounds/escaping_steps.ogg" id="5_bi84b"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bi84b"]
+random_pitch = 1.13
+streams_count = 1
+stream_0/stream = ExtResource("5_bi84b")
+
+[node name="OpenableWoodCrate" type="Node3D"]
+script = ExtResource("1_a8i7p")
+
+[node name="WoodCrate" parent="." instance=ExtResource("1_v42qo")]
+
+[node name="WoodCrateOpen" parent="." instance=ExtResource("1_3bch5")]
+
+[node name="WoodCrate_AOSmall" parent="." instance=ExtResource("3_rfxno")]
+transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 0, 0, 0)
+
+[node name="EscapingAudio" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26359, 0)
+stream = SubResource("AudioStreamRandomizer_bi84b")
+unit_size = 5.0
+pitch_scale = 1.2

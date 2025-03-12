@@ -129,7 +129,7 @@ func _ready() -> void:
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = true
+		tutorial_completed = false
 	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 15
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
@@ -443,6 +443,7 @@ func _process(delta: float) -> void:
 	update_executive()
 	update_congrats()
 	update_museum()
+	update_start()
 	update_events(delta)
 	update_cursor(delta)
 	refresh_reflection_probe(delta)
@@ -1109,6 +1110,34 @@ func dressing_visible(dressing_node: Node3D) -> void:
 	dressing_node.visible = true
 	dressing_node.position.y = 0
 
+var start_scape_executed := false
+func update_start() -> void:
+	if section.scenario != -2: return
+	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
+	#print(player_pos.z)
+	if not start_scape_executed:
+		if player_pos.z < 15:
+			start_scape_executed = true
+			turn_lights_off()
+			%WoodCratesCovers.visible = true
+			for c in %WoodCratesToOpen.get_children():
+				c.is_open = true
+			for c in %StartSmashAudios.get_children():
+				c.play()
+			%StartRunningRobots.visible = true
+			for c in %StartRunningRobots.get_children():
+				var r_tween := create_tween()
+				r_tween.tween_interval(0.5)
+				r_tween.tween_property(c, "position:z", -30, randf_range(0.5, 1.0))
+				r_tween.parallel().tween_property(c, "position:y", -1, randf_range(0.5, 1.0))
+	if start_scape_executed and lights_on:
+		%StartRunningRobots.visible = false
+		%DarknessCollision.set_collision_layer_value(1, false)
+
+func setup_start() -> void:
+	%WoodCratesCovers.visible = false
+	%StartRunningRobots.visible = false
+
 func update_museum() -> void:
 	if section.scenario != -4: return
 	if selected_scenarios.size() != 0: return
@@ -1244,6 +1273,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_start)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
+		setup_start()
 	elif scenario == -3: # Executive
 		%MessageLabel.text = "Executive"
 		dressing_visible(%office_executive)
