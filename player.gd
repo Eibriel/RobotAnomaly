@@ -20,6 +20,7 @@ var rumble_pause := 0.0
 var breathing_tween: Tween
 var halt_velocity:= false
 var walking_sound_state: WALKING_SOUND
+var movement_locked:= true
 
 enum WALKING_SOUND {
 	QUIET,
@@ -43,6 +44,7 @@ func update_breathing_tween() -> void:
 	breathing_tween.tween_property($Head, "position:y", height-(0.005*camera_shake), 2.0)
 
 func _input(event: InputEvent) -> void:
+	if movement_locked: return
 	if event is InputEventMouseMotion:
 		look_rot.y -= (event.screen_relative.x * sensitivity)
 		look_rot.x -= (event.screen_relative.y * sensitivity)
@@ -59,6 +61,12 @@ func note_visible(_vis: bool) -> void:
 func get_camera() -> Camera3D:
 	return %CharacterCamera
 
+func lock_movement() -> void:
+	movement_locked = true
+
+func unlock_movement() -> void:
+	movement_locked = false
+
 func _physics_process(delta: float) -> void:
 	if halt_velocity:
 		velocity = Vector3.ZERO
@@ -66,10 +74,15 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# Handle jump.
-	#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-	#	velocity.y = JUMP_VELOCITY
+	if movement_locked:
+		head.rotation_degrees.x = 0
+		rotation_degrees.y = 0
+		return
 
+	var camera_dir := Input.get_vector("camera_down", "camera_up", "camera_right", "camera_left")
+	look_rot += camera_dir * delta * sensitivity * 1500.0
+	look_rot.x = clamp(look_rot.x, min_angle, max_angle)
+	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")

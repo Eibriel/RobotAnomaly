@@ -21,6 +21,7 @@ clip_1/auto_advance = 0
 clip_2/name = &"Stoping Short"
 clip_2/stream = ExtResource("5_px5sl")
 clip_2/auto_advance = 0
+initial_clip = 2
 _transitions = {
 Vector2i(-1, 0): {
 "fade_beats": 1.0,

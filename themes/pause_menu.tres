@@ -1,0 +1,34 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://i4ukwmbjgbqv"]
+
+[ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="1_xsf57"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xsf57"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.23, 0.23, 0.23, 0.941176)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_br108"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.941176)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 5
+
+[resource]
+default_font = ExtResource("1_xsf57")
+default_font_size = 20
+Button/styles/hover = SubResource("StyleBoxFlat_xsf57")
+Button/styles/normal = SubResource("StyleBoxFlat_br108")
+VBoxContainer/constants/separation = 8

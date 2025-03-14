@@ -1,7 +1,6 @@
-[gd_scene load_steps=187 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=188 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
-[ext_resource type="LightmapGIData" uid="uid://b45wbnmqqw4fv" path="res://lightmaps/marketing_office.lmbake" id="2_5p1dh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
 [ext_resource type="Shader" uid="uid://bvs012k18h5am" path="res://filters/screen_filter_spatial.gdshader" id="3_3so84"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
@@ -118,6 +117,8 @@
 [ext_resource type="AudioStream" uid="uid://cly68phk1fb4h" path="res://sounds/stinger.ogg" id="101_3so84"]
 [ext_resource type="PackedScene" uid="uid://dc70y7uw3de26" path="res://objects/props/CSPRoboticsLogo.gltf" id="102_ksmmt"]
 [ext_resource type="AudioStream" uid="uid://d08tbmvjg352q" path="res://sounds/pause_b.ogg" id="102_u28iu"]
+[ext_resource type="Theme" uid="uid://i4ukwmbjgbqv" path="res://themes/pause_menu.tres" id="115_jic3x"]
+[ext_resource type="Theme" uid="uid://n14cpwc2qtoc" path="res://themes/menu_title.tres" id="115_n6axq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksmmt"]
 render_priority = 1
@@ -249,7 +250,7 @@ size = Vector3(2.24512, 0.432618, 1)
 size = Vector3(0.947266, 0.18512, 0.214844)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kajva"]
-size = Vector3(8.4541, 1.08203, 9.35059)
+size = Vector3(8.4541, 1.08203, 8.49573)
 
 [sub_resource type="MultiMesh" id="MultiMesh_p3pq8"]
 transform_format = 1
@@ -428,7 +429,6 @@ use_texture_for_bounces = false
 interior = true
 use_denoiser = false
 environment_custom_energy = 10.0
-light_data = ExtResource("2_5p1dh")
 
 [node name="PostprocessLayer" type="MeshInstance3D" parent="."]
 visible = false
@@ -1011,12 +1011,13 @@ banner_scale = 1.5
 
 [node name="Label3D" type="Label3D" parent="OfficeNode/DressingNode/office_start/PictureFrame"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.497916, 0.0137181)
+pixel_size = 0.0005
 text = "ANOMALY IN YOUR SHIFT"
 font = ExtResource("74_vgrfu")
-font_size = 15
+font_size = 150
 outline_size = 0
 autowrap_mode = 2
-width = 300.0
+width = 3000.0
 
 [node name="PictureFrame2" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("41_60t3g")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.23068, 1.72206, -2.44637)
@@ -1026,9 +1027,10 @@ banner_scale = 1.5
 
 [node name="Label3D3" type="Label3D" parent="OfficeNode/DressingNode/office_start/PictureFrame2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.496854, 0.0103004)
+pixel_size = 0.0005
 text = "SHUTDOWN SUSPICIOUS"
 font = ExtResource("74_vgrfu")
-font_size = 15
+font_size = 150
 outline_size = 0
 width = 300.0
 
@@ -1040,11 +1042,12 @@ banner_scale = 1.5
 
 [node name="Label3D2" type="Label3D" parent="OfficeNode/DressingNode/office_start/PictureFrame3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.498213, 0.00315142)
+pixel_size = 0.0005
 text = "REMOVE BATTERY"
 font = ExtResource("74_vgrfu")
-font_size = 15
+font_size = 150
 outline_size = 0
-width = 300.0
+width = 3000.0
 
 [node name="PictureFrame5" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("41_60t3g")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.24084, 1.77335, -6.96154)
@@ -1054,11 +1057,12 @@ banner_scale = 1.5
 
 [node name="Label3D4" type="Label3D" parent="OfficeNode/DressingNode/office_start/PictureFrame5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.500441, 0.0106409)
+pixel_size = 0.0005
 text = "GOTO GROUND FLOOR"
 font = ExtResource("74_vgrfu")
-font_size = 15
+font_size = 150
 outline_size = 0
-width = 300.0
+width = 3000.0
 
 [node name="office_tutorial" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1225,6 +1229,7 @@ banner_scale = 1.5
 
 [node name="office_lobby" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="LobbyChair" parent="OfficeNode/DressingNode/office_lobby" instance=ExtResource("13_jym3p")]
 transform = Transform3D(0.405955, 0, 0.913893, 0, 1, 0, -0.913893, 0, 0.405955, 3.24909, 0.00768442, 16.9117)
@@ -1437,7 +1442,6 @@ size = Vector2(1.77, 1)
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -1515,18 +1519,18 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.491029, -14.3337)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_executive/RobotCrowd04"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0410156, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0410156, -0.42743)
 shape = SubResource("BoxShape3D_kajva")
 
 [node name="CrowdMultiMesh04" type="MultiMeshInstance3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, 0, -13.3391)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.31, 0, -13.922)
 multimesh = SubResource("MultiMesh_p3pq8")
 
 [node name="ExecVisible04" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, -11.6175)
-aabb = AABB(-4.22158, -1.20055, -3.78352, 8.44316, 1.31835, 7.56705)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29097, -13.0538)
+aabb = AABB(-4.10096, -1.20055, -2.43521, 8.20193, 1.31835, 4.87042)
 
 [node name="RobotStrike" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
@@ -2767,6 +2771,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("115_jic3x")
 
 [node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu"]
 layout_mode = 1
@@ -2777,69 +2782,90 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.921569)
 
-[node name="Control2" type="Control" parent="Control/PauseMenu"]
+[node name="InitialMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
 layout_mode = 1
-anchor_left = 0.04
-anchor_top = 0.5
-anchor_right = 0.04
-anchor_bottom = 0.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Control/PauseMenu/Control2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Control/PauseMenu/InitialMenu"]
 layout_mode = 1
-anchors_preset = 4
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_top = -107.0
-offset_right = 222.0
-offset_bottom = 107.0
+offset_left = -111.0
+offset_top = -54.0
+offset_right = 111.0
+offset_bottom = 54.0
+grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ResumeButton" type="Button" parent="Control/PauseMenu/Control2/VBoxContainer2"]
+[node name="Label" type="Label" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "GAME PAUSED"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+layout_mode = 2
+
+[node name="ResumeButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
 text = "RESUME"
 
-[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/Control2/VBoxContainer2"]
+[node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
 
-[node name="ResetButton" type="Button" parent="Control/PauseMenu/Control2/VBoxContainer2"]
-unique_name_in_owner = true
+[node name="SettingsButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="HowToPlayButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+layout_mode = 2
+text = "HOW TO PLAY"
+
+[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+layout_mode = 2
+
+[node name="ResetButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
 text = "RESET GAME"
 
-[node name="ConfirmResetContainer" type="VBoxContainer" parent="Control/PauseMenu/Control2/VBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="ResetLabel" type="Label" parent="Control/PauseMenu/Control2/VBoxContainer2/ConfirmResetContainer"]
-layout_mode = 2
-text = "ALL PROGRESS WILL BE LOST"
-
-[node name="ConfirmResetLabel" type="Label" parent="Control/PauseMenu/Control2/VBoxContainer2/ConfirmResetContainer"]
-visible = false
-layout_mode = 2
-text = "ARE YOU SURE?"
-
-[node name="ConfirmResetButton" type="Button" parent="Control/PauseMenu/Control2/VBoxContainer2/ConfirmResetContainer"]
-layout_mode = 2
-text = "YES RESET GAME"
-
-[node name="CancelResetButton" type="Button" parent="Control/PauseMenu/Control2/VBoxContainer2/ConfirmResetContainer"]
-layout_mode = 2
-text = "CANCEL"
-
-[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/Control2/VBoxContainer2"]
-layout_mode = 2
-
-[node name="QuitButton" type="Button" parent="Control/PauseMenu/Control2/VBoxContainer2"]
+[node name="QuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
 text = "QUIT"
 
-[node name="Control" type="Control" parent="Control/PauseMenu"]
+[node name="SettingsMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 1
-anchor_left = 0.574
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenuBackground" type="ColorRect" parent="Control/PauseMenu/SettingsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/SettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.574
+anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -20.0
 offset_top = -20.0
@@ -2848,7 +2874,172 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/Control"]
+[node name="Label" type="Label" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "SETTINGS"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="AudioSettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "AUDIO"
+
+[node name="DisplaySettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "DISPLAY"
+
+[node name="GameplaySettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "GAMEPLAY"
+
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="SettingsBackButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
+[node name="HowToPlay" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenuBackground" type="ColorRect" parent="Control/PauseMenu/HowToPlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="SiteSafetyTurnOff" type="TextureRect" parent="Control/PauseMenu/HowToPlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0807292
+anchor_top = 0.143519
+anchor_right = 0.313368
+anchor_bottom = 0.523148
+offset_bottom = 3.05176e-05
+texture = ExtResource("34_l3wmy")
+expand_mode = 5
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control/PauseMenu/HowToPlay/SiteSafetyTurnOff"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = 50.837
+offset_right = -6.0
+offset_bottom = 75.837
+grow_horizontal = 2
+grow_vertical = 0
+text = "REMOVE BATTERY"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SiteSafetyTurnOff2" type="TextureRect" parent="Control/PauseMenu/HowToPlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.385417
+anchor_top = 0.143519
+anchor_right = 0.618056
+anchor_bottom = 0.523148
+offset_bottom = 3.05176e-05
+texture = ExtResource("34_sdakc")
+expand_mode = 5
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control/PauseMenu/HowToPlay/SiteSafetyTurnOff2"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 50.837
+offset_bottom = 75.837
+grow_horizontal = 2
+grow_vertical = 0
+text = "SHUTDOWN SUSPICIOUS"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SiteSafetyTurnOff3" type="TextureRect" parent="Control/PauseMenu/HowToPlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.681424
+anchor_top = 0.143519
+anchor_right = 0.914062
+anchor_bottom = 0.523148
+offset_bottom = 3.05176e-05
+texture = ExtResource("36_4xh17")
+expand_mode = 5
+stretch_mode = 5
+flip_h = true
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control/PauseMenu/HowToPlay/SiteSafetyTurnOff3"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 51.837
+offset_bottom = 76.837
+grow_horizontal = 2
+grow_vertical = 0
+text = "GOTO GROUND FLOOR"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HowToPlayBackButton" type="Button" parent="Control/PauseMenu/HowToPlay"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.0
+offset_top = -93.0
+offset_right = 26.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "BACK"
+
+[node name="DisplaySettingsMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenuBackground" type="ColorRect" parent="Control/PauseMenu/DisplaySettingsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/DisplaySettingsMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -2856,69 +3047,33 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -93.5
-offset_top = -109.5
+offset_top = -138.0
 offset_right = 93.5
-offset_bottom = 109.5
+offset_bottom = 138.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
-text = "VOLUME"
+theme = ExtResource("115_n6axq")
+text = "DISPLAY SETTINGS"
+horizontal_alignment = 1
+uppercase = true
 
-[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
-value = 50.0
-rounded = true
 
-[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "MOUSE SENSIBILITY"
-
-[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-step = 0.1
-value = 50.0
-
-[node name="MouseAccLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "CAMERA ACCELERATION"
-
-[node name="MouseAccSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-min_value = 1.0
-max_value = 30.0
-step = 0.1
-value = 20.0
-
-[node name="CameraShakeLabel" type="Label" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-text = "CAMERA SHAKE"
-
-[node name="CameraShakeSlider" type="HSlider" parent="Control/PauseMenu/Control/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 1.0
-
-[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
+[node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "FULLSCREEN"
 
-[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/Control/VBoxContainer"]
-layout_mode = 2
-
-[node name="VSyncCheckBox" type="CheckBox" parent="Control/PauseMenu/Control/VBoxContainer"]
+[node name="VSyncCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "VSYNC"
 
-[node name="MaxFPSSpin" type="SpinBox" parent="Control/PauseMenu/Control/VBoxContainer"]
+[node name="MaxFPSSpin" type="SpinBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 30.0
@@ -2927,7 +3082,249 @@ value = 30.0
 rounded = true
 suffix = "fps"
 
-[node name="Control3" type="Control" parent="Control/PauseMenu"]
+[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="DisplaySettingsBackButton" type="Button" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
+[node name="AudioSettingsMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenuBackground" type="ColorRect" parent="Control/PauseMenu/AudioSettingsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/AudioSettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -20.0
+offset_right = 97.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "AUDIO SETTINGS"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="VolumeLabel" type="Label" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "VOLUME"
+
+[node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+rounded = true
+
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="AudioSettingsBackButton" type="Button" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
+[node name="GameplaySettingsMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMenuBackground" type="ColorRect" parent="Control/PauseMenu/GameplaySettingsMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/GameplaySettingsMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "GAMEPLAY SETTINGS"
+uppercase = true
+
+[node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="MouseSenLabel" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "MOUSE SENSIBILITY"
+
+[node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.1
+value = 50.0
+
+[node name="MouseAccLabel" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "CAMERA ACCELERATION"
+
+[node name="MouseAccSlider" type="HSlider" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 30.0
+step = 0.1
+value = 20.0
+
+[node name="CameraShakeLabel" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "CAMERA SHAKE"
+
+[node name="CameraShakeSlider" type="HSlider" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="GameplaySettingsBackButton" type="Button" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
+[node name="ResetGameMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu/ResetGameMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="ConfirmResetContainer" type="VBoxContainer" parent="Control/PauseMenu/ResetGameMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -42.0
+offset_right = 111.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResetLabel" type="Label" parent="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "ALL PROGRESS WILL BE LOST"
+horizontal_alignment = 1
+
+[node name="ConfirmResetLabel" type="Label" parent="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer"]
+visible = false
+layout_mode = 2
+text = "ARE YOU SURE?"
+
+[node name="ConfirmResetButton" type="Button" parent="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer"]
+layout_mode = 2
+text = "YES RESET GAME"
+
+[node name="CancelResetButton" type="Button" parent="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer"]
+layout_mode = 2
+text = "CANCEL"
+
+[node name="QuitGameMenu" type="Control" parent="Control/PauseMenu"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu/QuitGameMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="ConfirmResetContainer" type="VBoxContainer" parent="Control/PauseMenu/QuitGameMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -111.0
+offset_top = -42.0
+offset_right = 111.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ConfirmQuitButton" type="Button" parent="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer"]
+layout_mode = 2
+text = "QUIT"
+
+[node name="CancelQuitButton" type="Button" parent="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer"]
+layout_mode = 2
+text = "CANCEL"
+
+[node name="FollowMeMenu" type="Control" parent="Control/PauseMenu"]
 layout_mode = 1
 anchor_left = 0.929
 anchor_top = 0.9
@@ -2940,7 +3337,7 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/Control3"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/PauseMenu/FollowMeMenu"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -2952,20 +3349,22 @@ offset_top = -128.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="Control/PauseMenu/Control3/VBoxContainer"]
+[node name="Label" type="Label" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("115_n6axq")
 text = "FOLLOW ME"
 horizontal_alignment = 2
 
-[node name="FollowItchioButton" type="Button" parent="Control/PauseMenu/Control3/VBoxContainer"]
+[node name="FollowItchioButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Itch.io"
 
-[node name="FollowSteamButton" type="Button" parent="Control/PauseMenu/Control3/VBoxContainer"]
+[node name="FollowSteamButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 layout_mode = 2
 text = "Steam"
 
-[node name="FollowMastodonButton" type="Button" parent="Control/PauseMenu/Control3/VBoxContainer"]
+[node name="FollowMastodonButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 layout_mode = 2
 text = "Mastodon"
 
@@ -3025,18 +3424,30 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]
 [connection signal="body_entered" from="LoopDown" to="." method="_on_loop_down_body_entered"]
 [connection signal="body_entered" from="StartLevel" to="." method="_on_start_level_body_entered"]
-[connection signal="pressed" from="Control/PauseMenu/Control2/VBoxContainer2/ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/Control2/VBoxContainer2/ResetButton" to="." method="_on_reset_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/Control2/VBoxContainer2/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/Control2/VBoxContainer2/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/Control2/VBoxContainer2/QuitButton" to="." method="_on_quit_button_pressed"]
-[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
-[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
-[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/MouseAccSlider" to="." method="_on_mouse_acc_slider_drag_ended"]
-[connection signal="drag_ended" from="Control/PauseMenu/Control/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
-[connection signal="toggled" from="Control/PauseMenu/Control/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
-[connection signal="toggled" from="Control/PauseMenu/Control/VBoxContainer/VSyncCheckBox" to="." method="_on_v_sync_check_box_toggled"]
-[connection signal="value_changed" from="Control/PauseMenu/Control/VBoxContainer/MaxFPSSpin" to="." method="_on_max_fps_spin_value_changed"]
-[connection signal="pressed" from="Control/PauseMenu/Control3/VBoxContainer/FollowItchioButton" to="." method="_on_follow_itchio_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/Control3/VBoxContainer/FollowSteamButton" to="." method="_on_follow_steam_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/Control3/VBoxContainer/FollowMastodonButton" to="." method="_on_follow_mastodon_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/AudioSettingsButton" to="." method="_on_audio_settings_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/DisplaySettingsButton" to="." method="_on_display_settings_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/GameplaySettingsButton" to="." method="_on_gameplay_settings_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/SettingsBackButton" to="." method="_on_settings_back_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/HowToPlay/HowToPlayBackButton" to="." method="_on_how_to_play_back_button_pressed"]
+[connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
+[connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/VSyncCheckBox" to="." method="_on_v_sync_check_box_toggled"]
+[connection signal="value_changed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/MaxFPSSpin" to="." method="_on_max_fps_spin_value_changed"]
+[connection signal="pressed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/DisplaySettingsBackButton" to="." method="_on_display_settings_back_button_pressed"]
+[connection signal="drag_ended" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
+[connection signal="pressed" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/AudioSettingsBackButton" to="." method="_on_audio_settings_back_button_pressed"]
+[connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/MouseAccSlider" to="." method="_on_mouse_acc_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
+[connection signal="pressed" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/GameplaySettingsBackButton" to="." method="_on_gameplay_settings_back_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer/ConfirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer/CancelQuitButton" to="." method="_on_cancel_quit_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowItchioButton" to="." method="_on_follow_itchio_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowSteamButton" to="." method="_on_follow_steam_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowMastodonButton" to="." method="_on_follow_mastodon_button_pressed"]

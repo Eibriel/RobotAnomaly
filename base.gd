@@ -129,8 +129,8 @@ func _ready() -> void:
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = false
-	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 15
+		tutorial_completed = true
+	var force_completed_scenarios = Robot.GLITCHES.size() - 0
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -205,6 +205,8 @@ func _ready() -> void:
 		dn.visible = true
 		dn.position.y = 0
 	
+	if Global.is_steam():
+		%FollowItchioButton.visible = false
 
 func post_shader_cache() -> void:
 	%FadeWhite.visible = true
@@ -220,6 +222,7 @@ func post_shader_cache() -> void:
 	tween.tween_interval(1.0)
 	tween.tween_callback($AudioStreamPlayer.play)
 	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
+	tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(0.5)
 	#
 
 
@@ -436,6 +439,7 @@ func _process(delta: float) -> void:
 	
 	game_state.seconds += delta
 	%Clock.seconds = game_state.seconds
+	GamePlatform.stats["time_played"] = int(game_state.seconds / 60.0)
 	
 	if not is_export():
 		%FPSLabel.text = "%f" % Engine.get_frames_per_second()
@@ -971,6 +975,7 @@ func update_congrats() -> void:
 			#%CongratsParticlesBigExplosion2.emitting = true
 			#%CongratsParticlesBig.emitting = true
 			congrats_explosion_executed = true
+			GamePlatform.set_achievement("WAKE_UP_REACHED")
 	else:
 		if %BalloonsCongrats.get_children().size() < 40:
 			var ball = preload("res://physics_balloon.tscn").instantiate()
@@ -993,6 +998,8 @@ func on_executive_finished():
 		failed_scenarios.resize(0)
 		start_game()
 		reset_position()
+		Global.player.lock_movement()
+		GamePlatform.set_achievement("TRAPPED_REACHED")
 	
 	var exec_tween := create_tween()
 	exec_tween.tween_interval(2.5)
@@ -1002,6 +1009,7 @@ func on_executive_finished():
 	exec_tween.tween_interval(3.0)
 	exec_tween.tween_callback($AudioStreamPlayer.play)
 	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 4.0)
+	exec_tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(1.0)
 
 func save_game_state() -> void:
 	#var unique_completed_scenarios: Array[int] = game_state.completed_anomalies.duplicate()
@@ -1153,6 +1161,7 @@ func update_museum() -> void:
 			tween_particles.tween_callback(%CongratsParticlesAudio4.play)
 			tween_particles.tween_callback(%CongratsParticlesBig2.set_emitting.bind(true))
 			museum_explosion_executed = true
+			GamePlatform.set_achievement("MASTERMIND_REACHED")
 
 func setup_museum() -> void:
 	var anomalies_count := 0
@@ -1292,7 +1301,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		#else:
 			#%NightmareModeIndicator.visible = false
 		setup_museum()
-		$UberLightmapGI.light_data = preload("res://lightmaps/museum_office.lmbake")
+		#$UberLightmapGI.light_data = preload("res://lightmaps/museum_office.lmbake")
 	elif scenario == -1: # Congrats
 		dressing_visible(%office_congrats)
 		show_line_upto(LINE_NAMES.LINEA_C_END)
@@ -1305,13 +1314,13 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_lab)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
-		$UberLightmapGI.light_data = preload("res://lightmaps/lab_office.lmbake")
+		#$UberLightmapGI.light_data = preload("res://lightmaps/lab_office.lmbake")
 	elif message_id <= 7:
 		%MessageLabel.text = "Design Room"
 		dressing_visible(%office_design)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_C)
-		$UberLightmapGI.light_data = preload("res://lightmaps/design_office.lmbake")
+		#$UberLightmapGI.light_data = preload("res://lightmaps/design_office.lmbake")
 	#elif message_id <= 25:
 		#%MessageLabel.text = "Lab"
 		#dressing_visible(%office_lab)
@@ -1321,7 +1330,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		dressing_visible(%office_marketing)
 		dressing_visible(%office_warehouse)
 		show_line_upto(LINE_NAMES.LINEA_B)
-		$UberLightmapGI.light_data = preload("res://lightmaps/marketing_office.lmbake")
+		#$UberLightmapGI.light_data = preload("res://lightmaps/marketing_office.lmbake")
 	elif message_id <= 17 and not game_state.executive_completed:
 		%MessageLabel.text = "Party"
 		dressing_visible(%office_party)
@@ -1527,12 +1536,20 @@ func show_line(line_id: int) -> void:
 
 func pause() -> void:
 	%PauseMenu.visible = true
-	%ConfirmResetContainer.visible = false
-	%ResetButton.visible = true
-	get_tree().paused = true
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	%ResetGameMenu.visible = false
+	%InitialMenu.visible = true
+	%HowToPlay.visible = false
+	%DisplaySettingsMenu.visible = false
+	%AudioSettingsMenu.visible = false
+	%GameplaySettingsMenu.visible = false
+	%QuitGameMenu.visible = false
 	$PauseSound.pitch_scale = 1.0
 	$PauseSound.play()
+	%PauseMenu.modulate.a = 0.0
+	var pause_tween := get_tree().create_tween().bind_node(%PauseMenu)
+	pause_tween.tween_property(%PauseMenu, "modulate:a", 1.0, 0.5)
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func unpause(no_sound:=false) -> void:
 	%PauseMenu.visible = false
@@ -1553,6 +1570,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.pressed:
 			fire_ray(event.button_index)
+		else:
+			release_action_button()
+	if event.is_action("main_action") or event.is_action("secondary_action"):
+		var b_idx := 1
+		if event.is_action("secondary_action"):
+			b_idx = 0
+		if event.is_pressed():
+			fire_ray(b_idx)
 		else:
 			release_action_button()
 
@@ -1720,7 +1745,7 @@ func fire_ray(button_index: int) -> void:
 				current_task = TASKS.SHUT_DOWN
 		elif coll.has_meta("is_battery"):
 			var rob := coll.get_parent().get_parent().get_parent() as Robot
-			if not rob.power_on:
+			if rob.battery_charge == 0.0:
 				robot_collected = rob
 				current_task = TASKS.ROTATE
 			else:
@@ -1789,7 +1814,9 @@ func update_cursor(delta) -> void:
 		if coll.has_meta("is_battery"):
 			#print("Battery")
 			robot_node = coll.get_parent().get_parent().get_parent()
-			if not robot_node.is_demo and not robot_node.is_event:
+			if not robot_node.is_demo and not robot_node.is_event and robot_node.battery_charge > 0.0:
+				cursor_type = 2
+			elif not robot_node.is_demo and not robot_node.is_event:
 				cursor_type = 1
 		if coll.has_meta("is_id"):
 			#print("Id")
@@ -1905,6 +1932,7 @@ func _on_loop_up_body_entered(_body: Node3D) -> void:
 	%Player.position.y += 4.1
 	%StairObject.chain_visible = false
 	%StairObject2.chain_visible = false
+	GamePlatform.stats["floor_down"] += 1
 	#
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
@@ -1940,6 +1968,7 @@ func on_glitch_failed() -> void:
 		_on_finished(false, section.scenario, false)
 		#TODO sometimes reset_position don't reset velocity
 		reset_position()
+		GamePlatform.stats["deaths"] += 1
 	
 	var exec_tween := create_tween()
 	#exec_tween.tween_interval(2.5)
@@ -1957,21 +1986,22 @@ func _on_start_level_body_entered(_body: Node3D) -> void:
 		%StairObject.chain_visible = true
 		%StairObject2.chain_visible = true
 
+func _on_storage_area_body_entered(_body: Node3D) -> void:
+	Global.is_player_in_storage = true
 
-func _on_quit_button_pressed() -> void:
-	get_tree().quit()
+func _on_storage_area_body_exited(_body: Node3D) -> void:
+	Global.is_player_in_storage = false
 
+# Pause Menu #####
 
 func _on_resume_button_pressed() -> void:
 	unpause()
-
 
 func _on_volume_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:
 		game_settings.volume_level = %VolumeSlider.value
 		save_game_settings()
 		load_settings()
-
 
 func _on_mouse_sen_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:
@@ -2006,30 +2036,74 @@ func _on_max_fps_spin_value_changed(value: float) -> void:
 	save_game_settings()
 	load_settings()
 
-func _on_storage_area_body_entered(_body: Node3D) -> void:
-	Global.is_player_in_storage = true
+func show_menu_tween(menu: Control) -> void:
+	menu.modulate.a = 0.0
+	var audio_settings_tween = get_tree().create_tween().bind_node(%PauseMenu)
+	audio_settings_tween.tween_property(menu, "modulate:a", 1.0, 0.1)
 
-func _on_storage_area_body_exited(_body: Node3D) -> void:
-	Global.is_player_in_storage = false
+func _on_quit_button_pressed() -> void:
+	%QuitGameMenu.visible = true
+	show_menu_tween(%QuitGameMenu)
 
 func _on_reset_button_pressed() -> void:
-	%ResetButton.visible = false
-	%ConfirmResetContainer.visible = true
+	#%ResetButton.visible = false
+	%ResetGameMenu.visible = true
+	show_menu_tween(%ResetGameMenu)
 
 func _on_confirm_reset_button_pressed() -> void:
 	Global.reset_save = true
 	get_tree().change_scene_to_file("res://base.tscn")
 
 func _on_cancel_reset_button_pressed() -> void:
-	%ResetButton.visible = true
-	%ConfirmResetContainer.visible = false
+	#%ResetButton.visible = true
+	%ResetGameMenu.visible = false
 
+func _on_how_to_play_button_pressed() -> void:
+	%HowToPlay.visible = true
+	show_menu_tween(%HowToPlay)
+
+func _on_how_to_play_back_button_pressed() -> void:
+	%HowToPlay.visible = false
+
+func _on_settings_button_pressed() -> void:
+	%SettingsMenu.visible = true
+	show_menu_tween(%SettingsMenu)
+
+func _on_settings_back_button_pressed() -> void:
+	%SettingsMenu.visible = false
+
+func _on_audio_settings_button_pressed() -> void:
+	%AudioSettingsMenu.visible = true
+	show_menu_tween(%AudioSettingsMenu)
+
+func _on_display_settings_button_pressed() -> void:
+	%DisplaySettingsMenu.visible = true
+	show_menu_tween(%DisplaySettingsMenu)
+
+func _on_audio_settings_back_button_pressed() -> void:
+	%AudioSettingsMenu.visible = false
+
+func _on_display_settings_back_button_pressed() -> void:
+	%DisplaySettingsMenu.visible = false
+
+func _on_gameplay_settings_button_pressed() -> void:
+	%GameplaySettingsMenu.visible = true
+	show_menu_tween(%GameplaySettingsMenu)
+
+func _on_gameplay_settings_back_button_pressed() -> void:
+	%GameplaySettingsMenu.visible = false
+
+func _on_cancel_quit_button_pressed() -> void:
+	%QuitGameMenu.visible = false
+
+func _on_confirm_quit_button_pressed() -> void:
+	get_tree().quit()
 
 func _on_follow_itchio_button_pressed() -> void:
 	OS.shell_open("https://eibriel.itch.io/") 
 
 func _on_follow_steam_button_pressed() -> void:
-	OS.shell_open("https://store.steampowered.com/developer/eibriel")
+	GlobalSteam.open_url("https://store.steampowered.com/developer/eibriel")
 
 func _on_follow_mastodon_button_pressed() -> void:
 	OS.shell_open("https://sigmoid.social/@eibriel")

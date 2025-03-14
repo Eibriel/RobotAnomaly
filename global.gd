@@ -31,6 +31,12 @@ func set_blood_vignete(value: float) -> void:
 func set_rumble_vignete(value: float) -> void:
 	RenderingServer.global_shader_parameter_set("rumble_vignete", value)
 
+func is_demo() -> bool:
+	return false
+
+func is_steam() -> bool:
+	return OS.get_cmdline_user_args().has("--steam")
+
 func is_nomber_between(number: float, min: float, max: float) -> bool:
 	if min > max:
 		var tmp := min

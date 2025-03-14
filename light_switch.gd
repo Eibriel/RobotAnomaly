@@ -23,6 +23,7 @@ func _ready() -> void:
 	switch_up.visible = false
 
 func turn_on_off() -> void:
+	GamePlatform.stats["light_switch"] += 1
 	switch_up.visible = !switch_up.visible
 	switch_down.visible = !switch_down.visible
 	if switch_down.visible:
