@@ -12,6 +12,7 @@ signal request_environment_change
 @export var is_nightmare_mode := false
 @export var batteries_charged_required := true
 
+
 var robots: Array[Robot] = []
 var finished := false
 var active := false
@@ -222,6 +223,7 @@ func start_day() -> void:
 	]
 	if not no_anomaly.has(anomaly):
 		sr.set_glitch(anomaly)
+		sr.strugle = Global.should_robot_strugle()
 		sr.battery_charge = get_random_battery_value()
 	
 	

@@ -17,6 +17,7 @@ signal executive_finished
 @export var looking_player := false
 @export var cast_shadows := true
 @export var red_eyes := false
+@export var strugle := false
 
 enum STALK {
 	DISABLED,
@@ -180,6 +181,11 @@ func _ready() -> void:
 	anim = %robotObject.get_node("AnimationPlayer") as AnimationPlayer
 	anim.get_animation("Vibrating").loop_mode = Animation.LOOP_LINEAR
 	anim.get_animation("Rocking").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Strugling").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Nails").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Arms").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Tentacle").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Spider").loop_mode = Animation.LOOP_LINEAR
 	#anim.get_animation("Timer").loop_mode = Animation.LOOP_LINEAR
 	#anim.play("TouchingFace")
 	## NOTE this allows the head to point at player while
@@ -217,34 +223,6 @@ func _ready() -> void:
 		robj["bw_leg_r"].visible = false
 		robj["bw_legb_l"].visible = false
 		robj["bw_legb_r"].visible = false
-	
-	#robj["off_button"].visible = false
-	#robj["power_radial"].visible = false
-	#robj["off_button_base"].visible = false
-	
-	#battery_mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	#battery_mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	#battery_mat.albedo_texture = battery_grad
-	#battery_mat.emission_enabled = true
-	#battery_mat.emission_texture = battery_grad
-	#battery_mat.emission_energy_multiplier = 2.0
-	#battery_grad.fill = GradientTexture2D.FILL_RADIAL
-	#battery_grad.gradient = Gradient.new()
-	#battery_grad.gradient.colors[0] = Color.RED
-	#battery_grad.gradient.colors[1] = Color.BLACK
-	#battery_grad.gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
-	#robj["battery_radial"].mesh.surface_set_material(0, battery_mat)
-	
-	#power_mat.albedo_texture = power_grad
-	#power_mat.emission_enabled = true
-	#power_mat.emission_texture = power_grad
-	#power_mat.emission_energy_multiplier = 2.0
-	#power_grad.fill = GradientTexture2D.FILL_RADIAL
-	#power_grad.gradient = Gradient.new()
-	#power_grad.gradient.colors[0] = Color.WHITE
-	#power_grad.gradient.colors[1] = Color.BLACK
-	#power_grad.gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
-	#robj["power_radial"].mesh.surface_set_material(0, power_mat)
 
 func recursive_cast_shadows_off(node) -> void:
 	for c in node.get_children():
@@ -272,9 +250,21 @@ func rotate_base(delta: float, reverse:=false) -> void:
 	if not %RotatingRobotSound.playing:
 		%RotatingRobotSound.play(rotation_sound_time)
 
-func stop_rotation_sound() -> void:
+func stop_action() -> void:
 	rotation_sound_time = %RotatingRobotSound.get_playback_position()
 	%RotatingRobotSound.stop()
+	if anim.is_playing() and anim.current_animation == "Strugling":
+		match glitch:
+			GLITCHES.TENTACLE_ARM:
+				anim.play("Tentacle", 1.0)
+			GLITCHES.SPIDER:
+				anim.play("Spider", 1.0)
+			GLITCHES.LONG_FINGERS:
+				anim.play("Nails", 1.0)
+			GLITCHES.OCTOPUS:
+				anim.play("Arms", 1.0)
+			_:
+				anim.play("Idle", 1.0)
 
 func robot_rotation(angle: float) -> void:
 	%RobotBody.rotation.y = angle
@@ -326,6 +316,9 @@ func shutdown(delta: float) -> bool:
 	if power_on:
 		pressing_off_button += delta * 8.0
 		shutdown_time -= delta * 0.4
+		if strugle:
+			anim.play("Strugling", 0.5)
+			Global.strugle_executed()
 		if shutdown_time <= 0.0:
 			shut_down()
 			return true
@@ -656,8 +649,10 @@ func update_glitch() -> void:
 			robj["eyes_around"].visible = true
 		GLITCHES.SPIDER:
 			robj["spider"].visible = true
+			anim.play("Spider")
 		GLITCHES.OCTOPUS:
 			robj["octopus"].visible = true
+			anim.play("Arms")
 		GLITCHES.HEAD_BOX:
 			robj["head_box"].visible = true
 		GLITCHES.BACK_BOX:
@@ -670,9 +665,11 @@ func update_glitch() -> void:
 			robj["long_antena"].visible = true
 		GLITCHES.LONG_FINGERS:
 			robj["long_fingers"].visible = true
+			anim.play("Nails")
 		GLITCHES.TENTACLE_ARM:
 			robj["tentacle"].visible = true
 			robj["arm"].visible = false
+			anim.play("Tentacle")
 		GLITCHES.CHEST_CONNECTION:
 			robj["chest_connection"].visible = true
 		GLITCHES.CLOCK_HEART:
@@ -896,9 +893,9 @@ func shut_down() -> void:
 	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Off"
 	
 	var bat_tween := create_tween()
-	bat_tween.tween_property(robj["power_radial"], "position:z", -0.1, 0.2)
-	bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.1, 0.2)
-	bat_tween.parallel().tween_property(robj["off_button"], "position:x", 0.1, 0.2)
+	bat_tween.tween_property(robj["power_radial"], "position:z", -0.08, 0.2)
+	bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.08, 0.2)
+	bat_tween.parallel().tween_property(robj["off_button"], "position:x", 0.08, 0.2)
 	bat_tween.tween_interval(1.0)
 	bat_tween.tween_callback(robj["power_radial"].set_visible.bind(false))
 	bat_tween.tween_callback(robj["battery_body"].set_visible.bind(false))

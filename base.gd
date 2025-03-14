@@ -100,7 +100,7 @@ var museum_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.LONG_FINGERS
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -130,7 +130,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 0
+	var force_completed_scenarios = 0# Robot.GLITCHES.size() - 0
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -1586,7 +1586,7 @@ func release_action_button() -> void:
 	current_task = TASKS.NONE
 	if robot_collected:
 		robot_collected.play_process(true)
-		robot_collected.stop_rotation_sound()
+		robot_collected.stop_action()
 	if event_light_timer < 0 and Global.is_player_in_room:
 		turn_lights_off(randf_range(3.0, 6.0))
 
