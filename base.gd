@@ -125,7 +125,7 @@ func _ready() -> void:
 		force_events = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = false
+	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:

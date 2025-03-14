@@ -1618,6 +1618,16 @@ transform = Transform3D(0.3, 0, -1.31134e-08, -1.31134e-08, 5.73206e-16, -0.3, 0
 mesh = SubResource("PlaneMesh_ksmmt")
 skeleton = NodePath("../../..")
 
+[node name="Label3D" type="Label3D" parent="OfficeNode/DressingNode/office_executive/ExitSign"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.222928, 0.00643412, -0.00443856)
+shaded = true
+double_sided = false
+text = "EXIT"
+font = ExtResource("74_vgrfu")
+font_size = 70
+outline_size = 0
+uppercase = true
+
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
