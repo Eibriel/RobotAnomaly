@@ -710,6 +710,32 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.02079, 1.54618, -11.0838)
 gizmo_extents = 0.62
 
+[node name="EventStairs" type="Node3D" parent="OfficeNode/EventsNode"]
+
+[node name="OnScreenEventStairs" type="VisibleOnScreenNotifier3D" parent="OfficeNode/EventsNode/EventStairs"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.851718, 1.15024, 28.0655)
+aabb = AABB(-0.754474, -1.12848, -0.234616, 1.50895, 2.25697, 0.469233)
+
+[node name="VisibleEventStairs" type="Marker3D" parent="OfficeNode/EventsNode/EventStairs"]
+unique_name_in_owner = true
+transform = Transform3D(-0.773464, 0, -0.63384, 0, 1, 0, 0.63384, 0, -0.773464, -0.448046, 1.23036, 28.7927)
+gizmo_extents = 0.62
+
+[node name="RobotEventStairs" parent="OfficeNode/EventsNode/EventStairs" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.255914, 0.00749612, 28.0624)
+is_event = true
+hide_base = true
+looking_player = true
+cast_shadows = false
+red_eyes = true
+
+[node name="AudioEventStairs" type="AudioStreamPlayer3D" parent="OfficeNode/EventsNode/EventStairs"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87234, 1.54817, 30.8238)
+stream = ExtResource("9_i2k0m")
+
 [node name="DressingNode" type="Node3D" parent="OfficeNode"]
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
@@ -1454,6 +1480,7 @@ size = Vector2(1.77, 1)
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -2114,6 +2141,13 @@ banner_scale = 0.6
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
+
+[node name="CongratsRunningRobot" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24.6554)
+is_event = true
+lock_buttons = true
+red_eyes = true
 
 [node name="CongratsParticlesBig" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true

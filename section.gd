@@ -300,6 +300,11 @@ func _process(delta: float) -> void:
 		#%ExitRamp.visible = false
 		#%ExitRamp.use_collision = false
 
+func make_robots_angry(exception: Robot) -> void:
+	for r in robots:
+		if r == exception: continue
+		r.make_angry()
+
 func on_failed_glitch() -> void:
 	glitch_failed.emit()
 

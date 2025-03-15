@@ -67,7 +67,8 @@ enum EVENTS {
 	REPORT,
 	EXIT,
 	CEILING,
-	LINE
+	LINE,
+	STAIRS
 }
 var available_events: Array[EVENTS] = []
 var current_events: Array[EVENTS] = []
@@ -84,6 +85,7 @@ var target_exposure := 0.0
 var lights_on := true
 var lights_timer := 0.0
 var lights_delay := -1.0
+var lights_locked := false
 
 const FLOORS_AMOUNT := 18 #29 # Top floor
 const INTRO_AMOUNT := 8 #8 # Ends section 1
@@ -125,7 +127,7 @@ func _ready() -> void:
 		force_events = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = true
+	state_override.congrats_completed = false
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
@@ -397,6 +399,10 @@ func _process(delta: float) -> void:
 			TASKS.SHUT_DOWN:
 				robot_collected.play_process()
 				if robot_collected.shutdown(delta):
+					if Global.should_robots_be_angry():
+						Global.angry_executed()
+						turn_lights_off()
+						section.make_robots_angry(robot_collected)
 					current_task = TASKS.NONE
 					robot_collected.play_process(true)
 	
@@ -419,7 +425,7 @@ func _process(delta: float) -> void:
 		-4
 	]
 	
-	if not lights_on:
+	if not lights_on and not lights_locked:
 		#print(section.scenario)
 		if disabled_sections.has(section.scenario):
 			lights_timer += delta * 10.0
@@ -455,10 +461,12 @@ func _process(delta: float) -> void:
 func turn_lights_on() -> void:
 	%LightSwitch3.turn_on_off()
 	lights_on = true
+	lights_locked = false
 	event_light_timer = randf_range(60.0*7, 60.0*15)
 	lights_timer = 0.0
 
-func turn_lights_off(delay:=0.0) -> void:
+func turn_lights_off(delay:=0.0, lock_lights: bool = false) -> void:
+	lights_locked = lock_lights
 	if delay == 0.0:
 		%LightSwitch3.turn_on_off()
 		lights_on = false
@@ -545,6 +553,8 @@ func event_enable_conditions(event: EVENTS) -> bool:
 						# Left
 						Global.is_point_inside(-4, -2, -10, -16, player_pos_2d)
 					) and \
+					not current_events.has(EVENTS.CEILING) and \
+					not current_events.has(EVENTS.LINE) and \
 					not (%EventExitOnScreen.is_on_screen() and not current_events.has(EVENTS.EXIT))\
 					# Keeps event enabled if is on screen and already enabled
 					#or (%EventExitOnScreen.is_on_screen() and current_events.has(EVENTS.EXIT)):
@@ -562,6 +572,7 @@ func event_enable_conditions(event: EVENTS) -> bool:
 						# Right
 						Global.is_point_inside(2, 4, -16, -13, player_pos_2d) \
 					) and\
+					not current_events.has(EVENTS.EXIT) and \
 					not (%EventCeilingOnScreen.is_on_screen() and not current_events.has(EVENTS.CEILING))\
 					# Keeps event enabled if is on screen and already enabled
 					#or (%EventCeilingOnScreen.is_on_screen() and current_events.has(EVENTS.CEILING)):
@@ -571,9 +582,22 @@ func event_enable_conditions(event: EVENTS) -> bool:
 			if Global.is_player_in_room and \
 					Global.is_nomber_between(player_pos.z, 0, 17) and \
 					player_pos.x > 3 and \
+					not current_events.has(EVENTS.EXIT) and \
 					not (%OnScreenEventLine.is_on_screen() and not current_events.has(EVENTS.LINE)) \
 					# Keeps event enabled if is on screen and already enabled
 					#or (%OnScreenEventLine.is_on_screen() and current_events.has(EVENTS.LINE)):
+					:
+				enable = true
+		EVENTS.STAIRS:
+			# Player at center, not looking at ventilation
+			if Global.is_player_in_room and \
+					(
+						# Center
+						Global.is_point_inside(-2, 2, 3, -19, player_pos_2d) \
+					) and \
+					not (%OnScreenEventStairs.is_on_screen() and not current_events.has(EVENTS.STAIRS))\
+					# Keeps event enabled if is on screen and already enabled
+					#or (%EventExitOnScreen.is_on_screen() and current_events.has(EVENTS.EXIT)):
 					:
 				enable = true
 		
@@ -609,6 +633,13 @@ func event_enable_conditions(event: EVENTS) -> bool:
 				if %OnScreenEventLine.is_on_screen():
 					event_was_visible[EVENTS.LINE] = true
 				elif event_was_visible[EVENTS.LINE]:
+					enable = false
+		EVENTS.STAIRS:
+			#print(event_was_visible[EVENTS.LINE])
+			if current_events.has(EVENTS.STAIRS):
+				if %OnScreenEventStairs.is_on_screen():
+					event_was_visible[EVENTS.STAIRS] = true
+				elif event_was_visible[EVENTS.STAIRS]:
 					enable = false
 				
 	return enable
@@ -665,6 +696,13 @@ func disable_event(_event:EVENTS, force:=false) -> void:
 			%RobotEventLine.visible = false
 			%RobotEventLine.disable_colliders()
 			%RobotEventLine.silence_motor()
+		EVENTS.STAIRS:
+			%RobotEventStairs.remove_base()
+			%RobotEventStairs.play_animation("RunningStairs")
+			%RobotEventStairs.visible = false
+			%RobotEventStairs.disable_colliders()
+			%RobotEventStairs.silence_motor()
+			%RobotEventStairs.scale_robot(1.0)
 
 func enable_event(_event:EVENTS) -> void:
 	if current_events.has(_event): return
@@ -686,6 +724,9 @@ func enable_event(_event:EVENTS) -> void:
 		EVENTS.LINE:
 			%RobotEventLine.visible = true
 			%RobotEventLine.first_frame_animation("EventLine")
+		EVENTS.STAIRS:
+			%RobotEventStairs.visible = true
+			%RobotEventStairs.first_frame_animation("RunningStairs")
 	#print(_event)
 
 func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0) -> bool:
@@ -870,6 +911,21 @@ func update_events(delta: float) -> void:
 			var tween := create_tween()
 			tween.tween_interval(0.733)
 			tween.tween_callback(%RobotEventLine.set_visible.bind(false))
+	if current_events.has(EVENTS.STAIRS):
+		if is_point_centered(%VisibleEventStairs, 0.17, 0.6, 20.0):
+			event_execute_time[EVENTS.STAIRS] += delta
+		else:
+			event_execute_time[EVENTS.STAIRS] = 0.0
+		if event_execute_time[EVENTS.STAIRS] > execute_threshold:
+			prints("Executing event Stairs", %RobotEventStairs.visible)
+			event_execute_time[EVENTS.STAIRS] = 0.0
+			reset_events_timer(EVENTS.STAIRS)
+			current_events.erase(EVENTS.STAIRS)
+			%RobotEventStairs.play_animation("RunningStairs")
+			#$Stinger.play()
+			var tween := create_tween()
+			tween.tween_interval(2.0)
+			tween.tween_callback(%RobotEventStairs.set_visible.bind(false))
 
 func setup_executive() -> void:
 	%RobotCrowd01.visible = false
@@ -963,14 +1019,47 @@ func update_executive() -> void:
 				%RobotCrowd04.visible = true
 				%RobotCrowd04.position.y = 0
 
+func setup_congrats() -> void:
+	%CongratsRunningRobot.visible = false
+	%CongratsRunningRobot.position.y = -100
+	%RobotsOnTheFloor.visible = true
+
+var ready_congrats_run_event := false
 func update_congrats() -> void:
 	if section.scenario != -1: return
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
 	var pos: float = player_pos.z + 25
+	if %CongratsRunningRobot.follows_player_speed > 0.0:
+		var robot_posg:Vector3 = %CongratsRunningRobot/RobotBody.global_position
+		var player_posg:Vector3 = Global.player.global_position
+		robot_posg.y = 0.0
+		player_posg.y = 0.0
+		if robot_posg.distance_to(player_posg) < 1.0:
+			if not lights_on:
+				turn_lights_on()
+			%CongratsRunningRobot.visible = false
+			%CongratsRunningRobot.position.y = -100
+			%CongratsRunningRobot.follows_player_speed = 0.0
+	if ready_congrats_run_event:
+		if Global.is_player_in_room and %CongratsRunningRobot.is_on_screen():
+			ready_congrats_run_event = false
+			$Stinger.play()
+			%CongratsRunningRobot.follows_player_speed = 30.0
+			%CongratsRunningRobot.play_animation("Running", 3.0)
+			#var turn_lights_on := func():
+				#turn_lights_on()
+				#%CongratsRunningRobot.visible = false
+				#%CongratsRunningRobot.position.y = -100
+				#%CongratsRunningRobot.follows_player_speed = 0.0
+			#var lights_tween := create_tween()
+			#lights_tween.tween_callback(turn_lights_on).set_delay(1.8)
 	if pos < 15 and not game_state.congrats_completed:
-		turn_lights_off()
+		turn_lights_off(0.0, true)
 		game_state.congrats_completed = true
 		%RobotsOnTheFloor.visible = false
+		%CongratsRunningRobot.visible = true
+		%CongratsRunningRobot.position.y = 0
+		ready_congrats_run_event = true
 	if not congrats_explosion_executed:
 		if pos < 45:
 			var tween_particles := create_tween()
@@ -1313,6 +1402,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif scenario == -1: # Congrats
 		dressing_visible(%office_congrats)
 		show_line_upto(LINE_NAMES.LINEA_C_END)
+		setup_congrats()
 	#elif message_id <= 0:
 		#%MessageLabel.text = "Lobby"
 		#dressing_visible(%office_lobby)
@@ -1932,6 +2022,7 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 	#$WorldEnvironment.environment.sky.sky_material = preload("res://sky/stairs_panorama_01.tres")
 	#$ReflectionProbe.position.x = randf()*0.01
 	Global.is_player_in_room = false
+	turn_lights_on()
 	#target_exposure = 6.0
 	if tonemap_tween:
 		tonemap_tween.stop()

@@ -106,6 +106,7 @@ var stalk_completed := false
 var follow_completed := false
 var anim_camera_weight := 0.0
 var strugle_seek := 0.0
+var follows_player_speed := 0.0
 
 var is_demo := false
 
@@ -190,6 +191,7 @@ func _ready() -> void:
 	anim.get_animation("Spider").loop_mode = Animation.LOOP_LINEAR
 	anim.get_animation("Running").loop_mode = Animation.LOOP_LINEAR
 	anim.get_animation("Walking").loop_mode = Animation.LOOP_LINEAR
+	#anim.get_animation("RunningStairs").loop_mode = Animation.LOOP_LINEAR
 	#anim.get_animation("Timer").loop_mode = Animation.LOOP_LINEAR
 	#anim.play("TouchingFace")
 	## NOTE this allows the head to point at player while
@@ -283,8 +285,9 @@ func robot_position(pos: Vector3) -> void:
 func first_frame_animation(anim_name: String) -> void:
 	anim.play(anim_name, -1, 0)
 
-func play_animation(anim_name: String) -> void:
-	anim.play(anim_name)
+func play_animation(anim_name: String, speed: float = 1.0) -> void:
+	anim.play(anim_name, -1, speed)
+	anim.seek(0.0)
 
 func charge_battery(delta: float) -> bool:
 	if not power_on: return false
@@ -298,6 +301,7 @@ func charge_battery(delta: float) -> bool:
 		#%RobotBatteryAudioPlayer.play()
 		pass
 	if prev_level != battery_charge and battery_charge <= 0.0:
+		deactivate_angry()
 		%RobotBatteryAudioPlayer.play()
 	recharge_cooldown = 20.0
 	if battery_charge == 0:
@@ -412,6 +416,8 @@ func _process(delta: float) -> void:
 	update_stalk()
 	update_auto_battery(delta)
 	update_radial(delta)
+	if follows_player_speed > 0:
+		walk_towards_player(delta, follows_player_speed)
 
 
 func update_radial(delta: float) -> void:
@@ -510,31 +516,15 @@ func update_follow(delta: float) -> void:
 	
 	if not is_on_screen() and Global.is_player_in_room and power_on:
 		anim.speed_scale = 1.0
-		var player_pos := Global.player.global_position
-		player_pos.y = 0
-		var robot_pos: Vector3 = %RobotBody.global_position
-		robot_pos.y = 0
-		var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
 		
-		var local_player_pos := %RobotBody.to_local(player_pos) as Vector3
-		var player_pos_2d := Vector2(local_player_pos.x, local_player_pos.z)
-		var angle: float = Vector2.ZERO.angle_to_point(player_pos_2d) - %RobotBody.global_rotation.y
-		
-		var dir_to_player := (player_pos - robot_pos).normalized()
-		var player_pos_short := robot_pos + dir_to_player
-		
-		var new_intersection := PhysicsRayQueryParameters3D.create(robot_pos, player_pos_short, 1<<1)
-		var intersection := get_world_3d().direct_space_state.intersect_ray(new_intersection)
-		
-		if not intersection.is_empty():
+		if not walk_towards_player(delta, 1.0):
 			%RobotStepsAudioPlayer.stop()
 			return
 		
 		Global.player.rumble()
 		if not %RobotStepsAudioPlayer.playing:
 			%RobotStepsAudioPlayer.play()
-		%RobotBody.global_position += dir_to_player * delta * 2.0
-		%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
+		
 	else:
 		anim.speed_scale = 0.0
 		%RobotStepsAudioPlayer.stop()
@@ -550,6 +540,28 @@ func update_follow(delta: float) -> void:
 			#anomaly_failed.emit()
 			grab_player()
 			follow_completed = true
+
+func walk_towards_player(delta:float, speed: float) -> bool:
+	var player_pos := Global.player.global_position
+	player_pos.y = 0
+	var robot_pos: Vector3 = %RobotBody.global_position
+	robot_pos.y = 0
+	var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
+	
+	var local_player_pos := %RobotBody.to_local(player_pos) as Vector3
+	var player_pos_2d := Vector2(local_player_pos.x, local_player_pos.z)
+	var angle: float = Vector2.ZERO.angle_to_point(player_pos_2d) - %RobotBody.global_rotation.y
+	
+	var dir_to_player := (player_pos - robot_pos).normalized()
+	var player_pos_short := robot_pos + dir_to_player
+	
+	var new_intersection := PhysicsRayQueryParameters3D.create(robot_pos, player_pos_short, 1<<1)
+	var intersection := get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	if not intersection.is_empty():
+		return false
+	%RobotBody.global_position += dir_to_player * delta * 2.0 * speed
+	%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
+	return true
 
 func update_base() -> void:
 	$BaseShadowPlane.position = %RobotBase.position
@@ -588,6 +600,20 @@ func set_glitch(new_glitch: GLITCHES, _is_demo := false) -> void:
 
 func silence_motor() -> void:
 	%RobotMotorAudioPlayer.volume_db = -60
+
+func scale_robot(scale_val:float) -> void:
+	%robotObject.scale = Vector3.ONE * scale_val
+
+func make_angry() -> void:
+	if glitch != GLITCHES.NONE: return
+	robj["red_eyes"].visible = true
+	looking_player = true
+	battery_charge = 100.0
+
+func deactivate_angry() -> void:
+	if glitch != GLITCHES.NONE: return
+	robj["red_eyes"].visible = false
+	looking_player = false
 
 func set_pose(new_pose: POSES) -> void:
 	if new_pose == pose: return

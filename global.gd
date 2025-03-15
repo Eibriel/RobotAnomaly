@@ -12,10 +12,13 @@ const ROBOT = preload("res://robot.tscn")
 var robot_stack: Array[Robot]
 var stack_timer := 0.0
 var strugle_timer := 0.0
+var angry_timer := 0.0
 
 func _process(delta: float) -> void:
 	stack_timer += delta
 	strugle_timer += delta
+	if angry_timer >= 0:
+		angry_timer += delta
 	if stack_timer > 0.1 and robot_stack.size() < 50:
 		robot_stack.append(ROBOT.instantiate())
 		stack_timer = 0.0
@@ -32,6 +35,14 @@ func set_blood_vignete(value: float) -> void:
 
 func set_rumble_vignete(value: float) -> void:
 	RenderingServer.global_shader_parameter_set("rumble_vignete", value)
+
+func should_robots_be_angry() -> bool:
+	if angry_timer > 20*60:
+		return true
+	return false
+
+func angry_executed() -> void:
+	angry_timer = -1.0
 
 func should_robot_strugle() -> bool:
 	if strugle_timer > 10*60:
