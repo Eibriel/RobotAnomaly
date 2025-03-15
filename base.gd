@@ -127,8 +127,8 @@ func _ready() -> void:
 		force_events = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = false
-	state_override.executive_completed = false
+	state_override.congrats_completed = true
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
@@ -393,6 +393,9 @@ func _process(delta: float) -> void:
 				robot_collected.rotate_base(delta, true)
 			TASKS.BATTERY_CHARGE:
 				robot_collected.play_process()
+				if Global.should_fire_noise():
+					Global.noise_executed()
+					Global.player.play_scary_noise()
 				if robot_collected.charge_battery(delta):
 					current_task = TASKS.NONE
 					robot_collected.play_process(true)
@@ -1043,7 +1046,7 @@ func update_congrats() -> void:
 	if ready_congrats_run_event:
 		if Global.is_player_in_room and %CongratsRunningRobot.is_on_screen():
 			ready_congrats_run_event = false
-			$Stinger.play()
+			$StingerB.play()
 			%CongratsRunningRobot.follows_player_speed = 30.0
 			%CongratsRunningRobot.play_animation("Running", 3.0)
 			#var turn_lights_on := func():
@@ -1899,6 +1902,9 @@ func fire_ray(button_index: int) -> void:
 			if click_dist < 1.8:
 				coll.get_parent().turn_on_off()
 				lights_on = !lights_on
+				if not lights_on and Global.should_fire_noise(true):
+					Global.noise_executed()
+					Global.player.play_scary_noise()
 	if current_task == TASKS.ROTATE:
 		if button_index == 1:
 			current_task = TASKS.ROTATE_INVERSE
@@ -1957,7 +1963,7 @@ func charge_battery(robot: Robot) -> void:
 	# On Robot
 	if robot.power_on and robot.glitch == Robot.GLITCHES.GRABS_BATTERY:
 		robot.grab_battery()
-		$Stinger.play()
+		$StingerB.play()
 		return
 	task_timer = 0.0
 	current_task = TASKS.BATTERY_CHARGE

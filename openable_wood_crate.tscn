@@ -1,20 +1,56 @@
-[gd_scene load_steps=7 format=3 uid="uid://04g62tet45dw"]
+[gd_scene load_steps=13 format=3 uid="uid://04g62tet45dw"]
 
 [ext_resource type="PackedScene" uid="uid://c7k1k6b3kywp2" path="res://objects/props/WoodCrateOpen.gltf" id="1_3bch5"]
 [ext_resource type="Script" uid="uid://ce7tei4p8vjwv" path="res://openable_wood_crate.gd" id="1_a8i7p"]
 [ext_resource type="PackedScene" uid="uid://bhm6dawxjwtq0" path="res://objects/props/WoodCrate.gltf" id="1_v42qo"]
 [ext_resource type="PackedScene" uid="uid://camfevxgufdsk" path="res://objects/props/WoodCrate_AOSmall.gltf" id="3_rfxno"]
 [ext_resource type="AudioStream" uid="uid://cc3ginv0m117k" path="res://sounds/escaping_steps.ogg" id="5_bi84b"]
+[ext_resource type="Texture2D" uid="uid://c7w25t0ymji1b" path="res://textures/dirt.png" id="6_rohu2"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bi84b"]
 random_pitch = 1.13
 streams_count = 1
 stream_0/stream = ExtResource("5_bi84b")
 
+[sub_resource type="Curve" id="Curve_rohu2"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0911765, 0.152503), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_sdd6b"]
+curve = SubResource("Curve_rohu2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bi84b"]
+emission_shape_scale = Vector3(0.12, 1.11, 0.505)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(-1, 0, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 0.9
+angular_velocity_min = -50.0
+angular_velocity_max = 50.0
+gravity = Vector3(0, -0.05, 0)
+alpha_curve = SubResource("CurveTexture_sdd6b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rohu2"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.7911, 0.523697, 0.18719, 1)
+albedo_texture = ExtResource("6_rohu2")
+metallic_specular = 0.0
+disable_receive_shadows = true
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_sdd6b"]
+material = SubResource("StandardMaterial3D_rohu2")
+
 [node name="OpenableWoodCrate" type="Node3D"]
 script = ExtResource("1_a8i7p")
 
 [node name="WoodCrate" parent="." instance=ExtResource("1_v42qo")]
+visible = false
 
 [node name="WoodCrateOpen" parent="." instance=ExtResource("1_3bch5")]
 
@@ -26,3 +62,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26359, 0)
 stream = SubResource("AudioStreamRandomizer_bi84b")
 unit_size = 5.0
 pitch_scale = 1.2
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.668471, 1.40261, 0)
+cast_shadow = 0
+emitting = false
+amount = 10
+lifetime = 4.0
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_bi84b")
+draw_pass_1 = SubResource("QuadMesh_sdd6b")
+
+[node name="GPUParticles3D_cache" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.668471, -4.58843, 0)
+cast_shadow = 0
+emitting = false
+amount = 3
+lifetime = 4.0
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_bi84b")
+draw_pass_1 = SubResource("QuadMesh_sdd6b")

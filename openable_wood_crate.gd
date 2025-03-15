@@ -7,6 +7,9 @@ extends Node3D
 
 var dirty := true
 
+func _ready() -> void:
+	$GPUParticles3D_cache.emitting = true
+
 func _process(_delta: float) -> void:
 	if not dirty: return
 	dirty = false
@@ -17,5 +20,6 @@ func _process(_delta: float) -> void:
 		$EscapingAudio.play(randf_range(0.0, 2.0))
 		var audio_tween := create_tween()
 		audio_tween.tween_property($EscapingAudio, "position:x", 5.0, 3.0)
+		$GPUParticles3D.emitting = true
 	else:
 		$WoodCrate.visible = true

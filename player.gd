@@ -67,6 +67,10 @@ func lock_movement() -> void:
 func unlock_movement() -> void:
 	movement_locked = false
 
+func play_scary_noise() -> void:
+	$ScaryAudio.position.x = randf_range(-3, 3)
+	$ScaryAudio.play()
+
 func _physics_process(delta: float) -> void:
 	if halt_velocity:
 		velocity = Vector3.ZERO

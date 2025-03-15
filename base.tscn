@@ -1,4 +1,4 @@
-[gd_scene load_steps=189 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=190 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -120,6 +120,7 @@
 [ext_resource type="AudioStream" uid="uid://d08tbmvjg352q" path="res://sounds/pause_b.ogg" id="102_u28iu"]
 [ext_resource type="Theme" uid="uid://i4ukwmbjgbqv" path="res://themes/pause_menu.tres" id="115_jic3x"]
 [ext_resource type="Theme" uid="uid://n14cpwc2qtoc" path="res://themes/menu_title.tres" id="115_n6axq"]
+[ext_resource type="AudioStream" uid="uid://b0l16olsaxemf" path="res://sounds/stinger_b.ogg" id="120_ryshc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksmmt"]
 render_priority = 1
@@ -740,7 +741,6 @@ stream = ExtResource("9_i2k0m")
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -1171,6 +1171,18 @@ transform = Transform3D(0.0937937, 0.25013, -0.963658, -0.874059, 0.484121, 0.04
 
 [node name="Balloon4" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("19_8a3cd")]
 transform = Transform3D(-0.478816, -0.844312, -0.240565, -0.874059, 0.484121, 0.0405871, 0.0821946, 0.229702, -0.969784, 3.39681, 1.43289, 20.3814)
+
+[node name="Brain2" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("54_p3pq8")]
+transform = Transform3D(0.145022, 0.359286, -0.316042, -0.463654, 0.18715, 0, 0.118294, 0.293068, 0.38745, -3.32058, 1.37729, 18.9248)
+
+[node name="Brain4" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("54_p3pq8")]
+transform = Transform3D(-0.161624, -0.400415, 0.252083, -0.463654, 0.18715, -3.64532e-09, -0.0943545, -0.233759, -0.431803, 3.77723, 1.3895, 19.8587)
+
+[node name="Brain3" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("54_p3pq8")]
+transform = Transform3D(-0.0471146, -0.116724, -0.483896, -0.463654, 0.18715, -3.64532e-09, 0.181122, 0.448721, -0.125874, -3.56144, 0.0810453, 23.5495)
+
+[node name="Brain5" parent="OfficeNode/DressingNode/office_party" instance=ExtResource("54_p3pq8")]
+transform = Transform3D(-0.187055, -0.46342, -0.0158886, -0.463654, 0.18715, -3.68533e-09, 0.00594707, 0.0147336, -0.499747, 3.42796, 0.0810453, 14.7435)
 
 [node name="PlayerObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_party"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
@@ -1661,7 +1673,7 @@ skeleton = NodePath("../../..")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.222928, 0.00643412, -0.00443856)
 shaded = true
 double_sided = false
-text = "EXIT"
+text = "EXIT_DOOR"
 font = ExtResource("74_vgrfu")
 font_size = 70
 outline_size = 0
@@ -1996,9 +2008,6 @@ shape = SubResource("BoxShape3D_tjsd2")
 unique_name_in_owner = true
 visible = false
 
-[node name="BrainTube2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("82_jic3x")]
-transform = Transform3D(0.122125, 0, -1.49502, 0, 1.5, 0, 1.49502, 0, 0.122125, -3.55979, 1.35928, 19.1284)
-
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)
 
@@ -2131,6 +2140,9 @@ transform = Transform3D(0.982574, 0, -0.185872, 0, 1, 0, 0.185872, 0, 0.982574, 
 
 [node name="Brain2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("54_p3pq8")]
 transform = Transform3D(0.218748, -0.129262, 0.430628, 0.33007, 0.371343, -0.0561997, -0.305292, 0.308862, 0.247793, -3.74455, 1.3787, 19.1175)
+
+[node name="BrainTube2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("82_jic3x")]
+transform = Transform3D(0.122125, 0, -1.49502, 0, 1.5, 0, 1.49502, 0, 0.122125, -3.55979, 1.35928, 19.1284)
 
 [node name="PictureFrame" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.64649, 20.0772)
@@ -3439,6 +3451,11 @@ bus = &"Music"
 
 [node name="Stinger" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("101_3so84")
+volume_db = -5.0
+bus = &"Music"
+
+[node name="StingerB" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("120_ryshc")
 volume_db = -5.0
 bus = &"Music"
 

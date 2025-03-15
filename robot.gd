@@ -804,6 +804,8 @@ func update_glitch() -> void:
 			%RobotBody.position = Vector3.ZERO
 			%RobotBody.rotation.y = deg_to_rad(0)
 			anim.play("Walking")
+			if is_demo:
+				anim.speed_scale = 0.0
 		GLITCHES.EXTRA_ROBOTS:
 			if not is_demo:
 				var pos := %RobotBody.position as Vector3

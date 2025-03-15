@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://coeaj8kxwl40n"]
+[gd_scene load_steps=18 format=3 uid="uid://coeaj8kxwl40n"]
 
 [ext_resource type="Script" uid="uid://dt72ltgn4jxc1" path="res://player.gd" id="1_nh0s5"]
 [ext_resource type="AudioStream" uid="uid://hqkyh1cub5m3" path="res://sounds/steps.mp3" id="2_pjt0s"]
@@ -7,6 +7,12 @@
 [ext_resource type="AudioStream" uid="uid://bmo4suh4msaig" path="res://sounds/stair_end_short.mp3" id="5_px5sl"]
 [ext_resource type="AudioStream" uid="uid://b2tkdrrbmbf4i" path="res://sounds/rumble.ogg" id="6_0qfo5"]
 [ext_resource type="AudioStream" uid="uid://d4jjgjoe68hd7" path="res://sounds/silence.ogg" id="7_yxww1"]
+[ext_resource type="AudioStream" uid="uid://btpfhmy0gjehm" path="res://sounds/falling_01.ogg" id="8_bwfjh"]
+[ext_resource type="AudioStream" uid="uid://1s3bhcfwaof3" path="res://sounds/falling_02.ogg" id="9_x1sy7"]
+[ext_resource type="AudioStream" uid="uid://dgj80wm05raf0" path="res://sounds/falling_03.ogg" id="10_sm1rv"]
+[ext_resource type="AudioStream" uid="uid://04ta0j0ldjga" path="res://sounds/falling_04.ogg" id="11_jx0ln"]
+[ext_resource type="AudioStream" uid="uid://ckevg4fus73ye" path="res://sounds/falling_05.ogg" id="12_lpiy1"]
+[ext_resource type="AudioStream" uid="uid://bh0opdmd1uyfi" path="res://sounds/falling_06.ogg" id="13_88tkl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tvkt6"]
 
@@ -67,6 +73,15 @@ Vector2i(1, 0): {
 }
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_y0ipg"]
+streams_count = 6
+stream_0/stream = ExtResource("8_bwfjh")
+stream_1/stream = ExtResource("9_x1sy7")
+stream_2/stream = ExtResource("10_sm1rv")
+stream_3/stream = ExtResource("11_jx0ln")
+stream_4/stream = ExtResource("12_lpiy1")
+stream_5/stream = ExtResource("13_88tkl")
+
 [node name="CharacterBody3D" type="CharacterBody3D"]
 collision_layer = 256
 collision_mask = 7
@@ -114,3 +129,7 @@ stream = SubResource("AudioStreamInteractive_0qfo5")
 volume_db = -10.0
 autoplay = true
 bus = &"Player"
+
+[node name="ScaryAudio" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.81374, 1.56484, 2.99213)
+stream = SubResource("AudioStreamRandomizer_y0ipg")
