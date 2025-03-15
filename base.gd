@@ -100,7 +100,7 @@ var museum_explosion_executed := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.LONG_FINGERS
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -130,7 +130,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = 0# Robot.GLITCHES.size() - 0
+	var force_completed_scenarios =  Robot.GLITCHES.size() - 0
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -899,6 +899,7 @@ func setup_executive() -> void:
 	#
 	%StairSign.visible = false
 
+
 var exec_done := false
 var door_open := false
 func update_executive() -> void:
@@ -918,9 +919,16 @@ func update_executive() -> void:
 	else:
 		#%RobotStrike.stalk_player = Robot.STALK.FOLLOW
 		pass
+	
+	if Global.is_player_in_storage and not %DoorOnScreenSmall.is_on_screen() and %RobotStrike.position.y != 0:
+		%RobotStrike.position.y = 0
 	if Global.is_player_in_storage and %DoorOnScreenSmall.is_on_screen():
 		close_storage_door()
-		%RobotStrike.position.y = 0
+		if %RobotStrike.position.y != 0:
+			%RobotStrike.position.y = 0
+			%RobotStrike.position.z = 1
+			var tt := create_tween()
+			tt.tween_property(%RobotStrike, "position:z", 0.0, 0.2)
 		exec_done = true
 		on_executive_finished()
 	if %ExecVisible01.is_on_screen() and %RobotCrowd01.visible:
@@ -1135,9 +1143,9 @@ func update_start() -> void:
 			%StartRunningRobots.visible = true
 			for c in %StartRunningRobots.get_children():
 				var r_tween := create_tween()
-				r_tween.tween_interval(0.5)
-				r_tween.tween_property(c, "position:z", -30, randf_range(0.5, 1.0))
-				r_tween.parallel().tween_property(c, "position:y", -1, randf_range(0.5, 1.0))
+				r_tween.tween_interval(0.1)
+				r_tween.tween_property(c, "position:z", -35, randf_range(0.5, 2.5))
+				#r_tween.parallel().tween_property(c, "position:y", -1, randf_range(0.5, 1.0))
 	if start_scape_executed and lights_on:
 		%StartRunningRobots.visible = false
 		%DarknessCollision.set_collision_layer_value(1, false)
@@ -1836,6 +1844,14 @@ func update_cursor(delta) -> void:
 			var click_dist:float = intersection.position.distance_to(get_viewport().get_camera_3d().global_position)
 			if click_dist < 1.8:
 				cursor_type = 2
+		
+		match current_task:
+			TASKS.SHUT_DOWN:
+				if not coll.has_meta("is_id"): release_action_button()
+			TASKS.BATTERY_CHARGE:
+				if not coll.has_meta("is_battery"): release_action_button()
+	else:
+		release_action_button()
 	
 	match cursor_type:
 		0:

@@ -80,7 +80,8 @@ enum POSES {
 	SITTING,
 	SITTING_BODY,
 	HOLDING_VACUUM,
-	HOLDING_VACUUM_B
+	HOLDING_VACUUM_B,
+	RUNNING
 }
 
 #var is_glitching := false
@@ -104,6 +105,7 @@ var snap_completed := false
 var stalk_completed := false
 var follow_completed := false
 var anim_camera_weight := 0.0
+var strugle_seek := 0.0
 
 var is_demo := false
 
@@ -186,6 +188,8 @@ func _ready() -> void:
 	anim.get_animation("Arms").loop_mode = Animation.LOOP_LINEAR
 	anim.get_animation("Tentacle").loop_mode = Animation.LOOP_LINEAR
 	anim.get_animation("Spider").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Running").loop_mode = Animation.LOOP_LINEAR
+	anim.get_animation("Walking").loop_mode = Animation.LOOP_LINEAR
 	#anim.get_animation("Timer").loop_mode = Animation.LOOP_LINEAR
 	#anim.play("TouchingFace")
 	## NOTE this allows the head to point at player while
@@ -254,6 +258,7 @@ func stop_action() -> void:
 	rotation_sound_time = %RotatingRobotSound.get_playback_position()
 	%RotatingRobotSound.stop()
 	if anim.is_playing() and anim.current_animation == "Strugling":
+		strugle_seek = anim.current_animation_position
 		match glitch:
 			GLITCHES.TENTACLE_ARM:
 				anim.play("Tentacle", 1.0)
@@ -317,7 +322,9 @@ func shutdown(delta: float) -> bool:
 		pressing_off_button += delta * 8.0
 		shutdown_time -= delta * 0.4
 		if strugle:
-			anim.play("Strugling", 0.5)
+			if not anim.is_playing():
+				anim.play("Strugling", 0.5)
+				anim.seek(strugle_seek)
 			Global.strugle_executed()
 		if shutdown_time <= 0.0:
 			shut_down()
@@ -502,6 +509,7 @@ func update_follow(delta: float) -> void:
 	if follow_completed: return
 	
 	if not is_on_screen() and Global.is_player_in_room and power_on:
+		anim.speed_scale = 1.0
 		var player_pos := Global.player.global_position
 		player_pos.y = 0
 		var robot_pos: Vector3 = %RobotBody.global_position
@@ -528,6 +536,7 @@ func update_follow(delta: float) -> void:
 		%RobotBody.global_position += dir_to_player * delta * 2.0
 		%RobotBody.global_rotation.y = -angle + deg_to_rad(90)
 	else:
+		anim.speed_scale = 0.0
 		%RobotStepsAudioPlayer.stop()
 	if power_on:
 		var player_pos := Global.player.global_position
@@ -601,6 +610,8 @@ func update_pose() -> void:
 			anim.play("HoldingVacuum")
 		POSES.HOLDING_VACUUM_B:
 			anim.play("HoldingVacuum_b")
+		POSES.RUNNING:
+			anim.play("Running")
 
 func update_glitch() -> void:
 	if not glitch_dirty: return
@@ -766,6 +777,7 @@ func update_glitch() -> void:
 		GLITCHES.WALKS_NOT_LOOKING:
 			%RobotBody.position = Vector3.ZERO
 			%RobotBody.rotation.y = deg_to_rad(0)
+			anim.play("Walking")
 		GLITCHES.EXTRA_ROBOTS:
 			if not is_demo:
 				var pos := %RobotBody.position as Vector3

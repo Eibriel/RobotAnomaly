@@ -1,4 +1,4 @@
-[gd_scene load_steps=188 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=189 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -104,6 +104,7 @@
 [ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="74_vgrfu"]
 [ext_resource type="PackedScene" uid="uid://dlious8hqnhk0" path="res://robot_vacuum.tscn" id="79_0tvgc"]
 [ext_resource type="PackedScene" uid="uid://8g1gsachc30n" path="res://clock.tscn" id="81_tjsd2"]
+[ext_resource type="PackedScene" uid="uid://dsqdbg0c85obr" path="res://objects/props/BrainTube.gltf" id="82_jic3x"]
 [ext_resource type="Texture2D" uid="uid://bk2pyv0iu4fld" path="res://textures/ExitSign.jpeg" id="82_y1lda"]
 [ext_resource type="PackedScene" uid="uid://c7a6rchk8n4i7" path="res://stairs.tscn" id="84_i2k0m"]
 [ext_resource type="AudioStream" uid="uid://cbc7b5720sb0i" path="res://sounds/metal_bump_big.mp3" id="85_5ilav"]
@@ -713,6 +714,7 @@ gizmo_extents = 0.62
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -904,30 +906,40 @@ transform = Transform3D(1.5865e-09, -1, 4.36826e-08, -0.247709, -4.27142e-08, -0
 [node name="StartRunningRobots" type="Node3D" parent="OfficeNode/DressingNode/office_start"]
 unique_name_in_owner = true
 
-[node name="StaticRobot" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_start/StartRunningRobots"]
-transform = Transform3D(-1.391, 0, -0.158509, 0, 1.4, 0, 0.158509, 0, -1.391, 0.276719, 0.38208, 5.63065)
-mesh = ExtResource("39_kajva")
-skeleton = NodePath("../..")
+[node name="Robot" parent="OfficeNode/DressingNode/office_start/StartRunningRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-0.99357, 0, -0.11322, 0, 1, 0, 0.11322, 0, -0.99357, 0.276719, 0.38208, 5.63065)
+pose = 6
+is_event = true
+hide_base = true
+lock_buttons = true
 
-[node name="StaticRobot4" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_start/StartRunningRobots"]
-transform = Transform3D(-1.391, 0, -0.158509, 0, 1.4, 0, 0.158509, 0, -1.391, 3.9758, 0.286608, 5.63065)
-mesh = ExtResource("39_kajva")
-skeleton = NodePath("../..")
+[node name="Robot2" parent="OfficeNode/DressingNode/office_start/StartRunningRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-0.932027, 0, -0.362389, 0, 1, 0, 0.362389, 0, -0.932027, 3.33021, 0.286608, 5.70422)
+pose = 6
+is_event = true
+hide_base = true
+lock_buttons = true
 
-[node name="StaticRobot5" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_start/StartRunningRobots"]
-transform = Transform3D(-1.391, 0, -0.158509, 0, 1.4, 0, 0.158509, 0, -1.391, 0.320845, 0.38208, -6.74084)
-mesh = ExtResource("39_kajva")
-skeleton = NodePath("../..")
+[node name="Robot3" parent="OfficeNode/DressingNode/office_start/StartRunningRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-0.99357, 0, -0.11322, 0, 1, 0, 0.11322, 0, -0.99357, 0.512899, 0.38208, -6.74084)
+pose = 6
+is_event = true
+hide_base = true
+lock_buttons = true
 
-[node name="StaticRobot2" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_start/StartRunningRobots"]
-transform = Transform3D(-1.391, 0, -0.158509, 0, 1.4, 0, 0.158509, 0, -1.391, -0.880248, 0.38208, -0.362153)
-mesh = ExtResource("39_kajva")
-skeleton = NodePath("../..")
+[node name="Robot4" parent="OfficeNode/DressingNode/office_start/StartRunningRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-0.99357, 0, -0.11322, 0, 1, 0, 0.11322, 0, -0.99357, -0.578014, 0.38208, -0.362153)
+pose = 6
+is_event = true
+hide_base = true
+lock_buttons = true
 
-[node name="StaticRobot3" type="MeshInstance3D" parent="OfficeNode/DressingNode/office_start/StartRunningRobots"]
-transform = Transform3D(-1.391, 0, -0.158509, 0, 1.4, 0, 0.158509, 0, -1.391, -3.95199, 0.38208, -0.362153)
-mesh = ExtResource("39_kajva")
-skeleton = NodePath("../..")
+[node name="Robot5" parent="OfficeNode/DressingNode/office_start/StartRunningRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-0.995413, 0, 0.0956721, 0, 1, 0, -0.0956721, 0, -0.995413, -3.3603, 0.38208, -0.375103)
+pose = 6
+is_event = true
+hide_base = true
+lock_buttons = true
 
 [node name="DarknessCollision" type="StaticBody3D" parent="OfficeNode/DressingNode/office_start"]
 unique_name_in_owner = true
@@ -1534,7 +1546,7 @@ aabb = AABB(-4.10096, -1.20055, -2.43521, 8.20193, 1.31835, 4.87042)
 
 [node name="RobotStrike" parent="OfficeNode/DressingNode/office_executive" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
-transform = Transform3D(-0.0525974, 0, -0.998616, 0, 1, 0, 0.998616, 0, -0.0525974, -3.89019, 0, 0.492243)
+transform = Transform3D(-0.0525974, 0, -0.998616, 0, 1, 0, 0.998616, 0, -0.0525974, -3.89019, 0, 1.85818)
 looking_player = true
 red_eyes = true
 
@@ -1956,6 +1968,9 @@ shape = SubResource("BoxShape3D_tjsd2")
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
+
+[node name="BrainTube2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("82_jic3x")]
+transform = Transform3D(0.122125, 0, -1.49502, 0, 1.5, 0, 1.49502, 0, 0.122125, -3.55979, 1.35928, 19.1284)
 
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)

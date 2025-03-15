@@ -111,8 +111,8 @@ locale/translation_remaps={
 "res://fonts/FiraSansCondensed-Bold.ttf": PackedStringArray("res://fonts/Source Han Sans CN Regular.otf:zh_Hans")
 }
 locale/translations=PackedStringArray("res://localization/localization.en.translation", "res://localization/localization.es.translation", "res://localization/localization.pt_BR.translation", "res://localization/localization.ru.translation", "res://localization/localization.zh_Hans.translation")
-locale/test="zh_Hans"
 locale/locale_filter_mode=0
+locale/test.release=""
 
 [layer_names]
 
