@@ -454,6 +454,7 @@ func update_stalk() -> void:
 				stalk_completed = true
 				grab_player()
 
+var grab_anim_started := false
 func grab_player() -> void:
 	if Global.is_player_grabbed: return
 	Global.is_player_grabbed = true
@@ -468,9 +469,11 @@ func grab_player() -> void:
 	blood_tween.tween_method(Global.set_blood_vignete, 0.0, 1.0, 1.0)
 	#Global.set_blood_vignete(1.0)
 	%CameraRobot.current = true
-	if not anim.is_playing():
+	if not grab_anim_started:
+		grab_anim_started = true
 		$AttackSound.play()
 		anim.play("AttackExec")
+		anim.speed_scale = 1.0
 		Global.player.rumble(0.1)
 		anim.connect("animation_finished", _on_attack_anim_finished)
 
@@ -513,6 +516,7 @@ func update_blocking_path() -> void:
 		Global.player.rumble(0.1)
 
 func update_follow(delta: float) -> void:
+	#if Global.is_player_grabbed: return
 	if glitch != GLITCHES.WALKS_NOT_LOOKING:
 		return
 	if is_demo: return
