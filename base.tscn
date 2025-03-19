@@ -741,6 +741,7 @@ stream = ExtResource("9_i2k0m")
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -1681,7 +1682,6 @@ uppercase = true
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -1857,117 +1857,154 @@ unique_name_in_owner = true
 
 [node name="AnomalyDisplayElement" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 5.99782)
+display_id = 1
 
 [node name="AnomalyDisplayElement2" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 5.63706)
+display_id = 2
 
 [node name="AnomalyDisplayElement3" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 5.26461)
+display_id = 3
 
 [node name="AnomalyDisplayElement4" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 4.8542)
+display_id = 4
 
 [node name="AnomalyDisplayElement5" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 4.44232)
+display_id = 5
 
 [node name="AnomalyDisplayElement6" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 4.48058)
+display_id = 6
 
 [node name="AnomalyDisplayElement7" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 4.84134)
+display_id = 7
 
 [node name="AnomalyDisplayElement8" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 5.21379)
+display_id = 8
 
 [node name="AnomalyDisplayElement9" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 5.6242)
+display_id = 9
 
 [node name="AnomalyDisplayElement10" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, 6.03608)
+display_id = 10
 
 [node name="AnomalyDisplayElement11" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 2.67922)
+display_id = 11
 
 [node name="AnomalyDisplayElement12" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 2.31846)
+display_id = 12
 
 [node name="AnomalyDisplayElement13" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.94601)
+display_id = 13
 
 [node name="AnomalyDisplayElement14" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.5356)
+display_id = 14
 
 [node name="AnomalyDisplayElement15" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, 1.12372)
+display_id = 15
 
 [node name="AnomalyDisplayElement17" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.52274)
+display_id = 16
 
 [node name="AnomalyDisplayElement18" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 1.89519)
+display_id = 17
 
 [node name="AnomalyDisplayElement19" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, 2.3056)
+display_id = 18
 
 [node name="AnomalyDisplayElement20" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, 2.71749)
 
 [node name="AnomalyDisplayElement22" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -1.27767)
+display_id = 19
 
 [node name="AnomalyDisplayElement23" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -1.65012)
+display_id = 20
 
 [node name="AnomalyDisplayElement24" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -2.06053)
+display_id = 21
 
 [node name="AnomalyDisplayElement25" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -2.47242)
+display_id = 22
 
 [node name="AnomalyDisplayElement26" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -2.43415)
+display_id = 23
 
 [node name="AnomalyDisplayElement27" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -2.07339)
+display_id = 24
 
 [node name="AnomalyDisplayElement28" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -1.70094)
+display_id = 25
 
 [node name="AnomalyDisplayElement29" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -1.29053)
+display_id = 26
 
 [node name="AnomalyDisplayElement30" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -0.87865)
+display_id = 27
 
 [node name="AnomalyDisplayElement31" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -4.23975)
+display_id = 28
 
 [node name="AnomalyDisplayElement32" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -4.60051)
+display_id = 29
 
 [node name="AnomalyDisplayElement33" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -4.97296)
+display_id = 30
 
 [node name="AnomalyDisplayElement34" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -5.38337)
+display_id = 31
 
 [node name="AnomalyDisplayElement35" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.475835, 1.0326, -5.79525)
+display_id = 32
 
 [node name="AnomalyDisplayElement36" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.75699)
+display_id = 33
 
 [node name="AnomalyDisplayElement37" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.39623)
+display_id = 34
 
 [node name="AnomalyDisplayElement38" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.02378)
+display_id = 35
 
 [node name="AnomalyDisplayElement39" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -4.61337)
+display_id = 36
 
 [node name="AnomalyDisplayElement40" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -4.20149)
+display_id = 37
 
 [node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_museum"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 18.3739)
@@ -2697,7 +2734,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.1, 0.1)
 pivot_offset = Vector2(32, 32)
 texture = ExtResource("4_vja7b")
 

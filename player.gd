@@ -83,6 +83,12 @@ func _physics_process(delta: float) -> void:
 		rotation_degrees.y = 0
 		return
 
+	var speed_modifier := 1.0
+	if Global.recording_trailer:
+		speed_modifier = 0.1
+		rotation_accel = 1.4
+		sensitivity = 0.17
+
 	var camera_dir := Input.get_vector("camera_down", "camera_up", "camera_right", "camera_left")
 	look_rot += camera_dir * delta * sensitivity * 1500.0
 	look_rot.x = clamp(look_rot.x, min_angle, max_angle)
@@ -94,24 +100,27 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		if is_on_floor() and Input.is_action_pressed("Sprint"):
 			direction *= 2
-		velocity.x = lerpf(velocity.x, direction.x * SPEED, ACCEL * delta)
-		velocity.z = lerpf(velocity.z, direction.z * SPEED, ACCEL * delta)
+		velocity.x = lerpf(velocity.x, direction.x * SPEED, ACCEL * speed_modifier * delta)
+		velocity.z = lerpf(velocity.z, direction.z * SPEED, ACCEL * speed_modifier * delta)
 		$StepsAudio.stream_paused = false
 		if not Global.is_player_in_room:
 			if walking_sound_state != WALKING_SOUND.WALKING:
-				$StairAudio["parameters/switch_to_clip"] = "Walking"
+				if not Global.recording_trailer:
+					$StairAudio["parameters/switch_to_clip"] = "Walking"
 				walking_sound_state = WALKING_SOUND.WALKING
 	else:
 		$StepsAudio.stream_paused = true
 		if walking_sound_state != WALKING_SOUND.STOPING:
-			$StairAudio["parameters/switch_to_clip"] = "Stoping"
+			#$StairAudio["parameters/switch_to_clip"] = "Stoping"
+			$StairAudio["parameters/switch_to_clip"] = "Silence"
 			walking_sound_state = WALKING_SOUND.STOPING
-		velocity.x = lerpf(velocity.x, 0.0, ACCEL * delta)
-		velocity.z = lerpf(velocity.z, 0.0, ACCEL * delta)
+		velocity.x = lerpf(velocity.x, 0.0, ACCEL * speed_modifier * delta)
+		velocity.z = lerpf(velocity.z, 0.0, ACCEL * speed_modifier * delta)
 	
 	if Global.is_player_in_room:
 		if walking_sound_state != WALKING_SOUND.STOPING:
-			$StairAudio["parameters/switch_to_clip"] = "Stoping Short"
+			#$StairAudio["parameters/switch_to_clip"] = "Stoping Short"
+			$StairAudio["parameters/switch_to_clip"] = "Silence"
 			walking_sound_state = WALKING_SOUND.STOPING
 
 	move_and_slide()

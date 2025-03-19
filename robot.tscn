@@ -1,10 +1,9 @@
-[gd_scene load_steps=37 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=36 format=3 uid="uid://cp3bk1xsmjnxj"]
 
 [ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
 [ext_resource type="PackedScene" uid="uid://u6wf76jhmt4a" path="res://objects/robot_base.gltf" id="2_yhfw1"]
 [ext_resource type="AudioStream" uid="uid://bjtwlfb8oyi0n" path="res://sounds/rotating_robot.ogg" id="3_awah6"]
-[ext_resource type="PackedScene" uid="uid://cggahbp1gdgc0" path="res://radial_progress.tscn" id="3_hvhn1"]
 [ext_resource type="AudioStream" uid="uid://d082v84bxtv1d" path="res://sounds/snap.mp3" id="4_ru5oq"]
 [ext_resource type="Texture2D" uid="uid://bou7oymrscjod" path="res://textures/robot_shadow.png" id="5_7xofo"]
 [ext_resource type="AudioStream" uid="uid://ceaokvaepnyyd" path="res://sounds/heavy_steps.mp3" id="6_bkaji"]
@@ -65,10 +64,10 @@ size = Vector3(0.147461, 0.175781, 0.0623397)
 size = Vector3(0.366211, 0.260818, 0.00749184)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_a145t"]
-size = Vector3(0.217041, 0.195557, 0.0224609)
+size = Vector3(0.248047, 0.223267, 0.0224609)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_awah6"]
-size = Vector3(0.101318, 0.106445, 0.0302734)
+size = Vector3(0.191162, 0.177734, 0.0302734)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4sq5"]
 radius = 0.378354
@@ -199,12 +198,6 @@ material = SubResource("StandardMaterial3D_hjjcf")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32055, 0.145649)
 
-[node name="BatteryRadialProgress" parent="RobotBody/BatteryNode" instance=ExtResource("3_hvhn1")]
-unique_name_in_owner = true
-transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0.0264282, -0.0030508)
-visible = false
-value = 100.0
-
 [node name="BatteryLabel" type="Label3D" parent="RobotBody/BatteryNode"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.067071, 0.00797239)
@@ -256,7 +249,7 @@ monitoring = false
 metadata/is_robot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RobotBody/ShutdownNode/BlockArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0632935, 0, 0.0406494)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0721567, -0.013855, 0.0406494)
 shape = SubResource("BoxShape3D_a145t")
 
 [node name="IdArea" type="Area3D" parent="RobotBody/ShutdownNode"]
@@ -275,13 +268,6 @@ transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.0
 visible = false
 text = "Shutdown!"
 font_size = 10
-
-[node name="PowerRadialProgress" parent="RobotBody/ShutdownNode" instance=ExtResource("3_hvhn1")]
-unique_name_in_owner = true
-transform = Transform3D(-0.1, 0, -1.50996e-08, 0, 0.1, 0, 1.50996e-08, 0, -0.1, 0, 0.00786471, -0.00593566)
-visible = false
-value = 100.0
-color_scheme = 1
 
 [node name="PowerLight" type="OmniLight3D" parent="RobotBody/ShutdownNode"]
 unique_name_in_owner = true

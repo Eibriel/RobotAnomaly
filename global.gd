@@ -16,10 +16,18 @@ var angry_timer := 0.0
 var noise_timer := 0.0
 var turned_off_light := false
 
+var recording_trailer:= false
+
+func _ready() -> void:
+	strugle_executed()
+	noise_executed()
+
 func _process(delta: float) -> void:
 	stack_timer += delta
-	strugle_timer += delta
-	noise_timer += delta
+	strugle_timer -= delta
+	strugle_timer = max(strugle_timer, 0)
+	noise_timer -= delta
+	noise_timer = max(noise_timer, 0)
 	if angry_timer >= 0:
 		angry_timer += delta
 	if stack_timer > 0.1 and robot_stack.size() < 50:
@@ -40,7 +48,7 @@ func set_rumble_vignete(value: float) -> void:
 	RenderingServer.global_shader_parameter_set("rumble_vignete", value)
 
 func should_robots_be_angry() -> bool:
-	if angry_timer > (17*randi_range(0, 6))*60:
+	if angry_timer > 17*60:
 		return true
 	return false
 
@@ -48,23 +56,23 @@ func angry_executed() -> void:
 	angry_timer = -1.0
 
 func should_robot_strugle() -> bool:
-	if strugle_timer > (8*randi_range(0, 4))*60:
+	if strugle_timer <= 0:
 		return true
 	return false
 
 func strugle_executed() -> void:
-	strugle_timer = 0.0
+	strugle_timer = 8 * randi_range(1, 4) * 60
 
 func should_fire_noise(light:=false) -> bool:
 	if not turned_off_light and light:
 		turned_off_light = true
 		return true
-	if noise_timer > (4*randi_range(0, 10))*60:
+	if noise_timer <= 0:
 		return true
 	return false
 
 func noise_executed() -> void:
-	noise_timer = 0.0
+	noise_timer = 4 * randi_range(1, 10) * 60
 
 func is_demo() -> bool:
 	return false

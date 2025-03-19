@@ -229,6 +229,8 @@ func _ready() -> void:
 		robj["bw_leg_r"].visible = false
 		robj["bw_legb_l"].visible = false
 		robj["bw_legb_r"].visible = false
+	
+	strugle_seek = randf_range(0, 2.0)
 
 func recursive_cast_shadows_off(node) -> void:
 	for c in node.get_children():
@@ -362,16 +364,16 @@ func _process(delta: float) -> void:
 	%GlitchLabel.text = "%s" % GLITCHES.find_key(glitch)
 	%IdLabel.text = "R%d" % robot_id
 	%BatteryLabel.text = "%d%%" % battery_charge
-	%BatteryRadialProgress.value = battery_charge
-	%PowerRadialProgress.value = shutdown_time * 100.0
+	#%BatteryRadialProgress.value = battery_charge
+	#%PowerRadialProgress.value = shutdown_time * 100.0
 	%BatteryLight.light_energy = battery_charge * 0.01
 	%PowerLight.light_energy = shutdown_time * 0.3
 	
 	if int(battery_charge) >= 100 or true:
-		%BatteryIndicator.material = preload("res://materials/prototype_red_mat.tres")
+		#%BatteryIndicator.material = preload("res://materials/prototype_red_mat.tres")
 		%BatteryLight.light_color = Color.RED
 	else:
-		%BatteryIndicator.material = preload("res://materials/prototype_green_mat.tres")
+		#%BatteryIndicator.material = preload("res://materials/prototype_green_mat.tres")
 		%BatteryLight.light_color = Color.GREEN
 	
 	if is_demo:
@@ -424,7 +426,6 @@ func update_radial(delta: float) -> void:
 	#pressing_off_button -= delta * 2.0
 	#pressing_off_button = clampf(pressing_off_button, 0, 0.2)
 	#robj["off_button"].position.x = -pressing_off_button * 0.01
-	
 	var battery_instance:MeshInstance3D = robj["battery_radial"]
 	battery_instance["instance_shader_parameters/amount"] = battery_charge * 0.01
 	
@@ -501,7 +502,10 @@ func update_blocking_path() -> void:
 	player_pos.y = 0
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
-	if robot_pos.distance_to(player_pos) < 1.0:
+	var min_distance := 1.0
+	if Global.recording_trailer:
+		min_distance = 2.0
+	if robot_pos.distance_to(player_pos) < min_distance:
 		grab_player()
 		#anomaly_failed.emit()
 	var dist := robot_pos.distance_to(player_pos)

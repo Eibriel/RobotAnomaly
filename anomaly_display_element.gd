@@ -1,5 +1,7 @@
 extends Node3D
 
+@export var display_id := 0
+
 var robot: Robot
 var robot_b: Robot
 
@@ -50,14 +52,37 @@ const anomaly_name = {
 	#Robot.GLITCHES.LIGHTS_OFF: "Nyctophobia"
 }
 
+var anomaly_to_set: Robot.GLITCHES
+var anomaly_set:= true
+var anomaly_frame:=0
+
+func _ready() -> void:
+	anomaly_frame = display_id
+
+func _process(delta: float) -> void:
+	if anomaly_frame > 0:
+		anomaly_frame -= 1
+		return
+	if anomaly_to_set and not anomaly_set:
+		implement_anomaly(anomaly_to_set)
+		
+
 func set_anomaly(anomaly: Robot.GLITCHES) -> void:
+	anomaly_to_set = anomaly
+	anomaly_set = false
+	anomaly_frame = display_id
+
+func implement_anomaly(anomaly: Robot.GLITCHES) -> void:
+	if robot: return
+	anomaly_set = true
+	#print("implement_anomaly")
 	$Label3D.text = anomaly_name[anomaly]
 	if [Robot.GLITCHES.MISSING_ENTIRELY, Robot.GLITCHES.DOOR_OPEN].has(anomaly):
 		return
-	if robot:
-		robot.queue_free()
-	if robot_b:
-		robot.queue_free()
+	#if robot:
+		#robot.queue_free()
+	#if robot_b:
+		#robot_b.queue_free()
 	robot = preload("res://robot.tscn").instantiate()
 	robot.set_glitch(anomaly, true)
 	robot.scale = Vector3.ONE * 0.2

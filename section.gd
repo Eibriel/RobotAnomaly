@@ -16,6 +16,7 @@ signal request_environment_change
 var robots: Array[Robot] = []
 var finished := false
 var active := false
+var deletion_requested := false
 
 var time := 0.0
 var glitch_time := 0.0
@@ -151,8 +152,8 @@ func setup_ending() -> void:
 	#r.set_pose(Robot.POSES.CLAPPING)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
-	r.robot_position(Vector3(3, 0, -5))
-	r.robot_rotation(deg_to_rad(-45))
+	r.robot_position(Vector3(3, 0, 0))
+	r.robot_rotation(deg_to_rad(-80))
 	r.remove_base()
 	#
 	r = Global.get_robot_instance()
@@ -266,6 +267,15 @@ func start_day() -> void:
 		for r in robots:
 			r.battery_charge = 0
 			r.force_no_battery = true
+		
+	if Global.recording_trailer and false:
+		var rcount := 0
+		for r in robots:
+			rcount += 1
+			if r.glitch != Robot.GLITCHES.NONE: continue
+			r.battery_charge = 0.0
+			if rcount == 1:
+				r.battery_charge = 100.0
 
 func _process(delta: float) -> void:
 	time += delta
@@ -280,7 +290,14 @@ func _process(delta: float) -> void:
 		%Robots.add_child(r)
 		print("Add child robot")
 		add_robot_time = 0.0
-		
+	
+	if deletion_requested:
+		visible = false
+		if %Robots.get_children().size() == 0:
+			queue_free()
+		else:
+			%Robots.get_children()[0].queue_free()
+	
 	#if scenario == Robot.GLITCHES.LIGHTS_OFF and glitch_time > 10:
 		#glitch_failed.emit()
 	#if scenario == Robot.GLITCHES.LIGHTS_OFF and Global.is_player_in_room:
@@ -338,6 +355,9 @@ func is_success() -> bool:
 			"full_battery": r.battery_charge == 100.0
 		})
 	return success
+
+func request_deletion() -> void:
+	deletion_requested = true
 
 #func _on_finish_area_body_entered(_body: Node3D) -> void:
 	#prints("body_entered", _body)

@@ -17,7 +17,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tvkt6"]
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_px5sl"]
-clip_count = 3
+clip_count = 4
 clip_0/name = &"Walking"
 clip_0/stream = ExtResource("3_wa5vi")
 clip_0/auto_advance = 0
@@ -27,9 +27,18 @@ clip_1/auto_advance = 0
 clip_2/name = &"Stoping Short"
 clip_2/stream = ExtResource("5_px5sl")
 clip_2/auto_advance = 0
+clip_3/name = &"Silence"
+clip_3/stream = ExtResource("7_yxww1")
+clip_3/auto_advance = 0
 initial_clip = 2
 _transitions = {
 Vector2i(-1, 0): {
+"fade_beats": 1.0,
+"fade_mode": 4,
+"from_time": 0,
+"to_time": 2
+},
+Vector2i(0, 0): {
 "fade_beats": 1.0,
 "fade_mode": 4,
 "from_time": 0,
@@ -46,6 +55,18 @@ Vector2i(0, 2): {
 "fade_mode": 3,
 "from_time": 0,
 "to_time": 1
+},
+Vector2i(0, 3): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(3, 0): {
+"fade_beats": 0.5,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 2
 }
 }
 
@@ -122,6 +143,7 @@ bus = &"Player"
 stream = SubResource("AudioStreamInteractive_px5sl")
 volume_db = -10.0
 autoplay = true
+max_polyphony = 4
 bus = &"Player"
 
 [node name="RumbleAudio" type="AudioStreamPlayer" parent="."]

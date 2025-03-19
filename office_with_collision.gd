@@ -18,6 +18,7 @@ func _ready() -> void:
 	lines[LINE_NAMES.LINEA_A_END] = $office2/LineaA_End
 	lines[LINE_NAMES.LINEA_B_END] = $office2/LineaB_End
 	lines[LINE_NAMES.LINEA_C_END] = $office2/LineaC_End
+	hide_all_lines()
 
 func hide_all_lines() -> void:
 	for n in lines:

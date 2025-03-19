@@ -100,6 +100,9 @@ var saw_crowd_04 := false
 var congrats_explosion_executed := false
 var museum_explosion_executed := false
 
+var shaders_cached := false
+var shaders_cached_frame := 0
+
 # Debug
 #var skip_tutorial := false
 var force_anomaly := Robot.GLITCHES.NONE
@@ -112,8 +115,8 @@ var fail_all := false
 var force_events := true
 #var force_completed_scenarios := 10
 
-var shaders_cached := false
-var shaders_cached_frame := 0
+# Trailer
+var recording_trailer := false
 
 func _ready() -> void:
 	if is_export():
@@ -125,6 +128,7 @@ func _ready() -> void:
 		override_state = false
 		fail_all = false
 		force_events = false
+		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
 	state_override.congrats_completed = true
@@ -132,12 +136,13 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios =  Robot.GLITCHES.size() - 0
+	var force_completed_scenarios = Robot.GLITCHES.size() - 5
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
 		state_override.completed_anomalies.append(Robot.GLITCHES.NONE)
 	state_override.completed_anomalies.shuffle()
+	Global.recording_trailer = recording_trailer
 	#
 	Global.player = %Player
 	load_game_state()
@@ -209,6 +214,10 @@ func _ready() -> void:
 	
 	if Global.is_steam():
 		%FollowItchioButton.visible = false
+	
+	if Global.recording_trailer:
+		%LogLabel.visible = false
+		%FPSLabel.visible = false
 
 func post_shader_cache() -> void:
 	%FadeWhite.visible = true
@@ -255,39 +264,26 @@ func start_game() -> void:
 	#if mixed_scenarios.size() > FLOORS_AMOUNT:
 	#	mixed_scenarios.resize(FLOORS_AMOUNT)
 	selected_scenarios.resize(0)
-	if true:
-		selected_scenarios = mixed_scenarios.duplicate()
-		var nones: Array[int] = []
-		var none_amount := Robot.GLITCHES.size() / NONE_RATIO
-		if none_amount > none_count:
-			for _n in none_amount - none_count:
-				nones.append(Robot.GLITCHES.NONE)
-		selected_scenarios.append_array(nones)
-		# LIGHTS_OFF must be > 9
-		
-	else:
-		var none_probability := 0.3
-		if game_state.executive_completed:
-			none_probability = 0.2
-		if Global.is_nightmare_mode:
-			none_probability = 0.0
-		for s in mixed_scenarios:
-			#if force_anomaly != Robot.GLITCHES.NONE:
-			#	selected_scenarios.append(force_anomaly)
-			#	continue
-			if randf() < none_probability and \
-					not linear_game and \
-					selected_scenarios.size() > 0 and \
-					not selected_scenarios.back() == Robot.GLITCHES.NONE:
-				none_count -= 1
-				if none_count <= 0:
-					selected_scenarios.append(Robot.GLITCHES.NONE)
-			else:
-				selected_scenarios.append(s)
+	
+	selected_scenarios = mixed_scenarios.duplicate()
+	var nones: Array[int] = []
+	var none_amount := Robot.GLITCHES.size() / NONE_RATIO
+	if none_amount > none_count:
+		for _n in none_amount - none_count:
+			nones.append(Robot.GLITCHES.NONE)
+	selected_scenarios.append_array(nones)
+	# LIGHTS_OFF must be > 9
+	
 	if not linear_game:
 		selected_scenarios.shuffle()
+	
+	if Global.recording_trailer:
+		selected_scenarios[0] = Robot.GLITCHES.EXTRA_EYE
+		selected_scenarios[1] = Robot.GLITCHES.BLOCKING_PATH
+	
 	test_fix_scenario_order()
-	fix_scenario_order(selected_scenarios, game_state.completed_anomalies)
+	if not Global.recording_trailer:
+		fix_scenario_order(selected_scenarios, game_state.completed_anomalies)
 	
 	scenarios_amount = selected_scenarios.size() + game_state.completed_anomalies.size()
 	
@@ -393,9 +389,6 @@ func _process(delta: float) -> void:
 				robot_collected.rotate_base(delta, true)
 			TASKS.BATTERY_CHARGE:
 				robot_collected.play_process()
-				if Global.should_fire_noise():
-					Global.noise_executed()
-					Global.player.play_scary_noise()
 				if robot_collected.charge_battery(delta):
 					current_task = TASKS.NONE
 					robot_collected.play_process(true)
@@ -979,15 +972,15 @@ func update_executive() -> void:
 		#%RobotStrike.stalk_player = Robot.STALK.FOLLOW
 		pass
 	
-	if Global.is_player_in_storage and not %DoorOnScreenSmall.is_on_screen() and %RobotStrike.position.y != 0:
+	#if Global.is_player_in_storage and not %DoorOnScreenSmall.is_on_screen() and %RobotStrike.position.y != 0:
+	#	%RobotStrike.position.y = 0
+	if Global.is_player_in_storage and %RobotStrike.position.y != 0 and not %DoorOnScreen.is_on_screen():
 		%RobotStrike.position.y = 0
 	if Global.is_player_in_storage and %DoorOnScreenSmall.is_on_screen():
 		close_storage_door()
-		if %RobotStrike.position.y != 0:
-			%RobotStrike.position.y = 0
-			%RobotStrike.position.z = 1
-			var tt := create_tween()
-			tt.tween_property(%RobotStrike, "position:z", 0.0, 0.2)
+			#%RobotStrike.position.z = 1
+			#var tt := create_tween()
+			#tt.tween_property(%RobotStrike, "position:z", 0.0, 0.2)
 		exec_done = true
 		on_executive_finished()
 	if %ExecVisible01.is_on_screen() and %RobotCrowd01.visible:
@@ -1322,8 +1315,10 @@ func instantiate_sections(Env: Node3D) -> void:
 		scenario = -4
 		#push_error("No more scenarios")
 	var available_scenarios_count := selected_scenarios.size() + failed_scenarios.size()
-	for c in Env.get_children():
-		c.queue_free()
+	#for c in Env.get_children():
+	#	c.queue_free()
+	if section:
+		section.request_deletion()
 	prints("Scenario:", scenario)
 	section = SECTION.instantiate()
 	section.is_nightmare_mode = check_if_nightmare()
@@ -1533,6 +1528,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	#	loby.show_counter()
 	#
 	#maybe_enable_event()
+	
 
 func hide_all_lines() -> void:
 	%MainOfficeWithCollision.hide_all_lines()
@@ -1953,11 +1949,14 @@ func update_cursor(delta) -> void:
 		0:
 			%FPSCursor.modulate.a = 0.0
 		1:
-			%FPSCursor.modulate.a = 0.459
-			%FPSCursor.scale = Vector2.ONE * 0.15
+			%FPSCursor.modulate.a = 0.3
+			%FPSCursor.scale = Vector2.ONE * 0.1
 		2:
 			%FPSCursor.modulate.a = 0.6
-			%FPSCursor.scale = Vector2.ONE * 0.2
+			%FPSCursor.scale = Vector2.ONE * 0.15
+	
+	if Global.recording_trailer:
+		%FPSCursor.modulate.a = 0.0
 
 func charge_battery(robot: Robot) -> void:
 	# On Robot
@@ -1967,6 +1966,9 @@ func charge_battery(robot: Robot) -> void:
 		return
 	task_timer = 0.0
 	current_task = TASKS.BATTERY_CHARGE
+	if Global.should_fire_noise():
+		Global.noise_executed()
+		Global.player.play_scary_noise()
 	robot_collected = robot
 
 func shutdown_robot() -> void:
