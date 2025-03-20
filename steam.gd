@@ -3,8 +3,10 @@ extends Node
 #App Ids:
 # - Robot Anomaly: 3583330
 # - Robot Anomaly Demo:
+# - Robot Anomaly Playtest: 3608100
 const APP_ID := 3583330
 const APP_ID_DEMO := 0
+const APP_ID_PLAYTEST := 3608100
 
 # Steam variables
 var initialized: bool = false
@@ -35,16 +37,12 @@ var _achievements = {
 	"LIGHT_SWITCH_INSPECTOR": false,
 }
 
-var _demo_stats = {}
-
-var _demo_achievements = {}
-
 var stats: Dictionary
 
 func _init() -> void:
 	var current_app_id:int
-	if Global.is_demo():
-		current_app_id = APP_ID_DEMO
+	if Global.is_playtest():
+		current_app_id = APP_ID_PLAYTEST
 	else:
 		current_app_id = APP_ID
 	# Set your game's Steam app ID here
@@ -56,18 +54,12 @@ func _ready() -> void:
 		initialize_steam()
 
 func set_stat(stat_name:String, value: Variant):
-	if Global.is_demo():
-		if not _demo_stats.has(stat_name): return
-	else:
-		if not _stats.has(stat_name): return
+	if not _stats.has(stat_name): return
 	Steam.setStatInt(stat_name, value)
 	Steam.storeStats()
 
 func get_stats() -> Dictionary:
-	if Global.is_demo():
-		return Dictionary(_demo_stats)
-	else:
-		return Dictionary(_stats)
+	return Dictionary(_stats)
 
 func _process(_delta: float) -> void:
 	if not initialized: return
@@ -103,18 +95,12 @@ func _on_steam_stats_ready(game: int, result: int, user: int) -> void:
 	print("Call result: %s" % result)
 	print("This user's Steam ID: %s" % user)
 	
-	if Global.is_demo():
-		_demo_stats["distance_traveled"] = Steam.getStatInt("distance_traveled")
-		prints("demo stats", _demo_stats)
-		_demo_achievements["demo_completed"] = get_achievement("demo_completed")
-		prints("demo achievements", _demo_achievements)
-	else:
-		for st in _stats:
-			_stats[st] = Steam.getStatInt(st)
-		prints("stats", _stats)
-		for ac in _achievements:
-			_achievements[ac] = get_achievement(ac)
-		prints("achievements", _achievements)
+	for st in _stats:
+		_stats[st] = Steam.getStatInt(st)
+	prints("stats", _stats)
+	for ac in _achievements:
+		_achievements[ac] = get_achievement(ac)
+	prints("achievements", _achievements)
 
 func get_achievement(value: String) -> bool:
 	var this_achievement: Dictionary = Steam.getAchievement(value)
@@ -133,18 +119,11 @@ func get_achievement(value: String) -> bool:
 
 func _fire_Steam_Achievement(value: String) -> void:
 	# Set the achievement to an in-game variable
-	if Global.is_demo():
-		if not _demo_achievements.has(value):
-			print("Demo achievement %s don't exist" % value)
-			return
-		if _demo_achievements[value]: return
-		_demo_achievements[value] = true
-	else:
-		if not _achievements.has(value):
-			print("Achievement %s don't exist" % value)
-			return
-		if _achievements[value]: return
-		_achievements[value] = true
+	if not _achievements.has(value):
+		print("Achievement %s don't exist" % value)
+		return
+	if _achievements[value]: return
+	_achievements[value] = true
 	# Pass the value to Steam then fire it
 	Steam.setAchievement(value)
 	Steam.storeStats()
@@ -161,7 +140,9 @@ func set_rich_presence(token: String) -> void:
 
 func open_url(url:String) -> void:
 	if initialized and Steam.isOverlayEnabled():
+		prints("Overlay browser", url)
 		Steam.activateGameOverlayToWebPage(url, Steam.OVERLAY_TO_WEB_PAGE_MODE_MODAL)
 		#Steam.activateGameOverlayToWebPage(url)
 	else:
+		prints("System browser", url)
 		OS.shell_open(url)

@@ -23,6 +23,7 @@ enum STATES {
 func _ready() -> void:
 	brush_01 = $Roomba.get_node("RoombaBrush_001") as MeshInstance3D
 	brush_02 = $Roomba.get_node("RoombaBrush_002") as MeshInstance3D
+	bump_level -= 40.0
 
 func _process(delta: float) -> void:
 	if current_state == STATES.STILL: return

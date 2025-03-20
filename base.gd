@@ -136,7 +136,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 5
+	var force_completed_scenarios = Robot.GLITCHES.size() - 0
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -214,6 +214,13 @@ func _ready() -> void:
 	
 	if Global.is_steam():
 		%FollowItchioButton.visible = false
+	
+	%PlayTestMenu.visible = false
+	if Global.is_playtest():
+		%PlayTestMenu.visible = true
+		%FPSLabel.visible = true
+		%QuitButton.text = tr("PROVIDE FEEDBACK AND QUIT")
+		
 	
 	if Global.recording_trailer:
 		%LogLabel.visible = false
@@ -443,7 +450,7 @@ func _process(delta: float) -> void:
 	%Clock.seconds = game_state.seconds
 	GamePlatform.stats["time_played"] = int(game_state.seconds / 60.0)
 	
-	if not is_export():
+	if not is_export() or Global.is_playtest():
 		%FPSLabel.text = "%f" % Engine.get_frames_per_second()
 	
 	update_executive()
@@ -455,9 +462,10 @@ func _process(delta: float) -> void:
 	refresh_reflection_probe(delta)
 
 func turn_lights_on() -> void:
+	lights_locked = false
+	if lights_on: return
 	%LightSwitch3.turn_on_off()
 	lights_on = true
-	lights_locked = false
 	event_light_timer = randf_range(60.0*7, 60.0*15)
 	lights_timer = 0.0
 
@@ -1056,8 +1064,10 @@ func update_congrats() -> void:
 		%CongratsRunningRobot.visible = true
 		%CongratsRunningRobot.position.y = 0
 		ready_congrats_run_event = true
+		for pb in %BalloonsCongrats.get_children():
+			pb.turn_into_brain()
 	if not congrats_explosion_executed:
-		if pos < 45:
+		if pos < 35:
 			var tween_particles := create_tween()
 			tween_particles.tween_callback(%CongratsParticlesBigExplosion1.set_emitting.bind(true))
 			tween_particles.tween_callback(%CongratsParticlesAudio1.play)
@@ -2159,6 +2169,8 @@ func show_menu_tween(menu: Control) -> void:
 func _on_quit_button_pressed() -> void:
 	%QuitGameMenu.visible = true
 	show_menu_tween(%QuitGameMenu)
+	if Global.is_playtest():
+		GlobalSteam.open_url("https://app.formbricks.com/s/cm8g8koty0003id03r7u9aciy")
 
 func _on_reset_button_pressed() -> void:
 	#%ResetButton.visible = false
@@ -2221,4 +2233,10 @@ func _on_follow_steam_button_pressed() -> void:
 	GlobalSteam.open_url("https://store.steampowered.com/developer/eibriel")
 
 func _on_follow_mastodon_button_pressed() -> void:
-	OS.shell_open("https://sigmoid.social/@eibriel")
+	GlobalSteam.open_url("https://v3.envialosimple.com/form/renderwidget/format/html/AdministratorID/188603/FormID/1/Lang/en")
+
+func _on_feedback_button_pressed() -> void:
+	GlobalSteam.open_url("https://steamcommunity.com/app/3608100/discussions/")
+
+func _on_translation_issue_button_pressed() -> void:
+	GlobalSteam.open_url("https://steamcommunity.com/app/3608100/discussions/")

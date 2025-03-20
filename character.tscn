@@ -30,7 +30,7 @@ clip_2/auto_advance = 0
 clip_3/name = &"Silence"
 clip_3/stream = ExtResource("7_yxww1")
 clip_3/auto_advance = 0
-initial_clip = 2
+initial_clip = 3
 _transitions = {
 Vector2i(-1, 0): {
 "fade_beats": 1.0,

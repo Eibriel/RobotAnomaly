@@ -31,6 +31,7 @@ enum WALKING_SOUND {
 func _ready() -> void:
 	%HoldedBattery.visible = false
 	%HoldedIdNote.visible = false
+	$StepsAudio.stream_paused = true
 	update_breathing_tween()
 
 func update_breathing_tween() -> void:

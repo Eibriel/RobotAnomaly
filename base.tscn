@@ -1682,6 +1682,7 @@ uppercase = true
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -2189,7 +2190,6 @@ banner_scale = 0.6
 
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="CongratsRunningRobot" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
@@ -2210,7 +2210,7 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 
 [node name="CongratsParticlesBigExplosion1" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
-transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, 3.001, 0.655386, 5.21853)
+transform = Transform3D(0.864213, -0.419658, 0.277533, 0.436818, 0.89955, 0, -0.249655, 0.121231, 0.960716, 3.001, 0.655386, -5.21807)
 emitting = false
 amount = 600
 lifetime = 5.0
@@ -2221,7 +2221,7 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 
 [node name="CongratsParticlesBigExplosion2" type="GPUParticles3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
-transform = Transform3D(-0.464822, 0.225716, 0.85615, 0.436818, 0.89955, 0, -0.77015, 0.373981, -0.516728, -2.82849, 0.655386, 5.21853)
+transform = Transform3D(-0.464822, 0.225716, 0.85615, 0.436818, 0.89955, 0, -0.77015, 0.373981, -0.516728, -2.82849, 0.655386, -5.21807)
 emitting = false
 amount = 600
 lifetime = 5.0
@@ -2232,13 +2232,13 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 
 [node name="CongratsParticlesAudio1" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.92052, 1.15456, 5.13365)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.92052, 1.15456, -5.30295)
 stream = ExtResource("69_npl1d")
 bus = &"Environment"
 
 [node name="CongratsParticlesAudio2" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_congrats"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.05215, 0.95176, 4.90365)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.05215, 0.95176, -5.53295)
 stream = ExtResource("69_npl1d")
 bus = &"Environment"
 
@@ -2252,64 +2252,64 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="RobotsLyingDown" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -1.98831, 0.0117631, 16.3917)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -1.98831, 0.0117631, 13.9399)
 
 [node name="RobotsLyingDown2" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-0.077101, 0, 1.39788, 0, 1.4, 0, -1.39788, 0, -0.077101, 1.85001, 0.0117631, 15.5554)
+transform = Transform3D(-0.077101, 0, 1.39788, 0, 1.4, 0, -1.39788, 0, -0.077101, 1.85001, 0.0117631, 13.1036)
 
 [node name="RobotsLyingDown3" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(0.86183, 0, 1.10329, 0, 1.4, 0, -1.10329, 0, 0.86183, -0.949295, 0.0117631, 12.3507)
+transform = Transform3D(0.86183, 0, 1.10329, 0, 1.4, 0, -1.10329, 0, 0.86183, -0.949295, 0.0117631, 9.8989)
 
 [node name="RobotsLyingDown4" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-1.39936, 0, 0.0422654, 0, 1.4, 0, -0.0422654, 0, -1.39936, 1.39055, 0.0117631, 11.5144)
+transform = Transform3D(-1.39936, 0, 0.0422654, 0, 1.4, 0, -0.0422654, 0, -1.39936, 1.39055, 0.0117631, 9.0626)
 
 [node name="RobotsLyingDown5" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -1.98831, 0.0117631, 9.13831)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -1.98831, 0.0117631, 6.68651)
 
 [node name="RobotsLyingDown6" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-0.077101, 0, 1.39788, 0, 1.4, 0, -1.39788, 0, -0.077101, 1.85001, 0.0117631, 8.302)
+transform = Transform3D(-0.077101, 0, 1.39788, 0, 1.4, 0, -1.39788, 0, -0.077101, 1.85001, 0.0117631, 5.8502)
 
 [node name="RobotsLyingDown7" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(0.86183, 0, 1.10329, 0, 1.4, 0, -1.10329, 0, 0.86183, -0.949295, 0.0117631, 5.09726)
+transform = Transform3D(0.86183, 0, 1.10329, 0, 1.4, 0, -1.10329, 0, 0.86183, -0.949295, 0.0117631, 2.64546)
 
 [node name="RobotsLyingDown8" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-1.39936, 0, 0.0422654, 0, 1.4, 0, -0.0422654, 0, -1.39936, 1.39055, 0.0117631, 4.26096)
+transform = Transform3D(-1.39936, 0, 0.0422654, 0, 1.4, 0, -0.0422654, 0, -1.39936, 1.39055, 0.0117631, 1.80916)
 
 [node name="RobotsLyingDown9" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -2.03758, 0.0117631, 1.93494)
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -2.03758, 0.0117631, -0.516863)
 
 [node name="RobotsLyingDown10" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-0.077101, 0, 1.39788, 0, 1.4, 0, -1.39788, 0, -0.077101, 1.97247, 0.0117631, 1.09864)
+transform = Transform3D(-0.077101, 0, 1.39788, 0, 1.4, 0, -1.39788, 0, -0.077101, 1.97247, 0.0117631, -1.35316)
 
 [node name="RobotsLyingDown11" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(1.06661, 0, 0.906828, 0, 1.4, 0, -0.906828, 0, 1.06661, -1.10103, 0.0117631, -2.1061)
+transform = Transform3D(1.06661, 0, 0.906828, 0, 1.4, 0, -0.906828, 0, 1.06661, -1.10103, 0.0117631, -4.5579)
 
 [node name="RobotsLyingDown12" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-1.37261, 0, 0.27557, 0, 1.4, 0, -0.27557, 0, -1.37261, 1.53874, 0.0117631, -2.94241)
+transform = Transform3D(-1.37261, 0, 0.27557, 0, 1.4, 0, -0.27557, 0, -1.37261, 1.53874, 0.0117631, -5.39421)
 
 [node name="RobotsLyingDown13" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(1.3841, 0, 0.210412, 0, 1.4, 0, -0.210412, 0, 1.3841, -1.88187, 0.0117631, -5.23165)
+transform = Transform3D(1.3841, 0, 0.210412, 0, 1.4, 0, -0.210412, 0, 1.3841, -1.88187, 0.0117631, -7.68345)
 
 [node name="RobotsLyingDown14" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(0.0918083, 0, 1.39699, 0, 1.4, 0, -1.39699, 0, 0.0918083, 2.01175, 0.0117631, -6.15549)
+transform = Transform3D(0.0918083, 0, 1.39699, 0, 1.4, 0, -1.39699, 0, 0.0918083, 2.01175, 0.0117631, -8.60729)
 
 [node name="RobotsLyingDown15" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(0.86183, 0, 1.10329, 0, 1.4, 0, -1.10329, 0, 0.86183, -0.949295, 0.0117631, -9.60651)
+transform = Transform3D(0.86183, 0, 1.10329, 0, 1.4, 0, -1.10329, 0, 0.86183, -0.949295, 0.0117631, -12.0583)
 
 [node name="RobotsLyingDown16" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-1.39936, 0, 0.0422654, 0, 1.4, 0, -0.0422654, 0, -1.39936, 1.69282, 0.0117631, -9.92376)
+transform = Transform3D(-1.39936, 0, 0.0422654, 0, 1.4, 0, -0.0422654, 0, -1.39936, 1.69282, 0.0117631, -12.3756)
 
 [node name="RobotsLyingDown17" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(1.31066, 0, 0.492098, 0, 1.4, 0, -0.492098, 0, 1.31066, -1.46548, 0.0117631, -12.5166)
+transform = Transform3D(1.31066, 0, 0.492098, 0, 1.4, 0, -0.492098, 0, 1.31066, -1.46548, 0.0117631, -14.9684)
 
 [node name="RobotsLyingDown18" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-0.423458, 0, 1.33442, 0, 1.4, 0, -1.33442, 0, -0.423458, 2.8163, 0.0117631, -14.1458)
+transform = Transform3D(-0.423458, 0, 1.33442, 0, 1.4, 0, -1.33442, 0, -0.423458, 2.8163, 0.0117631, -16.5976)
 
 [node name="RobotsLyingDown19" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(-1.28581, 0, -0.553809, 0, 1.4, 0, 0.553809, 0, -1.28581, 1.4425, 0.0117631, -18.0307)
+transform = Transform3D(-1.28581, 0, -0.553809, 0, 1.4, 0, 0.553809, 0, -1.28581, 1.4425, 0.0117631, -20.4825)
 
 [node name="RobotsLyingDown20" parent="OfficeNode/DressingNode/office_congrats/RobotsOnTheFloor" instance=ExtResource("74_60t3g")]
-transform = Transform3D(0.486374, 0, -1.3128, 0, 1.4, 0, 1.3128, 0, 0.486374, -2.87818, 0.0117631, -16.2101)
+transform = Transform3D(0.486374, 0, -1.3128, 0, 1.4, 0, 1.3128, 0, 0.486374, -2.87818, 0.0117631, -18.6619)
 
 [node name="PhysicsBalloon" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("74_o1ods")]
 transform = Transform3D(1, 0, 0, 0, 0.543248, 0.839572, 0, -0.839572, 0.543248, 3.6782, 0.217978, 6.51786)
@@ -2750,6 +2750,7 @@ layout_mode = 0
 offset_left = 115.0
 offset_right = 155.0
 offset_bottom = 23.0
+theme_override_constants/outline_size = 2
 
 [node name="RobotIdLabel" type="Label" parent="Control"]
 unique_name_in_owner = true
@@ -2946,6 +2947,7 @@ layout_mode = 2
 text = "RESET GAME"
 
 [node name="QuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "QUIT"
 
@@ -3474,7 +3476,30 @@ text = "Steam"
 
 [node name="FollowMastodonButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 layout_mode = 2
-text = "Mastodon"
+text = "Newsletter"
+
+[node name="PlayTestMenu" type="VBoxContainer" parent="Control"]
+unique_name_in_owner = true
+process_mode = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = -103.0
+offset_right = 263.0
+offset_bottom = -37.0
+grow_vertical = 0
+
+[node name="FeedbackButton" type="Button" parent="Control/PlayTestMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SEND FEEDBACK"
+
+[node name="TranslationIssueButton" type="Button" parent="Control/PlayTestMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "REPORT TRANSLATION ISSUE"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("85_5ilav")
@@ -3564,3 +3589,5 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowItchioButton" to="." method="_on_follow_itchio_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowSteamButton" to="." method="_on_follow_steam_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowMastodonButton" to="." method="_on_follow_mastodon_button_pressed"]
+[connection signal="pressed" from="Control/PlayTestMenu/FeedbackButton" to="." method="_on_feedback_button_pressed"]
+[connection signal="pressed" from="Control/PlayTestMenu/TranslationIssueButton" to="." method="_on_translation_issue_button_pressed"]
