@@ -3,16 +3,17 @@
 [ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_vwao6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vwao6"]
+render_priority = 1
 transparency = 1
+cull_mode = 2
 shading_mode = 0
 albedo_color = Color(0.0711067, 0.08, 0.0616, 0.419608)
 albedo_texture = ExtResource("1_vwao6")
+disable_receive_shadows = true
 
 [resource]
 resource_name = "Robot_skin"
 next_pass = SubResource("StandardMaterial3D_vwao6")
-cull_mode = 2
-disable_fog = true
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.469327, 0.471543, 0.502379, 1)
 metallic = 1.0

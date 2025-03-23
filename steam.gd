@@ -27,6 +27,14 @@ var _stats = {
 	"anomalies_found": 0, # Anomalies successfully completed
 }
 
+const _increment_limit = {
+	"time_played": 1,
+	"light_switch": 10,
+	"deaths": 2,
+	"floor_down": 10,
+	"anomalies_found": 2,
+}
+
 var _achievements = {
 	"HALF_HOUR_GAME": false,
 	"WAKE_UP_REACHED": false,
@@ -53,10 +61,23 @@ func _ready() -> void:
 	if Global.is_steam() or not OS.has_feature("template"):
 		initialize_steam()
 
-func set_stat(stat_name:String, value: Variant):
-	if not _stats.has(stat_name): return
+func set_stat(stat_name:String, value: int):
+	if not stats_ready:
+		push_warning("Stats not ready")
+		return
+	if not _stats.has(stat_name):
+		push_warning("Attempting to set non existent stat %s" % stat_name)
+		return
+	if value < _stats[stat_name]:
+		push_warning("Stat value can't decrease for %s, %d (%d)" % [stat_name, value, _stats[stat_name]])
+		return
+	if value - _stats[stat_name] > _increment_limit[stat_name]:
+		value = _stats[stat_name] + _increment_limit[stat_name]
+		print("Limiting value to %d" % value)
+	print("Stat %s set with value %d" % [stat_name, value])
 	Steam.setStatInt(stat_name, value)
 	Steam.storeStats()
+	Steam.requestUserStats(steam_id)
 
 func get_stats() -> Dictionary:
 	return Dictionary(_stats)
@@ -64,9 +85,14 @@ func get_stats() -> Dictionary:
 func _process(_delta: float) -> void:
 	if not initialized: return
 	Steam.run_callbacks()
+	
 
 func initialize_steam() -> void:
-	var initialize_response: Dictionary = Steam.steamInitEx()
+	if not Steam.isSteamRunning():
+		print("Steam is not running")
+		return
+	
+	var initialize_response: Dictionary = Steam.steamInitEx(true)
 	print("Did Steam initialize?: %s " % initialize_response)
 
 	if initialize_response['status'] > 0:
@@ -87,10 +113,13 @@ func initialize_steam() -> void:
 	prints("steam_username", steam_username)
 	
 	# BUG this is never fired
-	Steam.current_stats_received.connect(_on_steam_stats_ready)
+	print("Connecting Signal")
+	Steam.user_stats_received.connect(_on_steam_stats_ready)
+	Steam.requestUserStats(steam_id)
 
 func _on_steam_stats_ready(game: int, result: int, user: int) -> void:
 	stats_ready = true
+	print("## STATS RECEIVED ##")
 	print("This game's ID: %s" % game)
 	print("Call result: %s" % result)
 	print("This user's Steam ID: %s" % user)
@@ -104,7 +133,7 @@ func _on_steam_stats_ready(game: int, result: int, user: int) -> void:
 
 func get_achievement(value: String) -> bool:
 	var this_achievement: Dictionary = Steam.getAchievement(value)
-	print(this_achievement)
+	#print(this_achievement)
 	# Achievement exists
 	if this_achievement['ret']:
 		# Achievement is unlocked

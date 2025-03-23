@@ -36,10 +36,10 @@ func _init() -> void:
 func set_stat(stat_name:String, value: Variant) -> void:
 	GlobalSteam.set_stat(stat_name, value)
 
-func get_stats(stat_name:String):
+func get_stats(stat_name:String) -> void:
 	GlobalSteam.get_stat(stat_name)
 
-func set_achievement(value:String):
+func set_achievement(value:String) -> void:
 	GlobalSteam._fire_Steam_Achievement(value)
 
 func get_achievements():

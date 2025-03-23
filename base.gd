@@ -29,8 +29,12 @@ var scenarios_amount := 0
 var game_state: GameStateResource
 var game_settings: GameSettingsResource
 
-const save_path:= "user://game_state.tres"
-const settings_path:= "user://game_settings.tres"
+var save_path:String
+var settings_path:String
+const save_path_release:= "user://game_state.tres"
+const settings_path_release:= "user://game_settings.tres"
+const save_path_playtest:= "user://game_state_playtest.tres"
+const settings_path_playtest:= "user://game_settings_playtest.tres"
 
 const MESSAGES: Array[String]= [
 	"Welcome",
@@ -109,7 +113,7 @@ var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := true
+var override_state := false
 var state_override := GameStateResource.new()
 var fail_all := false
 var force_events := true
@@ -119,7 +123,8 @@ var force_events := true
 var recording_trailer := false
 
 func _ready() -> void:
-	if is_export():
+	print_help()
+	if Global.is_export():
 		#skip_tutorial = false
 		force_anomaly = Robot.GLITCHES.NONE
 		linear_game = false
@@ -145,6 +150,12 @@ func _ready() -> void:
 	Global.recording_trailer = recording_trailer
 	#
 	Global.player = %Player
+	if Global.is_playtest():
+		save_path = save_path_playtest
+		settings_path = settings_path_playtest
+	else:
+		save_path = save_path_release
+		settings_path = settings_path_release
 	load_game_state()
 	load_game_settings()
 	
@@ -184,7 +195,7 @@ func _ready() -> void:
 	turn_lights_on()
 	target_exposure = 6.0
 	#
-	if is_export():
+	if Global.is_export():
 		%FadeWhite.visible = true
 		%FadeBlack.visible = true
 	else:
@@ -226,6 +237,19 @@ func _ready() -> void:
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
 
+func print_help() -> void:
+	print(
+		"##########################\n",
+		"Welcome to Robot Anomaly!\n",
+		"Game Parameters:\n",
+		"--steam: Enables Steam integration\n",
+		"--playtest: Uses the Steam playtest AppId\n\n",
+		"Remember to add double dash before the parameters ' -- '\n\n",
+		"Is Steam: %s\n" % Global.is_steam(),
+		"Is Playtest: %s\n" % Global.is_playtest(),
+		"##########################\n\n"
+	)
+
 func post_shader_cache() -> void:
 	%FadeWhite.visible = true
 	%FadeBlack.visible = true
@@ -247,8 +271,6 @@ func post_shader_cache() -> void:
 func check_if_nightmare() -> bool:
 	return game_state.executive_completed
 
-func is_export() -> bool:
-	return OS.has_feature("template")
 
 ## Initializes a game
 func start_game() -> void:
@@ -450,7 +472,7 @@ func _process(delta: float) -> void:
 	%Clock.seconds = game_state.seconds
 	GamePlatform.stats["time_played"] = int(game_state.seconds / 60.0)
 	
-	if not is_export() or Global.is_playtest():
+	if not Global.is_export() or Global.is_playtest():
 		%FPSLabel.text = "%f" % Engine.get_frames_per_second()
 	
 	update_executive()
@@ -2224,6 +2246,7 @@ func _on_cancel_quit_button_pressed() -> void:
 	%QuitGameMenu.visible = false
 
 func _on_confirm_quit_button_pressed() -> void:
+	save_game_state()
 	get_tree().quit()
 
 func _on_follow_itchio_button_pressed() -> void:
@@ -2236,7 +2259,7 @@ func _on_follow_mastodon_button_pressed() -> void:
 	GlobalSteam.open_url("https://v3.envialosimple.com/form/renderwidget/format/html/AdministratorID/188603/FormID/1/Lang/en")
 
 func _on_feedback_button_pressed() -> void:
-	GlobalSteam.open_url("https://steamcommunity.com/app/3608100/discussions/")
+	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/1/")
 
 func _on_translation_issue_button_pressed() -> void:
-	GlobalSteam.open_url("https://steamcommunity.com/app/3608100/discussions/")
+	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/0/")
