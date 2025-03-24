@@ -470,9 +470,9 @@ func _process(delta: float) -> void:
 				Global.is_player_in_room:
 			turn_lights_off()
 	
-	game_state.seconds += delta
-	%Clock.seconds = game_state.seconds
-	GamePlatform.stats["time_played"] = int(game_state.seconds / 60.0)
+	game_settings.seconds += delta
+	%Clock.seconds = game_settings.seconds
+	GamePlatform.stats["time_played"] = int(game_settings.seconds / 60.0)
 	
 	if not Global.is_export() or Global.is_playtest():
 		%FPSLabel.text = "%f" % Engine.get_frames_per_second()
@@ -1154,9 +1154,7 @@ func load_game_state() -> void:
 	if override_state:
 		game_state = state_override
 	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save:
-		var old_seconds := game_state.seconds
 		game_state = GameStateResource.new()
-		game_state.seconds = old_seconds
 		Global.reset_save = false
 		print("Reset game save")
 		return

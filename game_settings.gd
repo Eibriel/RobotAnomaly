@@ -17,6 +17,8 @@ extends Resource
 
 @export var language: locale_names = locale_names.en
 
+@export var seconds := 0.0
+
 enum locale_names {
 	en,
 	es_AR,
