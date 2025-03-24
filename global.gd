@@ -75,7 +75,7 @@ func noise_executed() -> void:
 	noise_timer = 4 * randi_range(1, 10) * 60
 
 func is_demo() -> bool:
-	return false
+	return OS.has_feature("demo")
 
 func is_steam() -> bool:
 	return OS.get_cmdline_user_args().has("--steam")

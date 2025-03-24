@@ -227,10 +227,12 @@ func _ready() -> void:
 		%FollowItchioButton.visible = false
 	
 	%PlayTestMenu.visible = false
+	%ReviewQuitButton.visible = false
 	if Global.is_playtest():
 		%PlayTestMenu.visible = true
 		%FPSLabel.visible = true
-		%QuitButton.text = tr("PROVIDE FEEDBACK AND QUIT")
+		%QuitButton.visible = false
+		%ReviewQuitButton.visible = true
 		
 	
 	if Global.recording_trailer:
@@ -1172,6 +1174,17 @@ func save_game_settings() -> void:
 func load_game_settings() -> void:
 	if not ResourceLoader.exists(settings_path):
 		game_settings = GameSettingsResource.new()
+		var loc := TranslationServer.get_locale()
+		var loaded := TranslationServer.get_loaded_locales()
+		prints("LOCALE", loc, loaded)
+		var best_similarity := 0
+		for ln in game_settings.locale_names.keys():
+			var similarity := TranslationServer.compare_locales(loc, ln)
+			prints("COMPARE LOCALE %s %s:" % [loc, ln], similarity)
+			if similarity <= best_similarity: continue
+			best_similarity = similarity
+			game_settings.language = ln
+			prints("LOCALE SET", ln)
 	else:
 		game_settings = load(settings_path)
 	load_settings()
@@ -1204,6 +1217,8 @@ func load_settings() -> void:
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps = game_settings.max_fps
+	TranslationServer.set_locale(game_settings.locale_names.find_key(game_settings.language))
+	%LanguageMenu.selected = game_settings.language
 	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)
 	prints("Camera Acceleration", %MouseAccSlider.value)
 	prints("Camera shake", %CameraShakeSlider.value)
@@ -2149,6 +2164,11 @@ func _on_volume_slider_drag_ended(value_changed: bool) -> void:
 		game_settings.volume_level = %VolumeSlider.value
 		save_game_settings()
 		load_settings()
+
+func _on_language_menu_item_selected(index: int) -> void:
+	game_settings.language = index
+	save_game_settings()
+	load_settings()
 
 func _on_mouse_sen_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:

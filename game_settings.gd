@@ -14,3 +14,13 @@ extends Resource
 @export var vsync := true
 
 @export var max_fps :int = 60
+
+@export var language: locale_names = locale_names.en
+
+enum locale_names {
+	en,
+	es_AR,
+	pt_BR,
+	zh_Hans,
+	ru
+}

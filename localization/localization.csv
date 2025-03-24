@@ -2,6 +2,7 @@
 "LANG__NAME","ENGLISH","SPANISH / ESPAÑOL","PORTUGUESE / PORTUGUÊS (BR)","SIMPLIFIED CHINESE / 简体中文","RUSSIAN / РУССКИЙ","FRENCH / FRANÇAIS","GERMAN / DEUTSCH","ITALIAN / ITALIANO","PORTUGUESE / PORTUGUÊS (PT)",,"GREEK / ΕΛΛΗΝΙΚΑ","TURKISH / TÜRKÇE","DANISH / DANSK","NORWEGIAN (NB) / NORSK BOKMÅL","SWEDISH / SVENSKA","DUTCH / NEDERLANDS","POLISH / POLSKI","FINNISH / SUOMI","JAPANESE / 日本語",,"TRADITIONAL CHINESE / 繁体中文","KOREAN / 한국어","CZECH / ČEŠTINA","HUNGARIAN / MAGYAR","ROMANIAN / ROMÂNĂ","THAI / ภาษาไทย","BULGARIAN / БЪЛГАРСКИ","עברית / HEBREW"," العربية / ARABIC","BOSNIAN","Ukrainian"
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "VOLUME","Volume","Volumen","Volume","音量","Громкость","Volume","Lautstärke","Volume","Volume",,"Ένταση","Ses Şiddeti","Volumen","Volum","Volym","Volume","Głośność","Äänenvoimakkuus","ボリューム",,"音量","음량","Hlasitost","Hangerő","Volum","ความดัง","Гръмкост","עוצמה","مستوى الصوت","Jačina Zvuka",
+"LANGUAGE","Language","Idioma",,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "MOUSE SENSIBILITY","Mouse sensitivity","Sensibilidad","Sensibilidade do mouse","鼠标灵敏度","Чувствительность мыши","Sensibilité de la souris","Mausempfindlichkeit","Sensibilità mouse","Sensibilidade do rato",,"Ευαισθησία ποντικιού","Fare hassasiyeti","Musefølsomhed","Musesensitivitet","Muskänslighet","Muis gevoeligheid","Czułość myszy","Hiiren herkkyys","マウス感度",,"鼠標靈敏度","마우스 감도","Citlivost myši","Egérérzékenység","Sensitivitate mouse","ความไวการรับค่าเมาส์","Чувствителност на мишката","רגישות עכבר","حساسية الفأرة","Osjetljivost Miša",
 "CAMERA ACCELERATION","Camera acceleration","Aceleración de cámara","Aceleração da câmera","相机加速度","Ускорение камеры",,,,,,,,,,,,,,,,,,,,,,,,,,
 "CAMERA SHAKE","Camera shake","Temblor de cámara","Trepidação da câmera","相机抖动","Дрожание камеры",,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -15,11 +16,11 @@
 "RESET GAME","Reset game","Reiniciar juego","Reiniciar o jogo","还原","Сбросить","Remettre à zéro","Zurücksetzen","Ripristinare le impostazioni?",,,,,,,"Återställ",,"Przywróć","Palauta",,,,"리셋",,"Visszaállítás","Resetati",,"Нулиране",,,,"Повернутися до початкових значень"
 "SETTINGS","Settings","Configuración","Configuração","设置","Настройки",,,,,,,,,,,,,,,,,,,,,,,,,,
 "HOW TO PLAY","How to play","Cómo jugar","Como jogar","如何玩","Как играть",,,,,,,,,,,,,,,,,,,,,,,,,,
-"AUDIO","Audio","Sonido","Áudio","音频","Аудио",,,,,,,,,,,,,,,,,,,,,,,,,,
+"AUDIO LANGUAGE","Audio and language","Sonido e idioma","Áudio e idioma","音频和语言","Аудио и язык",,,,,,,,,,,,,,,,,,,,,,,,,,
 "DISPLAY","Display","Pantalla","Tela","显示屏","Дисплей",,,,,,,,,,,,,,,,,,,,,,,,,,
 "GAMEPLAY","Gameplay","Juego","Jogo","游戏玩法","Геймплей",,,,,,,,,,,,,,,,,,,,,,,,,,
 "DISPLAY SETTINGS","Display settings","Configuración de pantalla","Configuração da tela","显示设置","Настройки дисплея",,,,,,,,,,,,,,,,,,,,,,,,,,
-"AUDIO SETTINGS","Audio settings","Configuración de sonido","Configuração de áudio","音频设置","Настройки звука",,,,,,,,,,,,,,,,,,,,,,,,,,
+"AUDIO LANGUAGE SETTINGS","Audio and language settings","Configuración de sonido e idioma","Configurações de áudio e idioma","音频和语言设置","Настройки звука и языка",,,,,,,,,,,,,,,,,,,,,,,,,,
 "GAMEPLAY SETTINGS","Gameplay settings","Configuración de juego","Configurações de jogo","游戏设置","Настройки игрового процесса",,,,,,,,,,,,,,,,,,,,,,,,,,
 "BACK","Back","Volver","Voltar","返回","Назад",,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
