@@ -109,11 +109,11 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.SPIDER
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := false
+var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
 var force_events := true
@@ -136,12 +136,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 0
+	var force_completed_scenarios = Robot.GLITCHES.size() - 30
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -404,6 +404,7 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 				sel_scenarios[target_key] = Robot.GLITCHES.GRABS_BATTERY
 	return sel_scenarios
 
+var robots_are_angry := false
 func _process(delta: float) -> void:
 	if shaders_cached_frame > 5 and not shaders_cached:
 		shaders_cached = true
@@ -411,6 +412,13 @@ func _process(delta: float) -> void:
 	if not shaders_cached:
 		shaders_cached_frame += 1
 		return
+	
+	const GLITCHES_NO_ANGRY: Array[Robot.GLITCHES]= [
+		Robot.GLITCHES.NONE,
+		Robot.GLITCHES.BLOCKING_PATH,
+		Robot.GLITCHES.MISSING_ENTIRELY,
+		Robot.GLITCHES.EXTRA_ROBOTS,
+	]
 	
 	if robot_collected:
 		match current_task:
@@ -427,9 +435,12 @@ func _process(delta: float) -> void:
 				robot_collected.play_process()
 				if robot_collected.shutdown(delta):
 					if Global.should_robots_be_angry():
-						Global.angry_executed()
-						turn_lights_off()
-						section.make_robots_angry(robot_collected)
+						if robot_collected.glitch != Robot.GLITCHES.NONE:
+							if not GLITCHES_NO_ANGRY.has(section.anomaly):
+								robots_are_angry = true
+								Global.angry_executed()
+								turn_lights_off()
+								section.make_robots_angry(robot_collected)
 					current_task = TASKS.NONE
 					robot_collected.play_process(true)
 	
@@ -486,8 +497,11 @@ func _process(delta: float) -> void:
 	refresh_reflection_probe(delta)
 
 func turn_lights_on() -> void:
+	prints("turn_lights_on")
 	lights_locked = false
 	if lights_on: return
+	#prints("robots_are_angry", robots_are_angry)
+	#if robots_are_angry: return
 	%LightSwitch3.turn_on_off()
 	lights_on = true
 	event_light_timer = randf_range(60.0*7, 60.0*15)
@@ -689,7 +703,7 @@ func maybe_enable_event(delta: float) -> void:
 
 func disable_event(_event:EVENTS, force:=false) -> void:
 	if not current_events.has(_event) and not force: return
-	prints("Disabling event", EVENTS.find_key(_event))
+	#prints("Disabling event", EVENTS.find_key(_event))
 	event_was_visible[_event] = false
 	current_events.erase(_event)
 	reset_events_timer(_event, true)
@@ -735,7 +749,7 @@ func disable_event(_event:EVENTS, force:=false) -> void:
 func enable_event(_event:EVENTS) -> void:
 	if current_events.has(_event): return
 	current_events.append(_event)
-	prints("Enabling event", EVENTS.find_key(_event))
+	#prints("Enabling event", EVENTS.find_key(_event))
 	match _event:
 		EVENTS.VENTILATION:
 			%RobotEventVentilation.visible = true
@@ -1159,8 +1173,9 @@ func load_game_state() -> void:
 		print("Reset game save")
 		return
 	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
-		if not override_state:
-			game_state.completed_anomalies.resize(0)
+		#if not override_state:
+		#	game_state.completed_anomalies.resize(0)
+		pass
 	else:
 		print("Tutorial completed")
 		tutorial_completed = true
@@ -1394,6 +1409,20 @@ func instantiate_sections(Env: Node3D) -> void:
 		if game_state.executive_completed:
 			floor_number -= 1
 		%LevelCountLabel.mesh.text = "%d" % floor_number
+		
+		match scenario:
+			-4:
+				GamePlatform.set_rich_presence("gamestatus", "Museum")
+			-3:
+				GamePlatform.set_rich_presence("gamestatus", "GroundLevel")
+			-2:
+				GamePlatform.set_rich_presence("gamestatus", "Start")
+			-1:
+				GamePlatform.set_rich_presence("gamestatus", "Lunchroom")
+			_:
+				GamePlatform.set_rich_presence("floor", "%d" % floor_number)
+				GamePlatform.set_rich_presence("gamestatus", "WithFloor")
+		GamePlatform.set_rich_presence("#StatusInGame")
 	if false:
 		if game_state.completed_anomalies.size() < INTRO_AMOUNT and not game_state.congrats_completed:
 			%TotalLevelsCountLabel.mesh.text = "/ %d" % INTRO_AMOUNT
@@ -1552,27 +1581,8 @@ func instantiate_sections(Env: Node3D) -> void:
 	else:
 		creepy_music_tween.tween_property($CreepyMusic, "volume_db", -80, 20.0)
 		#creepy_music_tween.tween_callback($CreepyMusic.stop)
-	#
-	#message_id = min(message_id, MESSAGES.size()-1)
-	#main.message = "%d" % message_id
-	#%MessageLabel.text = MESSAGES[message_id]
-	#if n == scenarios.size()-1:
-	#	main.last = true
-	#main.connect("finish", _on_finished)
-	#main.connect("exit", _on_exit)
-	#main.connect("end_day", _on_end_day)
-	Env.add_child(section)
-	#main.position.z = -29 - (50*n)
-	#
-	#var loby = LOBY.instantiate()
-	#Env.add_child(loby)
 	
-	#loby.set_day(day)
-	#loby.set_level_count(available_scenarios_count)
-	#if completed_scenarios.size() >= batch_count:
-	#	loby.show_counter()
-	#
-	#maybe_enable_event()
+	Env.add_child(section)
 	
 
 func hide_all_lines() -> void:
@@ -1692,6 +1702,9 @@ func pause() -> void:
 	pause_tween.tween_property(%PauseMenu, "modulate:a", 1.0, 0.5)
 	get_tree().paused = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.MENUS)
+	GamePlatform.set_rich_presence("#StatusAtPauseMenu")
+	
 
 func unpause(no_sound:=false) -> void:
 	%PauseMenu.visible = false
@@ -1701,6 +1714,8 @@ func unpause(no_sound:=false) -> void:
 	if not no_sound:
 		$PauseSound.pitch_scale = 1.1
 		$PauseSound.play()
+	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.GAME)
+	GamePlatform.set_rich_presence("#StatusInGame")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_text_delete"):
@@ -1732,7 +1747,7 @@ func release_action_button() -> void:
 	if event_light_timer < 0 and Global.is_player_in_room:
 		turn_lights_off(randf_range(3.0, 6.0))
 
-func process_failed_queue(scenario: int) -> void:
+func process_failed_queue_old(scenario: int) -> void:
 	var append_scenario := true
 	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
 		# Force having a Robot.GLITCHES.NONE
@@ -1749,6 +1764,22 @@ func process_failed_queue(scenario: int) -> void:
 		#
 		selected_scenarios.append_array(game_state.completed_anomalies)
 		game_state.completed_anomalies.resize(0)
+	if append_scenario:
+		failed_scenarios.append(scenario)
+
+func process_failed_queue(scenario: int) -> void:
+	var append_scenario := true
+	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
+		if game_state.completed_anomalies.size() > 0:
+			var removed_anomaly: Robot.GLITCHES = game_state.completed_anomalies.pop_back()
+			selected_scenarios.append(removed_anomaly)
+		if game_state.completed_anomalies.size() == 0:
+			if selected_scenarios.find(Robot.GLITCHES.NONE) >= 0:
+				selected_scenarios.erase(Robot.GLITCHES.NONE)
+				selected_scenarios.push_front(Robot.GLITCHES.NONE)
+			#elif failed_scenarios.find(Robot.GLITCHES.NONE) >= 0:
+			#	failed_scenarios.erase(Robot.GLITCHES.NONE)
+			#	selected_scenarios.push_front(Robot.GLITCHES.NONE)
 	if append_scenario:
 		failed_scenarios.append(scenario)
 
@@ -1824,6 +1855,10 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 		load_main()
 		return
 	%LevelReport.update_report(section.report)
+	if success:
+		GamePlatform.game_event(GamePlatform.EVENT.SUCCESS)
+	else:
+		GamePlatform.game_event(GamePlatform.EVENT.FAILED)
 	if not success:
 		process_failed_queue(scenario)
 		load_main()
@@ -1880,7 +1915,8 @@ func fire_ray(button_index: int) -> void:
 		if coll.has_meta("is_id"):
 			robot_collected = coll.get_parent().get_parent().get_parent()
 			if not robot_collected.power_on and false:
-				current_task = TASKS.ROTATE
+				if not robots_are_angry:
+					current_task = TASKS.ROTATE
 			else:
 				%Player.note_visible(true)
 				task_timer = 0.0
@@ -1889,7 +1925,8 @@ func fire_ray(button_index: int) -> void:
 			var rob := coll.get_parent().get_parent().get_parent() as Robot
 			if rob.battery_charge == 0.0:
 				robot_collected = rob
-				current_task = TASKS.ROTATE
+				if not robots_are_angry:
+					current_task = TASKS.ROTATE
 			else:
 				charge_battery(rob)
 			if false:
@@ -1925,14 +1962,16 @@ func fire_ray(button_index: int) -> void:
 				robot_collected = coll.get_parent().get_parent()
 			else:
 				robot_collected = coll.get_parent().get_parent().get_parent()
-			current_task = TASKS.ROTATE
+			if not robots_are_angry:
+				current_task = TASKS.ROTATE
 		elif coll.has_meta("is_rotate"):
 			#coll.get_parent().rotate_base()
 			if coll.get_parent().get_parent() is Robot:
 				robot_collected = coll.get_parent().get_parent()
 			else:
 				robot_collected = coll.get_parent().get_parent().get_parent()
-			current_task = TASKS.ROTATE
+			if not robots_are_angry:
+				current_task = TASKS.ROTATE
 		elif coll.has_meta("is_turnstile"):
 			#print("is_turnstile")
 			coll.get_parent().open()
@@ -1940,7 +1979,7 @@ func fire_ray(button_index: int) -> void:
 			#print("is_lightswitch")
 			var click_dist:float = intersection.position.distance_to(get_viewport().get_camera_3d().global_position)
 			#print(click_dist)
-			if click_dist < 1.8:
+			if click_dist < 1.8 and not robots_are_angry:
 				coll.get_parent().turn_on_off()
 				lights_on = !lights_on
 				if not lights_on and Global.should_fire_noise(true):
@@ -2005,7 +2044,8 @@ func update_cursor(delta) -> void:
 
 func charge_battery(robot: Robot) -> void:
 	# On Robot
-	if robot.power_on and robot.glitch == Robot.GLITCHES.GRABS_BATTERY:
+	if robot.power_on and robot.glitch == Robot.GLITCHES.GRABS_BATTERY \
+			and not robot.lock_buttons:
 		robot.grab_battery()
 		$StingerB.play()
 		return
@@ -2076,6 +2116,10 @@ func _on_inside_area_body_exited(_body: Node3D) -> void:
 	#$ReflectionProbe.position.x = randf()*0.01
 	Global.is_player_in_room = false
 	turn_lights_on()
+	#prints("robots_are_angry", robots_are_angry)
+	if robots_are_angry:
+		robots_are_angry = false
+		section.stop_robots_angry()
 	#target_exposure = 6.0
 	if tonemap_tween:
 		tonemap_tween.stop()
@@ -2121,6 +2165,7 @@ func _on_loop_down_body_entered(_body: Node3D) -> void:
 
 
 func on_glitch_failed() -> void:
+	print("GLITCH FAILED")
 	var reset := func():
 		#var sc := section.is_success()
 		#prints("\nsuccess:", sc)
@@ -2129,15 +2174,16 @@ func on_glitch_failed() -> void:
 		#TODO sometimes reset_position don't reset velocity
 		reset_position()
 		GamePlatform.stats["deaths"] += 1
+		GamePlatform.game_event(GamePlatform.EVENT.DEATH)
 	
 	var exec_tween := create_tween()
 	#exec_tween.tween_interval(2.5)
 	#
 	exec_tween.tween_property(%FadeBlack, "modulate:a", 1.0, 1.0)
 	exec_tween.tween_callback(reset.call_deferred)
-	exec_tween.tween_interval(1.0)
+	exec_tween.tween_interval(1.5)
 	exec_tween.tween_callback($AudioStreamPlayer.play)
-	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 4.0)
+	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 3.5)
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true

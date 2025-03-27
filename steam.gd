@@ -74,7 +74,7 @@ func set_stat(stat_name:String, value: int):
 	if value - _stats[stat_name] > _increment_limit[stat_name]:
 		value = _stats[stat_name] + _increment_limit[stat_name]
 		print("Limiting value to %d" % value)
-	print("Stat %s set with value %d" % [stat_name, value])
+	#print("Stat %s set with value %d" % [stat_name, value])
 	Steam.setStatInt(stat_name, value)
 	Steam.storeStats()
 	Steam.requestUserStats(steam_id)
@@ -119,17 +119,17 @@ func initialize_steam() -> void:
 
 func _on_steam_stats_ready(game: int, result: int, user: int) -> void:
 	stats_ready = true
-	print("## STATS RECEIVED ##")
-	print("This game's ID: %s" % game)
-	print("Call result: %s" % result)
-	print("This user's Steam ID: %s" % user)
+	#print("## STATS RECEIVED ##")
+	#print("This game's ID: %s" % game)
+	#print("Call result: %s" % result)
+	#print("This user's Steam ID: %s" % user)
 	
 	for st in _stats:
 		_stats[st] = Steam.getStatInt(st)
-	prints("stats", _stats)
+	#prints("stats", _stats)
 	for ac in _achievements:
 		_achievements[ac] = get_achievement(ac)
-	prints("achievements", _achievements)
+	#prints("achievements", _achievements)
 
 func get_achievement(value: String) -> bool:
 	var this_achievement: Dictionary = Steam.getAchievement(value)
@@ -157,10 +157,14 @@ func _fire_Steam_Achievement(value: String) -> void:
 	Steam.setAchievement(value)
 	Steam.storeStats()
 
-func set_rich_presence(token: String) -> void:
-	# Set the token
-	var setting_presence = Steam.setRichPresence("steam_display", token)
-	
+func set_rich_presence(token: String, value: String = "") -> void:
+	var setting_presence
+	if value.length() > 0:
+		setting_presence = Steam.setRichPresence(token, value)
+	else:
+		# Set the token
+		setting_presence = Steam.setRichPresence("steam_display", token)
+		
 	# Tutorial
 	# https://www.youtube.com/watch?v=VCwNxfYZ8Cw&t=4762s
 
@@ -175,3 +179,32 @@ func open_url(url:String) -> void:
 	else:
 		prints("System browser", url)
 		OS.shell_open(url)
+
+func timeline_event(event_type: GamePlatform.EVENT) -> void:
+	if not initialized: return
+	match event_type:
+		GamePlatform.EVENT.DEATH:
+			Steam.addInstantaneousTimelineEvent(
+				"Death",
+				"An anomaly killed you",
+				"steam_death",
+				Steam.TimelineEventClipPriority.TIMELINE_EVENT_CLIP_PRIORITY_FEATURED,
+				0
+			)
+		GamePlatform.EVENT.FAILED:
+			Steam.addInstantaneousTimelineEvent(
+				"Floor failed",
+				"There was something you overlook",
+				"steam_x",
+				Steam.TimelineEventClipPriority.TIMELINE_EVENT_CLIP_PRIORITY_STANDARD,
+				0
+			)
+		GamePlatform.EVENT.SUCCESS:
+			Steam.addInstantaneousTimelineEvent(
+				"Floor succeded",
+				"You taked care of all your tasks",
+				"steam_completed",
+				Steam.TimelineEventClipPriority.TIMELINE_EVENT_CLIP_PRIORITY_STANDARD,
+				0
+			)
+	

@@ -79,10 +79,6 @@ func implement_anomaly(anomaly: Robot.GLITCHES) -> void:
 	$Label3D.text = anomaly_name[anomaly]
 	if [Robot.GLITCHES.MISSING_ENTIRELY, Robot.GLITCHES.DOOR_OPEN].has(anomaly):
 		return
-	#if robot:
-		#robot.queue_free()
-	#if robot_b:
-		#robot_b.queue_free()
 	robot = preload("res://robot.tscn").instantiate()
 	robot.set_glitch(anomaly, true)
 	robot.scale = Vector3.ONE * 0.2
@@ -95,6 +91,17 @@ func implement_anomaly(anomaly: Robot.GLITCHES) -> void:
 		robot.set_glitch(anomaly, true)
 		robot.scale = Vector3.ONE * 0.2
 		robot.position.y = 0.01 + 0.01
+		robot.remove_base()
+		add_child(robot)
+	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
+		robot.position.x -= 0.08
+		robot.rotation.y = deg_to_rad(45)
+		robot = preload("res://robot.tscn").instantiate()
+		robot.set_glitch(anomaly, true)
+		robot.scale = Vector3.ONE * 0.2
+		robot.position.y = 0.01 + 0.01
+		robot.position.x += 0.08
+		robot.rotation.y = deg_to_rad(-45)
 		robot.remove_base()
 		add_child(robot)
 

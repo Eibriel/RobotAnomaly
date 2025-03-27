@@ -14,10 +14,12 @@ config/name="Robot Anomaly"
 config/description="Anomaly game about finding deviant robots"
 run/main_scene="res://base.tscn"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+run/frame_delay_msec=100
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 config/icon="uid://jrtig6k02mbh"
+run/frame_delay_msec.release=0
 
 [autoload]
 

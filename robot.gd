@@ -617,6 +617,7 @@ func make_angry() -> void:
 	robj["red_eyes"].visible = true
 	looking_player = true
 	battery_charge = 100.0
+	lock_buttons = true
 
 func deactivate_angry() -> void:
 	if glitch != GLITCHES.NONE: return
@@ -822,6 +823,9 @@ func update_glitch() -> void:
 				pos.z += randf() * 0.3
 				robot_position(pos)
 				remove_base()
+		GLITCHES.GRABS_BATTERY:
+			if is_demo:
+				anim.play("GrabsBattery")
 
 #func remove_glitch():
 	##is_glitching = false
@@ -983,6 +987,7 @@ func turn_off_glitches() -> void:
 func grab_battery() -> void:
 	if glitch_executed:
 		anomaly_failed.emit()
+		lock_buttons = true
 		return
 	glitch_executed = true
 	anim.play("GrabsBattery")

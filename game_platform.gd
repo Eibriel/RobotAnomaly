@@ -12,6 +12,17 @@ var stats = {
 
 var stats_time: float = 0.0
 
+enum EVENT {
+	DEATH,
+	FAILED,
+	SUCCESS
+}
+
+enum TIMELINE_MODE {
+	MENUS,
+	GAME
+}
+
 func _process(delta: float) -> void:
 	stats_time += delta
 	if not stats_ready and GlobalSteam.stats_ready:
@@ -22,7 +33,7 @@ func _process(delta: float) -> void:
 		stats_time = 0.0
 		for s in stats:
 			GlobalSteam.set_stat(s, int(stats[s]))
-		print(stats)
+		#print(stats)
 
 func sync_stats():
 	var steam_stats := GlobalSteam.get_stats()
@@ -45,5 +56,15 @@ func set_achievement(value:String) -> void:
 func get_achievements():
 	pass
 
-func set_rich_presence():
-	pass
+func game_event(event_type: EVENT) -> void:
+	GlobalSteam.timeline_event(event_type)
+
+func set_rich_presence(token: String, value: String = "") -> void:
+	GlobalSteam.set_rich_presence(token, value)
+
+func setTimelineGameMode(mode: TIMELINE_MODE) -> void:
+	match mode:
+		TIMELINE_MODE.MENUS:
+			Steam.setTimelineGameMode(Steam.TimelineGameMode.TIMELINE_GAME_MODE_MENUS)
+		TIMELINE_MODE.GAME:
+			Steam.setTimelineGameMode(Steam.TimelineGameMode.TIMELINE_GAME_MODE_PLAYING)

@@ -277,7 +277,7 @@ func start_day() -> void:
 			if rcount == 1:
 				r.battery_charge = 100.0
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	time += delta
 	add_robot_time += delta
 	if Global.is_player_in_room:
@@ -321,6 +321,10 @@ func make_robots_angry(exception: Robot) -> void:
 	for r in robots:
 		if r == exception: continue
 		r.make_angry()
+
+func stop_robots_angry() -> void:
+	for r in robots:
+		r.battery_charge = 0.0
 
 func on_failed_glitch() -> void:
 	glitch_failed.emit()

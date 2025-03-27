@@ -3241,7 +3241,7 @@ grow_vertical = 2
 [node name="Label" type="Label" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("115_n6axq")
-text = "AUDIO SETTINGS"
+text = "AUDIO LANGUAGE SETTINGS"
 horizontal_alignment = 1
 uppercase = true
 

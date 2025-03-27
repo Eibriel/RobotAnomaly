@@ -219,6 +219,7 @@ Some assets may not be in the game
 - All Large Woods Falling Down On The Ground by jjchubby -- https://freesound.org/s/764799/ -- License: Creative Commons 0
 
 - falling on floor by skradz -- https://freesound.org/s/268166/ -- License: Creative Commons 0
+- "Steampunk Telescope" (https://skfb.ly/LVLs) by Alex P is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
 
 ### Fonts
