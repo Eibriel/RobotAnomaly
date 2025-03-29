@@ -31,10 +31,10 @@ func update_report(data: Array) -> void:
 		c.queue_free()
 	var robot_with_anomaly := false
 	var robot_off_without_anomaly := false
-	var robot_without_battery := false
+	var robot_with_battery := false
 	var r_row := 0
 	var r_column := 0
-	var batteries_charged_required := false
+	#var batteries_charged_required := false
 	for r: Dictionary in data:
 		var icon := Sprite2D.new()
 		if r.handled_correctly:
@@ -49,7 +49,7 @@ func update_report(data: Array) -> void:
 				robot_with_anomaly = true
 		else:
 			if r.full_battery:
-				robot_without_battery = true
+				robot_with_battery = true
 			if not r.power:
 				robot_off_without_anomaly = true
 		icon.scale = Vector2.ONE * 0.2
@@ -57,22 +57,22 @@ func update_report(data: Array) -> void:
 		if r_row == floor(data.size()*0.5):
 			r_row = 0
 			r_column += 1
-		batteries_charged_required = r.batteries_charged_required
+		#batteries_charged_required = r.batteries_charged_required
 	
 	correct = true
 	if robot_off_without_anomaly:
-		$PowerErrorLabel.text = tr("ERROR OFF NO ANOMALY")
+		$PowerErrorLabel.text = "ERROR OFF NO ANOMALY"
 		correct = false
 	elif robot_with_anomaly:
-		$PowerErrorLabel.text = tr("ERROR ANOMALY ON")
+		$PowerErrorLabel.text = "ERROR ANOMALY ON"
 		correct = false
 	else:
-		$PowerErrorLabel.text = tr("NO ERROR")
-	if batteries_charged_required and robot_without_battery:
-		$BatteryErrorLabel.text = tr("ERROR FULL BATTERY")
+		$PowerErrorLabel.text = "NO ERROR"
+	if robot_with_battery:
+		$BatteryErrorLabel.text = "ERROR FULL BATTERY"
 		correct = false
 	else:
-		$BatteryErrorLabel.text = tr("NO ERROR")
+		$BatteryErrorLabel.text = "NO ERROR"
 
 func play_sound() -> void:
 	if not something_to_report: return

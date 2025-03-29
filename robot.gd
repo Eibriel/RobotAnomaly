@@ -857,7 +857,7 @@ func follow_head(delta: float) -> void:
 	head_attachment.look_at(player_eyes, Vector3.UP, true)
 	var neck_rotation: Vector3 = head_attachment.rotation_degrees
 	neck_rotation.x = clamp(neck_rotation.x, -60, 80)
-	neck_rotation.y = clamp(neck_rotation.y, -90, 90)
+	neck_rotation.y = clamp(neck_rotation.y, -50, 50)
 	
 	neck_rotation_y = lerp_angle(neck_rotation_y, deg_to_rad(neck_rotation.y), 2 * delta)
 	

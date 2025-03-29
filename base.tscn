@@ -1373,6 +1373,7 @@ shape = SubResource("CylinderShape3D_i2k0m")
 
 [node name="CompanyLogo" type="Label3D" parent="OfficeNode/DressingNode/office_lobby"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.18346, 2.37525, 18.0163)
+visible = false
 pixel_size = 0.002
 modulate = Color(0, 0, 0, 1)
 text = "89
@@ -1682,7 +1683,6 @@ uppercase = true
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -1790,9 +1790,20 @@ text = "Nightmare mode!"
 font_size = 50
 vertical_alignment = 0
 
+[node name="MuseumStatsTitleLabel" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
+transform = Transform3D(1, -4.37114e-08, -1.91069e-15, 0, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 1.056, 5.98388)
+pixel_size = 0.001
+shaded = true
+modulate = Color(0, 0, 0, 1)
+text = "FOUND ANOMALIES"
+font = ExtResource("74_vgrfu")
+font_size = 60
+outline_size = 0
+vertical_alignment = 0
+
 [node name="MuseumStatsLabel" type="Label3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
-transform = Transform3D(1, -4.37114e-08, -1.91069e-15, 0, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 1.056, 5.98388)
+transform = Transform3D(1, -4.37114e-08, -1.91069e-15, 0, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 1.056, 6.05544)
 pixel_size = 0.001
 shaded = true
 modulate = Color(0, 0, 0, 1)
@@ -2190,6 +2201,7 @@ banner_scale = 0.6
 
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="CongratsRunningRobot" parent="OfficeNode/DressingNode/office_congrats" instance=ExtResource("24_2bbbl")]
 unique_name_in_owner = true
@@ -2331,6 +2343,7 @@ outline_size = 0
 
 [node name="TasksLabel7" type="Label3D" parent="OfficeNode/PictureFrame6"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.016485, 0.594035, 0.00396538)
+visible = false
 pixel_size = 0.001
 shaded = true
 modulate = Color(0, 0, 0, 1)

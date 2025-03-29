@@ -169,7 +169,7 @@ func set_rich_presence(token: String, value: String = "") -> void:
 	# https://www.youtube.com/watch?v=VCwNxfYZ8Cw&t=4762s
 
 	# Debug it
-	print("Setting rich presence to "+str(token)+": "+str(setting_presence))
+	#print("Setting rich presence to "+str(token)+": "+str(setting_presence))
 
 func open_url(url:String) -> void:
 	if initialized and Steam.isOverlayEnabled():

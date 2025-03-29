@@ -19,7 +19,7 @@ const anomaly_name = {
 	Robot.GLITCHES.CLOCK_HEART: "Doki Doki",
 	Robot.GLITCHES.HEAD_BOX: "Smarts",
 	Robot.GLITCHES.BACK_BOX: "Storage",
-	Robot.GLITCHES.WRIST_SCARF: "Cause",
+	Robot.GLITCHES.WRIST_SCARF: "Hurts",
 	Robot.GLITCHES.EYES_AROUND_HEAD: "Eyes in the back",
 	Robot.GLITCHES.LONG_FINGERS: "Manicure",
 	Robot.GLITCHES.BRAIN_EXTENSION: "Logical",

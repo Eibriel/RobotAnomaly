@@ -109,7 +109,7 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.SPIDER
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -136,12 +136,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = false
-	state_override.executive_completed = false
+	state_override.congrats_completed = true
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 30
+	var force_completed_scenarios = Robot.GLITCHES.size() - 1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -294,6 +294,8 @@ func start_game() -> void:
 		shufled_completed_anomalies.shuffle()
 	#if mixed_scenarios.size() > FLOORS_AMOUNT:
 	#	mixed_scenarios.resize(FLOORS_AMOUNT)
+	prints("mixed_scenarios", mixed_scenarios)
+	
 	selected_scenarios.resize(0)
 	
 	selected_scenarios = mixed_scenarios.duplicate()
@@ -304,7 +306,7 @@ func start_game() -> void:
 			nones.append(Robot.GLITCHES.NONE)
 	selected_scenarios.append_array(nones)
 	# LIGHTS_OFF must be > 9
-	
+	prints("selected_scenarios with none", selected_scenarios)
 	if not linear_game:
 		selected_scenarios.shuffle()
 	
@@ -314,7 +316,8 @@ func start_game() -> void:
 	
 	test_fix_scenario_order()
 	if not Global.recording_trailer:
-		fix_scenario_order(selected_scenarios, game_state.completed_anomalies)
+		var res := fix_scenario_order(selected_scenarios, game_state.completed_anomalies)
+		prints("res2", res)
 	
 	scenarios_amount = selected_scenarios.size() + game_state.completed_anomalies.size()
 	
@@ -358,8 +361,9 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	# None anomaly spread evenly and without repetition
 	if sel_scenarios[0] != Robot.GLITCHES.NONE:
 		var none_key = sel_scenarios.find(Robot.GLITCHES.NONE)
-		sel_scenarios[none_key] = sel_scenarios[0]
-		sel_scenarios[0] = Robot.GLITCHES.NONE
+		if none_key >= 0:
+			sel_scenarios[none_key] = sel_scenarios[0]
+			sel_scenarios[0] = Robot.GLITCHES.NONE
 	# Door anomaly before Executive
 	if adjusted_floor_amount > 0:
 		var door_open_key = sel_scenarios.find(Robot.GLITCHES.DOOR_OPEN) 
@@ -474,9 +478,9 @@ func _process(delta: float) -> void:
 	
 	
 	event_light_timer -= delta
-	if lights_delay >= 0.0:
+	if lights_delay > 0.0:
 		lights_delay -= delta
-		if lights_delay < 0.0 and \
+		if lights_delay <= 0.0 and \
 				not disabled_sections.has(section.scenario) and \
 				Global.is_player_in_room:
 			turn_lights_off()
@@ -499,12 +503,12 @@ func _process(delta: float) -> void:
 func turn_lights_on() -> void:
 	prints("turn_lights_on")
 	lights_locked = false
+	event_light_timer = randf_range(60.0*7, 60.0*15)
 	if lights_on: return
 	#prints("robots_are_angry", robots_are_angry)
 	#if robots_are_angry: return
 	%LightSwitch3.turn_on_off()
 	lights_on = true
-	event_light_timer = randf_range(60.0*7, 60.0*15)
 	lights_timer = 0.0
 
 func turn_lights_off(delay:=0.0, lock_lights: bool = false) -> void:
@@ -514,9 +518,9 @@ func turn_lights_off(delay:=0.0, lock_lights: bool = false) -> void:
 		lights_on = false
 		lights_timer = 0.0
 	else:
-		event_light_timer = randf_range(60.0*7, 60.0*15)
 		# This function will be called in [delay] seconds
 		lights_delay = delay
+	event_light_timer = randf_range(60.0*7, 60.0*15)
 
 func get_next_event_time(event: EVENTS) -> float:
 	if force_events:
@@ -1137,7 +1141,11 @@ func on_executive_finished():
 		#completed_scenarios.resize(0)
 		selected_scenarios.resize(0)
 		failed_scenarios.resize(0)
-		start_game()
+		#start_game()
+		var sc := section.is_success()
+		prints("\nsuccess:", sc)
+		_on_finished(sc, section.scenario, false)
+		#
 		reset_position()
 		Global.player.lock_movement()
 		GamePlatform.set_achievement("TRAPPED_REACHED")
@@ -1163,15 +1171,18 @@ func save_game_state() -> void:
 	ResourceSaver.save(game_state, save_path)
 
 func load_game_state() -> void:
-	prints("Global.reset_save", Global.reset_save)
+	#prints("Global.reset_save", Global.reset_save)
 	game_state = load(save_path)
 	if override_state:
 		game_state = state_override
 	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save:
 		game_state = GameStateResource.new()
+		Global.reset_timers()
 		Global.reset_save = false
 		print("Reset game save")
 		return
+	if game_state.completed_anomalies.size() > 0:
+		tutorial_completed = true
 	if game_state.completed_anomalies.size() < INTRO_AMOUNT:
 		#if not override_state:
 		#	game_state.completed_anomalies.resize(0)
@@ -1299,9 +1310,13 @@ func setup_start() -> void:
 	%WoodCratesCovers.visible = false
 	%StartRunningRobots.visible = false
 
+func is_game_complete() -> bool:
+	var igc := game_state.completed_anomalies.size() >= scenarios_amount
+	return igc
+
 func update_museum() -> void:
 	if section.scenario != -4: return
-	if selected_scenarios.size() != 0: return
+	if not is_game_complete(): return
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
 	var pos: float = player_pos.z + 25
 	if not museum_explosion_executed:
@@ -1321,8 +1336,8 @@ func setup_museum() -> void:
 	for _n in game_state.completed_anomalies:
 		if _n != Robot.GLITCHES.NONE:
 			anomalies_count += 1
-	%MuseumStatsLabel.text = "%s\n" % tr("FOUND ANOMALIES")
-	%MuseumStatsLabel.text += "%d / %d\n" % [anomalies_count, Robot.GLITCHES.size()-1]
+	#%MuseumStatsLabel.text = "%s\n" % tr("FOUND ANOMALIES")
+	%MuseumStatsLabel.text = "%d / %d\n" % [anomalies_count, Robot.GLITCHES.size()-1]
 	#for ss in game_state.completed_anomalies:
 	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
 	var anom_displays := %AnomalyDisplay.get_children()
@@ -1336,7 +1351,7 @@ func setup_museum() -> void:
 		gid += 1
 		if gid >= anom_displays.size(): break
 	
-	if selected_scenarios.size() == 0:
+	if is_game_complete():
 		%VacuumReveal.position.y = 0
 		%StairSign.visible = false
 		%StairSign2.visible = false
@@ -1372,7 +1387,8 @@ func instantiate_sections(Env: Node3D) -> void:
 		scenario = failed_scenarios.pop_front()
 	else:
 		# game completed
-		scenario = -4
+		if not museum_completed:
+			scenario = -4
 		#push_error("No more scenarios")
 	var available_scenarios_count := selected_scenarios.size() + failed_scenarios.size()
 	#for c in Env.get_children():
@@ -1391,7 +1407,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
 	%FloorData_A2.text = "%d" % (FLOORS_AMOUNT - INTRO_AMOUNT)
 	%FloorData_B2.text = "%d" % 0
-	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT - scenarios_amount)
+	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT - scenarios_amount - 1)
 	#
 	#%TasksLabel2.text = "Anomalous activity detected!"
 	#%TasksLabel3.text = "Shutdown any suspicious robot"
@@ -1460,7 +1476,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	elif scenario == -4: # Museum
 		%MessageLabel.text = "Museum"
 		dressing_visible(%office_museum)
-		if selected_scenarios.size() == 0:
+		if is_game_complete():
 			show_line_upto(LINE_NAMES.LINEA_A_END)
 		else:
 			show_line_upto(LINE_NAMES.LINEA_A)
@@ -1546,8 +1562,8 @@ func instantiate_sections(Env: Node3D) -> void:
 	const audio_distance := 50.0
 	var city_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, 0, audio_distance), 0, audio_distance)
 	var street_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, audio_distance, 0), 0, audio_distance)
-	prints("city_audio_distance", city_audio_distance)
-	prints("street_audio_distance", street_audio_distance)
+	#prints("city_audio_distance", city_audio_distance)
+	#prints("street_audio_distance", street_audio_distance)
 	%CityAudio.position.z = city_audio_distance
 	%CityAudio2.position.z = city_audio_distance
 	%StreetAudio.position.z = street_audio_distance
@@ -1843,7 +1859,7 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 			return
 	if scenario == -3: # Executive
 		# Do nothing, can't scape ending
-		#load_main()
+		load_main()
 		return
 	if scenario == -1: # Congrats
 		# Can't scape congrats, unlesh finished
@@ -2080,6 +2096,12 @@ func refresh_reflection_probe(delta: float):
 		#print("Refresh Reflection Probe")
 	
 
+func rotate_scenario() -> void:
+	if %Player.position.z > 0:
+		%OfficeNode.rotation.y = deg_to_rad(0)
+	else:
+		%OfficeNode.rotation.y = deg_to_rad(180)
+
 func _on_finish_area_body_entered(_body: Node3D) -> void:
 	# When player signals that the level is done
 	# Not needed anymore
@@ -2140,10 +2162,7 @@ func _on_loop_up_body_entered(_body: Node3D) -> void:
 	#
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
-	if %Player.position.z > 0:
-		%OfficeNode.rotation.y = deg_to_rad(0)
-	else:
-		%OfficeNode.rotation.y = deg_to_rad(180)
+	rotate_scenario()
 	if level_started:
 		end_level = true
 	if end_level:
@@ -2157,9 +2176,11 @@ func _on_loop_down_body_entered(_body: Node3D) -> void:
 	%Player.position.y -= 4.1
 	#
 	if check_if_nightmare():
+		rotate_scenario()
 		tutorial_completed = false
 		museum_completed = false
-		process_failed_queue(section.scenario)
+		if not [-4,-3,-2,-1].has(section.scenario):
+			process_failed_queue(section.scenario)
 		load_main()
 		return
 
@@ -2175,7 +2196,7 @@ func on_glitch_failed() -> void:
 		reset_position()
 		GamePlatform.stats["deaths"] += 1
 		GamePlatform.game_event(GamePlatform.EVENT.DEATH)
-	
+		Global.player.lock_movement()
 	var exec_tween := create_tween()
 	#exec_tween.tween_interval(2.5)
 	#
@@ -2184,6 +2205,7 @@ func on_glitch_failed() -> void:
 	exec_tween.tween_interval(1.5)
 	exec_tween.tween_callback($AudioStreamPlayer.play)
 	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 3.5)
+	exec_tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(1.5)
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true

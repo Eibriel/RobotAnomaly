@@ -47,6 +47,11 @@ func set_blood_vignete(value: float) -> void:
 func set_rumble_vignete(value: float) -> void:
 	RenderingServer.global_shader_parameter_set("rumble_vignete", value)
 
+func reset_timers() -> void:
+	angry_executed()
+	strugle_executed()
+	noise_executed()
+
 func should_robots_be_angry() -> bool:
 	if angry_timer > 17*60:
 		return true
