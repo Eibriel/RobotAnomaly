@@ -2884,6 +2884,61 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="EndDemoMenu" type="Control" parent="Control"]
+unique_name_in_owner = true
+process_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseBackground" type="ColorRect" parent="Control/EndDemoMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.921569)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/EndDemoMenu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/EndDemoMenu/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "THANKS FOR PLAYING"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="HSeparator" type="HSeparator" parent="Control/EndDemoMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConfirmResetButton" type="Button" parent="Control/EndDemoMenu/VBoxContainer"]
+layout_mode = 2
+text = "RESET GAME"
+
+[node name="WishlistButton" type="Button" parent="Control/EndDemoMenu/VBoxContainer"]
+layout_mode = 2
+text = "WISHLIST"
+
+[node name="ConfirmQuitButton" type="Button" parent="Control/EndDemoMenu/VBoxContainer"]
+layout_mode = 2
+text = "QUIT"
+
 [node name="PauseMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
@@ -2906,7 +2961,6 @@ color = Color(0, 0, 0, 0.921569)
 
 [node name="InitialMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -2969,6 +3023,11 @@ text = "QUIT"
 unique_name_in_owner = true
 layout_mode = 2
 text = "PROVIDE FEEDBACK AND QUIT"
+
+[node name="WishlistQuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "WISHLIST AND QUIT"
 
 [node name="SettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
@@ -3221,6 +3280,7 @@ text = "BACK"
 
 [node name="AudioSettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3525,6 +3585,10 @@ offset_right = 263.0
 offset_bottom = -37.0
 grow_vertical = 0
 
+[node name="WishlistButton" type="Button" parent="Control/PlayTestMenu"]
+layout_mode = 2
+text = "WISHLIST"
+
 [node name="FeedbackButton" type="Button" parent="Control/PlayTestMenu"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -3596,12 +3660,16 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="body_entered" from="LoopUp" to="." method="_on_loop_up_body_entered"]
 [connection signal="body_entered" from="LoopDown" to="." method="_on_loop_down_body_entered"]
 [connection signal="body_entered" from="StartLevel" to="." method="_on_start_level_body_entered"]
+[connection signal="pressed" from="Control/EndDemoMenu/VBoxContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
+[connection signal="pressed" from="Control/EndDemoMenu/VBoxContainer/WishlistButton" to="." method="_on_wishlist_button_pressed"]
+[connection signal="pressed" from="Control/EndDemoMenu/VBoxContainer/ConfirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ResetButton" to="." method="_on_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ReviewQuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/WishlistQuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/AudioSettingsButton" to="." method="_on_audio_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/DisplaySettingsButton" to="." method="_on_display_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/GameplaySettingsButton" to="." method="_on_gameplay_settings_button_pressed"]
@@ -3625,5 +3693,6 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowItchioButton" to="." method="_on_follow_itchio_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowSteamButton" to="." method="_on_follow_steam_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/FollowMeMenu/VBoxContainer/FollowMastodonButton" to="." method="_on_follow_mastodon_button_pressed"]
+[connection signal="pressed" from="Control/PlayTestMenu/WishlistButton" to="." method="_on_wishlist_button_pressed"]
 [connection signal="pressed" from="Control/PlayTestMenu/FeedbackButton" to="." method="_on_feedback_button_pressed"]
 [connection signal="pressed" from="Control/PlayTestMenu/TranslationIssueButton" to="." method="_on_translation_issue_button_pressed"]

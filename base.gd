@@ -35,6 +35,8 @@ const save_path_release:= "user://game_state.tres"
 const settings_path_release:= "user://game_settings.tres"
 const save_path_playtest:= "user://game_state_playtest.tres"
 const settings_path_playtest:= "user://game_settings_playtest.tres"
+const save_path_demo:= "user://game_state_demo.tres"
+const settings_path_demo:= "user://game_settings_demo.tres"
 
 const MESSAGES: Array[String]= [
 	"Welcome",
@@ -104,6 +106,8 @@ var saw_crowd_04 := false
 var congrats_explosion_executed := false
 var museum_explosion_executed := false
 
+var demo_ended := false
+
 var shaders_cached := false
 var shaders_cached_frame := 0
 
@@ -141,7 +145,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 1
+	var force_completed_scenarios = Robot.GLITCHES.size() - 2
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -153,6 +157,9 @@ func _ready() -> void:
 	if Global.is_playtest():
 		save_path = save_path_playtest
 		settings_path = settings_path_playtest
+	elif Global.is_demo():
+		save_path = save_path_demo
+		settings_path = settings_path_demo
 	else:
 		save_path = save_path_release
 		settings_path = settings_path_release
@@ -228,11 +235,16 @@ func _ready() -> void:
 	
 	%PlayTestMenu.visible = false
 	%ReviewQuitButton.visible = false
+	%WishlistQuitButton.visible = false
 	if Global.is_playtest():
 		%PlayTestMenu.visible = true
 		%FPSLabel.visible = true
 		%QuitButton.visible = false
 		%ReviewQuitButton.visible = true
+	if Global.is_demo():
+		%PlayTestMenu.visible = true
+		%QuitButton.visible = false
+		%WishlistQuitButton.visible = true
 		
 	
 	if Global.recording_trailer:
@@ -246,9 +258,11 @@ func print_help() -> void:
 		"Game Parameters:\n",
 		"--steam: Enables Steam integration\n",
 		"--playtest: Uses the Steam playtest AppId\n\n",
+		"--playtest: Uses the Demo playtest AppId\n\n",
 		"Remember to add double dash before the parameters ' -- '\n\n",
 		"Is Steam: %s\n" % Global.is_steam(),
 		"Is Playtest: %s\n" % Global.is_playtest(),
+		"Is Demo: %s\n" % Global.is_demo(),
 		"##########################\n\n"
 	)
 
@@ -325,11 +339,14 @@ func start_game() -> void:
 		failed_scenarios = selected_scenarios.duplicate()
 		selected_scenarios.resize(0)
 	# Reset vacuum position
+	reset_vacuum_position()
+	#
+	load_main()
+
+func reset_vacuum_position() -> void:
 	%RobotVacuum.position = Vector3(3, 0, 24)
 	%RobotVacuum.rotation_degrees = Vector3(0, -180, 0)
 	%RobotVacuum.current_state = %RobotVacuum.STATES.FORWARD
-	#
-	load_main()
 
 func test_fix_scenario_order() -> void:
 	print("test_fix_scenario_order")
@@ -1088,6 +1105,8 @@ func update_congrats() -> void:
 			%CongratsRunningRobot.follows_player_speed = 0.0
 	if ready_congrats_run_event:
 		if Global.is_player_in_room and %CongratsRunningRobot.is_on_screen():
+			if lights_on:
+				turn_lights_off(0.0, true)
 			ready_congrats_run_event = false
 			$StingerB.play()
 			%CongratsRunningRobot.follows_player_speed = 30.0
@@ -1139,14 +1158,15 @@ func on_executive_finished():
 		tutorial_completed = false
 		#current_side = SIDES.Z_PLUS
 		#completed_scenarios.resize(0)
-		selected_scenarios.resize(0)
-		failed_scenarios.resize(0)
+		#selected_scenarios.resize(0)
+		#failed_scenarios.resize(0)
 		#start_game()
 		var sc := section.is_success()
 		prints("\nsuccess:", sc)
 		_on_finished(sc, section.scenario, false)
 		#
 		reset_position()
+		reset_vacuum_position()
 		Global.player.lock_movement()
 		GamePlatform.set_achievement("TRAPPED_REACHED")
 	
@@ -1721,9 +1741,17 @@ func pause() -> void:
 	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.MENUS)
 	GamePlatform.set_rich_presence("#StatusAtPauseMenu")
 	
+func end_demo():
+	$PauseSound.play()
+	demo_ended = true
+	get_tree().paused = true
+	%EndDemoMenu.visible = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.MENUS)
 
 func unpause(no_sound:=false) -> void:
 	%PauseMenu.visible = false
+	%EndDemoMenu.visible = false
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	release_action_button()
@@ -1867,7 +1895,8 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 			load_main()
 		return
 	if scenario == -4: # Museum
-		museum_completed = true
+		if not is_game_complete():
+			museum_completed = true
 		load_main()
 		return
 	%LevelReport.update_report(section.report)
@@ -2160,6 +2189,9 @@ func _on_loop_up_body_entered(_body: Node3D) -> void:
 	%StairObject2.chain_visible = false
 	GamePlatform.stats["floor_down"] += 1
 	#
+	if Global.is_demo() and game_state.congrats_completed:
+		end_demo()
+	#
 	var end_level := false
 	#if current_side == SIDES.Z_MINUS and %Player.position.z > 0:
 	rotate_scenario()
@@ -2223,6 +2255,7 @@ func _on_storage_area_body_exited(_body: Node3D) -> void:
 # Pause Menu #####
 
 func _on_resume_button_pressed() -> void:
+	if demo_ended: return
 	unpause()
 
 func _on_volume_slider_drag_ended(value_changed: bool) -> void:
@@ -2279,6 +2312,8 @@ func _on_quit_button_pressed() -> void:
 	show_menu_tween(%QuitGameMenu)
 	if Global.is_playtest():
 		GlobalSteam.open_url("https://app.formbricks.com/s/cm8g8koty0003id03r7u9aciy")
+	if Global.is_demo():
+		GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/")
 
 func _on_reset_button_pressed() -> void:
 	#%ResetButton.visible = false
@@ -2349,3 +2384,7 @@ func _on_feedback_button_pressed() -> void:
 
 func _on_translation_issue_button_pressed() -> void:
 	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/0/")
+
+
+func _on_wishlist_button_pressed() -> void:
+	GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/")

@@ -80,7 +80,11 @@ func noise_executed() -> void:
 	noise_timer = 4 * randi_range(1, 10) * 60
 
 func is_demo() -> bool:
-	return OS.has_feature("demo")
+	#return OS.has_feature("demo")
+	if not is_export():
+		#return true
+		pass
+	return OS.get_cmdline_user_args().has("--demo")
 
 func is_steam() -> bool:
 	return OS.get_cmdline_user_args().has("--steam")
@@ -90,7 +94,8 @@ func is_export() -> bool:
 
 func is_playtest() -> bool:
 	if not is_export():
-		return true
+		#return true
+		pass
 	return OS.get_cmdline_user_args().has("--playtest")
 
 func is_nomber_between(number: float, min: float, max: float) -> bool:

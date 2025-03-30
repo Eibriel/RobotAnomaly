@@ -5,7 +5,7 @@ extends Node
 # - Robot Anomaly Demo:
 # - Robot Anomaly Playtest: 3608100
 const APP_ID := 3583330
-const APP_ID_DEMO := 0
+const APP_ID_DEMO := 3619430
 const APP_ID_PLAYTEST := 3608100
 
 # Steam variables
@@ -51,6 +51,8 @@ func _init() -> void:
 	var current_app_id:int
 	if Global.is_playtest():
 		current_app_id = APP_ID_PLAYTEST
+	elif Global.is_demo():
+		current_app_id = APP_ID_DEMO
 	else:
 		current_app_id = APP_ID
 	# Set your game's Steam app ID here
