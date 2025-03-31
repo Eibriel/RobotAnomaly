@@ -1,4 +1,4 @@
-[gd_scene load_steps=190 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=199 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -184,6 +184,128 @@ outer_radius = 0.5
 rings = 32
 ring_segments = 12
 
+[sub_resource type="Animation" id="Animation_ryshc"]
+resource_name = "CrateCoverFall01"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WoodCrateCover14:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.03041, 0.663728, 5.46366), Vector3(0.598692, 0.100068, 5.46366)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WoodCrateCover14:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.32048, -1.56062, -1.5708), Vector3(0.0106417, -1.56828, -1.58063)]
+}
+
+[sub_resource type="Animation" id="Animation_sr8ub"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WoodCrateCover14:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.03041, 0.663728, 5.46366)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WoodCrateCover14:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.32048, -1.56062, -1.5708)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vyjwq"]
+_data = {
+&"CrateCoverFall01": SubResource("Animation_ryshc"),
+&"RESET": SubResource("Animation_sr8ub")
+}
+
+[sub_resource type="Animation" id="Animation_vyjwq"]
+resource_name = "CrateCoverFall02"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WoodCrateCover16:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-2.91893, 0.583778, -1.58907), Vector3(-3.37472, 0.0666704, -1.58907)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WoodCrateCover16:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.13068, 1.58947, -1.5437), Vector3(0.000511081, 1.57874, -1.57529)]
+}
+
+[sub_resource type="Animation" id="Animation_yw2vv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WoodCrateCover16:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-2.91893, 0.583778, -1.58907)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WoodCrateCover16:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.13068, 1.58947, -1.5437)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0s0vy"]
+_data = {
+&"CrateCoverFall02": SubResource("Animation_vyjwq"),
+&"RESET": SubResource("Animation_yw2vv")
+}
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_l3wmy"]
 size = Vector3(0.329102, 1.92883, 1.56616)
 
@@ -194,6 +316,9 @@ size = Vector3(2.68555, 1.77332, 1)
 size = Vector3(2.68555, 1.77332, 0.930542)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_qvg4v"]
+size = Vector3(2.68555, 1.77332, 0.356354)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vyjwq"]
 size = Vector3(2.68555, 1.77332, 0.356354)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ael7d"]
@@ -225,6 +350,12 @@ size = Vector3(2.71482, 1.3648, 0.438711)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4xh17"]
 size = Vector3(2.71482, 1.3648, 0.870722)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ryshc"]
+size = Vector3(0.229492, 1.18921, 2.85107)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sr8ub"]
+size = Vector3(0.229492, 1.18921, 2.85107)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_18b1w"]
 size = Vector3(1.30359, 0.373169, 4.18152)
@@ -781,7 +912,6 @@ transform = Transform3D(0.930743, 0, 0.365673, 0, 1, 0, -0.365673, 0, 0.930743, 
 
 [node name="office_start" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="PictureFrame4" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.15773, 1.6418, 20.8553)
@@ -795,46 +925,56 @@ unique_name_in_owner = true
 [node name="StartSmashAudio1" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88983, 0, -7.44066)
 stream = ExtResource("18_y7hbr")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio2" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.77105, 0, 0.8547)
 stream = ExtResource("19_ael7d")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio3" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.14329, 0, 13.5175)
 stream = ExtResource("20_mq7tg")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio4" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.14329, 0, 13.5175)
 stream = ExtResource("21_bocxx")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio5" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.65075, 0, -9.39855)
 stream = ExtResource("22_acl40")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio6" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.461462, 0, -4.55905)
 stream = ExtResource("23_l3wmy")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio7" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.59134, 0, -15.0994)
 stream = ExtResource("24_sdakc")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio8" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.807352, 0, 3.81318)
 stream = ExtResource("25_4xh17")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="StartSmashAudio9" type="AudioStreamPlayer3D" parent="OfficeNode/DressingNode/office_start/StartSmashAudios"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7244, 0, 4.817)
 stream = ExtResource("26_br108")
+volume_db = -10.0
 unit_size = 2.0
 
 [node name="WoodCratesToOpen" type="Node3D" parent="OfficeNode/DressingNode/office_start"]
@@ -924,11 +1064,32 @@ transform = Transform3D(0.0477566, -0.987483, 0.150323, 0.849819, 0.119254, 0.51
 [node name="WoodCrateCover9" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(-0.0368649, -0.999276, -0.00940965, 0.199854, -0.0165982, 0.979685, -0.979132, 0.0342356, 0.200322, -1.46895, 0.698585, -0.824353)
 
+[node name="WoodCrateCover16" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
+transform = Transform3D(0.903705, -0.0431702, 0.425974, -0.425892, 0.0115423, 0.904701, -0.0439728, -0.999001, -0.00795504, -2.91893, 0.583778, -1.58907)
+
 [node name="WoodCrateCover3" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.0725591, -0.0740007, -0.015988, 0.99713, 1.13852, 0.0481619, 4.58074)
 
 [node name="WoodCrateCover4" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(1.5865e-09, -1, 4.36826e-08, -0.247709, -4.27142e-08, -0.968834, 0.968834, -9.28353e-09, -0.247709, 3.38541, 0.663728, 6.97771)
+transform = Transform3D(1.5865e-09, -1, 4.36826e-08, -0.247709, -4.27142e-08, -0.968834, 0.968834, -9.28353e-09, -0.247709, 3.97783, 0.663728, 6.97771)
+
+[node name="WoodCrateCover14" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
+transform = Transform3D(0.968784, 0.010175, -0.247696, -0.247709, -4.03569e-08, -0.968834, -0.00985794, 0.999948, 0.00252041, 1.03041, 0.663728, 5.46366)
+
+[node name="WoodCrateCover15" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
+transform = Transform3D(0.968784, 0.0101751, -0.247696, -0.247709, -4.27142e-08, -0.968834, -0.00985798, 0.999948, 0.00252042, 1.03041, 0.663728, 8.33021)
+
+[node name="AnimationWoodCrateBlock01" type="AnimationPlayer" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_vyjwq")
+}
+
+[node name="AnimationWoodCrateBlock02" type="AnimationPlayer" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_0s0vy")
+}
 
 [node name="StartRunningRobots" type="Node3D" parent="OfficeNode/DressingNode/office_start"]
 unique_name_in_owner = true
@@ -968,6 +1129,36 @@ is_event = true
 hide_base = true
 lock_buttons = true
 
+[node name="TutorialRobots" type="Node3D" parent="OfficeNode/DressingNode/office_start"]
+unique_name_in_owner = true
+
+[node name="Robot" parent="OfficeNode/DressingNode/office_start/TutorialRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -1.58864, 0.126898, 11.0305)
+hide_base = true
+lock_buttons = true
+
+[node name="RobotTutorialBattery01" parent="OfficeNode/DressingNode/office_start/TutorialRobots" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(-0.977838, 0, -0.209363, 0, 1, 0, 0.209363, 0, -0.977838, -0.286688, 0, 8.14843)
+hide_base = true
+lock_shutdown_button = true
+
+[node name="RobotTutorialBattery02" parent="OfficeNode/DressingNode/office_start/TutorialRobots" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.61739, 0.126898, 7.99666)
+hide_base = true
+lock_shutdown_button = true
+
+[node name="RobotTutorialAnomaly" parent="OfficeNode/DressingNode/office_start/TutorialRobots" instance=ExtResource("24_2bbbl")]
+unique_name_in_owner = true
+transform = Transform3D(0.382699, 0, 0.923873, 0, 1, 0, -0.923873, 0, 0.382699, -1.2494, 0, -3.79644)
+hide_base = true
+
+[node name="Robot4" parent="OfficeNode/DressingNode/office_start/TutorialRobots" instance=ExtResource("24_2bbbl")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.61739, 0.126898, 3.99393)
+hide_base = true
+lock_buttons = true
+
 [node name="DarknessCollision" type="StaticBody3D" parent="OfficeNode/DressingNode/office_start"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.67791, 0, 9.63589)
@@ -990,8 +1181,12 @@ shape = SubResource("BoxShape3D_y7hbr")
 transform = Transform3D(0.908945, 0, -0.416915, 0, 1, 0, 0.416915, 0, 0.908945, -0.186617, 0.386658, 9.32805)
 shape = SubResource("BoxShape3D_qvg4v")
 
+[node name="CollisionShape3D14" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_start/CoversCollision"]
+transform = Transform3D(-0.0307999, 0, -0.999525, 0, 1, 0, 0.999525, 0, -0.0307999, 1.16193, 0.386658, 9.32805)
+shape = SubResource("BoxShape3D_vyjwq")
+
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_start/CoversCollision"]
-transform = Transform3D(0.999997, 0, -0.0023561, 0, 1, 0, 0.0023561, 0, 0.999997, 2.2492, 0.386658, 7.03131)
+transform = Transform3D(0.999997, 0, -0.0023561, 0, 1, 0, 0.0023561, 0, 0.999997, 2.84162, 0.386658, 7.03131)
 shape = SubResource("BoxShape3D_ael7d")
 
 [node name="CollisionShape3D5" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_start/CoversCollision"]
@@ -1029,6 +1224,20 @@ shape = SubResource("BoxShape3D_sdakc")
 [node name="CollisionShape3D13" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_start/CoversCollision"]
 transform = Transform3D(0.999588, 0, 0.0287069, 0, 1, 0, -0.0287069, 0, 0.999588, -0.0254583, 0.657549, -8.9964)
 shape = SubResource("BoxShape3D_4xh17")
+
+[node name="TutorialBlock02" type="StaticBody3D" parent="OfficeNode/DressingNode/office_start"]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_start/TutorialBlock02"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.59332, 0.574829, -2.45716)
+shape = SubResource("BoxShape3D_ryshc")
+
+[node name="TutorialBlock01" type="StaticBody3D" parent="OfficeNode/DressingNode/office_start"]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_start/TutorialBlock01"]
+transform = Transform3D(0.986785, 0, 0.162034, 0, 1, 0, -0.162034, 0, 0.986785, 1.50378, 0.574829, 6.04277)
+shape = SubResource("BoxShape3D_sr8ub")
 
 [node name="WoodCrate_AOSmall19" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("14_e1v60")]
 transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 0.353959, 0.00460753, 24.1512)
@@ -1683,6 +1892,7 @@ uppercase = true
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true

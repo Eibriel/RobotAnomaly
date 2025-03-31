@@ -60,6 +60,7 @@ transform = Transform3D(1, 0, 0.000506167, 0, 1, 0, -0.000506167, 0, 1, 0, 0, 0)
 [node name="EscapingAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26359, 0)
 stream = SubResource("AudioStreamRandomizer_bi84b")
+volume_db = -20.0
 unit_size = 5.0
 pitch_scale = 1.2
 

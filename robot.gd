@@ -13,6 +13,7 @@ signal executive_finished
 @export var force_no_battery := false
 @export var hide_base := false
 @export var lock_buttons := false
+@export var lock_shutdown_button := false
 @export var battery_charge := 0.0
 @export var looking_player := false
 @export var cast_shadows := true
@@ -324,6 +325,7 @@ func shutdown(delta: float) -> bool:
 	if is_demo or is_event: return false
 	if lock_buttons: return false
 	if lock_power_button: return false
+	if lock_shutdown_button: return false
 	if power_on:
 		pressing_off_button += delta * 8.0
 		shutdown_time -= delta * 0.4

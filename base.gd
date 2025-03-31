@@ -140,12 +140,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 2
+		tutorial_completed = false
+	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 2
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -1311,24 +1311,45 @@ func update_start() -> void:
 		if player_pos.z < 15:
 			start_scape_executed = true
 			turn_lights_off()
+			%TutorialRobots.visible = true
 			%WoodCratesCovers.visible = true
 			for c in %WoodCratesToOpen.get_children():
 				c.is_open = true
 			for c in %StartSmashAudios.get_children():
+				c.volume_db = -10.0
 				c.play()
+			%RobotTutorialBattery01.play_animation("StandUp")
+			%RobotTutorialAnomaly.play_animation("TutorialAnomaly")
 			%StartRunningRobots.visible = true
 			for c in %StartRunningRobots.get_children():
 				var r_tween := create_tween()
 				r_tween.tween_interval(0.1)
 				r_tween.tween_property(c, "position:z", -35, randf_range(0.5, 2.5))
+				#r_tween.tween_callback(%TutorialRobots.set_visible.bind(true))
 				#r_tween.parallel().tween_property(c, "position:y", -1, randf_range(0.5, 1.0))
 	if start_scape_executed and lights_on:
 		%StartRunningRobots.visible = false
 		%DarknessCollision.set_collision_layer_value(1, false)
+	if %RobotTutorialBattery01.battery_charge == 0.0 and \
+		%RobotTutorialBattery02.battery_charge == 0.0:
+			if %TutorialBlock01.position.y != -20:
+				%TutorialBlock01.position.y = -20
+				%AnimationWoodCrateBlock01.play("CrateCoverFall01")
+				%StartSmashAudio4.play()
+	if not %RobotTutorialAnomaly.power_on:
+		if %TutorialBlock02.position.y != -20:
+			%TutorialBlock02.position.y = -20
+			%AnimationWoodCrateBlock02.play("CrateCoverFall02")
+			%StartSmashAudio4.play()
+			%RobotTutorialAnomaly.lock_shutdown_button = true
 
 func setup_start() -> void:
 	%WoodCratesCovers.visible = false
 	%StartRunningRobots.visible = false
+	%TutorialRobots.visible = false
+	%RobotTutorialBattery01.battery_charge = 100.0
+	%RobotTutorialBattery02.battery_charge = 100.0
+	%RobotTutorialAnomaly.battery_charge = 100.0
 
 func is_game_complete() -> bool:
 	var igc := game_state.completed_anomalies.size() >= scenarios_amount
@@ -2313,7 +2334,7 @@ func _on_quit_button_pressed() -> void:
 	if Global.is_playtest():
 		GlobalSteam.open_url("https://app.formbricks.com/s/cm8g8koty0003id03r7u9aciy")
 	if Global.is_demo():
-		GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/")
+		GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/?utm_source=ingame_ra")
 
 func _on_reset_button_pressed() -> void:
 	#%ResetButton.visible = false
@@ -2374,17 +2395,17 @@ func _on_follow_itchio_button_pressed() -> void:
 	OS.shell_open("https://eibriel.itch.io/") 
 
 func _on_follow_steam_button_pressed() -> void:
-	GlobalSteam.open_url("https://store.steampowered.com/developer/eibriel")
+	GlobalSteam.open_url("https://store.steampowered.com/developer/eibriel?utm_source=ingame_ra")
 
 func _on_follow_mastodon_button_pressed() -> void:
 	GlobalSteam.open_url("https://v3.envialosimple.com/form/renderwidget/format/html/AdministratorID/188603/FormID/1/Lang/en")
 
 func _on_feedback_button_pressed() -> void:
-	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/1/")
+	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/1/?utm_source=ingame_ra")
 
 func _on_translation_issue_button_pressed() -> void:
-	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/0/")
+	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/0/?utm_source=ingame_ra")
 
 
 func _on_wishlist_button_pressed() -> void:
-	GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/")
+	GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/?utm_source=ingame_ra")
