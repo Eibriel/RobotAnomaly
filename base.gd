@@ -140,12 +140,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = false
-	state_override.executive_completed = false
+	state_override.congrats_completed = true
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = false
-	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 2
+		tutorial_completed = true
+	var force_completed_scenarios = Robot.GLITCHES.size() - 2
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -208,6 +208,7 @@ func _ready() -> void:
 	else:
 		%FadeWhite.visible = false
 		%FadeBlack.visible = false
+	%LoadingControl.visible = true
 
 	# Making everything visible to cache shaders
 	%ShaderCache.visible = true
@@ -237,12 +238,12 @@ func _ready() -> void:
 	%ReviewQuitButton.visible = false
 	%WishlistQuitButton.visible = false
 	if Global.is_playtest():
-		%PlayTestMenu.visible = true
+		#%PlayTestMenu.visible = true
 		%FPSLabel.visible = true
 		%QuitButton.visible = false
 		%ReviewQuitButton.visible = true
 	if Global.is_demo():
-		%PlayTestMenu.visible = true
+		#%PlayTestMenu.visible = true
 		%QuitButton.visible = false
 		%WishlistQuitButton.visible = true
 		
@@ -266,9 +267,12 @@ func print_help() -> void:
 		"##########################\n\n"
 	)
 
+var fadewhite_play_tween := false
 func post_shader_cache() -> void:
 	%FadeWhite.visible = true
 	%FadeBlack.visible = true
+	if Global.is_playtest() or Global.is_demo():
+		%PlayTestMenu.visible = true
 
 	%ShaderCache.visible = false
 	
@@ -278,9 +282,12 @@ func post_shader_cache() -> void:
 	#
 	var tween := create_tween()
 	tween.tween_interval(1.0)
-	tween.tween_callback($AudioStreamPlayer.play)
-	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
-	tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(0.5)
+	tween.tween_callback(func():
+		if section.loading_robots:
+			fadewhite_play_tween = true
+		else:
+			fadewhite_show_tween())
+	
 	#
 
 
@@ -427,11 +434,13 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 
 var robots_are_angry := false
 func _process(delta: float) -> void:
-	if shaders_cached_frame > 5 and not shaders_cached:
+	if shaders_cached_frame > 100 and not shaders_cached:
 		shaders_cached = true
+		%LoadingControl.visible = false
 		post_shader_cache()
 	if not shaders_cached:
 		shaders_cached_frame += 1
+		%LoadingProgressBar.value = shaders_cached_frame
 		return
 	
 	const GLITCHES_NO_ANGRY: Array[Robot.GLITCHES]= [
@@ -1443,6 +1452,8 @@ func instantiate_sections(Env: Node3D) -> void:
 	#section.batteries_charged_required = not(game_state.completed_anomalies.size() < INTRO_AMOUNT)
 	section.connect("glitch_failed", on_glitch_failed)
 	section.connect("request_environment_change", on_environment_change)
+	section.connect("robots_loaded", on_robots_loaded)
+	start_loading_robots()
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
@@ -1641,6 +1652,35 @@ func instantiate_sections(Env: Node3D) -> void:
 	
 	Env.add_child(section)
 	
+
+func start_loading_robots() -> void:
+	print("Start loading robots!")
+	Global.player.slow_down = true
+	%StairObject.block_player = true
+	%StairObject2.block_player = true
+
+func on_robots_loaded() -> void:
+	print("Robots loaded!")
+	Global.player.slow_down = false
+	%StairObject.block_player = false
+	%StairObject2.block_player = false
+	if glitch_failed_play_tween:
+		fadeblack_show_tween()
+	
+	if fadewhite_play_tween:
+		fadewhite_show_tween()
+
+func fadeblack_show_tween() -> void:
+	var exec_tween := create_tween()
+	exec_tween.tween_callback($AudioStreamPlayer.play)
+	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 3.5)
+	exec_tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(1.5)
+
+func fadewhite_show_tween() -> void:
+	var tween := create_tween()
+	tween.tween_callback($AudioStreamPlayer.play)
+	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
+	tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(0.5)
 
 func hide_all_lines() -> void:
 	%MainOfficeWithCollision.hide_all_lines()
@@ -2237,7 +2277,7 @@ func _on_loop_down_body_entered(_body: Node3D) -> void:
 		load_main()
 		return
 
-
+var glitch_failed_play_tween := false
 func on_glitch_failed() -> void:
 	print("GLITCH FAILED")
 	var reset := func():
@@ -2256,9 +2296,11 @@ func on_glitch_failed() -> void:
 	exec_tween.tween_property(%FadeBlack, "modulate:a", 1.0, 1.0)
 	exec_tween.tween_callback(reset.call_deferred)
 	exec_tween.tween_interval(1.5)
-	exec_tween.tween_callback($AudioStreamPlayer.play)
-	exec_tween.tween_property(%FadeBlack, "modulate:a", 0.0, 3.5)
-	exec_tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(1.5)
+	exec_tween.tween_callback(func():
+		if section.loading_robots:
+			glitch_failed_play_tween = true
+		else:
+			fadeblack_show_tween())
 
 func _on_start_level_body_entered(_body: Node3D) -> void:
 	level_started = true

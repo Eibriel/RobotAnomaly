@@ -3074,13 +3074,13 @@ texture = ExtResource("98_ksmmt")
 
 [node name="FadeWhite" type="ColorRect" parent="Control"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="FadeBlack" type="ColorRect" parent="Control"]
 unique_name_in_owner = true
@@ -3092,11 +3092,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="EndDemoMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3152,6 +3154,7 @@ text = "QUIT"
 [node name="PauseMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3790,7 +3793,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 32.0
-offset_top = -103.0
+offset_top = -138.0
 offset_right = 263.0
 offset_bottom = -37.0
 grow_vertical = 0
@@ -3808,6 +3811,46 @@ text = "SEND FEEDBACK"
 unique_name_in_owner = true
 layout_mode = 2
 text = "REPORT TRANSLATION ISSUE"
+
+[node name="LoadingControl" type="Control" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -183.0
+offset_top = -40.0
+offset_right = 184.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("115_jic3x")
+
+[node name="Label" type="Label" parent="Control/LoadingControl"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -67.0
+offset_bottom = -77.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.162066, 0.162066, 0.162066, 1)
+text = "LOADING"
+horizontal_alignment = 1
+
+[node name="LoadingProgressBar" type="ProgressBar" parent="Control/LoadingControl"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -24.0
+offset_bottom = -48.0
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("85_5ilav")

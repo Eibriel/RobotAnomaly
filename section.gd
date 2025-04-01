@@ -3,6 +3,7 @@ extends Node3D
 
 signal glitch_failed
 signal request_environment_change
+signal robots_loaded
 
 @export var level := 1
 @export var message := ""
@@ -17,6 +18,7 @@ var robots: Array[Robot] = []
 var finished := false
 var active := false
 var deletion_requested := false
+var loading_robots := true
 
 var time := 0.0
 var glitch_time := 0.0
@@ -277,7 +279,8 @@ func start_day() -> void:
 			if rcount == 1:
 				r.battery_charge = 100.0
 
-func _physics_process(delta: float) -> void:
+#func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	time += delta
 	add_robot_time += delta
 	if Global.is_player_in_room:
@@ -290,6 +293,10 @@ func _physics_process(delta: float) -> void:
 		%Robots.add_child(r)
 		#print("Add child robot")
 		add_robot_time = 0.0
+	else:
+		if loading_robots:
+			loading_robots = false
+			robots_loaded.emit()
 	
 	if deletion_requested:
 		visible = false

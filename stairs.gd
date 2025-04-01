@@ -6,6 +6,12 @@ extends Node3D
 			dirty = true
 		chain_visible = value
 
+@export var block_player := false :
+	set(value):
+		if block_player != value:
+			dirty = true
+		block_player = value
+
 var dirty := false
 var chain: Node3D
 var lines: Dictionary
@@ -38,6 +44,11 @@ func _process(delta: float) -> void:
 		true:
 			%BlockStairs.position.y = 0
 			chain.visible = true
+	match block_player:
+		false:
+			%BlockStairs2.position.y = -20
+		true:
+			%BlockStairs2.position.y = 0
 
 func hide_all_lines() -> void:
 	for n in lines:

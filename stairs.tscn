@@ -17,3 +17,10 @@ unique_name_in_owner = true
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="BlockStairs"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.45224, 0.478, 26.584)
 shape = SubResource("BoxShape3D_lnhvi")
+
+[node name="BlockStairs2" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="BlockStairs2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.62119, 0.478, 26.584)
+shape = SubResource("BoxShape3D_lnhvi")

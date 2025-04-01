@@ -21,6 +21,7 @@ var breathing_tween: Tween
 var halt_velocity:= false
 var walking_sound_state: WALKING_SOUND
 var movement_locked:= true
+var slow_down := false
 
 enum WALKING_SOUND {
 	QUIET,
@@ -94,15 +95,19 @@ func _physics_process(delta: float) -> void:
 	look_rot += camera_dir * delta * sensitivity * 1500.0
 	look_rot.x = clamp(look_rot.x, min_angle, max_angle)
 	
+	var speed_calc = SPEED
+	if slow_down:
+		speed_calc = SPEED * 0.9
+	if not slow_down and is_on_floor() and Input.is_action_pressed("Sprint"):
+		speed_calc *= 2.0
+	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		if is_on_floor() and Input.is_action_pressed("Sprint"):
-			direction *= 2
-		velocity.x = lerpf(velocity.x, direction.x * SPEED, ACCEL * speed_modifier * delta)
-		velocity.z = lerpf(velocity.z, direction.z * SPEED, ACCEL * speed_modifier * delta)
+		velocity.x = lerpf(velocity.x, direction.x * speed_calc, ACCEL * speed_modifier * delta)
+		velocity.z = lerpf(velocity.z, direction.z * speed_calc, ACCEL * speed_modifier * delta)
 		$StepsAudio.stream_paused = false
 		if not Global.is_player_in_room:
 			if walking_sound_state != WALKING_SOUND.WALKING:
