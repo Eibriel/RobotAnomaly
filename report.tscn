@@ -103,8 +103,8 @@ visible = false
 [node name="ErrorsLabel" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106336, 0.00177254)
 pixel_size = 0.001
-text = "ERRORS"
-font_size = 100
+text = "PREVIOUS FLOOR STATUS"
+font_size = 90
 outline_size = 0
 
 [node name="BatteryErrorLabel" type="Label3D" parent="."]

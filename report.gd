@@ -86,3 +86,12 @@ func play_sound() -> void:
 		$IncorrectSound.play()
 		light_mat.emission = Color.RED
 		light_mat.albedo_color = Color.RED
+	var color := light_mat.emission
+	var light_tween := create_tween()
+	var light_tween_al := create_tween()
+	for _n in 10:
+		light_tween.tween_property(light_mat, "emission", Color.BLACK, 0.25)
+		light_tween.tween_property(light_mat, "emission", color, 0.25)
+	for _n in 10:
+		light_tween_al.tween_property(light_mat, "albedo_color", Color.BLACK, 0.25)
+		light_tween_al.tween_property(light_mat, "albedo_color", color, 0.25)

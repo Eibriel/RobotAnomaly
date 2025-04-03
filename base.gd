@@ -120,11 +120,11 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.DOOR_OPEN
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := true
+var override_state := false
 var state_override := GameStateResource.new()
 var fail_all := false
 var force_events := true
@@ -1401,6 +1401,7 @@ func update_start() -> void:
 			%RobotTutorialAnomaly.lock_shutdown_button = true
 
 func setup_start() -> void:
+	%LevelReport.visible = false
 	%WoodCratesCovers.visible = false
 	%StartRunningRobots.visible = false
 	%TutorialRobots.visible = false
@@ -1985,6 +1986,8 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 	#$OfficeWithCollision2.rotate_y(deg_to_rad(180))
 	#$OfficeWithCollision3.rotate_y(deg_to_rad(180))
 	#print("Rotate")
+	if scenario != -2:
+		%LevelReport.visible = true
 	level_started = false
 	if scenario == -2: # Tutorial
 		if not success:

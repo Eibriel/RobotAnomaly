@@ -42,6 +42,7 @@
 "ANOMALY IN YOUR SHIFT","Damages due to anomaly will be deducted from your salary","Daños por anomalía serán deducidos de su paga","Os danos causados por anomalias serão deduzidos de seu salário","异常情况造成的损失将从您的工资中扣除","Ущерб, причиненный аномалией, будет вычтен из вашей зарплаты",,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERRORS","Errors","Errores","Erros","错误","Ошибки",,,,,,,,,,,,,,,,,,,,,,,,,,
+"PREVIOUS FLOOR STATUS","Previous floor status","Estado del piso anterior","Estado do piso anterior","上一层楼的状况","Состояние предыдущего пола",,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERROR ANOMALY ON","Robot with anomaly had brain","Un robot anómalo tenía cerebro","Robô com anomalia tinha cérebro","大脑异常的机器人","У робота с аномалией появился мозг",,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERROR OFF NO ANOMALY","Missing brain on robot without anomaly","Falta el cerebro en un robot sin anomalía","Cérebro ausente em robô sem anomalia","没有异常的机器人没有大脑","Отсутствие мозга у робота без аномалии",,,,,,,,,,,,,,,,,,,,,,,,,,
 "ERROR FULL BATTERY","A Robot was powered on","Un robot estaba encendido","Um robô foi ligado","没有异常的机器人大脑缺失","Робот был включен",,,,,,,,,,,,,,,,,,,,,,,,,,

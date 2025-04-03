@@ -1065,7 +1065,7 @@ transform = Transform3D(0.0477566, -0.987483, 0.150323, 0.849819, 0.119254, 0.51
 transform = Transform3D(-0.0368649, -0.999276, -0.00940965, 0.199854, -0.0165982, 0.979685, -0.979132, 0.0342356, 0.200322, -1.46895, 0.698585, -0.824353)
 
 [node name="WoodCrateCover16" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(0.903706, -0.0431726, 0.425971, -0.425888, 0.0115428, 0.904702, -0.0439753, -0.999001, -0.00795537, -2.91893, 0.583778, -1.58907)
+transform = Transform3D(0.903706, -0.0431726, 0.425971, -0.425888, 0.0115428, 0.904702, -0.0439752, -0.999001, -0.00795537, -2.91893, 0.583778, -1.58907)
 
 [node name="WoodCrateCover3" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.0725591, -0.0740007, -0.015988, 0.99713, 1.13852, 0.0481619, 4.58074)
@@ -1074,7 +1074,7 @@ transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.07
 transform = Transform3D(1.5865e-09, -1, 4.36826e-08, -0.247709, -4.27142e-08, -0.968834, 0.968834, -9.28353e-09, -0.247709, 3.97783, 0.663728, 6.97771)
 
 [node name="WoodCrateCover14" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(0.968783, 0.0101797, -0.247697, -0.24771, -8.96709e-07, -0.968834, -0.00986267, 0.999948, 0.00252075, 1.03041, 0.663728, 5.46366)
+transform = Transform3D(0.968783, 0.0101797, -0.247698, -0.24771, -8.96709e-07, -0.968834, -0.00986266, 0.999948, 0.00252075, 1.03041, 0.663728, 5.46366)
 
 [node name="WoodCrateCover15" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.968784, 0.0101751, -0.247696, -0.247709, -4.27142e-08, -0.968834, -0.00985798, 0.999948, 0.00252042, 1.03041, 0.663728, 8.33021)
@@ -2614,6 +2614,7 @@ width = 1500.0
 
 [node name="TasksLabel6" type="Label3D" parent="OfficeNode/PictureFrame6"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0164851, -0.720959, 0.00396538)
+visible = false
 pixel_size = 0.001
 shaded = true
 modulate = Color(0, 0, 0, 1)
