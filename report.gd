@@ -47,6 +47,8 @@ func update_report(data: Array) -> void:
 			icon.position.x += 200
 			if r.power and not r.handled_correctly:
 				robot_with_anomaly = true
+			if r.full_battery:
+				robot_with_battery = true
 		else:
 			if r.full_battery:
 				robot_with_battery = true
