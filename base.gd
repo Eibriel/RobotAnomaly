@@ -120,7 +120,7 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.DOOR_OPEN
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -147,12 +147,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 2
+		tutorial_completed = false
+	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 2
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -477,7 +477,8 @@ func _process(delta: float) -> void:
 					current_task = TASKS.NONE
 					robot_collected.play_process(true)
 			TASKS.SHUT_DOWN:
-				robot_collected.play_process()
+				if not robot_collected.lock_shutdown_button:
+					robot_collected.play_process()
 				if robot_collected.shutdown(delta):
 					if Global.should_robots_be_angry():
 						if robot_collected.glitch != Robot.GLITCHES.NONE:

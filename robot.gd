@@ -351,6 +351,8 @@ func shutdown(delta: float) -> bool:
 func play_process(stop:=false) -> void:
 	if is_demo: return
 	if lock_buttons: return
+	if is_event: return
+	if glitch == GLITCHES.DOOR_OPEN: return
 	if stop:
 		%RobotButtonAudioPlayer.stop()
 		return
