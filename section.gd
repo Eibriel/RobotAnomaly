@@ -367,12 +367,16 @@ func is_success() -> bool:
 			print("Failed! robot with battery charge. %f" % r.battery_charge)
 			success = false
 			rok = false
+		const ignore_battery = [
+			Robot.GLITCHES.DOOR_OPEN,
+			Robot.GLITCHES.MISSING_ENTIRELY,
+		]
 		report.append({
 			"power": r.power_on,
 			"glitched": r.glitch != Robot.GLITCHES.NONE,
 			"handled_correctly": rok,
 			#"batteries_charged_required": batteries_charged_required,
-			"full_battery": r.battery_charge == 100.0
+			"full_battery": (!ignore_battery.has(r.glitch))  and r.battery_charge > 0.0
 		})
 	return success
 

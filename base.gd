@@ -120,7 +120,7 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.DOOR_OPEN
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -151,7 +151,7 @@ func _ready() -> void:
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = false
+		tutorial_completed = true
 	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 2
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)

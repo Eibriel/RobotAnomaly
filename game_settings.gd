@@ -32,5 +32,6 @@ enum locale_names {
 	es_AR,
 	pt_BR,
 	zh_Hans,
-	ru
+	ru,
+	de
 }

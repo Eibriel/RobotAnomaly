@@ -3561,7 +3561,7 @@ rounded = true
 [node name="LanguageMenu" type="OptionButton" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-item_count = 5
+item_count = 6
 popup/item_0/text = "English"
 popup/item_0/id = 0
 popup/item_1/text = "Español"
@@ -3572,6 +3572,8 @@ popup/item_3/text = "简体中文"
 popup/item_3/id = 3
 popup/item_4/text = "Русский"
 popup/item_4/id = 4
+popup/item_5/text = "Deutsch"
+popup/item_5/id = 5
 
 [node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 layout_mode = 2
