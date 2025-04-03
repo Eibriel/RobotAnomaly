@@ -10,6 +10,8 @@ uniform float outer_radius = 1.0;
 
 global uniform float blood_vignete;
 global uniform float rumble_vignete;
+global uniform float lights_percent;
+global uniform bool screen_filter;
 
 void fragment() {
 	vec4 texture_color = texture(TEXTURE, UV);
@@ -29,7 +31,11 @@ void fragment() {
 
 	//mix_color = mix(mix_color, bw, rumble_vignete);
 
-	mix_color *= mix(vec3(1.0), texture_color.rgb, texture_alpha+rumble_vignete);
+	if (screen_filter) {
+		mix_color *= mix(vec3(1.0), texture_color.rgb, texture_alpha+rumble_vignete);	
+	}
+
+	mix_color *= mix(1.0, lights_percent, 0.4);
 
 	COLOR = vec4(mix_color, 1.0);
 

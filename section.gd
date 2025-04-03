@@ -23,6 +23,7 @@ var loading_robots := true
 var time := 0.0
 var glitch_time := 0.0
 var anomaly: Robot.GLITCHES
+var anomaly_position: Vector2
 var report: Array
 var robots_to_add: Array[Robot]
 var add_robot_time := 0.0
@@ -189,6 +190,8 @@ func start_day() -> void:
 	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		y_count += 1
 	
+	anomaly_position = Vector2.ZERO
+	
 	robots_to_add.resize(0)
 	for rx in 2:
 		for ry in y_count:
@@ -293,6 +296,12 @@ func _process(delta: float) -> void:
 		%Robots.add_child(r)
 		#print("Add child robot")
 		add_robot_time = 0.0
+		if r.glitch != Robot.GLITCHES.NONE:
+			anomaly_position = Vector2(
+				r.get_robot_global_position().x,
+				r.get_robot_global_position().z
+			)
+			prints("glistch pos:", anomaly_position)
 	else:
 		if loading_robots:
 			loading_robots = false

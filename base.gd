@@ -28,15 +28,22 @@ var scenarios_amount := 0
 
 var game_state: GameStateResource
 var game_settings: GameSettingsResource
+var game_stats: GameStatsResource
 
 var save_path:String
 var settings_path:String
+var stats_path:String
 const save_path_release:= "user://game_state.tres"
 const settings_path_release:= "user://game_settings.tres"
+const stats_path_release:= "user://game_stats.tres"
+#
 const save_path_playtest:= "user://game_state_playtest.tres"
 const settings_path_playtest:= "user://game_settings_playtest.tres"
+const stats_path_playtest:= "user://game_stats_playtest.tres"
+#
 const save_path_demo:= "user://game_state_demo.tres"
 const settings_path_demo:= "user://game_settings_demo.tres"
+const stats_path_demo:= "user://game_stats_demo.tres"
 
 const MESSAGES: Array[String]= [
 	"Welcome",
@@ -157,14 +164,18 @@ func _ready() -> void:
 	if Global.is_playtest():
 		save_path = save_path_playtest
 		settings_path = settings_path_playtest
+		stats_path = stats_path_playtest
 	elif Global.is_demo():
 		save_path = save_path_demo
 		settings_path = settings_path_demo
+		stats_path = stats_path_demo
 	else:
 		save_path = save_path_release
 		settings_path = settings_path_release
+		stats_path = stats_path_release
 	load_game_state()
 	load_game_settings()
+	load_game_stats()
 	
 	%RobotArm/AnimationPlayer.get_animation("HandTest").loop_mode = Animation.LoopMode.LOOP_LINEAR
 	%RobotArm/AnimationPlayer.play("HandTest")
@@ -251,6 +262,8 @@ func _ready() -> void:
 	if Global.recording_trailer:
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
+	
+	GamePlatform.save_stats.connect(on_save_stats)
 
 func print_help() -> void:
 	print(
@@ -440,6 +453,8 @@ func _process(delta: float) -> void:
 		post_shader_cache()
 	if not shaders_cached:
 		shaders_cached_frame += 1
+		if Global.is_reset:
+			shaders_cached_frame += 10
 		%LoadingProgressBar.value = shaders_cached_frame
 		return
 	
@@ -511,13 +526,16 @@ func _process(delta: float) -> void:
 				Global.is_player_in_room:
 			turn_lights_off()
 	
-	game_settings.seconds += delta
-	%Clock.seconds = game_settings.seconds
-	GamePlatform.stats["time_played"] = int(game_settings.seconds / 60.0)
+	game_stats.seconds += delta
+	%Clock.seconds = game_stats.seconds
+	GamePlatform.stats["time_played"] = int(game_stats.seconds / 60.0)
 	
 	if not Global.is_export() or Global.is_playtest():
 		%FPSLabel.text = "%f" % Engine.get_frames_per_second()
 	
+	%MainOfficeWithCollision.anomaly_position = section.anomaly_position
+	
+	update_light_anomunt()
 	update_executive()
 	update_congrats()
 	update_museum()
@@ -525,6 +543,10 @@ func _process(delta: float) -> void:
 	update_events(delta)
 	update_cursor(delta)
 	refresh_reflection_probe(delta)
+
+func update_light_anomunt() -> void:
+	if lights_on:
+		RenderingServer.global_shader_parameter_set("lights_percent", %MainOfficeWithCollision.lights_percent)
 
 func turn_lights_on() -> void:
 	prints("turn_lights_on")
@@ -1197,17 +1219,23 @@ func save_game_state() -> void:
 			#unique_completed_scenarios.append(s)
 	#game_state.completed_anomalies = unique_completed_scenarios
 	#game_state.completed_anomalies = completed_scenarios.duplicate()
+	if Global.is_demo(): return
 	ResourceSaver.save(game_state, save_path)
 
 func load_game_state() -> void:
 	#prints("Global.reset_save", Global.reset_save)
-	game_state = load(save_path)
+	if ResourceLoader.exists(save_path):
+		game_state = load(save_path)
+	else:
+		game_state = GameStateResource.new()
 	if override_state:
 		game_state = state_override
 	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save:
 		game_state = GameStateResource.new()
 		Global.reset_timers()
-		Global.reset_save = false
+		if Global.reset_save:
+			Global.reset_save = false
+			Global.is_reset = true
 		print("Reset game save")
 		return
 	if game_state.completed_anomalies.size() > 0:
@@ -1240,6 +1268,7 @@ func load_game_settings() -> void:
 			prints("LOCALE SET", ln)
 	else:
 		game_settings = load(settings_path)
+	Global.game_settings = game_settings
 	load_settings()
 
 func load_settings() -> void:
@@ -1249,6 +1278,10 @@ func load_settings() -> void:
 	%CameraShakeSlider.set_value_no_signal(game_settings.camera_shake)
 	%FullscreenCheckBox.set_pressed_no_signal(game_settings.full_screen)
 	%VSyncCheckBox.set_pressed_no_signal(game_settings.vsync)
+	%FilterCheckBox.set_pressed_no_signal(game_settings.screen_filter)
+	%CursorCheckBox.set_pressed_no_signal(game_settings.cursor_on)
+	%InvertXCheckBox.set_pressed_no_signal(game_settings.invert_x)
+	%InvertYCheckBox.set_pressed_no_signal(game_settings.invert_y)
 	%MaxFPSSpin.set_value_no_signal(game_settings.max_fps)
 	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
 	Global.player.rotation_accel = game_settings.mouse_acceleration
@@ -1269,6 +1302,8 @@ func load_settings() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	RenderingServer.global_shader_parameter_set("screen_filter", game_settings.screen_filter)
+	#
 	Engine.max_fps = game_settings.max_fps
 	TranslationServer.set_locale(game_settings.locale_names.find_key(game_settings.language))
 	%LanguageMenu.selected = game_settings.language
@@ -1276,6 +1311,18 @@ func load_settings() -> void:
 	prints("Camera Acceleration", %MouseAccSlider.value)
 	prints("Camera shake", %CameraShakeSlider.value)
 	prints("Volume", volume_level, %VolumeSlider.value)
+
+func load_game_stats() -> void:
+	if not ResourceLoader.exists(stats_path):
+		game_stats = GameStatsResource.new()
+	else:
+		game_stats = load(stats_path)
+
+func save_game_stats() -> void:
+	ResourceSaver.save(game_stats, stats_path)
+
+func on_save_stats() ->void:
+	save_game_stats()
 
 func load_main() -> void:
 	robot_collected = null
@@ -2135,6 +2182,9 @@ func update_cursor(delta) -> void:
 	else:
 		release_action_button()
 	
+	if cursor_type == 0 and game_settings.cursor_on:
+		cursor_type = 1
+	
 	match cursor_type:
 		0:
 			%FPSCursor.modulate.a = 0.0
@@ -2175,9 +2225,9 @@ var refresh_reflection_probe_time := 0.0
 func refresh_reflection_probe(delta: float):
 	refresh_reflection_probe_time += delta
 	if lights_on:
-		$WorldEnvironment.environment.tonemap_exposure = target_exposure
+		exec_lights_on()
 	else:
-		$WorldEnvironment.environment.tonemap_exposure = 0.05
+		exec_lights_off()
 	var current_exposure: float = $WorldEnvironment.environment.tonemap_exposure
 	if last_exposure != current_exposure and refresh_reflection_probe_time > .3:
 		refresh_reflection_probe_time = 0.0
@@ -2185,6 +2235,20 @@ func refresh_reflection_probe(delta: float):
 		$ReflectionProbe.position.x = randf()*0.01
 		#print("Refresh Reflection Probe")
 	
+var lights_status_on := false
+func exec_lights_on() -> void:
+	$WorldEnvironment.environment.tonemap_exposure = target_exposure
+	if lights_status_on: return
+	lights_status_on = true
+	%MainOfficeWithCollision.lights_on = true
+	%MainOfficeWithCollision.light_event = %MainOfficeWithCollision.LIGHT_EVENTS.MANY_BLINKING
+	%MainOfficeWithCollision.set_timer_to_quiet(1.0)
+
+func exec_lights_off() -> void:
+	if not lights_status_on: return
+	lights_status_on = false
+	$WorldEnvironment.environment.tonemap_exposure = 0.05
+	%MainOfficeWithCollision.lights_on = false
 
 func rotate_scenario() -> void:
 	if %Player.position.z > 0:
@@ -2360,6 +2424,26 @@ func _on_v_sync_check_box_toggled(toggled_on: bool) -> void:
 	save_game_settings()
 	load_settings()
 
+func _on_filter_check_box_toggled(toggled_on: bool) -> void:
+	game_settings.screen_filter = toggled_on
+	save_game_settings()
+	load_settings()
+
+func _on_cursor_check_box_toggled(toggled_on: bool) -> void:
+	game_settings.cursor_on = toggled_on
+	save_game_settings()
+	load_settings()
+
+func _on_invert_x_check_box_toggled(toggled_on: bool) -> void:
+	game_settings.invert_x = toggled_on
+	save_game_settings()
+	load_settings()
+
+func _on_invert_y_check_box_toggled(toggled_on: bool) -> void:
+	game_settings.invert_y = toggled_on
+	save_game_settings()
+	load_settings()
+
 func _on_max_fps_spin_value_changed(value: float) -> void:
 	game_settings.max_fps = value
 	save_game_settings()
@@ -2431,6 +2515,8 @@ func _on_cancel_quit_button_pressed() -> void:
 
 func _on_confirm_quit_button_pressed() -> void:
 	save_game_state()
+	save_game_settings()
+	save_game_stats()
 	get_tree().quit()
 
 func _on_follow_itchio_button_pressed() -> void:

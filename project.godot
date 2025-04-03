@@ -145,3 +145,11 @@ rumble_vignete={
 "type": "float",
 "value": 0.0
 }
+screen_filter={
+"type": "bool",
+"value": true
+}
+lights_percent={
+"type": "float",
+"value": 0.0
+}

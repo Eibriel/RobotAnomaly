@@ -83,6 +83,7 @@ func _physics_process(delta: float) -> void:
 	if movement_locked:
 		head.rotation_degrees.x = 0
 		rotation_degrees.y = 0
+		$StairAudio["parameters/switch_to_clip"] = "Silence"
 		return
 
 	var speed_modifier := 1.0
@@ -130,16 +131,22 @@ func _physics_process(delta: float) -> void:
 			walking_sound_state = WALKING_SOUND.STOPING
 
 	move_and_slide()
+	var final_look_rot:Vector2
+	final_look_rot = Vector2(look_rot)
+	if Global.game_settings.invert_x:
+		final_look_rot.x *= -1
+	if Global.game_settings.invert_y:
+		final_look_rot.y *= -1
 	if halt_velocity:
 		head.rotation_degrees.x = 0
 		rotation_degrees.y = 0
 	else:
 		if true:
-			head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(look_rot.x), rotation_accel * delta) )
-			rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(look_rot.y), rotation_accel * delta) )
+			head.rotation_degrees.x = rad_to_deg( lerp_angle(deg_to_rad(head.rotation_degrees.x), deg_to_rad(final_look_rot.x), rotation_accel * delta) )
+			rotation_degrees.y = rad_to_deg( lerp_angle(deg_to_rad(rotation_degrees.y), deg_to_rad(final_look_rot.y), rotation_accel * delta) )
 		else:
-			head.rotation_degrees.x = look_rot.x
-			rotation_degrees.y = look_rot.y
+			head.rotation_degrees.x = final_look_rot.x
+			rotation_degrees.y = final_look_rot.y
 	
 	halt_velocity = false
 

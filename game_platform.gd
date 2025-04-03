@@ -1,5 +1,6 @@
 extends Node
 
+signal save_stats
 
 var stats_ready := false
 var stats = {
@@ -29,10 +30,11 @@ func _process(delta: float) -> void:
 		sync_stats()
 		stats_ready = true
 	if not stats_ready: return
-	if stats_time > 10:
+	if stats_time > 15:
 		stats_time = 0.0
 		for s in stats:
 			GlobalSteam.set_stat(s, int(stats[s]))
+		save_stats.emit()
 		#print(stats)
 
 func sync_stats():

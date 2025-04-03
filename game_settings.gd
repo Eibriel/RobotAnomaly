@@ -17,7 +17,15 @@ extends Resource
 
 @export var language: locale_names = locale_names.en
 
-@export var seconds := 0.0
+#@export var seconds := 0.0
+
+@export var screen_filter := true
+
+@export var cursor_on := false
+
+@export var invert_x := false
+
+@export var invert_y := false
 
 enum locale_names {
 	en,

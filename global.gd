@@ -5,7 +5,10 @@ var is_player_in_room: bool = false
 var is_player_in_storage: bool = false
 var is_player_grabbed: bool = false
 
+var game_settings:GameSettingsResource
+
 var reset_save := false
+var is_reset := false
 
 const ROBOT = preload("res://robot.tscn")
 
@@ -82,7 +85,7 @@ func noise_executed() -> void:
 func is_demo() -> bool:
 	#return OS.has_feature("demo")
 	if not is_export():
-		return true
+		#return true
 		pass
 	return OS.get_cmdline_user_args().has("--demo")
 

@@ -1065,7 +1065,7 @@ transform = Transform3D(0.0477566, -0.987483, 0.150323, 0.849819, 0.119254, 0.51
 transform = Transform3D(-0.0368649, -0.999276, -0.00940965, 0.199854, -0.0165982, 0.979685, -0.979132, 0.0342356, 0.200322, -1.46895, 0.698585, -0.824353)
 
 [node name="WoodCrateCover16" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(0.903705, -0.0431702, 0.425974, -0.425892, 0.0115423, 0.904701, -0.0439728, -0.999001, -0.00795504, -2.91893, 0.583778, -1.58907)
+transform = Transform3D(0.903706, -0.0431726, 0.425971, -0.425888, 0.0115428, 0.904702, -0.0439753, -0.999001, -0.00795537, -2.91893, 0.583778, -1.58907)
 
 [node name="WoodCrateCover3" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.0725591, -0.0740007, -0.015988, 0.99713, 1.13852, 0.0481619, 4.58074)
@@ -1074,7 +1074,7 @@ transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.07
 transform = Transform3D(1.5865e-09, -1, 4.36826e-08, -0.247709, -4.27142e-08, -0.968834, 0.968834, -9.28353e-09, -0.247709, 3.97783, 0.663728, 6.97771)
 
 [node name="WoodCrateCover14" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(0.968784, 0.010175, -0.247696, -0.247709, -4.03569e-08, -0.968834, -0.00985794, 0.999948, 0.00252041, 1.03041, 0.663728, 5.46366)
+transform = Transform3D(0.968783, 0.0101797, -0.247697, -0.24771, -8.96709e-07, -0.968834, -0.00986267, 0.999948, 0.00252075, 1.03041, 0.663728, 5.46366)
 
 [node name="WoodCrateCover15" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.968784, 0.0101751, -0.247696, -0.247709, -4.27142e-08, -0.968834, -0.00985798, 0.999948, 0.00252042, 1.03041, 0.663728, 8.33021)
@@ -3487,6 +3487,19 @@ suffix = "fps"
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
 
+[node name="FilterCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SCREEN FILTER"
+
+[node name="CursorCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CURSOR ALWAYS ON"
+
+[node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
 [node name="DisplaySettingsBackButton" type="Button" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
 text = "BACK"
@@ -3642,6 +3655,19 @@ step = 0.01
 value = 1.0
 
 [node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="InvertXCheckBox" type="CheckBox" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "INVERT X"
+
+[node name="InvertYCheckBox" type="CheckBox" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "INVERT Y"
+
+[node name="HSeparator4" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
 
 [node name="GameplaySettingsBackButton" type="Button" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
@@ -3931,6 +3957,8 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/VSyncCheckBox" to="." method="_on_v_sync_check_box_toggled"]
 [connection signal="value_changed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/MaxFPSSpin" to="." method="_on_max_fps_spin_value_changed"]
+[connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FilterCheckBox" to="." method="_on_filter_check_box_toggled"]
+[connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/CursorCheckBox" to="." method="_on_cursor_check_box_toggled"]
 [connection signal="pressed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/DisplaySettingsBackButton" to="." method="_on_display_settings_back_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="item_selected" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/LanguageMenu" to="." method="_on_language_menu_item_selected"]
@@ -3938,6 +3966,8 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/MouseAccSlider" to="." method="_on_mouse_acc_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
+[connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/InvertXCheckBox" to="." method="_on_invert_x_check_box_toggled"]
+[connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/InvertYCheckBox" to="." method="_on_invert_y_check_box_toggled"]
 [connection signal="pressed" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/GameplaySettingsBackButton" to="." method="_on_gameplay_settings_back_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]

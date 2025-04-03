@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://nxe8rqga76l0"]
+[gd_scene load_steps=23 format=3 uid="uid://nxe8rqga76l0"]
 
 [ext_resource type="Script" uid="uid://cjuxwckib7hce" path="res://office_with_collision.gd" id="1_jgcm1"]
 [ext_resource type="PackedScene" uid="uid://0q6b4obnk0g0" path="res://objects/office.gltf" id="2_q2i1j"]
@@ -63,6 +63,9 @@ roughness = 0.0
 material = SubResource("StandardMaterial3D_t55h0")
 radius = 0.2
 height = 0.4
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jgcm1"]
+size = Vector2(1.75, 1.75)
 
 [node name="OfficeWithCollision" type="Node3D"]
 script = ExtResource("1_jgcm1")
@@ -191,3 +194,16 @@ shape = SubResource("BoxShape3D_fsvil")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.800052, 1.16586, 27.3768)
 visible = false
 mesh = SubResource("SphereMesh_rivpb")
+
+[node name="LightBlockers" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightBlockers"]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, -1.80198, 3.98933, 22.6343)
+visible = false
+mesh = SubResource("PlaneMesh_jgcm1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="LightBlockers"]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, -1.80198, 3.98933, -22.9672)
+visible = false
+mesh = SubResource("PlaneMesh_jgcm1")

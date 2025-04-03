@@ -285,6 +285,9 @@ func robot_position(pos: Vector3) -> void:
 	%RobotBaseB.position = pos
 	update_base()
 
+func get_robot_global_position() -> Vector3:
+	return %RobotBody.global_position
+
 func first_frame_animation(anim_name: String) -> void:
 	anim.play(anim_name, -1, 0)
 
