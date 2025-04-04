@@ -27,6 +27,8 @@ extends Resource
 
 @export var invert_y := false
 
+@export var quality: int = 3
+
 enum locale_names {
 	en,
 	es_AR,

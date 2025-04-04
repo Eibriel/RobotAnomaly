@@ -31,7 +31,7 @@ animation/fps=30
 animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
-import_script/path=""
+import_script/path="uid://5c4gqq2s84y1"
 _subresources={
 "nodes": {
 "PATH:clock": {

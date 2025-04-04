@@ -120,7 +120,7 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.DOOR_OPEN
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -1277,6 +1277,7 @@ func load_game_settings() -> void:
 
 func load_settings() -> void:
 	%VolumeSlider.set_value_no_signal(game_settings.volume_level)
+	%LanguageMenu.selected = game_settings.language
 	%MouseSenSlider.set_value_no_signal(game_settings.mouse_sensibility)
 	%MouseAccSlider.set_value_no_signal(game_settings.mouse_acceleration)
 	%CameraShakeSlider.set_value_no_signal(game_settings.camera_shake)
@@ -1287,6 +1288,7 @@ func load_settings() -> void:
 	%InvertXCheckBox.set_pressed_no_signal(game_settings.invert_x)
 	%InvertYCheckBox.set_pressed_no_signal(game_settings.invert_y)
 	%MaxFPSSpin.set_value_no_signal(game_settings.max_fps)
+	%QualityMenu.selected = game_settings.quality
 	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
 	Global.player.rotation_accel = game_settings.mouse_acceleration
 	Global.player.camera_shake = game_settings.camera_shake
@@ -1309,8 +1311,25 @@ func load_settings() -> void:
 	RenderingServer.global_shader_parameter_set("screen_filter", game_settings.screen_filter)
 	#
 	Engine.max_fps = game_settings.max_fps
+	match game_settings.quality:
+		0:
+			get_viewport().scaling_3d_scale = 1.0
+			get_viewport().mesh_lod_threshold = 2.0
+			get_viewport().msaa_3d = Viewport.MSAA_DISABLED
+		1:
+			get_viewport().scaling_3d_scale = 1.0
+			get_viewport().mesh_lod_threshold = 1.0
+			get_viewport().msaa_3d = Viewport.MSAA_2X
+		2:
+			get_viewport().scaling_3d_scale = 1.0
+			get_viewport().mesh_lod_threshold = 1.0
+			get_viewport().msaa_3d = Viewport.MSAA_8X
+		3:
+			get_viewport().scaling_3d_scale = 2.0
+			get_viewport().mesh_lod_threshold = 1.0
+			get_viewport().msaa_3d = Viewport.MSAA_4X
 	TranslationServer.set_locale(game_settings.locale_names.find_key(game_settings.language))
-	%LanguageMenu.selected = game_settings.language
+	
 	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)
 	prints("Camera Acceleration", %MouseAccSlider.value)
 	prints("Camera shake", %CameraShakeSlider.value)
@@ -2454,6 +2473,11 @@ func _on_invert_y_check_box_toggled(toggled_on: bool) -> void:
 
 func _on_max_fps_spin_value_changed(value: float) -> void:
 	game_settings.max_fps = value
+	save_game_settings()
+	load_settings()
+
+func _on_quality_option_button_item_selected(index: int) -> void:
+	game_settings.quality = index
 	save_game_settings()
 	load_settings()
 

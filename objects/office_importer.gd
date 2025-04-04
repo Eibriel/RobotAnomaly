@@ -69,5 +69,9 @@ func iterate(node):
 				#mat.emission_enabled = true
 				#mat.emission_texture = mat.albedo_texture
 				#mat.emission_energy_multiplier = 0.5
+		if root_name == "Clock":
+			if node is MeshInstance3D:
+				if node.name == "clock":
+					node.lod_bias = 2.0
 		for child in node.get_children():
 			iterate(child)

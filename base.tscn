@@ -1,9 +1,10 @@
-[gd_scene load_steps=199 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=196 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
 [ext_resource type="Shader" uid="uid://bvs012k18h5am" path="res://filters/screen_filter_spatial.gdshader" id="3_3so84"]
 [ext_resource type="Material" uid="uid://c6yssw8smu6j0" path="res://sky/room_panorama_01.tres" id="3_ok30c"]
+[ext_resource type="Texture2D" uid="uid://djfox2mwjfvrm" path="res://textures/generated/color_correction_01.tres" id="3_sr8ub"]
 [ext_resource type="Texture2D" uid="uid://dm5io0xk3hqbv" path="res://textures/cursor.png" id="4_vja7b"]
 [ext_resource type="AudioStream" uid="uid://d2o4ihvfhl4h2" path="res://sounds/city_night.mp3" id="5_k62q3"]
 [ext_resource type="Shader" uid="uid://786770x7836f" path="res://filters/screen_filter.gdshader" id="5_y1lda"]
@@ -131,23 +132,6 @@ material = SubResource("ShaderMaterial_ksmmt")
 flip_faces = true
 size = Vector2(2, 2)
 
-[sub_resource type="Curve" id="Curve_k3d1t"]
-_data = [Vector2(0, 0), 0.0, 1.49357, 0, 0, Vector2(1, 1), 1.0, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_sgv64"]
-_data = [Vector2(0, 0.03), 0.0, 1.38676, 0, 0, Vector2(1, 1), 0.97, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_gaoim"]
-_data = [Vector2(0, 0.02), 0.0, 1.49357, 0, 0, Vector2(1, 1), 0.98, 0.0, 1, 0]
-point_count = 2
-
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_n73o2"]
-curve_x = SubResource("Curve_k3d1t")
-curve_y = SubResource("Curve_sgv64")
-curve_z = SubResource("Curve_gaoim")
-
 [sub_resource type="Sky" id="Sky_wrmds"]
 sky_material = ExtResource("3_ok30c")
 radiance_size = 2
@@ -166,7 +150,7 @@ adjustment_enabled = true
 adjustment_brightness = 1.4
 adjustment_contrast = 0.95
 adjustment_saturation = 1.2
-adjustment_color_correction = SubResource("CurveXYZTexture_n73o2")
+adjustment_color_correction = ExtResource("3_sr8ub")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e1v60"]
 lightmap_size_hint = Vector2i(22, 252)
@@ -3075,6 +3059,7 @@ texture = ExtResource("98_ksmmt")
 
 [node name="FadeWhite" type="ColorRect" parent="Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3155,7 +3140,6 @@ text = "QUIT"
 [node name="PauseMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3283,6 +3267,13 @@ text = "SETTINGS"
 horizontal_alignment = 1
 uppercase = true
 
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="SettingsBackButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
 [node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
 layout_mode = 2
 
@@ -3297,13 +3288,6 @@ text = "DISPLAY"
 [node name="GameplaySettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
 layout_mode = 2
 text = "GAMEPLAY"
-
-[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="SettingsBackButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
-layout_mode = 2
-text = "BACK"
 
 [node name="HowToPlay" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
@@ -3425,7 +3409,6 @@ text = "BACK"
 
 [node name="DisplaySettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3463,6 +3446,13 @@ text = "DISPLAY SETTINGS"
 horizontal_alignment = 1
 uppercase = true
 
+[node name="HSeparator4" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="DisplaySettingsBackButton" type="Button" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
 [node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
 
@@ -3470,11 +3460,13 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "FULLSCREEN"
+flat = true
 
 [node name="VSyncCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "VSYNC"
+flat = true
 
 [node name="MaxFPSSpin" type="SpinBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
@@ -3485,6 +3477,29 @@ value = 30.0
 rounded = true
 suffix = "fps"
 
+[node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("115_n6axq")
+text = "QUALITY"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="QualityMenu" type="OptionButton" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "LOW"
+popup/item_0/id = 0
+popup/item_1/text = "MEDIUM"
+popup/item_1/id = 1
+popup/item_2/text = "HIGH"
+popup/item_2/id = 2
+popup/item_3/text = "ULTRA"
+popup/item_3/id = 3
+
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
 
@@ -3492,18 +3507,13 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "SCREEN FILTER"
+flat = true
 
 [node name="CursorCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "CURSOR ALWAYS ON"
-
-[node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="DisplaySettingsBackButton" type="Button" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
-layout_mode = 2
-text = "BACK"
+flat = true
 
 [node name="AudioSettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
@@ -3545,6 +3555,13 @@ text = "AUDIO LANGUAGE SETTINGS"
 horizontal_alignment = 1
 uppercase = true
 
+[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="AudioSettingsBackButton" type="Button" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
+
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 layout_mode = 2
 
@@ -3574,13 +3591,6 @@ popup/item_4/text = "Русский"
 popup/item_4/id = 4
 popup/item_5/text = "Deutsch"
 popup/item_5/id = 5
-
-[node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="AudioSettingsBackButton" type="Button" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
-layout_mode = 2
-text = "BACK"
 
 [node name="GameplaySettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
@@ -3620,6 +3630,13 @@ layout_mode = 2
 theme = ExtResource("115_n6axq")
 text = "GAMEPLAY SETTINGS"
 uppercase = true
+
+[node name="HSeparator4" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="GameplaySettingsBackButton" type="Button" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "BACK"
 
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 layout_mode = 2
@@ -3669,13 +3686,6 @@ text = "INVERT X"
 unique_name_in_owner = true
 layout_mode = 2
 text = "INVERT Y"
-
-[node name="HSeparator4" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
-layout_mode = 2
-
-[node name="GameplaySettingsBackButton" type="Button" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
-layout_mode = 2
-text = "BACK"
 
 [node name="ResetGameMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
@@ -3952,26 +3962,27 @@ draw_pass_1 = SubResource("PlaneMesh_q3v0p")
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ReviewQuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/WishlistQuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/SettingsBackButton" to="." method="_on_settings_back_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/AudioSettingsButton" to="." method="_on_audio_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/DisplaySettingsButton" to="." method="_on_display_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/GameplaySettingsButton" to="." method="_on_gameplay_settings_button_pressed"]
-[connection signal="pressed" from="Control/PauseMenu/SettingsMenu/VBoxContainer/SettingsBackButton" to="." method="_on_settings_back_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/HowToPlay/HowToPlayBackButton" to="." method="_on_how_to_play_back_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/DisplaySettingsBackButton" to="." method="_on_display_settings_back_button_pressed"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FullscreenCheckBox" to="." method="_on_fullscreen_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/VSyncCheckBox" to="." method="_on_v_sync_check_box_toggled"]
 [connection signal="value_changed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/MaxFPSSpin" to="." method="_on_max_fps_spin_value_changed"]
+[connection signal="item_selected" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/QualityMenu" to="." method="_on_quality_option_button_item_selected"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FilterCheckBox" to="." method="_on_filter_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/CursorCheckBox" to="." method="_on_cursor_check_box_toggled"]
-[connection signal="pressed" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/DisplaySettingsBackButton" to="." method="_on_display_settings_back_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/AudioSettingsBackButton" to="." method="_on_audio_settings_back_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="item_selected" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/LanguageMenu" to="." method="_on_language_menu_item_selected"]
-[connection signal="pressed" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/AudioSettingsBackButton" to="." method="_on_audio_settings_back_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/GameplaySettingsBackButton" to="." method="_on_gameplay_settings_back_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/MouseSenSlider" to="." method="_on_mouse_sen_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/MouseAccSlider" to="." method="_on_mouse_acc_slider_drag_ended"]
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
 [connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/InvertXCheckBox" to="." method="_on_invert_x_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/InvertYCheckBox" to="." method="_on_invert_y_check_box_toggled"]
-[connection signal="pressed" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/GameplaySettingsBackButton" to="." method="_on_gameplay_settings_back_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer/ConfirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]
