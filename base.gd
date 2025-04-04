@@ -387,6 +387,7 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 		return sel_scenarios
 	var can_be_moved := Robot.GLITCHES.values()
 	can_be_moved.erase(Robot.GLITCHES.NONE)
+	can_be_moved.erase(Robot.GLITCHES.RED_EYES)
 	can_be_moved.erase(Robot.GLITCHES.DOOR_OPEN)
 	#can_be_moved.erase(Robot.GLITCHES.LIGHTS_OFF)
 	can_be_moved.erase(Robot.GLITCHES.GRABS_BATTERY)
@@ -395,12 +396,13 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	var adjusted_intro_amount := INTRO_AMOUNT - completed_amound
 	prints("adjusted_floor_amount", adjusted_floor_amount)
 	prints("adjusted_intro_amount", adjusted_intro_amount)
-	# None anomaly spread evenly and without repetition
-	if sel_scenarios[0] != Robot.GLITCHES.NONE:
-		var none_key = sel_scenarios.find(Robot.GLITCHES.NONE)
+	# TODO None anomaly spread evenly and without repetition
+	# First Anomaly must be red eyes
+	if sel_scenarios[0] != Robot.GLITCHES.RED_EYES:
+		var none_key = sel_scenarios.find(Robot.GLITCHES.RED_EYES)
 		if none_key >= 0:
 			sel_scenarios[none_key] = sel_scenarios[0]
-			sel_scenarios[0] = Robot.GLITCHES.NONE
+			sel_scenarios[0] = Robot.GLITCHES.RED_EYES
 	# Door anomaly before Executive
 	if adjusted_floor_amount > 0:
 		var door_open_key = sel_scenarios.find(Robot.GLITCHES.DOOR_OPEN) 
@@ -1956,9 +1958,12 @@ func process_failed_queue(scenario: int) -> void:
 			var removed_anomaly: Robot.GLITCHES = game_state.completed_anomalies.pop_back()
 			selected_scenarios.append(removed_anomaly)
 		if game_state.completed_anomalies.size() == 0:
-			if selected_scenarios.find(Robot.GLITCHES.NONE) >= 0:
-				selected_scenarios.erase(Robot.GLITCHES.NONE)
-				selected_scenarios.push_front(Robot.GLITCHES.NONE)
+			if selected_scenarios.find(Robot.GLITCHES.RED_EYES) >= 0:
+				selected_scenarios.erase(Robot.GLITCHES.RED_EYES)
+				selected_scenarios.push_front(Robot.GLITCHES.RED_EYES)
+			elif scenario == Robot.GLITCHES.RED_EYES:
+				selected_scenarios.push_front(scenario)
+				append_scenario = false
 			#elif failed_scenarios.find(Robot.GLITCHES.NONE) >= 0:
 			#	failed_scenarios.erase(Robot.GLITCHES.NONE)
 			#	selected_scenarios.push_front(Robot.GLITCHES.NONE)
