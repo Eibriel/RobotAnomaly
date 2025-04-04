@@ -38,6 +38,30 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "uid://bvd3td7awq4t"
 },
+"GoldDivision": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/GoldDivision.tres"
+},
+"LightBase": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/LightBase.tres"
+},
+"LightLight": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/LightLight.tres"
+},
+"LineaA": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/LineaA.tres"
+},
+"LineaB": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/LineaB.tres"
+},
+"LineaC": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/LineaC.tres"
+},
 "MI_umonbbqdy": {
 "use_external/enabled": true,
 "use_external/path": "uid://bljj0t5odfl1h"
@@ -45,6 +69,10 @@ _subresources={
 "PitchBlack": {
 "use_external/enabled": true,
 "use_external/path": "uid://brsil0vd5gwoq"
+},
+"Slot": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/Slot.tres"
 },
 "Wall": {
 "use_external/enabled": true,

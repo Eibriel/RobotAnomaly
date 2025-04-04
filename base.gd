@@ -1316,18 +1316,23 @@ func load_settings() -> void:
 			get_viewport().scaling_3d_scale = 1.0
 			get_viewport().mesh_lod_threshold = 2.0
 			get_viewport().msaa_3d = Viewport.MSAA_DISABLED
+			$DirectionalLight3D.shadow_enabled = false
+			#rendering/lights_and_shadows/directional_shadow/soft_shadow_filter_quality
 		1:
 			get_viewport().scaling_3d_scale = 1.0
 			get_viewport().mesh_lod_threshold = 1.0
 			get_viewport().msaa_3d = Viewport.MSAA_2X
+			$DirectionalLight3D.shadow_enabled = true
 		2:
 			get_viewport().scaling_3d_scale = 1.0
 			get_viewport().mesh_lod_threshold = 1.0
 			get_viewport().msaa_3d = Viewport.MSAA_8X
+			$DirectionalLight3D.shadow_enabled = true
 		3:
 			get_viewport().scaling_3d_scale = 2.0
 			get_viewport().mesh_lod_threshold = 1.0
 			get_viewport().msaa_3d = Viewport.MSAA_4X
+			$DirectionalLight3D.shadow_enabled = true
 	TranslationServer.set_locale(game_settings.locale_names.find_key(game_settings.language))
 	
 	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)

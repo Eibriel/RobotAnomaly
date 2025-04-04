@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cwlrny6s48is7"]
+
+[resource]
+resource_name = "Slot"
+cull_mode = 2
+albedo_color = Color(0.279, 0.2797, 0.3, 1)
+metallic_specular = 0.24
+roughness = 0.44

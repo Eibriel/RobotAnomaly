@@ -8,5 +8,5 @@ cull_mode = 2
 albedo_color = Color(0, 0, 0, 1)
 metallic = 1.0
 emission_enabled = true
-emission_energy_multiplier = 5.0
+emission_energy_multiplier = 1.3
 emission_texture = ExtResource("1_4vpxk")

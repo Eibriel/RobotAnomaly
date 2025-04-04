@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://m1mshq02l0e5"]
+
+[resource]
+resource_name = "LightBase"
+cull_mode = 2
+albedo_color = Color(0.86, 0.869333, 1, 1)
+metallic = 1.0
+metallic_specular = 0.0
