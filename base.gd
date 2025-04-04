@@ -1225,13 +1225,15 @@ func save_game_state() -> void:
 
 func load_game_state() -> void:
 	#prints("Global.reset_save", Global.reset_save)
-	if ResourceLoader.exists(save_path):
+	if ResourceLoader.exists(save_path) and \
+			is_instance_of(load(save_path), GameStateResource):
 		game_state = load(save_path)
 	else:
 		game_state = GameStateResource.new()
 	if override_state:
 		game_state = state_override
-	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save:
+	if reset_save or not ResourceLoader.exists(save_path) or Global.reset_save or\
+			not is_instance_of(load(save_path), GameStateResource):
 		game_state = GameStateResource.new()
 		Global.reset_timers()
 		if Global.reset_save:
@@ -1254,7 +1256,8 @@ func save_game_settings() -> void:
 
 ## From file
 func load_game_settings() -> void:
-	if not ResourceLoader.exists(settings_path):
+	if not is_instance_of(load(settings_path), GameSettingsResource) or \
+			not ResourceLoader.exists(settings_path):
 		game_settings = GameSettingsResource.new()
 		var loc := TranslationServer.get_locale()
 		var loaded := TranslationServer.get_loaded_locales()
@@ -1314,7 +1317,8 @@ func load_settings() -> void:
 	prints("Volume", volume_level, %VolumeSlider.value)
 
 func load_game_stats() -> void:
-	if not ResourceLoader.exists(stats_path):
+	if not is_instance_of(load(stats_path), GameStatsResource) or\
+			not ResourceLoader.exists(stats_path):
 		game_stats = GameStatsResource.new()
 	else:
 		game_stats = load(stats_path)
