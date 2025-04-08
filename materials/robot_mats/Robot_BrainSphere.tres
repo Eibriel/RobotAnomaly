@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://jn43cm5mxrwk"]
+
+[ext_resource type="Shader" uid="uid://dpppwtxv1fvve" path="res://materials/robot_mats/Robot_BrainSphere_VisualShader.tres" id="1_ax4ab"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ax4ab")

@@ -124,7 +124,7 @@ var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := false
+var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
 var force_events := true
@@ -147,12 +147,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = false
-	state_override.executive_completed = false
+	state_override.congrats_completed = true
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = 0 #Robot.GLITCHES.size() - 2
+	var force_completed_scenarios = Robot.GLITCHES.size() - 2
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -398,11 +398,11 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	prints("adjusted_intro_amount", adjusted_intro_amount)
 	# TODO None anomaly spread evenly and without repetition
 	# First Anomaly must be red eyes
-	if sel_scenarios[0] != Robot.GLITCHES.RED_EYES:
-		var none_key = sel_scenarios.find(Robot.GLITCHES.RED_EYES)
+	if sel_scenarios[0] != Robot.GLITCHES.OCTOPUS:
+		var none_key = sel_scenarios.find(Robot.GLITCHES.OCTOPUS)
 		if none_key >= 0:
 			sel_scenarios[none_key] = sel_scenarios[0]
-			sel_scenarios[0] = Robot.GLITCHES.RED_EYES
+			sel_scenarios[0] = Robot.GLITCHES.OCTOPUS
 	# Door anomaly before Executive
 	if adjusted_floor_amount > 0:
 		var door_open_key = sel_scenarios.find(Robot.GLITCHES.DOOR_OPEN) 
@@ -1495,6 +1495,10 @@ func instantiate_sections(Env: Node3D) -> void:
 	prints("Failed Scenarios", failed_scenarios)
 	#prints("Completed Scenarios", completed_scenarios)
 	prints("Completed Anomalies", game_state.completed_anomalies)
+	var floor_number := FLOORS_AMOUNT - game_state.completed_anomalies.size()
+	var underground_floor := FLOORS_AMOUNT - scenarios_amount - 1
+	var launchroom_floor := FLOORS_AMOUNT - INTRO_AMOUNT
+	
 	var scenario = 0
 	if force_anomaly != Robot.GLITCHES.NONE:
 		scenario = force_anomaly
@@ -1519,6 +1523,12 @@ func instantiate_sections(Env: Node3D) -> void:
 		if not museum_completed:
 			scenario = -4
 		#push_error("No more scenarios")
+	
+	if floor_number <= underground_floor:
+		assert(scenario != -4, "Infinite underground bug!")
+		# Forces scenario to be Museum
+		scenario = -4
+	
 	var available_scenarios_count := selected_scenarios.size() + failed_scenarios.size()
 	#for c in Env.get_children():
 	#	c.queue_free()
@@ -1536,9 +1546,9 @@ func instantiate_sections(Env: Node3D) -> void:
 	#%LevelCountLabel.text = "%d" % (scenario_count - available_scenarios_count)
 	#var anomalies_count := Robot.GLITCHES.size()-1
 	#var completed_anomalies_count := game_state.completed_anomalies.size()
-	%FloorData_A2.text = "%d" % (FLOORS_AMOUNT - INTRO_AMOUNT)
+	%FloorData_A2.text = "%d" % launchroom_floor
 	%FloorData_B2.text = "%d" % 0
-	%FloorData_C2.text = "%d" % (FLOORS_AMOUNT - scenarios_amount - 1)
+	%FloorData_C2.text = "%d" % underground_floor
 	#
 	#%TasksLabel2.text = "Anomalous activity detected!"
 	#%TasksLabel3.text = "Shutdown any suspicious robot"
@@ -1552,7 +1562,6 @@ func instantiate_sections(Env: Node3D) -> void:
 		%LevelCountLabel.mesh.text = "-"
 	else:
 		#%LevelCountLabel.mesh.text = "%d" % (game_state.completed_anomalies.size() + 1)
-		var floor_number := FLOORS_AMOUNT - game_state.completed_anomalies.size()
 		if game_state.executive_completed:
 			floor_number -= 1
 		%LevelCountLabel.mesh.text = "%d" % floor_number
@@ -1958,10 +1967,10 @@ func process_failed_queue(scenario: int) -> void:
 			var removed_anomaly: Robot.GLITCHES = game_state.completed_anomalies.pop_back()
 			selected_scenarios.append(removed_anomaly)
 		if game_state.completed_anomalies.size() == 0:
-			if selected_scenarios.find(Robot.GLITCHES.RED_EYES) >= 0:
-				selected_scenarios.erase(Robot.GLITCHES.RED_EYES)
-				selected_scenarios.push_front(Robot.GLITCHES.RED_EYES)
-			elif scenario == Robot.GLITCHES.RED_EYES:
+			if selected_scenarios.find(Robot.GLITCHES.OCTOPUS) >= 0:
+				selected_scenarios.erase(Robot.GLITCHES.OCTOPUS)
+				selected_scenarios.push_front(Robot.GLITCHES.OCTOPUS)
+			elif scenario == Robot.GLITCHES.OCTOPUS:
 				selected_scenarios.push_front(scenario)
 				append_scenario = false
 			#elif failed_scenarios.find(Robot.GLITCHES.NONE) >= 0:

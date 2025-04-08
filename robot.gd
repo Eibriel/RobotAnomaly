@@ -121,6 +121,8 @@ var skeleton: Skeleton3D
 
 var pressing_off_button := 0.0
 
+const ROBOT_BASEB_MATERIAL = preload("res://materials/robot_mats/Robot_BaseB_Material.tres")
+
 func _ready() -> void:
 	#skeleton = %robotObject.get_node("Armature/Skeleton3D") as Skeleton3D
 	#var battery_attachment := BoneAttachment3D.new()
@@ -173,12 +175,20 @@ func _ready() -> void:
 	robj["bw_legb_l"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_LegB_L")
 	robj["bw_legb_r"] = %robotObject.get_node("Armature/Skeleton3D/BarbedWire_LegB_R")
 	
+	robj["off_button"].visible = false
+	
 	#prints("GC", GLITCHES.size())
 	%RobotBase.rotate_y(deg_to_rad(randf_range(0, 360)))
 	if randf() < 0.5:
 		%RobotBase/robot_base.get_node("ConcretePillar_A").visible = false
 	else:
 		%RobotBase/robot_base.get_node("ConcretePillar_B").visible = false
+	if randf() < 0.5:
+		%RobotBaseB/robot_base2.get_node("ConcretePillar_A").visible = false
+		%RobotBaseB/robot_base2.get_node("ConcretePillar_B").material_override = ROBOT_BASEB_MATERIAL
+	else:
+		%RobotBaseB/robot_base2.get_node("ConcretePillar_B").visible = false
+		%RobotBaseB/robot_base2.get_node("ConcretePillar_A").material_override = ROBOT_BASEB_MATERIAL
 	
 	skeleton = %robotObject.get_node("Armature/Skeleton3D") as Skeleton3D
 	
@@ -332,7 +342,7 @@ func shutdown(delta: float) -> bool:
 	if power_on:
 		pressing_off_button += delta * 8.0
 		shutdown_time -= delta * 0.4
-		if strugle:
+		if strugle and glitch != GLITCHES.FOLLOWING_EYES:
 			if not anim.is_playing():
 				anim.play("Strugling", 0.5)
 				anim.seek(strugle_seek)
@@ -952,13 +962,15 @@ func shut_down() -> void:
 	%RobotMotorAudioPlayer["parameters/switch_to_clip"] = "Off"
 	
 	var bat_tween := create_tween()
-	bat_tween.tween_property(robj["power_radial"], "position:z", -0.08, 0.2)
-	bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.08, 0.2)
-	bat_tween.parallel().tween_property(robj["off_button"], "position:x", 0.08, 0.2)
-	bat_tween.tween_interval(1.0)
+	bat_tween.set_ease(Tween.EASE_OUT)
+	bat_tween.set_trans(Tween.TRANS_ELASTIC)
+	bat_tween.tween_property(robj["power_radial"], "position:z", -0.1, 0.6)
+	bat_tween.parallel().tween_property(robj["battery_body"], "position:z", 0.1, 0.6)
+	#bat_tween.parallel().tween_property(robj["off_button"], "position:x", 0.1, 0.6)
+	bat_tween.tween_interval(2.0)
 	bat_tween.tween_callback(robj["power_radial"].set_visible.bind(false))
 	bat_tween.tween_callback(robj["battery_body"].set_visible.bind(false))
-	bat_tween.tween_callback(robj["off_button"].set_visible.bind(false))
+	#bat_tween.tween_callback(robj["off_button"].set_visible.bind(false))
 	bat_tween.tween_callback(func(): lock_power_button = false)
 
 func turn_on() -> void:
@@ -967,10 +979,10 @@ func turn_on() -> void:
 	%RobotPowerupAudioPlayer.play()
 	robj["power_radial"].position.z = 0
 	robj["battery_body"].position.z = 0
-	robj["off_button"].position.x = 0
+	#robj["off_button"].position.x = 0
 	robj["power_radial"].set_visible(true)
 	robj["battery_body"].set_visible(true)
-	robj["off_button"].set_visible(true)
+	#robj["off_button"].set_visible(true)
 	#
 	#const ROBOT_RED_GLOW = preload("res://materials/robot_mats/Robot_Red_Glow.tres")
 	#const ROBOT_WHITE_GLOW = preload("res://materials/robot_mats/Robot_White_Glow.tres")

@@ -32,7 +32,7 @@ void fragment() {
 	//mix_color = mix(mix_color, bw, rumble_vignete);
 
 	if (screen_filter) {
-		mix_color *= mix(vec3(1.0), texture_color.rgb, texture_alpha+rumble_vignete);	
+		mix_color *= mix(vec3(1.0), texture_color.rgb, texture_alpha+rumble_vignete);
 	}
 
 	mix_color *= mix(1.0, lights_percent, 0.4);

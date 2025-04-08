@@ -38,6 +38,10 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "res://materials/robot_mats/BarbedWire.tres"
 },
+"BrainSphere": {
+"use_external/enabled": true,
+"use_external/path": "uid://jn43cm5mxrwk"
+},
 "Robot_Battery": {
 "use_external/enabled": true,
 "use_external/path": "uid://c3mm4vs8sgbsm"

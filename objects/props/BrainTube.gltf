@@ -35,6 +35,20 @@
 					"index":2
 				}
 			}
+		},
+		{
+			"doubleSided":true,
+			"name":"BrainSphere",
+			"pbrMetallicRoughness":{
+				"baseColorFactor":[
+					0.800000011920929,
+					0.800000011920929,
+					0.800000011920929,
+					1
+				],
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
 		}
 	],
 	"meshes":[
@@ -49,6 +63,15 @@
 					},
 					"indices":3,
 					"material":0
+				},
+				{
+					"attributes":{
+						"POSITION":4,
+						"NORMAL":5,
+						"TEXCOORD_0":6
+					},
+					"indices":7,
+					"material":1
 				}
 			]
 		}
@@ -74,9 +97,9 @@
 			"uri":"props_textures/Battery_Normal.png"
 		},
 		{
-			"mimeType":"image/jpeg",
+			"mimeType":"image/png",
 			"name":"Battery_Base",
-			"uri":"props_textures/Battery_Base.jpg"
+			"uri":"props_textures/Battery_Base.png"
 		},
 		{
 			"mimeType":"image/png",
@@ -88,61 +111,119 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":1899,
+			"count":2054,
 			"max":[
-				0.01999441534280777,
-				0.020181013271212578,
+				0.021170735359191895,
+				0.020678164437413216,
 				0.04425027593970299
 			],
 			"min":[
-				-0.019994433969259262,
-				-0.019807854667305946,
-				-0.038615889847278595
+				-0.021081553772091866,
+				-0.020464133471250534,
+				-0.06220243126153946
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":1899,
+			"count":2054,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":1899,
+			"count":2054,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":3498,
+			"count":7764,
+			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":151,
+			"max":[
+				0.019631005823612213,
+				0.019488655030727386,
+				0.010662689805030823
+			],
+			"min":[
+				-0.019631007686257362,
+				-0.019773364067077637,
+				-0.02859932743012905
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":5,
+			"componentType":5126,
+			"count":151,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":151,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":7,
+			"componentType":5123,
+			"count":672,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":22788,
+			"byteLength":24648,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":22788,
-			"byteOffset":22788,
+			"byteLength":24648,
+			"byteOffset":24648,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":15192,
-			"byteOffset":45576,
+			"byteLength":16432,
+			"byteOffset":49296,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6996,
-			"byteOffset":60768,
+			"byteLength":15528,
+			"byteOffset":65728,
+			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":1812,
+			"byteOffset":81256,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1812,
+			"byteOffset":83068,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1208,
+			"byteOffset":84880,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1344,
+			"byteOffset":86088,
 			"target":34963
 		}
 	],
@@ -154,7 +235,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":67764,
+			"byteLength":87432,
 			"uri":"BrainTube.bin"
 		}
 	]

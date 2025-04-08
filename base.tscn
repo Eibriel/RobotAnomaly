@@ -1,4 +1,4 @@
-[gd_scene load_steps=196 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=197 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -66,6 +66,7 @@
 [ext_resource type="Texture2D" uid="uid://cu063aocvinpw" path="res://textures/SiteSafety_RemoveBrain.png" id="34_sdakc"]
 [ext_resource type="PackedScene" uid="uid://duyldqu45oa85" path="res://objects/props/CabezaFemenina.gltf" id="35_5pcrg"]
 [ext_resource type="Texture2D" uid="uid://dqul2w1roi1p3" path="res://textures/SiteSafety_LeaveBuilding.png" id="36_4xh17"]
+[ext_resource type="Texture2D" uid="uid://xnudrkno5175" path="res://textures/SiteSafety_AnomalyGraph.png" id="36_vyjwq"]
 [ext_resource type="ArrayMesh" uid="uid://dgr3y7c3cei3s" path="res://meshes/static_robot.res" id="39_kajva"]
 [ext_resource type="Texture2D" uid="uid://by2hfu5fdeffp" path="res://textures/ceo/CEO06_composition.png" id="40_e1v60"]
 [ext_resource type="PackedScene" uid="uid://djfvpbucf72m4" path="res://picture_frame.tscn" id="41_60t3g"]
@@ -856,7 +857,6 @@ stream = ExtResource("9_i2k0m")
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -896,6 +896,7 @@ transform = Transform3D(0.930743, 0, 0.365673, 0, 1, 0, -0.365673, 0, 0.930743, 
 
 [node name="office_start" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="PictureFrame4" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.15773, 1.6418, 20.8553)
@@ -2249,7 +2250,6 @@ shape = SubResource("BoxShape3D_tjsd2")
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)
@@ -2361,7 +2361,7 @@ transform = Transform3D(-0.678336, 0.514273, -1.8098, 1.80885, 0.707539, -0.4769
 transform = Transform3D(0.894654, 0, 0.44676, 0, 1, 0, -0.44676, 0, 0.894654, 3.44752, 1.33274, 19.4947)
 
 [node name="BookBridgeClosed" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("49_66ob2")]
-transform = Transform3D(0.680248, 0, 0.732982, 0, 1, 0, -0.732982, 0, 0.680248, -3.50305, 1.33486, 19.7091)
+transform = Transform3D(0.680248, 0, 0.732982, 0, 1, 0, -0.732982, 0, 0.680248, -3.50305, 1.33486, 19.7756)
 
 [node name="BookBridgeClosed2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("49_66ob2")]
 transform = Transform3D(0.705525, 0, 0.708684, 0, 1, 0, -0.708684, 0, 0.705525, -3.6852, 1.32998, 21.4256)
@@ -2376,16 +2376,16 @@ transform = Transform3D(-0.727892, 0, -0.685691, 0, 1, 0, 0.685691, 0, -0.727892
 transform = Transform3D(0.27354, 0, -0.961861, 0, 1, 0, 0.961861, 0, 0.27354, 3.32463, 1.36977, 20.4721)
 
 [node name="Sketchbook012" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("53_sqt58")]
-transform = Transform3D(0.53509, 0, 0.844795, 0, 1, 0, -0.844795, 0, 0.53509, -3.20131, 1.32939, 19.432)
+transform = Transform3D(0.53509, 0, 0.844795, 0, 1, 0, -0.844795, 0, 0.53509, -3.20131, 1.32939, 19.5731)
 
 [node name="MagazinePile01" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("62_3bu5q")]
 transform = Transform3D(0.982574, 0, -0.185872, 0, 1, 0, 0.185872, 0, 0.982574, -3.72828, 1.33309, 20.239)
 
 [node name="Brain2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("54_p3pq8")]
-transform = Transform3D(0.218748, -0.129262, 0.430628, 0.33007, 0.371343, -0.0561997, -0.305292, 0.308862, 0.247793, -3.74455, 1.3787, 19.1175)
+transform = Transform3D(0.29923, -0.265421, 0.00364206, 0.264056, 0.297074, -0.0449605, 0.0271287, 0.036038, 0.397448, -3.23949, 1.37633, 19.1658)
 
 [node name="BrainTube2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("82_jic3x")]
-transform = Transform3D(0.122125, 0, -1.49502, 0, 1.5, 0, 1.49502, 0, 0.122125, -3.55979, 1.35928, 19.1284)
+transform = Transform3D(2.95137, 0, -0.53795, 0, 3, 0, 0.53795, 0, 2.95137, -3.26614, 1.39074, 18.8556)
 
 [node name="PictureFrame" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.0788, 1.64649, 20.0772)
@@ -2521,12 +2521,136 @@ transform = Transform3D(0.486374, 0, -1.3128, 0, 1.4, 0, 1.3128, 0, 0.486374, -2
 transform = Transform3D(1, 0, 0, 0, 0.543248, 0.839572, 0, -0.839572, 0.543248, 3.6782, 0.217978, 6.51786)
 visible = false
 
-[node name="PictureFrame6" parent="OfficeNode" instance=ExtResource("41_60t3g")]
+[node name="AnomalyGraphFrame" parent="OfficeNode" instance=ExtResource("41_60t3g")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.24084, 1.77335, -2.382)
+texture = ExtResource("36_vyjwq")
+size = Vector2(1.088, 1)
+banner_scale = 1.5
+
+[node name="Anomaly_Label2" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.406015, 0.575872, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "REMOVE BRAIN"
+font = ExtResource("74_vgrfu")
+font_size = 80
+outline_size = 5
+autowrap_mode = 2
+width = 300.0
+
+[node name="Anomaly_Label3" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.460711, 0.268824, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "SHUTDOWN"
+font = ExtResource("74_vgrfu")
+font_size = 80
+outline_size = 5
+horizontal_alignment = 2
+width = 3000.0
+
+[node name="Yes_Label2" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.079998, 0.549281, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "YES"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 0
+width = 3000.0
+
+[node name="No_Label2" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00449944, 0.0652083, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "NO"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 2
+width = 3000.0
+
+[node name="Anomaly_Label" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.201885, 0.299761, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "ANOMALY?"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 0
+autowrap_mode = 2
+width = 1000.0
+
+[node name="IsOn_Label" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.446024, -0.0830504, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "IS ON?"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 0
+width = 3000.0
+
+[node name="No_Label1" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.431341, -0.229843, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "NO"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 2
+width = 3000.0
+
+[node name="Yes_Label1" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.427973, 0.122507, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "YES"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 2
+width = 3000.0
+
+[node name="Ignore_Label" type="Label3D" parent="OfficeNode/AnomalyGraphFrame"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.114571, -0.537715, 0.0106411)
+pixel_size = 0.0005
+shaded = true
+modulate = Color(0.125911, 0.125911, 0.125911, 1)
+outline_modulate = Color(1, 1, 1, 1)
+text = "IGNORE"
+font = ExtResource("74_vgrfu")
+font_size = 100
+outline_size = 5
+horizontal_alignment = 0
+width = 3000.0
+
+[node name="SiteSafetyFrame" parent="OfficeNode" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.26908, 1.59202, -24.9906)
 texture = ExtResource("73_o1ods")
 size = Vector2(2, 1.8)
 
-[node name="TasksLabel2" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel2" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0213361, 0.796836, 0.00396538)
 pixel_size = 0.001
 shaded = true
@@ -2535,7 +2659,7 @@ font = ExtResource("74_vgrfu")
 font_size = 150
 outline_size = 0
 
-[node name="TasksLabel7" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel7" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.016485, 0.594035, 0.00396538)
 visible = false
 pixel_size = 0.001
@@ -2547,46 +2671,49 @@ font_size = 70
 outline_size = 0
 width = 1500.0
 
-[node name="TasksLabel" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -0.556274, 0.35919, 0.00396538)
 pixel_size = 0.001
 shaded = true
 modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0.572988, 0.572988, 0.572988, 1)
 text = "REMOVE BATTERY"
 font = ExtResource("74_vgrfu")
-font_size = 100
-outline_size = 0
+font_size = 80
+outline_size = 10
 horizontal_alignment = 0
 autowrap_mode = 2
 width = 1500.0
 
-[node name="TasksLabel3" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel3" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -0.552198, 0.0895879, 0.00396538)
 pixel_size = 0.001
 shaded = true
 modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0.572549, 0.572549, 0.572549, 1)
 text = "SHUTDOWN SUSPICIOUS"
 font = ExtResource("74_vgrfu")
-font_size = 100
-outline_size = 0
+font_size = 80
+outline_size = 10
 horizontal_alignment = 0
 autowrap_mode = 2
 width = 1500.0
 
-[node name="TasksLabel4" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel4" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, -0.552198, -0.193347, 0.00396538)
 pixel_size = 0.001
 shaded = true
 modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0.572549, 0.572549, 0.572549, 1)
 text = "GOTO GROUND FLOOR"
 font = ExtResource("74_vgrfu")
-font_size = 100
-outline_size = 0
+font_size = 80
+outline_size = 10
 horizontal_alignment = 0
 autowrap_mode = 2
 width = 1500.0
 
-[node name="TasksLabel5" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel5" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0164851, -0.46866, 0.00396538)
 pixel_size = 0.001
 shaded = true
@@ -2596,7 +2723,7 @@ font_size = 120
 outline_size = 0
 width = 1500.0
 
-[node name="TasksLabel6" type="Label3D" parent="OfficeNode/PictureFrame6"]
+[node name="TasksLabel6" type="Label3D" parent="OfficeNode/SiteSafetyFrame"]
 transform = Transform3D(1, 0, 2.13163e-14, 0, 1, 0, -2.13163e-14, 0, 1, 0.0164851, -0.720959, 0.00396538)
 visible = false
 pixel_size = 0.001

@@ -1,0 +1,28 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bisxk8t4x52t5"]
+
+[ext_resource type="Shader" uid="uid://jwkafrtf4mt" path="res://materials/robot_mats/Robot_Base_Shader.gdshader" id="1_2w0te"]
+[ext_resource type="Texture2D" uid="uid://d1mttmj2co1jp" path="res://objects/office_textures/ConcretePillar_A_Base.jpg" id="1_rdaue"]
+[ext_resource type="Texture2D" uid="uid://g7imflkmeow4" path="res://objects/office_textures/ConcretePillar_A_MR.png" id="2_2w0te"]
+[ext_resource type="Texture2D" uid="uid://vnfthu4ms2hi" path="res://objects/office_textures/ConcretePillar_A_Normal.jpg" id="3_v6ufy"]
+
+[resource]
+resource_name = "Concrete_Pillar_ujjleixga_Raw"
+render_priority = 0
+shader = ExtResource("1_2w0te")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("1_rdaue")
+shader_parameter/albedo_texture_size = Vector2i(8192, 8192)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/texture_metallic = ExtResource("2_2w0te")
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 1, 0)
+shader_parameter/texture_roughness = ExtResource("2_2w0te")
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/texture_normal = ExtResource("3_v6ufy")
+shader_parameter/normal_scale = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/is_base = true
