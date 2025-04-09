@@ -4,12 +4,16 @@
 		"generator":"Khronos glTF Blender I/O v4.3.47",
 		"version":"2.0"
 	},
+	"extensionsUsed":[
+		"KHR_materials_specular"
+	],
 	"scene":0,
 	"scenes":[
 		{
 			"name":"PartyTable",
 			"nodes":[
-				0
+				0,
+				1
 			]
 		}
 	],
@@ -28,6 +32,15 @@
 				0.014000000432133675,
 				0.0139999995008111
 			]
+		},
+		{
+			"mesh":1,
+			"name":"PartyTable_AO",
+			"translation":[
+				0,
+				0.012230025604367256,
+				0
+			]
 		}
 	],
 	"materials":[
@@ -42,6 +55,22 @@
 				"metallicRoughnessTexture":{
 					"index":1
 				}
+			}
+		},
+		{
+			"alphaMode":"BLEND",
+			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
+			},
+			"name":"PartyTable_AO",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":2
+				},
+				"metallicFactor":0
 			}
 		}
 	],
@@ -59,6 +88,20 @@
 					"material":0
 				}
 			]
+		},
+		{
+			"name":"Plane.013",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":4,
+						"NORMAL":5,
+						"TEXCOORD_0":6
+					},
+					"indices":7,
+					"material":1
+				}
+			]
 		}
 	],
 	"textures":[
@@ -69,6 +112,10 @@
 		{
 			"sampler":0,
 			"source":1
+		},
+		{
+			"sampler":0,
+			"source":2
 		}
 	],
 	"images":[
@@ -81,6 +128,11 @@
 			"mimeType":"image/png",
 			"name":"Wooden_Table_viejdi1_Raw_8K_Roughness",
 			"uri":"props_textures/Wooden_Table_viejdi1_Raw_8K_Roughness.png"
+		},
+		{
+			"mimeType":"image/png",
+			"name":"PartyTable_AO",
+			"uri":"props_textures/PartyTable_AO.png"
 		}
 	],
 	"accessors":[
@@ -117,6 +169,40 @@
 			"componentType":5123,
 			"count":30000,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":4,
+			"componentType":5126,
+			"count":4,
+			"max":[
+				2.0624923706054688,
+				0,
+				2.0624923706054688
+			],
+			"min":[
+				-2.0624923706054688,
+				0,
+				-2.0624923706054688
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":5,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":6,
+			"componentType":5126,
+			"count":4,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":7,
+			"componentType":5123,
+			"count":6,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -143,6 +229,30 @@
 			"byteLength":60000,
 			"byteOffset":193056,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":253056,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":48,
+			"byteOffset":253104,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":32,
+			"byteOffset":253152,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":12,
+			"byteOffset":253184,
+			"target":34963
 		}
 	],
 	"samplers":[
@@ -153,7 +263,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":253056,
+			"byteLength":253196,
 			"uri":"PartyTable.bin"
 		}
 	]

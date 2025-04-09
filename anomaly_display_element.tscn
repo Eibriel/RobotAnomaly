@@ -1,11 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://di52qnvxit3q2"]
+[gd_scene load_steps=8 format=3 uid="uid://di52qnvxit3q2"]
 
 [ext_resource type="PackedScene" uid="uid://coulw5ubmqyvj" path="res://objects/robot_gi1_figure.glb" id="1_7agnt"]
 [ext_resource type="Script" uid="uid://w7edst2tqa8i" path="res://anomaly_display_element.gd" id="1_lvupd"]
 [ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="3_hg5q3"]
+[ext_resource type="ArrayMesh" uid="uid://ctccerv78uw74" path="res://meshes/door_storage.res" id="4_4481y"]
+[ext_resource type="ArrayMesh" uid="uid://db7vcteah6xsb" path="res://meshes/door_storage_frame.res" id="5_dag7g"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_lvupd"]
-size = Vector3(0.2, 0.02, 0.15)
+size = Vector3(0.3, 0.02, 0.15)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lvupd"]
 size = Vector2(0.2, 0.05)
@@ -32,3 +34,11 @@ text = "??"
 font = ExtResource("3_hg5q3")
 font_size = 20
 outline_size = 0
+
+[node name="DoorStorage" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.134997, 0, -0.0653907, 0, 0.15, 0, 0.0653907, 0, 0.134997, 0.0914102, 0.0207339, 0.00705233)
+mesh = ExtResource("4_4481y")
+
+[node name="DoorStorageFrame" type="MeshInstance3D" parent="."]
+transform = Transform3D(-6.55671e-09, 0, 0.15, 0, 0.15, 0, -0.15, 0, -6.55671e-09, -0.0064397, 0.0183218, 0.00286791)
+mesh = ExtResource("5_dag7g")

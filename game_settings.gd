@@ -29,6 +29,12 @@ extends Resource
 
 @export var quality: int = 3
 
+@export var window_position: Vector2
+
+@export var window_size: Vector2
+
+@export var window_screen: int
+
 enum locale_names {
 	en,
 	es_AR,

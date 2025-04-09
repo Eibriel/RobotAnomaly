@@ -58,6 +58,8 @@ var anomaly_frame:=0
 
 func _ready() -> void:
 	anomaly_frame = display_id
+	$DoorStorage.visible = false
+	$DoorStorageFrame.visible = false
 
 func _process(delta: float) -> void:
 	if anomaly_frame > 0:
@@ -77,26 +79,26 @@ func implement_anomaly(anomaly: Robot.GLITCHES) -> void:
 	anomaly_set = true
 	#print("implement_anomaly")
 	$Label3D.text = anomaly_name[anomaly]
-	if [Robot.GLITCHES.MISSING_ENTIRELY, Robot.GLITCHES.DOOR_OPEN].has(anomaly):
+	if [Robot.GLITCHES.MISSING_ENTIRELY].has(anomaly):
 		return
-	robot = preload("res://robot.tscn").instantiate()
+	robot = get_robot_instance() #preload("res://robot.tscn").instantiate()
 	robot.set_glitch(anomaly, true)
 	robot.scale = Vector3.ONE * 0.2
 	robot.position.y = 0.01 + 0.01
 	robot.remove_base()
 	add_child(robot)
 	if anomaly == Robot.GLITCHES.BLOCKING_PATH:
-		robot = preload("res://robot.tscn").instantiate()
+		robot = get_robot_instance() #preload("res://robot.tscn").instantiate()
 		robot.block_id = 1
 		robot.set_glitch(anomaly, true)
 		robot.scale = Vector3.ONE * 0.2
 		robot.position.y = 0.01 + 0.01
 		robot.remove_base()
 		add_child(robot)
-	if anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
+	elif anomaly == Robot.GLITCHES.EXTRA_ROBOTS:
 		robot.position.x -= 0.08
 		robot.rotation.y = deg_to_rad(45)
-		robot = preload("res://robot.tscn").instantiate()
+		robot = get_robot_instance() #preload("res://robot.tscn").instantiate()
 		robot.set_glitch(anomaly, true)
 		robot.scale = Vector3.ONE * 0.2
 		robot.position.y = 0.01 + 0.01
@@ -104,6 +106,17 @@ func implement_anomaly(anomaly: Robot.GLITCHES) -> void:
 		robot.rotation.y = deg_to_rad(-45)
 		robot.remove_base()
 		add_child(robot)
+	elif anomaly == Robot.GLITCHES.DOOR_OPEN:
+		robot.set_glitch(Robot.GLITCHES.NONE, true)
+		robot.scale = Vector3.ONE * 0.2 * 0.8
+		$DoorStorage.visible = true
+		$DoorStorageFrame.visible = true
+
+func get_robot_instance() -> Robot:
+	var r := Global.get_robot_instance()
+	if r.get_parent():
+		r.get_parent().remove_child(r)
+	return r
 
 func set_anomaly_unknown() -> void:
 	$Label3D.text = "??"

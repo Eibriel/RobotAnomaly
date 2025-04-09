@@ -14,7 +14,8 @@
 			"name":"VentilationGrillBig",
 			"nodes":[
 				0,
-				1
+				1,
+				2
 			]
 		}
 	],
@@ -36,6 +37,15 @@
 				0,
 				0,
 				-0.08328448235988617
+			]
+		},
+		{
+			"mesh":2,
+			"name":"VentilationGrillBig_AO",
+			"translation":[
+				0,
+				0,
+				-0.08223982155323029
 			]
 		}
 	],
@@ -79,6 +89,22 @@
 				"metallicFactor":0,
 				"roughnessFactor":0.9
 			}
+		},
+		{
+			"alphaMode":"BLEND",
+			"doubleSided":true,
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0
+				}
+			},
+			"name":"VentilationGrillBig_AO",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":3
+				},
+				"metallicFactor":0
+			}
 		}
 	],
 	"meshes":[
@@ -109,6 +135,20 @@
 					"material":1
 				}
 			]
+		},
+		{
+			"name":"Plane.012",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":8,
+						"NORMAL":9,
+						"TEXCOORD_0":10
+					},
+					"indices":11,
+					"material":2
+				}
+			]
 		}
 	],
 	"textures":[
@@ -123,6 +163,10 @@
 		{
 			"sampler":0,
 			"source":2
+		},
+		{
+			"sampler":0,
+			"source":3
 		}
 	],
 	"images":[
@@ -140,6 +184,11 @@
 			"mimeType":"image/png",
 			"name":"VentilationGrillBig_RM",
 			"uri":"props_textures/VentilationGrillBig_RM.png"
+		},
+		{
+			"mimeType":"image/png",
+			"name":"VentilationGrillBig_AO",
+			"uri":"props_textures/VentilationGrillBig_AO.png"
 		}
 	],
 	"accessors":[
@@ -210,6 +259,40 @@
 			"componentType":5123,
 			"count":6,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":8,
+			"componentType":5126,
+			"count":16,
+			"max":[
+				0.9999999403953552,
+				1,
+				0
+			],
+			"min":[
+				-0.9999999403953552,
+				-1,
+				0
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":9,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":10,
+			"componentType":5126,
+			"count":16,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":11,
+			"componentType":5123,
+			"count":48,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -260,6 +343,30 @@
 			"byteLength":12,
 			"byteOffset":26268,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":26280,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":192,
+			"byteOffset":26472,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":128,
+			"byteOffset":26664,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
+			"byteOffset":26792,
+			"target":34963
 		}
 	],
 	"samplers":[
@@ -270,7 +377,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":26280,
+			"byteLength":26888,
 			"uri":"VentilationGrillBig.bin"
 		}
 	]

@@ -77,9 +77,29 @@ _subresources={
 "Wall": {
 "use_external/enabled": true,
 "use_external/path": "uid://ct6ya1121r44a"
+},
+"材质.001": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/office_door_material.tres"
 }
 },
 "meshes": {
+"office_J1_a21_001": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 60.0,
+"save_to_file/enabled": true,
+"save_to_file/path": "res://meshes/door_storage_frame.res"
+},
+"office_J1_a21_002": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 60.0,
+"save_to_file/enabled": true,
+"save_to_file/path": "res://meshes/door_storage.res"
+},
 "office_Plane": {
 "generate/lightmap_uv": 1,
 "generate/lods": 0,

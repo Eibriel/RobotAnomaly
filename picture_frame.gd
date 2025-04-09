@@ -1,10 +1,6 @@
 @tool
 extends Node3D
 
-@export var banner: = BANNER_TYPE.SMALL :
-	set(value):
-		banner = value
-		dirty = true
 @export var texture: Texture :
 	set(value):
 		texture = value
@@ -16,6 +12,10 @@ extends Node3D
 @export var banner_scale: float = 1.0 :
 	set(value):
 		banner_scale = value
+		dirty = true
+@export var frame_size: Vector2 = Vector2(0.01,0.01) :
+	set(value):
+		frame_size = value
 		dirty = true
 @export var broken: bool = false :
 	set(value):
@@ -29,33 +29,31 @@ extends Node3D
 	set(value):
 		broken_offset = value
 		dirty = true
-enum BANNER_TYPE {
-	SMALL,
-	TALL,
-	MEDIUM
-}
 
 var dirty: bool = true
 var mat: StandardMaterial3D
 
 func _ready() -> void:
-	#mat = preload("res://banner.tscn::StandardMaterial3D_05pf3")
 	mat = StandardMaterial3D.new()
 	mat.metallic_specular = 0.23
 	mat.roughness = 0.2
 	$Picture.mesh.material = mat
+	dirty = true
 
 func _process(_delta: float) -> void:
 	if not dirty: return
 	dirty = false
-	#match banner:
-		#BANNER_TYPE.SMALL:
-			#$Banner01.visible = true
-		#BANNER_TYPE.TALL:
-			#$Banner02.visible = true
-		#BANNER_TYPE.MEDIUM:
-			#$Banner03.visible = true
 	$Picture.mesh.size = size * banner_scale
+	$TopFrame.position.y = size.y * 0.5 * banner_scale
+	$BottomFrame.position.y = size.y * -0.5 * banner_scale
+	$RightFrame.position.x = size.x * 0.5 * banner_scale
+	$LeftFrame.position.x = size.x * -0.5 * banner_scale
+	$TopFrame.mesh.size.x = size.x * banner_scale + frame_size.x
+	$TopFrame.mesh.size.y = frame_size.x
+	$TopFrame.mesh.size.z = frame_size.y
+	$LeftFrame.mesh.size.y = size.y * banner_scale - frame_size.x
+	$LeftFrame.mesh.size.x = frame_size.x
+	$LeftFrame.mesh.size.z = frame_size.y
 	if texture:
 		mat.albedo_texture = texture
 	if broken:

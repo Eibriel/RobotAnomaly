@@ -199,8 +199,8 @@ func start_day() -> void:
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
 			r.battery_charge = 0
-			if randf() < 0.09:# and anomaly != Robot.GLITCHES.LIGHTS_OFF:
-				r.battery_charge = get_random_battery_value()
+			#if randf() < 0.09:# and anomaly != Robot.GLITCHES.LIGHTS_OFF:
+			#	r.battery_charge = get_random_battery_value()
 			robots.append(r)
 			#%Robots.add_child.call_deferred(r)
 			#%Robots.add_child(r)
@@ -220,6 +220,16 @@ func start_day() -> void:
 					r.robot_rotation(deg_to_rad(90-40))
 				1:
 					r.robot_rotation(deg_to_rad(-90+40))
+	
+	var shuffled_robots := robots.duplicate()
+	shuffled_robots.shuffle()
+	var on_robots_amount := randi_range(1, 4)
+	# OCTOPUS is the anomaly for floot 28
+	# If the anomaly is modified, this should be modified also
+	if anomaly == Robot.GLITCHES.OCTOPUS:
+		on_robots_amount = 2
+	for _n in on_robots_amount:
+		shuffled_robots[_n].battery_charge = get_random_battery_value()
 	
 	var sr := robots.pick_random() as Robot
 	var no_anomaly: Array[int] = [
@@ -293,6 +303,8 @@ func _process(delta: float) -> void:
 		
 	if robots_to_add.size() > 0:# and add_robot_time > 0.02:
 		var r:Robot = robots_to_add.pop_front()
+		if r.get_parent():
+			r.get_parent().remove_child(r)
 		%Robots.add_child(r)
 		#print("Add child robot")
 		add_robot_time = 0.0

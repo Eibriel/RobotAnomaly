@@ -147,12 +147,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = true
-	state_override.executive_completed = true
+	state_override.congrats_completed = false
+	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 2
+		tutorial_completed = false
+	var force_completed_scenarios = 5 #Robot.GLITCHES.size()
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -161,6 +161,7 @@ func _ready() -> void:
 	Global.recording_trailer = recording_trailer
 	#
 	Global.player = %Player
+	Global.robot_cache = %RobotCache
 	if Global.is_playtest():
 		save_path = save_path_playtest
 		settings_path = settings_path_playtest
@@ -360,6 +361,7 @@ func start_game() -> void:
 		selected_scenarios.resize(0)
 	# Reset vacuum position
 	reset_vacuum_position()
+	update_museum_figures()
 	#
 	load_main()
 
@@ -1254,6 +1256,12 @@ func load_game_state() -> void:
 		tutorial_completed = true
 
 func save_game_settings() -> void:
+	game_settings.window_position = DisplayServer.window_get_position()
+	game_settings.window_screen = DisplayServer.window_get_current_screen()
+	game_settings.window_size = DisplayServer.window_get_size()
+	prints("game_settings.window_position", game_settings.window_position)
+	prints("game_settings.window_screen", game_settings.window_screen)
+	prints("game_settings.window_size", game_settings.window_size)
 	ResourceSaver.save(game_settings, settings_path)
 
 ## From file
@@ -1305,7 +1313,8 @@ func load_settings() -> void:
 	if game_settings.full_screen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	if game_settings.vsync:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
@@ -1337,10 +1346,19 @@ func load_settings() -> void:
 			$DirectionalLight3D.shadow_enabled = true
 	TranslationServer.set_locale(game_settings.locale_names.find_key(game_settings.language))
 	
+	if game_settings.window_size != Vector2.ZERO:
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+			get_window().current_screen = game_settings.window_screen
+			get_window().size = game_settings.window_size
+			get_window().set_deferred("position", game_settings.window_position)
+	
 	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)
 	prints("Camera Acceleration", %MouseAccSlider.value)
 	prints("Camera shake", %CameraShakeSlider.value)
 	prints("Volume", volume_level, %VolumeSlider.value)
+	prints("game_settings.window_position", game_settings.window_position)
+	prints("game_settings.window_screen", game_settings.window_screen)
+	prints("game_settings.window_size", game_settings.window_size)
 
 func load_game_stats() -> void:
 	if not is_instance_of(load(stats_path), GameStatsResource) or\
@@ -1469,16 +1487,7 @@ func setup_museum() -> void:
 	%MuseumStatsLabel.text = "%d / %d\n" % [anomalies_count, Robot.GLITCHES.size()-1]
 	#for ss in game_state.completed_anomalies:
 	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
-	var anom_displays := %AnomalyDisplay.get_children()
-	var gid := 0
-	for glitch in Robot.GLITCHES.values():
-		if glitch == Robot.GLITCHES.NONE: continue
-		if game_state.completed_anomalies.has(glitch):
-			anom_displays[gid].set_anomaly(glitch)
-		else:
-			anom_displays[gid].set_anomaly_unknown()
-		gid += 1
-		if gid >= anom_displays.size(): break
+	update_museum_figures()
 	
 	if is_game_complete():
 		%VacuumReveal.position.y = 0
@@ -1490,6 +1499,18 @@ func setup_museum() -> void:
 	else:
 		%VacuumReveal.position.y = -20
 
+func update_museum_figures() -> void:
+	var anom_displays := %AnomalyDisplay.get_children()
+	var gid := 0
+	for glitch in Robot.GLITCHES.values():
+		if glitch == Robot.GLITCHES.NONE: continue
+		if game_state.completed_anomalies.has(glitch):
+			anom_displays[gid].set_anomaly(glitch)
+		else:
+			anom_displays[gid].set_anomaly_unknown()
+		gid += 1
+		if gid >= anom_displays.size(): break
+
 func instantiate_sections(Env: Node3D) -> void:
 	prints("Selected Scenarios", selected_scenarios)
 	prints("Failed Scenarios", failed_scenarios)
@@ -1498,6 +1519,9 @@ func instantiate_sections(Env: Node3D) -> void:
 	var floor_number := FLOORS_AMOUNT - game_state.completed_anomalies.size()
 	var underground_floor := FLOORS_AMOUNT - scenarios_amount - 1
 	var launchroom_floor := FLOORS_AMOUNT - INTRO_AMOUNT
+	
+	var museum_update_tween := create_tween()
+	museum_update_tween.tween_callback(update_museum_figures).set_delay(10.0)
 	
 	var scenario = 0
 	if force_anomaly != Robot.GLITCHES.NONE:
@@ -1898,15 +1922,16 @@ func end_demo():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.MENUS)
 
-func unpause(no_sound:=false) -> void:
+func unpause(is_initial:=false) -> void:
 	%PauseMenu.visible = false
 	%EndDemoMenu.visible = false
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	release_action_button()
-	if not no_sound:
+	if not is_initial:
 		$PauseSound.pitch_scale = 1.1
 		$PauseSound.play()
+		save_game_settings()
 	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.GAME)
 	GamePlatform.set_rich_presence("#StatusInGame")
 

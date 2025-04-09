@@ -7,6 +7,8 @@ var is_player_grabbed: bool = false
 
 var game_settings:GameSettingsResource
 
+var robot_cache: Node3D
+
 var reset_save := false
 var is_reset := false
 
@@ -34,13 +36,19 @@ func _process(delta: float) -> void:
 	if angry_timer >= 0:
 		angry_timer += delta
 	if stack_timer > 0.1 and robot_stack.size() < 50:
-		robot_stack.append(ROBOT.instantiate())
+		var r := ROBOT.instantiate()
+		robot_cache.add_child(r)
+		robot_stack.append(r)
 		stack_timer = 0.0
 		#print("Instantiate robot")
 
 func get_robot_instance() -> Robot:
 	if robot_stack.size() > 0:
-		return robot_stack.pop_front()
+		var r:Robot = robot_stack.pop_front() as Robot
+		if not is_instance_valid(r):
+			push_error("Robot instance not valid!")
+			return ROBOT.instantiate()
+		return r
 	else:
 		return ROBOT.instantiate()
 

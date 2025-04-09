@@ -39,6 +39,9 @@ _subresources={
 },
 "PATH:VentilationGrillBig": {
 "mesh_instance/cast_shadow": 0
+},
+"PATH:VentilationGrillBig_AO": {
+"mesh_instance/cast_shadow": 0
 }
 }
 }
