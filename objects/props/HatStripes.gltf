@@ -4,10 +4,13 @@
 		"generator":"Khronos glTF Blender I/O v4.3.47",
 		"version":"2.0"
 	},
+	"extensionsUsed":[
+		"KHR_materials_specular"
+	],
 	"scene":0,
 	"scenes":[
 		{
-			"name":"Mug",
+			"name":"HatStripes",
 			"nodes":[
 				0
 			]
@@ -16,33 +19,33 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"MugRobot"
+			"name":"HatStripes"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"DefaultMaterial",
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularFactor":0.1090909093618393
+				}
+			},
+			"name":"aiStandardSurface1",
 			"normalTexture":{
 				"index":0,
-				"scale":0.20000000298023224
-			},
-			"occlusionTexture":{
-				"index":1
+				"scale":0.10000000149011612
 			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":2
-				},
-				"metallicRoughnessTexture":{
 					"index":1
-				}
+				},
+				"metallicFactor":0
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"defaultMaterial.001",
+			"name":"SunHat_aiStandardSurface1_0",
 			"primitives":[
 				{
 					"attributes":{
@@ -64,88 +67,79 @@
 		{
 			"sampler":0,
 			"source":1
-		},
-		{
-			"sampler":0,
-			"source":2
 		}
 	],
 	"images":[
 		{
+			"mimeType":"image/png",
+			"name":"HatStripes_Normal",
+			"uri":"props_textures/HatStripes_Normal.png"
+		},
+		{
 			"mimeType":"image/jpeg",
-			"name":"Mug_Normal",
-			"uri":"props_textures/Mug_Normal.jpg"
-		},
-		{
-			"mimeType":"image/png",
-			"name":"Mug_Occlusion",
-			"uri":"props_textures/Mug_Occlusion.png"
-		},
-		{
-			"mimeType":"image/png",
-			"name":"Mug_Base",
-			"uri":"props_textures/Mug_Base.png"
+			"name":"HatStripes_Base",
+			"uri":"props_textures/HatStripes_Base.jpg"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":514,
+			"count":28994,
 			"max":[
-				0.09901213645935059,
-				0.12505333125591278,
-				0.0518493577837944
+				0.2005992978811264,
+				0.12215584516525269,
+				0.21140776574611664
 			],
 			"min":[
-				-0.05278855562210083,
-				-0.00013350695371627808,
-				-0.05184933543205261
+				-0.20059926807880402,
+				0.009059250354766846,
+				-0.21092110872268677
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":514,
+			"count":28994,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":514,
+			"count":28994,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":2256,
+			"count":170496,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":6168,
+			"byteLength":347928,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6168,
-			"byteOffset":6168,
+			"byteLength":347928,
+			"byteOffset":347928,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4112,
-			"byteOffset":12336,
+			"byteLength":231952,
+			"byteOffset":695856,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4512,
-			"byteOffset":16448,
+			"byteLength":340992,
+			"byteOffset":927808,
 			"target":34963
 		}
 	],
@@ -157,8 +151,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":20960,
-			"uri":"Mug.bin"
+			"byteLength":1268800,
+			"uri":"HatStripes.bin"
 		}
 	]
 }

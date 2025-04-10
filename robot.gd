@@ -399,8 +399,12 @@ func _process(delta: float) -> void:
 	
 	if %BatteryLight.light_energy > 0:
 		%BatteryLight.visible = true
+	else:
+		%BatteryLight.visible = false
 	if %PowerLight.light_energy > 0:
 		%PowerLight.visible = true
+	else:
+		%PowerLight.visible = false
 	#
 	var battery_bone := %robotObject.get_node("Armature/Skeleton3D/Battery_Attachment") as BoneAttachment3D
 	var shutdown_bone := %robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment") as BoneAttachment3D
@@ -926,20 +930,26 @@ func setup_oil_dripping() -> void:
 	add_detail(%robotObject, preload("res://objects/details/oil_dripping.png"))
 
 func add_detail(rnode: Node, detail_texture) -> void:
+	var mat_cache:Array[StandardMaterial3D] = []
+	var mat_chache_mod:Array[StandardMaterial3D] = []
 	for c in rnode.get_children(true):
 		if c is MeshInstance3D:
+			if not ["body", "arm_L"].has(c.name): continue
 			var mesh = c.mesh.duplicate()
 			c.mesh = mesh
 			for s in c.mesh.get_surface_count():
 				var mat := c.mesh.surface_get_material(s) as StandardMaterial3D
-				# TODO reuse materials
-				# Todo only apply on arms
-				#print(c.name)
-				if mat:
-					mat = mat.duplicate(true)
-					mat.detail_enabled = true
-					mat.detail_mask = detail_texture
-					c.mesh.surface_set_material(s, mat)
+				if not mat: continue
+				if not mat_cache.has(mat):
+					mat_cache.append(mat)
+					var mat_new = mat.duplicate(true)
+					mat_new.detail_enabled = true
+					mat_new.detail_mask = detail_texture
+					c.mesh.surface_set_material(s, mat_new)
+					mat_chache_mod.append(mat_new)
+				else:
+					var mat_id = mat_cache.find(mat)
+					c.mesh.surface_set_material(s, mat_chache_mod[mat_id])
 		add_detail(c, detail_texture)
 
 var lock_power_button := false

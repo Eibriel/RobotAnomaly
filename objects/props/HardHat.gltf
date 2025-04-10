@@ -4,10 +4,13 @@
 		"generator":"Khronos glTF Blender I/O v4.3.47",
 		"version":"2.0"
 	},
+	"extensionsUsed":[
+		"KHR_materials_specular"
+	],
 	"scene":0,
 	"scenes":[
 		{
-			"name":"Mug",
+			"name":"HardHat",
 			"nodes":[
 				0
 			]
@@ -16,33 +19,37 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"MugRobot"
+			"name":"HardHat"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"DefaultMaterial",
-			"normalTexture":{
-				"index":0,
-				"scale":0.20000000298023224
+			"extensions":{
+				"KHR_materials_specular":{
+					"specularTexture":{
+						"index":0
+					}
+				}
 			},
-			"occlusionTexture":{
-				"index":1
+			"name":"blinn2SG",
+			"normalTexture":{
+				"index":1,
+				"scale":0.10000000149011612
 			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":2
 				},
 				"metallicRoughnessTexture":{
-					"index":1
+					"index":3
 				}
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"defaultMaterial.001",
+			"name":"Object_1.012",
 			"primitives":[
 				{
 					"attributes":{
@@ -68,84 +75,93 @@
 		{
 			"sampler":0,
 			"source":2
+		},
+		{
+			"sampler":0,
+			"source":3
 		}
 	],
 	"images":[
 		{
-			"mimeType":"image/jpeg",
-			"name":"Mug_Normal",
-			"uri":"props_textures/Mug_Normal.jpg"
+			"mimeType":"image/png",
+			"name":"HardHat_Specular",
+			"uri":"props_textures/HardHat_Specular.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"Mug_Occlusion",
-			"uri":"props_textures/Mug_Occlusion.png"
+			"name":"HardHat_Normal",
+			"uri":"props_textures/HardHat_Normal.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"Mug_Base",
-			"uri":"props_textures/Mug_Base.png"
+			"name":"HardHat_Base",
+			"uri":"props_textures/HardHat_Base.png"
+		},
+		{
+			"mimeType":"image/png",
+			"name":"HardHat_MR",
+			"uri":"props_textures/HardHat_MR.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":514,
+			"count":1617,
 			"max":[
-				0.09901213645935059,
-				0.12505333125591278,
-				0.0518493577837944
+				0.21527904272079468,
+				0.2581406831741333,
+				0.29445692896842957
 			],
 			"min":[
-				-0.05278855562210083,
-				-0.00013350695371627808,
-				-0.05184933543205261
+				-0.21527905762195587,
+				-0.008227333426475525,
+				-0.2842831611633301
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":514,
+			"count":1617,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":514,
+			"count":1617,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":2256,
+			"count":7956,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":6168,
+			"byteLength":19404,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6168,
-			"byteOffset":6168,
+			"byteLength":19404,
+			"byteOffset":19404,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4112,
-			"byteOffset":12336,
+			"byteLength":12936,
+			"byteOffset":38808,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4512,
-			"byteOffset":16448,
+			"byteLength":15912,
+			"byteOffset":51744,
 			"target":34963
 		}
 	],
@@ -157,8 +173,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":20960,
-			"uri":"Mug.bin"
+			"byteLength":67656,
+			"uri":"HardHat.bin"
 		}
 	]
 }

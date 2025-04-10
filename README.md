@@ -138,6 +138,12 @@ Some assets may not be in the game
 
 - "Barrier _ Wooden_ Barbed_ Wire Protection_13_MB" (https://skfb.ly/ptCM6) by Mehdi Shahsavan is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 
+- "Hat" (https://skfb.ly/op8qn) by Murat Can ÜNAL is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+- "Hat_Partha_Test" (https://skfb.ly/6XKMO) by partha is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+- "Hard hat" (https://skfb.ly/oGHPM) by Naira is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
 
 
 ### Sounds

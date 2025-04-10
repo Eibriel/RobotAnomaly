@@ -7,7 +7,7 @@
 	"scene":0,
 	"scenes":[
 		{
-			"name":"Mug",
+			"name":"HatCowboy",
 			"nodes":[
 				0
 			]
@@ -16,33 +16,30 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"MugRobot"
+			"name":"HatCowboy"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"DefaultMaterial",
+			"name":"Hat1",
 			"normalTexture":{
 				"index":0,
-				"scale":0.20000000298023224
-			},
-			"occlusionTexture":{
-				"index":1
+				"scale":0.10000000149011612
 			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":2
+					"index":1
 				},
 				"metallicRoughnessTexture":{
-					"index":1
+					"index":2
 				}
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"defaultMaterial.001",
+			"name":"defaultMaterial.002",
 			"primitives":[
 				{
 					"attributes":{
@@ -72,80 +69,80 @@
 	],
 	"images":[
 		{
+			"mimeType":"image/png",
+			"name":"HatCowboy_Normal",
+			"uri":"props_textures/HatCowboy_Normal.png"
+		},
+		{
 			"mimeType":"image/jpeg",
-			"name":"Mug_Normal",
-			"uri":"props_textures/Mug_Normal.jpg"
+			"name":"HatCowboy_Base",
+			"uri":"props_textures/HatCowboy_Base.jpg"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"Mug_Occlusion",
-			"uri":"props_textures/Mug_Occlusion.png"
-		},
-		{
-			"mimeType":"image/png",
-			"name":"Mug_Base",
-			"uri":"props_textures/Mug_Base.png"
+			"name":"HatCowboy_MR",
+			"uri":"props_textures/HatCowboy_MR.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":514,
+			"count":1409,
 			"max":[
-				0.09901213645935059,
-				0.12505333125591278,
-				0.0518493577837944
+				0.10692141950130463,
+				0.0666322410106659,
+				0.1335604041814804
 			],
 			"min":[
-				-0.05278855562210083,
-				-0.00013350695371627808,
-				-0.05184933543205261
+				-0.10692141950130463,
+				-0.010325374081730843,
+				-0.1335604041814804
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":514,
+			"count":1409,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":514,
+			"count":1409,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":2256,
+			"count":7392,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":6168,
+			"byteLength":16908,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6168,
-			"byteOffset":6168,
+			"byteLength":16908,
+			"byteOffset":16908,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4112,
-			"byteOffset":12336,
+			"byteLength":11272,
+			"byteOffset":33816,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4512,
-			"byteOffset":16448,
+			"byteLength":14784,
+			"byteOffset":45088,
 			"target":34963
 		}
 	],
@@ -157,8 +154,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":20960,
-			"uri":"Mug.bin"
+			"byteLength":59872,
+			"uri":"HatCowboy.bin"
 		}
 	]
 }

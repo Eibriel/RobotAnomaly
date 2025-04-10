@@ -120,7 +120,7 @@ var shaders_cached_frame := 0
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.NONE
+var force_anomaly := Robot.GLITCHES.DRIPPING_OIL
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
@@ -2259,12 +2259,15 @@ func update_cursor(delta) -> void:
 	match cursor_type:
 		0:
 			%FPSCursor.modulate.a = 0.0
+			%FPSCursorArrows.visible = false
 		1:
 			%FPSCursor.modulate.a = 0.3
 			%FPSCursor.scale = Vector2.ONE * 0.1
+			%FPSCursorArrows.visible = true
 		2:
 			%FPSCursor.modulate.a = 0.6
 			%FPSCursor.scale = Vector2.ONE * 0.15
+			%FPSCursorArrows.visible = false
 	
 	if Global.recording_trailer:
 		%FPSCursor.modulate.a = 0.0
