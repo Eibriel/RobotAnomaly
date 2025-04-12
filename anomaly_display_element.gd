@@ -18,13 +18,13 @@ const anomaly_name = {
 	Robot.GLITCHES.MISSING_EYE: "Argh",
 	Robot.GLITCHES.CLOCK_HEART: "Doki Doki",
 	Robot.GLITCHES.HEAD_BOX: "Smarts",
-	Robot.GLITCHES.BACK_BOX: "Storage",
-	Robot.GLITCHES.WRIST_SCARF: "Hurts",
+	#Robot.GLITCHES.BACK_BOX: "Storage",
+	#Robot.GLITCHES.WRIST_SCARF: "Hurts",
 	Robot.GLITCHES.EYES_AROUND_HEAD: "Eyes in the back",
 	Robot.GLITCHES.LONG_FINGERS: "Manicure",
 	Robot.GLITCHES.BRAIN_EXTENSION: "Logical",
 	
-	Robot.GLITCHES.RED_EYES: "Alive",
+	#Robot.GLITCHES.RED_EYES: "Alive",
 	Robot.GLITCHES.FOLLOWING_EYES: "Still",
 	Robot.GLITCHES.POINTING_FINGER: "There",
 #	SMILING,
@@ -36,11 +36,11 @@ const anomaly_name = {
 	Robot.GLITCHES.MISSING_ENTIRELY: "Where am I?",
 	Robot.GLITCHES.BLINKING_EYES: "Tic",
 	Robot.GLITCHES.SHAKING: "Brrrr",
-	Robot.GLITCHES.PROCESSING: "Processing", #(BLINKING_LIGHTS)
+	#Robot.GLITCHES.PROCESSING: "Processing", #(BLINKING_LIGHTS)
 	Robot.GLITCHES.FACING_WRONG_DIRECTION: "North",
 	Robot.GLITCHES.EXTRA_EYE: "Illumination",
 	Robot.GLITCHES.GRAFFITY: "Tatoo",
-	Robot.GLITCHES.DRIPPING_OIL: "Gluttony",
+	#Robot.GLITCHES.DRIPPING_OIL: "Gluttony",
 	Robot.GLITCHES.EXTRA_ROBOTS: "Mirage",
 	
 	# ATTACKS

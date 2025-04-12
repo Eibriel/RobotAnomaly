@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 
 func get_robot_instance() -> Robot:
 	if robot_stack.size() > 0:
-		var r:Robot = robot_stack.pop_front() as Robot
+		var r = robot_stack.pop_front()
 		if not is_instance_valid(r):
 			push_error("Robot instance not valid!")
 			return ROBOT.instantiate()

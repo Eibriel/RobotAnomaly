@@ -78,6 +78,10 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "uid://ct6ya1121r44a"
 },
+"WallWritting": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/office_mats/WallWritting.tres"
+},
 "材质.001": {
 "use_external/enabled": true,
 "use_external/path": "res://materials/office_mats/office_door_material.tres"
@@ -225,6 +229,9 @@ _subresources={
 "mesh_instance/cast_shadow": 0
 },
 "PATH:Techo": {
+"mesh_instance/cast_shadow": 0
+},
+"PATH:WallWritting": {
 "mesh_instance/cast_shadow": 0
 }
 }

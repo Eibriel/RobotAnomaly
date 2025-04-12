@@ -97,12 +97,14 @@ func _process(delta: float) -> void:
 			lights_percent = float(lon.count(true)) / float(lon.size())
 	
 	if anomaly_position_dirty:
-		print("anomaly_position_dirty")
+		prints("anomaly_position_dirty", anomaly_position)
 		anomaly_position_dirty = false
 		var min_distance := 9999999.0
 		#var min_light_id := 0
 		for l_id in lights_data.size():
-			var l_pos:Vector2= lights_data[l_id][2] as Vector2
+			#var l_pos:Vector2 = lights_data[l_id][2] as Vector2
+			var block_instance = lights_data[l_id][0]
+			var l_pos:Vector2 = Vector2(block_instance.global_position.x, block_instance.global_position.z)
 			var dist := l_pos.distance_to(anomaly_position)
 			if min_distance > dist:
 				min_distance = dist
@@ -110,10 +112,13 @@ func _process(delta: float) -> void:
 				
 	#print(anomaly_position)
 	if anomaly_position != Vector2.ZERO:
-		#blink_light(unstable_light, delta)
-		pass
+		if not lights_on:
+			blink_light(unstable_light, delta, true)
+			#lights_data[unstable_light][0].visible = false
 	
 	light_event_dirty = false
+	
+	
 	
 	if false:
 		for u: int in unstable_lights:
@@ -129,8 +134,8 @@ func _process(delta: float) -> void:
 			#var light_on := randf() < 0.5
 			lights_data[u][0].visible = light_on
 
-func blink_light(light_id: int, delta: float) -> bool:
-	if lights_on:
+func blink_light(light_id: int, delta: float, force:bool = false) -> bool:
+	if lights_on or force:
 		lights_data[light_id][1] -= delta
 		if lights_data[light_id][1] <= 0.0:
 			lights_data[light_id][0].visible = !lights_data[light_id][0].visible

@@ -103,6 +103,7 @@ var lights_locked := false
 const FLOORS_AMOUNT := 18 #29 # Top floor
 const INTRO_AMOUNT := 8 #8 # Ends section 1
 const NONE_RATIO := 4
+const ENABLE_ROTATION := false
 
 var exe_phase_2 := false
 var saw_crowd_01 := false
@@ -117,17 +118,19 @@ var demo_ended := false
 
 var shaders_cached := false
 var shaders_cached_frame := 0
+var fadewhite_play_tween := false
+var robots_are_angry := false
 
 # Debug
 #var skip_tutorial := false
-var force_anomaly := Robot.GLITCHES.DRIPPING_OIL
+var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
 var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
-var force_events := true
+var force_events := false
 #var force_completed_scenarios := 10
 
 # Trailer
@@ -147,12 +150,12 @@ func _ready() -> void:
 		recording_trailer = false
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
-	state_override.congrats_completed = false
+	state_override.congrats_completed = true
 	state_override.executive_completed = false
 	state_override.completed_anomalies = []
 	if override_state:
-		tutorial_completed = false
-	var force_completed_scenarios = 5 #Robot.GLITCHES.size()
+		tutorial_completed = true
+	var force_completed_scenarios = Robot.GLITCHES.size()
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -281,7 +284,6 @@ func print_help() -> void:
 		"##########################\n\n"
 	)
 
-var fadewhite_play_tween := false
 func post_shader_cache() -> void:
 	%FadeWhite.visible = true
 	%FadeBlack.visible = true
@@ -389,7 +391,7 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 		return sel_scenarios
 	var can_be_moved := Robot.GLITCHES.values()
 	can_be_moved.erase(Robot.GLITCHES.NONE)
-	can_be_moved.erase(Robot.GLITCHES.RED_EYES)
+	#can_be_moved.erase(Robot.GLITCHES.RED_EYES)
 	can_be_moved.erase(Robot.GLITCHES.DOOR_OPEN)
 	#can_be_moved.erase(Robot.GLITCHES.LIGHTS_OFF)
 	can_be_moved.erase(Robot.GLITCHES.GRABS_BATTERY)
@@ -449,7 +451,6 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 				sel_scenarios[target_key] = Robot.GLITCHES.GRABS_BATTERY
 	return sel_scenarios
 
-var robots_are_angry := false
 func _process(delta: float) -> void:
 	if shaders_cached_frame > 100 and not shaders_cached:
 		shaders_cached = true
@@ -472,9 +473,11 @@ func _process(delta: float) -> void:
 	if robot_collected:
 		match current_task:
 			TASKS.ROTATE:
-				robot_collected.rotate_base(delta)
+				if ENABLE_ROTATION:
+					robot_collected.rotate_base(delta)
 			TASKS.ROTATE_INVERSE:
-				robot_collected.rotate_base(delta, true)
+				if ENABLE_ROTATION:
+					robot_collected.rotate_base(delta, true)
 			TASKS.BATTERY_CHARGE:
 				robot_collected.play_process()
 				if robot_collected.charge_battery(delta):
@@ -892,6 +895,15 @@ func too_close_to_event(event_pos: Node3D, robot: Robot, min_dist: float = 0.0) 
 	return is_too_close
 
 func update_events(delta: float) -> void:
+	const disabled_sections := [
+		Robot.GLITCHES.OCTOPUS,
+		-1,
+		-2,
+		-3,
+		-4
+	]
+	if disabled_sections.has(section.scenario): return
+	
 	#event_watch_timer += delta
 	for e in EVENTS:
 		events_enableable_time[EVENTS[e]] -= delta
@@ -1053,6 +1065,16 @@ func setup_executive() -> void:
 	%RobotVacuum.current_state = %RobotVacuum.STATES.CIRCLES
 	#
 	%StairSign.visible = false
+	
+	for c in %RobotArms.get_children():
+		if c.name.begins_with("RobotArmsRight"):
+			var anim :AnimationPlayer = c.get_node("AnimationPlayer")
+			anim.get_animation("RobotArmsRight").loop_mode = Animation.LOOP_PINGPONG
+			anim.play("RobotArmsRight")
+		elif c.name.begins_with("RobotArmsLeft"):
+			var anim :AnimationPlayer = c.get_node("AnimationPlayer")
+			anim.get_animation("RobotArmsLeft").loop_mode = Animation.LOOP_PINGPONG
+			anim.play("RobotArmsLeft")
 
 
 var exec_done := false
@@ -1298,6 +1320,7 @@ func load_settings() -> void:
 	%InvertXCheckBox.set_pressed_no_signal(game_settings.invert_x)
 	%InvertYCheckBox.set_pressed_no_signal(game_settings.invert_y)
 	%MaxFPSSpin.set_value_no_signal(game_settings.max_fps)
+	%UIScaleSlider.set_value_no_signal(game_settings.ui_scale)
 	%QualityMenu.selected = game_settings.quality
 	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
 	Global.player.rotation_accel = game_settings.mouse_acceleration
@@ -1351,6 +1374,12 @@ func load_settings() -> void:
 			get_window().current_screen = game_settings.window_screen
 			get_window().size = game_settings.window_size
 			get_window().set_deferred("position", game_settings.window_position)
+	
+	
+	if game_settings.ui_scale > 1.5:
+		game_settings.ui_scale = 1.5
+	#display/window/stretch/scale
+	get_window().content_scale_factor = 0.8 * game_settings.ui_scale
 	
 	prints("Mouse sensibility", Global.player.sensitivity, %MouseSenSlider.value)
 	prints("Camera Acceleration", %MouseAccSlider.value)
@@ -2263,7 +2292,8 @@ func update_cursor(delta) -> void:
 		1:
 			%FPSCursor.modulate.a = 0.3
 			%FPSCursor.scale = Vector2.ONE * 0.1
-			%FPSCursorArrows.visible = true
+			if ENABLE_ROTATION:
+				%FPSCursorArrows.visible = true
 		2:
 			%FPSCursor.modulate.a = 0.6
 			%FPSCursor.scale = Vector2.ONE * 0.15
@@ -2333,10 +2363,12 @@ func rotate_scenario() -> void:
 func _on_finish_area_body_entered(_body: Node3D) -> void:
 	# When player signals that the level is done
 	# Not needed anymore
-	return
-	var sc := section.is_success()
-	prints("\nsuccess:", sc)
-	_on_finished(sc, section.scenario, false)
+	#on_executive_finished()
+	#return
+	#var sc := section.is_success()
+	#prints("\nsuccess:", sc)
+	#_on_finished(sc, section.scenario, false)
+	pass
 
 
 func _on_exit_area_body_entered(_body: Node3D) -> void:
@@ -2527,6 +2559,12 @@ func _on_quality_option_button_item_selected(index: int) -> void:
 	game_settings.quality = index
 	save_game_settings()
 	load_settings()
+
+func _on_ui_scale_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		game_settings.ui_scale = %UIScaleSlider.value
+		save_game_settings()
+		load_settings()
 
 func show_menu_tween(menu: Control) -> void:
 	menu.modulate.a = 0.0

@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://bcgmdoymfd60d"]
+
+[ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_hdcdb"]
+[ext_resource type="Material" uid="uid://dl3od8mmkd8yj" path="res://materials/robot_mats/Robot_AO.tres" id="2_vnujh"]
+
+[resource]
+resource_name = "Robot_Hinges"
+next_pass = ExtResource("2_vnujh")
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.528527, 0.287495, 0.0304484, 1)
+metallic = 1.0
+roughness = 0.436364
+ao_light_affect = 0.9
+ao_texture = ExtResource("1_hdcdb")

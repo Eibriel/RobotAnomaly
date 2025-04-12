@@ -52,6 +52,8 @@ func iterate(node):
 			if node is MeshInstance3D:
 				if node.name != "Suelo":
 					node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+				if node.name != "Techo":
+					node.position.y += 0.01
 			if node.name == "LightInstancing":
 				#node.mesh = null
 				pass

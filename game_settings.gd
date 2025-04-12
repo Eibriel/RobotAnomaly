@@ -35,6 +35,8 @@ extends Resource
 
 @export var window_screen: int
 
+@export var ui_scale: float = 1.0
+
 enum locale_names {
 	en,
 	es_AR,

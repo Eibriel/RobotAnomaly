@@ -64,17 +64,17 @@ func activate() -> void:
 	active = true
 
 func setup_tutorial() -> void:
-	var r := Global.get_robot_instance()
+	var r := get_robot_instance()
 	r.robot_id = 10
 	r.battery_charge = 50
-	r.set_glitch(Robot.GLITCHES.RED_EYES)
+	#r.set_glitch(Robot.GLITCHES.RED_EYES)
 	r.connect("anomaly_failed", on_failed_glitch)
 	robots.append(r)
 	%Robots.add_child.call_deferred(r)
 	r.robot_position(Vector3(-1.5, 0.5, -10))
 	r.robot_rotation(deg_to_rad(-90-70-180))
 	
-	r = Global.get_robot_instance()
+	r = get_robot_instance()
 	r.robot_id = 11
 	r.battery_charge = 60
 	r.set_glitch(r.GLITCHES.NONE)
@@ -83,7 +83,7 @@ func setup_tutorial() -> void:
 	r.robot_position(Vector3(1.5, 0.5, -10))
 	r.robot_rotation(deg_to_rad(90+70+180))
 	
-	r = Global.get_robot_instance()
+	r = get_robot_instance()
 	r.robot_id = 0
 	r.battery_charge = 100
 	#r.set_glitch(Robot.GLITCHES.RED_EYES)
@@ -93,7 +93,7 @@ func setup_tutorial() -> void:
 	r.robot_position(Vector3(-1.5, 0.5, -10+7))
 	r.robot_rotation(deg_to_rad(-90-70-180))
 	
-	r = Global.get_robot_instance()
+	r = get_robot_instance()
 	r.robot_id = 1
 	r.battery_charge = 100
 	r.set_glitch(r.GLITCHES.NONE)
@@ -106,7 +106,7 @@ func setup_congrats() -> void:
 	for r_x in 2:
 		for r_y in 4:
 			continue
-			var r := Global.get_robot_instance()
+			var r := get_robot_instance()
 			r.robot_id = 42
 			r.battery_charge = 100
 			r.looking_player = true
@@ -134,7 +134,7 @@ func setup_congrats() -> void:
 	
 
 func setup_ending() -> void:
-	var r := Global.get_robot_instance()
+	var r := get_robot_instance()
 	if false:
 		r.robot_id = 666
 		r.battery_charge = 90
@@ -146,7 +146,7 @@ func setup_ending() -> void:
 		%Robots.add_child.call_deferred(r)
 		r.robot_position(Vector3(0, 0, -5))
 	#
-	r = Global.get_robot_instance()
+	r = get_robot_instance()
 	r.robot_id = 24
 	r.battery_charge = 100
 	r.looking_player = true
@@ -159,7 +159,7 @@ func setup_ending() -> void:
 	r.robot_rotation(deg_to_rad(-80))
 	r.remove_base()
 	#
-	r = Global.get_robot_instance()
+	r = get_robot_instance()
 	r.robot_id = 24
 	r.battery_charge = 100
 	r.looking_player = true
@@ -195,7 +195,7 @@ func start_day() -> void:
 	robots_to_add.resize(0)
 	for rx in 2:
 		for ry in y_count:
-			var r := Global.get_robot_instance()
+			var r := get_robot_instance()
 			r.connect("anomaly_failed", on_failed_glitch)
 			r.robot_id = (rx * 6) + ry
 			r.battery_charge = 0
@@ -204,6 +204,8 @@ func start_day() -> void:
 			robots.append(r)
 			#%Robots.add_child.call_deferred(r)
 			#%Robots.add_child(r)
+			if r.get_parent():
+				r.get_parent().remove_child(r)
 			robots_to_add.append(r)
 			var dist := DIST_X + (ry * DIST_X_INCREASE)
 			#r.position.x = (rx * dist) - (dist * 0.5)
@@ -303,12 +305,14 @@ func _process(delta: float) -> void:
 		
 	if robots_to_add.size() > 0:# and add_robot_time > 0.02:
 		var r:Robot = robots_to_add.pop_front()
-		if r.get_parent():
-			r.get_parent().remove_child(r)
-		%Robots.add_child(r)
+		%Robots.add_child.call_deferred(r)
 		#print("Add child robot")
 		add_robot_time = 0.0
-		if r.glitch != Robot.GLITCHES.NONE:
+		var ignore_position := [
+			Robot.GLITCHES.NONE,
+			Robot.GLITCHES.GRABS_BATTERY
+		]
+		if not ignore_position.has(r.glitch):
 			anomaly_position = Vector2(
 				r.get_robot_global_position().x,
 				r.get_robot_global_position().z
@@ -394,6 +398,13 @@ func is_success() -> bool:
 
 func request_deletion() -> void:
 	deletion_requested = true
+
+func get_robot_instance() -> Robot:
+	var r := Global.get_robot_instance()
+	if r.get_parent():
+		r.get_parent().remove_child(r)
+	return r
+	
 
 #func _on_finish_area_body_entered(_body: Node3D) -> void:
 	#prints("body_entered", _body)

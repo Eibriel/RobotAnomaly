@@ -508,8 +508,8 @@ font_size = 100
 horizontal_alignment = 2
 depth = 0.02
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_46a6v"]
-size = Vector3(1.74908, 3.88782, 2.46741)
+[sub_resource type="BoxShape3D" id="BoxShape3D_qwwm2"]
+size = Vector3(2.37892, 3.88782, 2.46741)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ae67b"]
 size = Vector3(8.45215, 2.19482, 49.9573)
@@ -1406,6 +1406,7 @@ banner_scale = 2.0
 
 [node name="office_marketing" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="RobotHead" parent="OfficeNode/DressingNode/office_marketing" instance=ExtResource("17_yc71e")]
 transform = Transform3D(0.404103, 0.534656, -0.742187, -0.030718, 0.818862, 0.573166, 0.914197, -0.20882, 0.347329, 3.73417, 1.41207, 19.4671)
@@ -1706,7 +1707,6 @@ size = Vector2(1.77, 1)
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="DoorOnScreen" type="VisibleOnScreenNotifier3D" parent="OfficeNode/DressingNode/office_executive"]
 unique_name_in_owner = true
@@ -3051,8 +3051,8 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FinishArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.2897, 3.90689, 10.2043)
-shape = SubResource("BoxShape3D_46a6v")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.3621, 1.97985, -15.4679)
+shape = SubResource("BoxShape3D_qwwm2")
 
 [node name="InsideArea" type="Area3D" parent="."]
 collision_layer = 0
@@ -3764,6 +3764,20 @@ layout_mode = 2
 text = "CURSOR ALWAYS ON"
 flat = true
 
+[node name="UIScaleLabel" type="Label" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "UI SCALE"
+
+[node name="UIScaleSlider" type="HSlider" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.5
+max_value = 1.5
+step = 0.5
+value = 1.0
+tick_count = 4
+ticks_on_borders = true
+
 [node name="AudioSettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
 visible = false
@@ -4228,6 +4242,7 @@ visible = false
 [connection signal="item_selected" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/QualityMenu" to="." method="_on_quality_option_button_item_selected"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FilterCheckBox" to="." method="_on_filter_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/CursorCheckBox" to="." method="_on_cursor_check_box_toggled"]
+[connection signal="drag_ended" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/UIScaleSlider" to="." method="_on_ui_scale_slider_drag_ended"]
 [connection signal="pressed" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/AudioSettingsBackButton" to="." method="_on_audio_settings_back_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="item_selected" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/LanguageMenu" to="." method="_on_language_menu_item_selected"]

@@ -41,13 +41,13 @@ enum GLITCHES {
 	MISSING_EYE,
 	CLOCK_HEART,
 	HEAD_BOX,
-	BACK_BOX,
-	WRIST_SCARF,
+	#BACK_BOX,
+	#WRIST_SCARF,
 	EYES_AROUND_HEAD,
 	LONG_FINGERS,
 	BRAIN_EXTENSION,
 	
-	RED_EYES,
+	#RED_EYES,
 	FOLLOWING_EYES,
 	POINTING_FINGER,
 #	SMILING,
@@ -59,11 +59,11 @@ enum GLITCHES {
 	MISSING_ENTIRELY,
 	BLINKING_EYES,
 	SHAKING,
-	PROCESSING, #(BLINKING_LIGHTS)
+	#PROCESSING, #(BLINKING_LIGHTS)
 	FACING_WRONG_DIRECTION,
 	EXTRA_EYE,
 	GRAFFITY,
-	DRIPPING_OIL,
+	#DRIPPING_OIL,
 	EXTRA_ROBOTS,
 	
 	# ATTACKS
@@ -722,8 +722,8 @@ func update_glitch() -> void:
 			anim.play("Arms")
 		GLITCHES.HEAD_BOX:
 			robj["head_box"].visible = true
-		GLITCHES.BACK_BOX:
-			robj["back_box"].visible = true
+		#GLITCHES.BACK_BOX:
+		#	robj["back_box"].visible = true
 		GLITCHES.TELESCOPIC_EYES:
 			robj["telescopic_eye"].visible = true
 		GLITCHES.BRAIN_EXTENSION:
@@ -741,10 +741,10 @@ func update_glitch() -> void:
 			robj["chest_connection"].visible = true
 		GLITCHES.CLOCK_HEART:
 			robj["clock_heart"].visible = true
-		GLITCHES.WRIST_SCARF:
-			robj["scarf"].visible = true
-		GLITCHES.RED_EYES:
-			robj["red_eyes"].visible = true
+		#GLITCHES.WRIST_SCARF:
+		#	robj["scarf"].visible = true
+		#GLITCHES.RED_EYES:
+		#	robj["red_eyes"].visible = true
 		GLITCHES.FOLLOWING_EYES:
 			#robj["red_eyes"].visible = true
 			looking_player = true
@@ -779,23 +779,23 @@ func update_glitch() -> void:
 				tween.tween_interval(0.15)
 				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
 				tween.tween_interval(1.5)
-		GLITCHES.PROCESSING:
-			robj["red_eyes"].visible = true
-			if not tween:
-				tween = create_tween()
-				tween.set_loops()
-				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
-				tween.tween_interval(0.1)
-				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
-				tween.tween_interval(0.12)
-				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
-				tween.tween_interval(0.2)
-				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
-				tween.tween_interval(0.22)
-				tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
-				tween.tween_interval(0.12)
-				tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
-				tween.tween_interval(0.09)
+		#GLITCHES.PROCESSING:
+			#robj["red_eyes"].visible = true
+			#if not tween:
+				#tween = create_tween()
+				#tween.set_loops()
+				#tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
+				#tween.tween_interval(0.1)
+				#tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
+				#tween.tween_interval(0.12)
+				#tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
+				#tween.tween_interval(0.2)
+				#tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
+				#tween.tween_interval(0.22)
+				#tween.tween_callback(robj["red_eyes"].set_visible.bind(true))
+				#tween.tween_interval(0.12)
+				#tween.tween_callback(robj["red_eyes"].set_visible.bind(false))
+				#tween.tween_interval(0.09)
 		GLITCHES.FACING_WRONG_DIRECTION:
 			%RobotBody.rotation.y = deg_to_rad(5+randi_range(-10, 10))
 			if is_demo:
@@ -805,8 +805,8 @@ func update_glitch() -> void:
 		GLITCHES.MISSING_ENTIRELY:
 			%RobotBody.position = Vector3.ZERO
 			%RobotBody.position.y = -20
-		GLITCHES.DRIPPING_OIL:
-			setup_oil_dripping()
+		#GLITCHES.DRIPPING_OIL:
+		#	setup_oil_dripping()
 		GLITCHES.GRAFFITY:
 			setup_graffity()
 		GLITCHES.BLOCKING_PATH:
