@@ -29,6 +29,7 @@ GamePlatform="*res://game_platform.gd"
 [display]
 
 window/stretch/mode="canvas_items"
+window/stretch/aspect="keep_height"
 window/stretch/scale=0.8
 
 [input]

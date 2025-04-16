@@ -282,6 +282,7 @@ func start_day() -> void:
 		
 	if is_nightmare_mode:
 		for r in robots:
+			if r.glitch == Robot.GLITCHES.GRABS_BATTERY: continue
 			r.battery_charge = 0
 			r.force_no_battery = true
 		
@@ -308,6 +309,12 @@ func _process(delta: float) -> void:
 		%Robots.add_child.call_deferred(r)
 		#print("Add child robot")
 		add_robot_time = 0.0
+	else:
+		if loading_robots:
+			loading_robots = false
+			robots_loaded.emit()
+	
+	for r in %Robots.get_children():
 		var ignore_position := [
 			Robot.GLITCHES.NONE,
 			Robot.GLITCHES.GRABS_BATTERY
@@ -317,11 +324,7 @@ func _process(delta: float) -> void:
 				r.get_robot_global_position().x,
 				r.get_robot_global_position().z
 			)
-			prints("glistch pos:", anomaly_position)
-	else:
-		if loading_robots:
-			loading_robots = false
-			robots_loaded.emit()
+			#prints("glistch pos:", anomaly_position)
 	
 	if deletion_requested:
 		visible = false

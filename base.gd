@@ -155,7 +155,7 @@ func _ready() -> void:
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size()
+	var force_completed_scenarios = Robot.GLITCHES.size() - 19
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -578,7 +578,7 @@ func turn_lights_off(delay:=0.0, lock_lights: bool = false) -> void:
 		lights_delay = delay
 	event_light_timer = randf_range(60.0*7, 60.0*15)
 
-func get_next_event_time(event: EVENTS) -> float:
+func get_next_event_time(_event: EVENTS) -> float:
 	if force_events:
 		return 5.0
 	return randf_range(60.0*10, 60.0*20)
@@ -831,7 +831,7 @@ func enable_event(_event:EVENTS) -> void:
 			%RobotEventStairs.first_frame_animation("RunningStairs")
 	#print(_event)
 
-func is_point_centered(object: Node3D, cursor_treshold: float, angle_treshold: float, distance: float = 5.0) -> bool:
+func is_point_centered(object: Node3D, cursor_treshold: float, _angle_treshold: float, _distance: float = 5.0) -> bool:
 	var cam := get_viewport().get_camera_3d()
 	if cam.is_position_behind(object.global_position):
 		return false
@@ -1052,8 +1052,8 @@ func setup_executive() -> void:
 	%CrowdMultiMesh03.visible = false
 	%CrowdMultiMesh04.visible = false
 	%RobotStrike.robot_rotation(deg_to_rad(180))
-	if not %RobotStrike.is_connected("executive_finished", on_executive_finished):
-		%RobotStrike.connect("executive_finished", on_executive_finished)
+	#if not %RobotStrike.is_connected("executive_finished", on_executive_finished):
+	#	%RobotStrike.connect("executive_finished", on_executive_finished)
 	%RobotStrike.remove_base()
 	%RobotStrike.robot_position(Vector3(-3.89, 0, 0.492))
 	%RobotStrike.robot_rotation(deg_to_rad(-93))
@@ -1066,15 +1066,15 @@ func setup_executive() -> void:
 	#
 	%StairSign.visible = false
 	
-	for c in %RobotArms.get_children():
-		if c.name.begins_with("RobotArmsRight"):
-			var anim :AnimationPlayer = c.get_node("AnimationPlayer")
-			anim.get_animation("RobotArmsRight").loop_mode = Animation.LOOP_PINGPONG
-			anim.play("RobotArmsRight")
-		elif c.name.begins_with("RobotArmsLeft"):
-			var anim :AnimationPlayer = c.get_node("AnimationPlayer")
-			anim.get_animation("RobotArmsLeft").loop_mode = Animation.LOOP_PINGPONG
-			anim.play("RobotArmsLeft")
+	#for c in %RobotArms.get_children():
+		#if c.name.begins_with("RobotArmsRight"):
+			#var anim :AnimationPlayer = c.get_node("AnimationPlayer")
+			#anim.get_animation("RobotArmsRight").loop_mode = Animation.LOOP_PINGPONG
+			#anim.play("RobotArmsRight")
+		#elif c.name.begins_with("RobotArmsLeft"):
+			#var anim :AnimationPlayer = c.get_node("AnimationPlayer")
+			#anim.get_animation("RobotArmsLeft").loop_mode = Animation.LOOP_PINGPONG
+			#anim.play("RobotArmsLeft")
 
 
 var exec_done := false
@@ -1223,10 +1223,13 @@ func on_executive_finished():
 		prints("\nsuccess:", sc)
 		_on_finished(sc, section.scenario, false)
 		#
-		reset_position()
+		reset_position(true)
 		reset_vacuum_position()
 		Global.player.lock_movement()
 		GamePlatform.set_achievement("TRAPPED_REACHED")
+		var tween_open_door := create_tween()
+		tween_open_door.tween_callback(%KnockingDoorAudio.play).set_delay(5.0)
+		tween_open_door.tween_callback(open_storage_door.bind(false)).set_delay(6.0)
 	
 	var exec_tween := create_tween()
 	exec_tween.tween_interval(2.5)
@@ -1753,15 +1756,16 @@ func instantiate_sections(Env: Node3D) -> void:
 	if scenario == -3:
 		%StairSign2.visible = false
 	const audio_distance := 50.0
-	var city_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, 0, audio_distance), 0, audio_distance)
-	var street_audio_distance := clampf(remap(message_id, 0, INTRO_AMOUNT, audio_distance, 0), 0, audio_distance)
+	#
+	var city_audio_distance := clampf(remap(floor_number, 0, FLOORS_AMOUNT, 0, audio_distance), 0, audio_distance)
+	var street_audio_distance := clampf(remap(floor_number, 0, FLOORS_AMOUNT, audio_distance, 0), 0, audio_distance)
 	#prints("city_audio_distance", city_audio_distance)
 	#prints("street_audio_distance", street_audio_distance)
 	%CityAudio.position.z = city_audio_distance
 	%CityAudio2.position.z = city_audio_distance
 	%StreetAudio.position.z = street_audio_distance
 	%StreetAudio2.position.z = street_audio_distance
-	if message_id > 25:
+	if floor_number < 0:
 		%CityAudio.stop()
 		%CityAudio2.stop()
 		%StreetAudio.stop()
@@ -1781,6 +1785,12 @@ func instantiate_sections(Env: Node3D) -> void:
 			%StreetAudio.play()
 		if not %StreetAudio2.playing:
 			%StreetAudio2.play()
+	
+	if floor_number < 0:
+		var wall_texture := remap(floor_number, 0.0, underground_floor, 0.2, 0.91)
+		%MainOfficeWithCollision.set_wall_writting(wall_texture)
+	else:
+		%MainOfficeWithCollision.set_wall_writting(0.0)
 	#
 	var creepy_music_tween := create_tween()
 	const creepy_music_volume := -20.0
@@ -2041,9 +2051,9 @@ func open_storage_door(with_crowd:=true) -> void:
 	%DoorAudio.play()
 	#door_obj.rotation.y = 45
 	var tween := create_tween()
-	#tween.set_trans(Tween.TRANS_EXPO)
-	#tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(door_obj, "rotation_degrees:y", -300, 3.0)
+	tween.set_trans(Tween.TRANS_QUART)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(door_obj, "rotation_degrees:y", -300, 4.0)
 	var door_coll := %MainOfficeWithCollision.get_node("office2/DoorCollider") as Node3D
 	door_coll.position.y = 50
 	if with_crowd:
@@ -2132,7 +2142,7 @@ func _on_end_day() -> void:
 	day += 1
 	load_main()
 
-func reset_position() -> void:
+func reset_position(in_storage:=false) -> void:
 	#current_side = SIDES.Z_PLUS
 	Global.is_player_grabbed = false
 	Global.player.get_camera().current = true
@@ -2141,9 +2151,13 @@ func reset_position() -> void:
 	%Player.halt_velocity = true
 	%Player.global_position = %InitialPosition.global_position
 	%Player.look_rot.y = rad_to_deg(%InitialPosition.rotation.y)
+	%Player.look_rot.x = 0.0
 	if section.scenario == -2:
 		%Player.global_position = %InitialPositionInt.global_position
 		%Player.look_rot.y = rad_to_deg(%InitialPositionInt.rotation.y)
+	if in_storage:
+		%Player.global_position = %InitialPositionStorage.global_position
+		%Player.look_rot.y = rad_to_deg(%InitialPositionStorage.rotation.y)
 
 func build_ray() -> Dictionary:
 	var ray_range := 6.0
@@ -2242,7 +2256,7 @@ func fire_ray(button_index: int) -> void:
 		if button_index == 1:
 			current_task = TASKS.ROTATE_INVERSE
 
-func update_cursor(delta) -> void:
+func update_cursor(_delta) -> void:
 	var intersection := build_ray()
 	var robot_node: Robot
 	var cursor_type := 0
@@ -2373,7 +2387,7 @@ func _on_finish_area_body_entered(_body: Node3D) -> void:
 
 func _on_exit_area_body_entered(_body: Node3D) -> void:
 	return
-	_on_exit()
+	#_on_exit()
 
 
 func _on_inside_area_body_entered(_body: Node3D) -> void:
@@ -2551,7 +2565,7 @@ func _on_invert_y_check_box_toggled(toggled_on: bool) -> void:
 	load_settings()
 
 func _on_max_fps_spin_value_changed(value: float) -> void:
-	game_settings.max_fps = value
+	game_settings.max_fps = int(value)
 	save_game_settings()
 	load_settings()
 
@@ -2586,6 +2600,7 @@ func _on_reset_button_pressed() -> void:
 
 func _on_confirm_reset_button_pressed() -> void:
 	Global.reset_save = true
+	save_game_settings()
 	get_tree().change_scene_to_file("res://base.tscn")
 
 func _on_cancel_reset_button_pressed() -> void:

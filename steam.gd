@@ -119,7 +119,7 @@ func initialize_steam() -> void:
 	Steam.user_stats_received.connect(_on_steam_stats_ready)
 	Steam.requestUserStats(steam_id)
 
-func _on_steam_stats_ready(game: int, result: int, user: int) -> void:
+func _on_steam_stats_ready(_game: int, _result: int, _user: int) -> void:
 	stats_ready = true
 	#print("## STATS RECEIVED ##")
 	#print("This game's ID: %s" % game)
@@ -160,12 +160,13 @@ func _fire_Steam_Achievement(value: String) -> void:
 	Steam.storeStats()
 
 func set_rich_presence(token: String, value: String = "") -> void:
-	var setting_presence
+	if not initialized: return
+	var _setting_presence
 	if value.length() > 0:
-		setting_presence = Steam.setRichPresence(token, value)
+		_setting_presence = Steam.setRichPresence(token, value)
 	else:
 		# Set the token
-		setting_presence = Steam.setRichPresence("steam_display", token)
+		_setting_presence = Steam.setRichPresence("steam_display", token)
 		
 	# Tutorial
 	# https://www.youtube.com/watch?v=VCwNxfYZ8Cw&t=4762s

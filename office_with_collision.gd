@@ -188,7 +188,7 @@ func unblock_all_lights() -> void:
 		#	set_light_unstable(l_id, 3.0)
 		#l_id += 1
 
-func set_light_unstable(light_id: int, time: float) -> void:
+func set_light_unstable(light_id: int, _time: float) -> void:
 	if not unstable_lights.has(light_id):
 		unstable_lights.append(light_id)
 	#lights_data[light_id][1] = time
@@ -199,3 +199,7 @@ func hide_all_lines() -> void:
 
 func show_line(line_id: LINE_NAMES) -> void:
 	lines[line_id].visible = true
+
+func set_wall_writting(weight: float) -> void:
+	const WALL_WRITTING = preload("res://materials/office_mats/WallWritting.tres")
+	WALL_WRITTING.set_shader_parameter("writting_1_weight", weight)

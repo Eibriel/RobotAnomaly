@@ -109,12 +109,12 @@ func is_playtest() -> bool:
 		pass
 	return OS.get_cmdline_user_args().has("--playtest")
 
-func is_nomber_between(number: float, min: float, max: float) -> bool:
-	if min > max:
-		var tmp := min
-		min = max
-		max = tmp
-	if number > min and number < max:
+func is_nomber_between(number: float, min_: float, max_: float) -> bool:
+	if min_ > max_:
+		var tmp := min_
+		min_ = max_
+		max_ = tmp
+	if number > min_ and number < max_:
 		return true
 	else:
 		return false

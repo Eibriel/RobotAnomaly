@@ -3,7 +3,7 @@ class_name Robot
 extends Node3D
 
 signal anomaly_failed
-signal executive_finished
+#signal executive_finished
 
 @export var glitch: GLITCHES = GLITCHES.NONE
 @export var pose: POSES = POSES.NONE
@@ -443,7 +443,7 @@ func _process(delta: float) -> void:
 		walk_towards_player(delta, follows_player_speed)
 
 
-func update_radial(delta: float) -> void:
+func update_radial(_delta: float) -> void:
 	#pressing_off_button -= delta * 2.0
 	#pressing_off_button = clampf(pressing_off_button, 0, 0.2)
 	#robj["off_button"].position.x = -pressing_off_button * 0.01
@@ -575,7 +575,7 @@ func walk_towards_player(delta:float, speed: float) -> bool:
 	player_pos.y = 0
 	var robot_pos: Vector3 = %RobotBody.global_position
 	robot_pos.y = 0
-	var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
+	#var robot_pos_2d := Vector2(robot_pos.x, robot_pos.z)
 	
 	var local_player_pos := %RobotBody.to_local(player_pos) as Vector3
 	var player_pos_2d := Vector2(local_player_pos.x, local_player_pos.z)
@@ -594,7 +594,7 @@ func walk_towards_player(delta:float, speed: float) -> bool:
 
 func update_base() -> void:
 	$BaseShadowPlane.position = %RobotBase.position
-	$BaseShadowPlane.position.y = 0.01
+	$BaseShadowPlane.position.y = 0.015
 
 func update_snap(delta: float) -> void:
 	if glitch != GLITCHES.COUNTDOWN: return

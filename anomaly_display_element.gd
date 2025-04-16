@@ -61,7 +61,7 @@ func _ready() -> void:
 	$DoorStorage.visible = false
 	$DoorStorageFrame.visible = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if anomaly_frame > 0:
 		anomaly_frame -= 1
 		return

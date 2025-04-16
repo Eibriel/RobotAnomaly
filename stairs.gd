@@ -34,7 +34,7 @@ func _ready() -> void:
 	lines[LINE_NAMES.LINEA_B_END] = $stairs/LineaB_stairs
 	lines[LINE_NAMES.LINEA_C_END] = $stairs/LineaC_stairs
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not dirty: return
 	dirty = false
 	match chain_visible:

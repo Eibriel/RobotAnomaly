@@ -1,28 +1,19 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://dxldnpda5rfya"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dxldnpda5rfya"]
 
 [ext_resource type="Shader" uid="uid://bte56bxf16cya" path="res://materials/office_mats/wall_writting_material_shader.gdshader" id="1_k5cvq"]
-
-[sub_resource type="Gradient" id="Gradient_k5cvq"]
-colors = PackedColorArray(0, 0, 0, 1, 0.41598, 0.41598, 0.41598, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_yklsi"]
-noise_type = 2
-frequency = 0.1
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_truht"]
-seamless = true
-color_ramp = SubResource("Gradient_k5cvq")
-noise = SubResource("FastNoiseLite_yklsi")
+[ext_resource type="Texture2D" uid="uid://hft0x1hhm8ru" path="res://textures/rust_texture.jpg" id="2_truht"]
+[ext_resource type="Texture2D" uid="uid://d3rslqnsdb5gj" path="res://textures/wall_writting.png" id="2_yklsi"]
 
 [resource]
 resource_name = "WallWritting"
 render_priority = 0
 shader = ExtResource("1_k5cvq")
-shader_parameter/texture_writting_1 = SubResource("NoiseTexture2D_truht")
-shader_parameter/writting_1_weight = 0.0
+shader_parameter/texture_writting_1 = ExtResource("2_yklsi")
+shader_parameter/writting_1_weight = 0.842
 shader_parameter/writting_2_weight = 0.0
 shader_parameter/writting_3_weight = 0.0
-shader_parameter/albedo = Color(0.0578383, 0.0420554, 0.00335921, 1)
+shader_parameter/fog_color = Color(0, 0, 0, 1)
+shader_parameter/texture_albedo = ExtResource("2_truht")
 shader_parameter/distance_fade_min = 2.0
 shader_parameter/distance_fade_max = 100.0
 shader_parameter/alpha_hash_scale = 1.0
@@ -34,5 +25,5 @@ shader_parameter/specular = 0.0
 shader_parameter/metallic = 0.0
 shader_parameter/uv1_scale = Vector3(1, 1, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_scale = Vector3(2, 3, 2)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)

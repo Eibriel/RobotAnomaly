@@ -65,6 +65,7 @@ func set_rich_presence(token: String, value: String = "") -> void:
 	GlobalSteam.set_rich_presence(token, value)
 
 func setTimelineGameMode(mode: TIMELINE_MODE) -> void:
+	if not GlobalSteam.initialized: return
 	match mode:
 		TIMELINE_MODE.MENUS:
 			Steam.setTimelineGameMode(Steam.TimelineGameMode.TIMELINE_GAME_MODE_MENUS)

@@ -1868,7 +1868,7 @@
 		{
 			"bufferView":62,
 			"componentType":5126,
-			"count":90,
+			"count":110,
 			"max":[
 				4.916850566864014,
 				25.33115577697754,
@@ -1884,19 +1884,19 @@
 		{
 			"bufferView":63,
 			"componentType":5126,
-			"count":90,
+			"count":110,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":64,
 			"componentType":5126,
-			"count":90,
+			"count":110,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":65,
 			"componentType":5123,
-			"count":198,
+			"count":216,
 			"type":"SCALAR"
 		}
 	],
@@ -2275,26 +2275,26 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":1080,
+			"byteLength":1320,
 			"byteOffset":66680,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1080,
-			"byteOffset":67760,
+			"byteLength":1320,
+			"byteOffset":68000,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":720,
-			"byteOffset":68840,
+			"byteLength":880,
+			"byteOffset":69320,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":396,
-			"byteOffset":69560,
+			"byteLength":432,
+			"byteOffset":70200,
 			"target":34963
 		}
 	],
@@ -2306,7 +2306,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":69956,
+			"byteLength":70632,
 			"uri":"office.bin"
 		}
 	]
