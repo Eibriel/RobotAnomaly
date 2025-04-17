@@ -9,6 +9,7 @@ uniform float inner_radius = 0.0;
 uniform float outer_radius = 1.0;
 
 global uniform float blood_vignete;
+global uniform float underground_vignete;
 global uniform float rumble_vignete;
 global uniform float lights_percent;
 global uniform bool screen_filter;
@@ -24,6 +25,9 @@ void fragment() {
 	vec3 vignete = vec3(1.0 - q*alpha);
 
 	vec3 bw = vec3((screen_color.r+screen_color.g+screen_color.b)/3.0);
+	vec3 red = screen_color.rgb * vec3(1.0, 0.05, 0.1);
+
+	mix_color = mix(mix_color, red, underground_vignete*0.5);
 
 	mix_color = mix_color * clamp(vignete, 0.0, 1.0);
 

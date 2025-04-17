@@ -9,9 +9,10 @@ colors = PackedColorArray(0.28, 0, 0, 1, 0.585847, 8.66354e-07, 3.36915e-07, 1)
 gradient = SubResource("Gradient_7uuk1")
 
 [sub_resource type="Gradient" id="Gradient_11c35"]
+offsets = PackedFloat32Array(0.512077, 1)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_7uuk1"]
-frequency = 0.0455
+frequency = 0.025
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3ypyl"]
 seamless = true

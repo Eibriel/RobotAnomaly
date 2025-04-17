@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6fes6dwawsxu"]
+
+[ext_resource type="Script" uid="uid://bxcbkj2mrcv0" path="res://robot_male.gd" id="1_5xoc6"]
+[ext_resource type="PackedScene" uid="uid://fue5vd8qwxqf" path="res://objects/robot_male.gltf" id="1_paqrd"]
+[ext_resource type="PackedScene" uid="uid://c7autv51b52si" path="res://objects/CEO.gltf" id="3_ihiuu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_paqrd"]
+radius = 0.2408
+height = 1.91231
+
+[node name="RobotMale" type="Node3D"]
+script = ExtResource("1_5xoc6")
+
+[node name="robot_male" parent="." instance=ExtResource("1_paqrd")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+
+[node name="CEO" parent="." instance=ExtResource("3_ihiuu")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.974791, 0)
+shape = SubResource("CapsuleShape3D_paqrd")

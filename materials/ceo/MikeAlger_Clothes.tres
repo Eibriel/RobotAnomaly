@@ -1,0 +1,11 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://di41aomtnhu2r"]
+
+[ext_resource type="Texture2D" uid="uid://c7mb1p34aquwn" path="res://objects/ceo_textures/MikeAlger_Texture.jpg" id="1_u5w8l"]
+[ext_resource type="Material" uid="uid://b2cv37yl6qdxk" path="res://materials/ceo/ceo_ao.tres" id="2_tpbyl"]
+
+[resource]
+resource_name = "MikeAlger_Clothes"
+next_pass = ExtResource("2_tpbyl")
+albedo_texture = ExtResource("1_u5w8l")
+metallic_specular = 0.12
+roughness = 0.66

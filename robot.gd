@@ -82,7 +82,9 @@ enum POSES {
 	SITTING_BODY,
 	HOLDING_VACUUM,
 	HOLDING_VACUUM_B,
-	RUNNING
+	RUNNING,
+	HOLDING_BRAIN,
+	LOOKING_DOWN
 }
 
 #var is_glitching := false
@@ -668,6 +670,10 @@ func update_pose() -> void:
 			anim.play("HoldingVacuum_b")
 		POSES.RUNNING:
 			anim.play("Running")
+		POSES.HOLDING_BRAIN:
+			anim.play("HoldingBrain")
+		POSES.LOOKING_DOWN:
+			anim.play("LookingDown")
 
 func update_glitch() -> void:
 	if not glitch_dirty: return

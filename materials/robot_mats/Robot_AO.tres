@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_vwjj4"]
 
 [resource]
+render_priority = 1
 transparency = 1
 shading_mode = 0
 albedo_color = Color(0.0681039, 0.0764109, 0.0589974, 0.788235)

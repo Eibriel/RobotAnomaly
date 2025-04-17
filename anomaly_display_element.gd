@@ -67,7 +67,6 @@ func _process(_delta: float) -> void:
 		return
 	if anomaly_to_set and not anomaly_set:
 		implement_anomaly(anomaly_to_set)
-		
 
 func set_anomaly(anomaly: Robot.GLITCHES) -> void:
 	anomaly_to_set = anomaly

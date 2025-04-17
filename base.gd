@@ -25,6 +25,7 @@ var current_task := TASKS.NONE
 var tutorial_completed := false
 var museum_completed := false
 var scenarios_amount := 0
+var floor_number: float
 
 var game_state: GameStateResource
 var game_settings: GameSettingsResource
@@ -151,11 +152,11 @@ func _ready() -> void:
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
 	state_override.congrats_completed = true
-	state_override.executive_completed = false
+	state_override.executive_completed = true
 	state_override.completed_anomalies = []
 	if override_state:
 		tutorial_completed = true
-	var force_completed_scenarios = Robot.GLITCHES.size() - 19
+	var force_completed_scenarios = Robot.GLITCHES.size()-1
 	for n in range(1, force_completed_scenarios):
 		state_override.completed_anomalies.append(n)
 	for n in range(0, force_completed_scenarios/NONE_RATIO):
@@ -266,6 +267,8 @@ func _ready() -> void:
 	if Global.recording_trailer:
 		%LogLabel.visible = false
 		%FPSLabel.visible = false
+	
+	Global.male_robot_remove_blood()
 	
 	GamePlatform.save_stats.connect(on_save_stats)
 
@@ -743,7 +746,18 @@ func event_enable_conditions(event: EVENTS) -> bool:
 					event_was_visible[EVENTS.STAIRS] = true
 				elif event_was_visible[EVENTS.STAIRS]:
 					enable = false
-				
+		
+	var f_events:Array[EVENTS]= [
+		EVENTS.VENTILATION,
+		EVENTS.REPORT,
+		EVENTS.EXIT,
+		EVENTS.CEILING,
+		EVENTS.LINE,
+		EVENTS.STAIRS
+	]
+	if f_events.has(event) and floor_number < 0:
+		enable = false
+		
 	return enable
 
 # TODO add timer to disable and enable
@@ -1499,7 +1513,9 @@ func update_museum() -> void:
 	var player_pos: Vector3= %MainOfficeWithCollision.to_local(Global.player.global_position)
 	var pos: float = player_pos.z + 25
 	if not museum_explosion_executed:
-		if pos < 20:
+		if pos < 40 and lights_on:
+			turn_lights_off(0.0, true)
+		if pos < 10:
 			var tween_particles := create_tween()
 			tween_particles.tween_callback(%CongratsParticlesBigExplosion3.set_emitting.bind(true))
 			tween_particles.tween_callback(%CongratsParticlesAudio3.play)
@@ -1509,6 +1525,15 @@ func update_museum() -> void:
 			tween_particles.tween_callback(%CongratsParticlesBig2.set_emitting.bind(true))
 			museum_explosion_executed = true
 			GamePlatform.set_achievement("MASTERMIND_REACHED")
+			%MuseumTables.visible = true
+			%MuseumTables.position.y = 0
+			%AnomalyDisplay.visible = true
+			%AnomalyDisplay.position.y = 0
+			var blood_tween := create_tween()
+			blood_tween.tween_method(%MainOfficeWithCollision.set_wall_writting, %MainOfficeWithCollision.get_wall_writting(), 0.0, 20.0)
+			blood_tween.parallel().tween_method(Global.set_underground_vignete, Global.get_underground_vignete(), 0.0, 10.0)
+			%MuseumRobotMale.visible = false
+			turn_lights_on()
 
 func setup_museum() -> void:
 	var anomalies_count := 0
@@ -1520,6 +1545,7 @@ func setup_museum() -> void:
 	#for ss in game_state.completed_anomalies:
 	#	%MuseumStatsLabel.text += "%s\n" % Robot.GLITCHES.find_key(ss)
 	update_museum_figures()
+	Global.male_robot_add_blood()
 	
 	if is_game_complete():
 		%VacuumReveal.position.y = 0
@@ -1527,7 +1553,15 @@ func setup_museum() -> void:
 		%StairSign2.visible = false
 		%RobotVacuum.global_position = %VacuumRevealMarker.global_position
 		%RobotVacuum.global_rotation = %VacuumRevealMarker.global_rotation
-		%RobotVacuum.current_state = %RobotVacuum.STATES.STILL
+		%RobotVacuum.current_state = %RobotVacuum.STATES.CIRCLES_BIG
+		%MuseumRobotMale.visible = false
+		if not museum_explosion_executed:
+			%MuseumTables.visible = false
+			%MuseumTables.position.y = -20
+			%AnomalyDisplay.visible = false
+			%AnomalyDisplay.position.y = -20
+		else:
+			Global.set_underground_vignete(0.0)
 	else:
 		%VacuumReveal.position.y = -20
 
@@ -1548,7 +1582,7 @@ func instantiate_sections(Env: Node3D) -> void:
 	prints("Failed Scenarios", failed_scenarios)
 	#prints("Completed Scenarios", completed_scenarios)
 	prints("Completed Anomalies", game_state.completed_anomalies)
-	var floor_number := FLOORS_AMOUNT - game_state.completed_anomalies.size()
+	floor_number = FLOORS_AMOUNT - game_state.completed_anomalies.size()
 	var underground_floor := FLOORS_AMOUNT - scenarios_amount - 1
 	var launchroom_floor := FLOORS_AMOUNT - INTRO_AMOUNT
 	
@@ -1724,6 +1758,7 @@ func instantiate_sections(Env: Node3D) -> void:
 		%MessageLabel.text = "Underground"
 		dressing_visible(%office_lobby)
 		dressing_visible(%office_warehouse)
+		Global.male_robot_add_blood()
 		show_line_upto(LINE_NAMES.LINEA_A)
 		var robot_pics: Array[Node3D]= [
 			%RobotPictureFrame,
@@ -1788,7 +1823,9 @@ func instantiate_sections(Env: Node3D) -> void:
 	
 	if floor_number < 0:
 		var wall_texture := remap(floor_number, 0.0, underground_floor, 0.2, 0.91)
-		%MainOfficeWithCollision.set_wall_writting(wall_texture)
+		if not museum_explosion_executed:
+			%MainOfficeWithCollision.set_wall_writting(wall_texture)
+			Global.set_underground_vignete(wall_texture)
 	else:
 		%MainOfficeWithCollision.set_wall_writting(0.0)
 	#

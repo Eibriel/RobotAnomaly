@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsmnadlv88u1x"]
+
+[ext_resource type="PackedScene" uid="uid://c7autv51b52si" path="res://objects/CEO.gltf" id="1_3hj8i"]
+[ext_resource type="Script" uid="uid://cfgssfa4ukc4" path="res://ceo.gd" id="1_kawh2"]
+
+[node name="Ceo" type="Node3D"]
+script = ExtResource("1_kawh2")
+
+[node name="CEO" parent="." instance=ExtResource("1_3hj8i")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)

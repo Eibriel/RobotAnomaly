@@ -23,6 +23,11 @@ func iterate(node):
 				#node.extra_cull_margin = 10
 				node.mesh.resource_local_to_scene = true
 				#node.skin.resource_local_to_scene = true
+			if root_name == "CEO":
+				#prints("CEO", node.name)
+				#node.extra_cull_margin = 10
+				node.mesh.resource_local_to_scene = true
+				#node.skin.resource_local_to_scene = true
 			var meshnode := node.mesh as Mesh
 			var change_lod := false
 			if node.name.begins_with("tight_"):

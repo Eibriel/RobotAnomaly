@@ -23,6 +23,9 @@ var turned_off_light := false
 
 var recording_trailer:= false
 
+var ROBOT_CLOTHES = preload("res://materials/robot_mats/Robot_Clothes_blood.tres")
+var ROBOT_SKIN = preload("res://materials/robot_mats/Robot_skin_passage.tres")
+
 func _ready() -> void:
 	strugle_executed()
 	noise_executed()
@@ -42,6 +45,14 @@ func _process(delta: float) -> void:
 		stack_timer = 0.0
 		#print("Instantiate robot")
 
+func male_robot_add_blood() -> void:
+	ROBOT_CLOTHES.detail_enabled = true
+	ROBOT_SKIN.detail_enabled = true
+
+func male_robot_remove_blood() -> void:
+	ROBOT_CLOTHES.detail_enabled = false
+	ROBOT_SKIN.detail_enabled = false
+
 func get_robot_instance() -> Robot:
 	if robot_stack.size() > 0:
 		var r = robot_stack.pop_front()
@@ -57,6 +68,14 @@ func set_blood_vignete(value: float) -> void:
 
 func set_rumble_vignete(value: float) -> void:
 	RenderingServer.global_shader_parameter_set("rumble_vignete", value)
+
+var last_underground_vignete := 0.0
+func set_underground_vignete(value: float) -> void:
+	RenderingServer.global_shader_parameter_set("underground_vignete", value)
+	last_underground_vignete = value
+
+func get_underground_vignete() -> float:
+	return last_underground_vignete
 
 func reset_timers() -> void:
 	angry_executed()

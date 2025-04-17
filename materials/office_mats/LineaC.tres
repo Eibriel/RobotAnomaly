@@ -3,5 +3,5 @@
 [resource]
 resource_name = "LineaC"
 cull_mode = 2
-albedo_color = Color(0.569853, 0.394346, 0.394346, 1)
+albedo_color = Color(0.396078, 0.498039, 0.568627, 1)
 metallic_specular = 0.09

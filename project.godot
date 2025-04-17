@@ -155,3 +155,7 @@ lights_percent={
 "type": "float",
 "value": 0.0
 }
+underground_vignete={
+"type": "float",
+"value": 0.0
+}

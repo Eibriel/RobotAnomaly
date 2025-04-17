@@ -17,7 +17,8 @@ enum STATES {
 	PROCESSING_COLLISION,
 	ROTATING,
 	PAUSE,
-	CIRCLES
+	CIRCLES,
+	CIRCLES_BIG
 }
 
 func _ready() -> void:
@@ -57,6 +58,9 @@ func _process(delta: float) -> void:
 		STATES.CIRCLES:
 			translate_object_local(Vector3.BACK*delta*0.1)
 			rotate_y(PI * 2 * delta * 0.08)
+		STATES.CIRCLES_BIG:
+			translate_object_local(Vector3.BACK*delta*0.1)
+			rotate_y(PI * 2 * delta * 0.03)
 
 func change_direction() -> void:
 	current_state = STATES.ROTATING
@@ -75,5 +79,6 @@ func bump(with_sound:bool) -> void:
 
 func _on_area_3d_body_entered(_body: Node3D) -> void:
 	if current_state == STATES.CIRCLES: return
+	if current_state == STATES.CIRCLES_BIG: return
 	if current_state == STATES.STILL: return
 	bump(true)

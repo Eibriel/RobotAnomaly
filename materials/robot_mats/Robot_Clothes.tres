@@ -13,6 +13,5 @@ albedo_color = Color(0.039574, 0.0404138, 0.0479383, 1)
 roughness = 0.422727
 clearcoat_enabled = true
 anisotropy = 0.58
-ao_enabled = true
 ao_light_affect = 0.9
 ao_texture = ExtResource("1_nfafb")

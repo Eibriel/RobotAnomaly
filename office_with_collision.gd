@@ -203,3 +203,7 @@ func show_line(line_id: LINE_NAMES) -> void:
 func set_wall_writting(weight: float) -> void:
 	const WALL_WRITTING = preload("res://materials/office_mats/WallWritting.tres")
 	WALL_WRITTING.set_shader_parameter("writting_1_weight", weight)
+
+func get_wall_writting() -> float:
+	const WALL_WRITTING = preload("res://materials/office_mats/WallWritting.tres")
+	return WALL_WRITTING.get_shader_parameter("writting_1_weight")

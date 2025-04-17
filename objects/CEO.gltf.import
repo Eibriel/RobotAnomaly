@@ -1,0 +1,52 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://c7autv51b52si"
+path="res://.godot/imported/CEO.gltf-816f66c47c64c1f891c19e5e48f07c5b.scn"
+
+[deps]
+
+source_file="res://objects/CEO.gltf"
+dest_files=["res://.godot/imported/CEO.gltf-816f66c47c64c1f891c19e5e48f07c5b.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+nodes/use_node_type_suffixes=true
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path="uid://5c4gqq2s84y1"
+_subresources={
+"materials": {
+"MikeAlger_Clothes": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/ceo/MikeAlger_Clothes.tres"
+},
+"MikeAlger_Hair": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/ceo/MikeAlger_Hair.tres"
+},
+"MikeAlger_Skin": {
+"use_external/enabled": true,
+"use_external/path": "res://materials/ceo/MikeAlger_Skin.tres"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

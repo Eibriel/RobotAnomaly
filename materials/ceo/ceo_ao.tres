@@ -1,0 +1,32 @@
+[gd_resource type="StandardMaterial3D" load_steps=8 format=3 uid="uid://b2cv37yl6qdxk"]
+
+[ext_resource type="Texture2D" uid="uid://da3cunnjg5cnu" path="res://textures/CEO_AO.png" id="1_2y77x"]
+[ext_resource type="Shader" uid="uid://b6prd1fbvivel" path="res://materials/ceo/ceo_floor_ao.gdshader" id="2_luobu"]
+
+[sub_resource type="Gradient" id="Gradient_luobu"]
+offsets = PackedFloat32Array(0.409483, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.612425, 0, 0.00102846, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_sve42"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qi8ai"]
+seamless = true
+color_ramp = SubResource("Gradient_luobu")
+noise = SubResource("FastNoiseLite_sve42")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jpgb1"]
+transparency = 1
+albedo_texture = SubResource("NoiseTexture2D_qi8ai")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sve42"]
+render_priority = 0
+next_pass = SubResource("StandardMaterial3D_jpgb1")
+shader = ExtResource("2_luobu")
+
+[resource]
+render_priority = 1
+next_pass = SubResource("ShaderMaterial_sve42")
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.0711067, 0.08, 0.0616, 0.776471)
+albedo_texture = ExtResource("1_2y77x")

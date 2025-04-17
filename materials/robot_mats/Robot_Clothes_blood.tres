@@ -1,0 +1,36 @@
+[gd_resource type="StandardMaterial3D" load_steps=8 format=3 uid="uid://c42keu1ul0dul"]
+
+[ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_cco5x"]
+[ext_resource type="Material" uid="uid://dl3od8mmkd8yj" path="res://materials/robot_mats/Robot_AO.tres" id="2_xh7xq"]
+
+[sub_resource type="Gradient" id="Gradient_7uuk1"]
+colors = PackedColorArray(0.28, 0, 0, 1, 0.585847, 8.66354e-07, 3.36915e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cco5x"]
+gradient = SubResource("Gradient_7uuk1")
+
+[sub_resource type="Gradient" id="Gradient_3ui8n"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cco5x"]
+frequency = 0.0337
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xh7xq"]
+seamless = true
+color_ramp = SubResource("Gradient_3ui8n")
+noise = SubResource("FastNoiseLite_cco5x")
+
+[resource]
+resource_name = "Robot_Clothes"
+next_pass = ExtResource("2_xh7xq")
+cull_mode = 2
+disable_fog = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.039574, 0.0404138, 0.0479383, 1)
+roughness = 0.422727
+clearcoat_enabled = true
+anisotropy = 0.58
+ao_light_affect = 0.9
+ao_texture = ExtResource("1_cco5x")
+detail_enabled = true
+detail_mask = SubResource("NoiseTexture2D_xh7xq")
+detail_albedo = SubResource("GradientTexture1D_cco5x")
