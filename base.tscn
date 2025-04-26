@@ -884,7 +884,6 @@ unique_name_in_owner = true
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -924,6 +923,7 @@ transform = Transform3D(0.930743, 0, 0.365673, 0, 1, 0, -0.365673, 0, 0.930743, 
 
 [node name="office_start" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="PictureFrame4" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.15773, 1.6418, 20.8553)
@@ -2384,7 +2384,6 @@ pose = 1
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)
@@ -2510,19 +2509,19 @@ transform = Transform3D(-0.678336, 0.514273, -1.8098, 1.80885, 0.707539, -0.4769
 transform = Transform3D(0.894654, 0, 0.44676, 0, 1, 0, -0.44676, 0, 0.894654, 3.44752, 1.33274, 19.4947)
 
 [node name="BookBridgeClosed" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("49_66ob2")]
-transform = Transform3D(0.680248, 0, 0.732982, 0, 1, 0, -0.732982, 0, 0.680248, -3.71689, 1.33486, 19.7756)
+transform = Transform3D(0.44279, 0, 0.896625, 0, 1, 0, -0.896625, 0, 0.44279, -3.20817, 1.33486, 19.5785)
 
 [node name="BookBridgeClosed2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("49_66ob2")]
-transform = Transform3D(-0.581058, 0, 0.813862, 0, 1, 0, -0.813862, 0, -0.581058, -3.6888, 1.32998, 20.8512)
+transform = Transform3D(0.314258, 0, -0.949338, 0, 1, 0, 0.949338, 0, 0.314258, -3.6888, 1.32998, 20.8512)
 
 [node name="BookEncyclopedia" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("50_66ob2")]
 transform = Transform3D(-0.463404, 0, -0.886147, 0, 1, 0, 0.886147, 0, -0.463404, 3.33883, 1.33905, 20.8421)
 
 [node name="BookJournalClosed" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("51_2ifga")]
-transform = Transform3D(-0.727892, 0, -0.685691, 0, 1, 0, 0.685691, 0, -0.727892, 3.30243, 1.34066, 20.4438)
+transform = Transform3D(-0.727892, 0, -0.685691, 0, 1, 0, 0.685691, 0, -0.727892, 3.09653, 1.34066, 20.4438)
 
 [node name="BookJournalClosed2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("51_2ifga")]
-transform = Transform3D(0.27354, 0, -0.961861, 0, 1, 0, 0.961861, 0, 0.27354, 3.32463, 1.36977, 20.4721)
+transform = Transform3D(0.27354, 0, -0.961861, 0, 1, 0, 0.961861, 0, 0.27354, 3.11873, 1.36977, 20.4721)
 
 [node name="Sketchbook012" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("53_sqt58")]
 transform = Transform3D(0.53509, 0, 0.844795, 0, 1, 0, -0.844795, 0, 0.53509, -3.33439, 1.32939, 18.9636)
