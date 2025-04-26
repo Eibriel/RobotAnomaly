@@ -50,7 +50,6 @@ material = SubResource("StandardMaterial3D_rohu2")
 script = ExtResource("1_a8i7p")
 
 [node name="WoodCrate" parent="." instance=ExtResource("1_v42qo")]
-visible = false
 
 [node name="WoodCrateOpen" parent="." instance=ExtResource("1_3bch5")]
 
@@ -76,7 +75,7 @@ process_material = SubResource("ParticleProcessMaterial_bi84b")
 draw_pass_1 = SubResource("QuadMesh_sdd6b")
 
 [node name="GPUParticles3D_cache" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.668471, -4.58843, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.378494, 1.41689, 0)
 cast_shadow = 0
 emitting = false
 amount = 3

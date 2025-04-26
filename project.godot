@@ -112,7 +112,7 @@ camera_left={
 locale/translation_remaps={
 "res://fonts/FiraSansCondensed-Bold.ttf": PackedStringArray("res://fonts/Source Han Sans CN Regular.otf:zh_Hans")
 }
-locale/translations=PackedStringArray("res://localization/localization.en.translation", "res://localization/localization.es.translation", "res://localization/localization.pt_BR.translation", "res://localization/localization.ru.translation", "res://localization/localization.zh_Hans.translation", "res://localization/localization.de.translation")
+locale/translations=PackedStringArray("res://localization/localization.en.translation", "res://localization/localization.es.translation", "res://localization/localization.pt_BR.translation", "res://localization/localization.ru.translation", "res://localization/localization.zh_Hans.translation", "res://localization/localization.de.translation", "res://localization/localization.ja.translation")
 locale/test.release=""
 
 [layer_names]

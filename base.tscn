@@ -880,9 +880,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87234, 1.54817, 30.8238)
 stream = ExtResource("9_i2k0m")
 
 [node name="DressingNode" type="Node3D" parent="OfficeNode"]
+unique_name_in_owner = true
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -922,7 +924,6 @@ transform = Transform3D(0.930743, 0, 0.365673, 0, 1, 0, -0.365673, 0, 0.930743, 
 
 [node name="office_start" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="PictureFrame4" parent="OfficeNode/DressingNode/office_start" instance=ExtResource("41_60t3g")]
 transform = Transform3D(1.2936e-07, -0.272885, 0.962047, 2.14966e-08, 0.962047, 0.272885, -1, -1.46196e-08, 1.30317e-07, -4.15773, 1.6418, 20.8553)
@@ -1754,6 +1755,7 @@ size = Vector2(1.77, 1)
 [node name="RobotMale" parent="OfficeNode/DressingNode/office_lab" instance=ExtResource("90_rudes")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 3.69159, 0, 17.6011)
 pose = 2
+force_body = true
 
 [node name="office_executive" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -1777,7 +1779,7 @@ transform = Transform3D(0.99447, 0, 0.105014, 0, 1, 0, -0.105014, 0, 0.99447, 0.
 transform = Transform3D(0.711462, 0, 0.702724, 0, 1, 0, -0.702724, 0, 0.711462, 1.84357, 0.00807454, -6.50181)
 
 [node name="Ceo" parent="OfficeNode/DressingNode/office_executive/Body" instance=ExtResource("70_4m8x8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0626905, -0.0107416, 0.0628686)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0626903, -0.0107416, 0.0628688)
 pose = 2
 
 [node name="RobotCrowd01" type="StaticBody3D" parent="OfficeNode/DressingNode/office_executive"]
@@ -1950,6 +1952,7 @@ uppercase = true
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -1988,6 +1991,9 @@ red_eyes = true
 [node name="RobotMale2" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("90_rudes")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.126916, 0, -22.6441)
 pose = 4
+
+[node name="BrainTube2" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("82_jic3x")]
+transform = Transform3D(1.99692, -1.39378e-09, -0.110876, 0.110566, -0.149435, 1.99134, -0.00828442, -1.99441, -0.149206, 0.867453, 2.04031, -23.6733)
 
 [node name="BalloonThanks" parent="OfficeNode/DressingNode/office_museum/VacuumReveal" instance=ExtResource("63_foy6r")]
 transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -0.011663, 3.54859, -24.3047)
@@ -2376,9 +2382,6 @@ width = 3000.0
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.04457, 0, 3.38316)
 pose = 1
 
-[node name="BrainTube2" parent="OfficeNode/DressingNode/office_museum" instance=ExtResource("82_jic3x")]
-transform = Transform3D(1.99692, -1.39378e-09, -0.110876, 0.110566, -0.149435, 1.99134, -0.00828442, -1.99441, -0.149206, 0.867453, 2.04031, -23.6733)
-
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
 visible = false
@@ -2542,11 +2545,6 @@ banner_scale = 0.6
 
 [node name="MaleFigurine2" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("95_0s0vy")]
 transform = Transform3D(0.108313, 0, -0.156103, 0, 0.19, 0, 0.156103, 0, 0.108313, 3.25668, 1.33306, 18.77)
-
-[node name="Label3D" type="Label3D" parent="OfficeNode/DressingNode/office_design/MaleFigurine2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0443039, 0.0551119, 0.316677)
-text = "COMING SOON"
-font_size = 15
 
 [node name="office_congrats" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
@@ -3866,7 +3864,7 @@ min_value = 0.5
 max_value = 1.5
 step = 0.5
 value = 1.0
-tick_count = 4
+tick_count = 3
 ticks_on_borders = true
 
 [node name="AudioSettingsMenu" type="Control" parent="Control/PauseMenu"]
@@ -3932,7 +3930,7 @@ rounded = true
 [node name="LanguageMenu" type="OptionButton" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-item_count = 6
+item_count = 7
 popup/item_0/text = "English"
 popup/item_0/id = 0
 popup/item_1/text = "Español"
@@ -3945,6 +3943,8 @@ popup/item_4/text = "Русский"
 popup/item_4/id = 4
 popup/item_5/text = "Deutsch"
 popup/item_5/id = 5
+popup/item_6/text = "日本語"
+popup/item_6/id = 6
 
 [node name="GameplaySettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
@@ -4196,14 +4196,16 @@ layout_mode = 2
 text = "WISHLIST"
 
 [node name="FeedbackButton" type="Button" parent="Control/PlayTestMenu"]
-unique_name_in_owner = true
 layout_mode = 2
 text = "SEND FEEDBACK"
 
 [node name="TranslationIssueButton" type="Button" parent="Control/PlayTestMenu"]
-unique_name_in_owner = true
 layout_mode = 2
 text = "REPORT TRANSLATION ISSUE"
+
+[node name="PresskitButton" type="Button" parent="Control/PlayTestMenu"]
+layout_mode = 2
+text = "Presskit"
 
 [node name="LoadingControl" type="Control" parent="Control"]
 unique_name_in_owner = true
@@ -4353,3 +4355,4 @@ visible = false
 [connection signal="pressed" from="Control/PlayTestMenu/WishlistButton" to="." method="_on_wishlist_button_pressed"]
 [connection signal="pressed" from="Control/PlayTestMenu/FeedbackButton" to="." method="_on_feedback_button_pressed"]
 [connection signal="pressed" from="Control/PlayTestMenu/TranslationIssueButton" to="." method="_on_translation_issue_button_pressed"]
+[connection signal="pressed" from="Control/PlayTestMenu/PresskitButton" to="." method="_on_presskit_button_pressed"]

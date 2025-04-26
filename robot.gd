@@ -410,19 +410,13 @@ func _process(delta: float) -> void:
 	#
 	var battery_bone := %robotObject.get_node("Armature/Skeleton3D/Battery_Attachment") as BoneAttachment3D
 	var shutdown_bone := %robotObject.get_node("Armature/Skeleton3D/ShutDown_Attachment") as BoneAttachment3D
-	var camera_bone := %robotObject.get_node("Armature/Skeleton3D/Camera_Attachment") as BoneAttachment3D
 	%BatteryNode.global_position = battery_bone.global_position
 	%BatteryNode.global_rotation = battery_bone.global_rotation
 	%ShutdownNode.global_position = shutdown_bone.global_position
 	%ShutdownNode.global_rotation = shutdown_bone.global_rotation
-	var anim_cam_pos := camera_bone.global_position
-	var anim_cam_rot := camera_bone.global_rotation
-	var player_cam_pos: Vector3 = Global.player.get_camera().global_position
-	var player_cam_rot: Vector3 = Global.player.get_camera().global_rotation
-	%CameraNode.global_position = lerp(player_cam_pos, anim_cam_pos, anim_camera_weight)
-	%CameraNode.global_rotation.x = lerp_angle(player_cam_rot.x, anim_cam_rot.x, anim_camera_weight)
-	%CameraNode.global_rotation.y = lerp_angle(player_cam_rot.y, anim_cam_rot.y, anim_camera_weight)
-	%CameraNode.global_rotation.z = lerp_angle(player_cam_rot.z, anim_cam_rot.z, anim_camera_weight)
+	var camera_bone := %robotObject.get_node("Armature/Skeleton3D/Camera_Attachment/Camera_Attachment") as Node3D # BoneAttachment3D
+	var player_cam: Camera3D = Global.player.get_camera()
+	%CameraNode.global_transform = player_cam.global_transform.interpolate_with(camera_bone.global_transform, anim_camera_weight)
 	
 	if hide_base:
 		remove_base()
@@ -495,13 +489,20 @@ func grab_player() -> void:
 	if not grab_anim_started:
 		grab_anim_started = true
 		$AttackSound.play()
-		anim.play("AttackExec")
+		if randf() < 0.5:
+			anim.play("AttackExec")
+		else:
+			anim.play("AttackB")
 		anim.speed_scale = 1.0
 		Global.player.rumble(0.1)
 		anim.connect("animation_finished", _on_attack_anim_finished)
 
 func _on_attack_anim_finished(anim_name: String) -> void:
-	if anim_name == "AttackExec":
+	const attack_anims := [
+		"AttackExec",
+		"AttackB"
+	]
+	if attack_anims.has(anim_name):
 		#executive_finished.emit()
 		anomaly_failed.emit()
 

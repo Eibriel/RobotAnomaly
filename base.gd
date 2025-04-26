@@ -227,6 +227,7 @@ func _ready() -> void:
 	%LoadingControl.visible = true
 
 	# Making everything visible to cache shaders
+	%DressingNode.position.z = -20
 	%ShaderCache.visible = true
 	%CongratsParticlesBig_cache.emitting = true
 	%CongratsParticlesBigExplosion_cache.emitting = true
@@ -249,7 +250,7 @@ func _ready() -> void:
 	
 	if Global.is_steam():
 		%FollowItchioButton.visible = false
-	
+	%FPSCursorArrows.visible = false
 	%PlayTestMenu.visible = false
 	%ReviewQuitButton.visible = false
 	%WishlistQuitButton.visible = false
@@ -293,6 +294,7 @@ func post_shader_cache() -> void:
 	if Global.is_playtest() or Global.is_demo():
 		%PlayTestMenu.visible = true
 
+	%DressingNode.position.z = 0
 	%ShaderCache.visible = false
 	
 	reset_dressing()
@@ -1282,6 +1284,7 @@ func load_game_state() -> void:
 		if Global.reset_save:
 			Global.reset_save = false
 			Global.is_reset = true
+			Global.resetting()
 		print("Reset game save")
 		return
 	if game_state.completed_anomalies.size() > 0:
@@ -1305,10 +1308,11 @@ func save_game_settings() -> void:
 
 ## From file
 func load_game_settings() -> void:
-	if not is_instance_of(load(settings_path), GameSettingsResource) or \
-			not ResourceLoader.exists(settings_path):
+	if not ResourceLoader.exists(settings_path) or \
+			not is_instance_of(load(settings_path), GameSettingsResource):
 		game_settings = GameSettingsResource.new()
-		var loc := TranslationServer.get_locale()
+		#var loc := TranslationServer.get_locale()
+		var loc := OS.get_locale_language()
 		var loaded := TranslationServer.get_loaded_locales()
 		prints("LOCALE", loc, loaded)
 		var best_similarity := 0
@@ -1317,7 +1321,7 @@ func load_game_settings() -> void:
 			prints("COMPARE LOCALE %s %s:" % [loc, ln], similarity)
 			if similarity <= best_similarity: continue
 			best_similarity = similarity
-			game_settings.language = ln
+			game_settings.language = game_settings.locale_names[ln]
 			prints("LOCALE SET", ln)
 	else:
 		game_settings = load(settings_path)
@@ -2703,6 +2707,8 @@ func _on_feedback_button_pressed() -> void:
 func _on_translation_issue_button_pressed() -> void:
 	GlobalSteam.open_url("https://steamcommunity.com/app/3583330/discussions/0/?utm_source=ingame_ra")
 
-
 func _on_wishlist_button_pressed() -> void:
 	GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/?utm_source=ingame_ra")
+
+func _on_presskit_button_pressed() -> void:
+	GlobalSteam.open_url("https://impress.games/press-kit/eibriel/robot-anomaly")

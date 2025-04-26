@@ -42,6 +42,7 @@ var light_event_dirty:=false
 var anomaly_position_dirty:=false
 
 var timer_to_quiet:=0.0
+var timer_to_blink:=0.0
 
 var lights_data: Array = []
 var unstable_lights: Array[int] = []
@@ -69,6 +70,7 @@ func _process(delta: float) -> void:
 	if lights_on_dirty:
 		lights_on_dirty = false
 		if lights_on:
+			timer_to_blink = 0.0
 			unblock_all_lights()
 		else:
 			block_all_lights()
@@ -113,7 +115,11 @@ func _process(delta: float) -> void:
 	#print(anomaly_position)
 	if anomaly_position != Vector2.ZERO:
 		if not lights_on:
-			blink_light(unstable_light, delta, true)
+			# Lights turn on when lights_timer > 30.0
+			if timer_to_blink < 20.0:
+				timer_to_blink += delta
+			else:
+				blink_light(unstable_light, delta, true)
 			#lights_data[unstable_light][0].visible = false
 	
 	light_event_dirty = false

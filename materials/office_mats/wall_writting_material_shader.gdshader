@@ -5,10 +5,10 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_sc
 
 uniform sampler2D texture_writting_1 : source_color, filter_linear_mipmap, repeat_enable;
 uniform float writting_1_weight : hint_range(0.0, 1.0);
-uniform sampler2D texture_writting_2 : source_color, filter_linear_mipmap, repeat_enable;
-uniform float writting_2_weight : hint_range(0.0, 1.0);
-uniform sampler2D texture_writting_3 : source_color, filter_linear_mipmap, repeat_enable;
-uniform float writting_3_weight : hint_range(0.0, 1.0);
+//uniform sampler2D texture_writting_2 : source_color, filter_linear_mipmap, repeat_enable;
+//uniform float writting_2_weight : hint_range(0.0, 1.0);
+//uniform sampler2D texture_writting_3 : source_color, filter_linear_mipmap, repeat_enable;
+//uniform float writting_3_weight : hint_range(0.0, 1.0);
 
 uniform vec4 fog_color : source_color;
 uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;

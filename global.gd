@@ -43,7 +43,10 @@ func _process(delta: float) -> void:
 		robot_cache.add_child(r)
 		robot_stack.append(r)
 		stack_timer = 0.0
-		#print("Instantiate robot")
+		print("Instantiate robot")
+
+func resetting() -> void:
+	robot_stack.resize(0)
 
 func male_robot_add_blood() -> void:
 	ROBOT_CLOTHES.detail_enabled = true
