@@ -1,4 +1,4 @@
-[gd_scene load_steps=208 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=212 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -461,6 +461,18 @@ turbulence_noise_strength = 0.01
 turbulence_noise_scale = 1.0
 turbulence_noise_speed_random = 0.1
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_4m8x8"]
+size = Vector3(1.41797, 1.04688, 2.09863)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dg0wa"]
+size = Vector3(1.41797, 1.04688, 2.09863)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_arwmn"]
+size = Vector3(1.41797, 1.04688, 2.09863)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xevso"]
+size = Vector3(1.41797, 1.04688, 2.09863)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_vgrfu"]
 size = Vector3(0.780762, 0.18512, 0.941406)
 
@@ -884,6 +896,7 @@ unique_name_in_owner = true
 
 [node name="office_warehouse" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="WoodCrate_AOBig2" parent="OfficeNode/DressingNode/office_warehouse" instance=ExtResource("11_tjsd2")]
 transform = Transform3D(0.999279, 0, -0.046892, 0, 1, 0, 0.0379692, 0, 1.23411, 3.50838, 0.0188208, 20.0967)
@@ -1952,7 +1965,6 @@ uppercase = true
 
 [node name="office_museum" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
-visible = false
 
 [node name="VacuumReveal" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -2175,19 +2187,19 @@ vertical_alignment = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/MuseumTables/ObjectsStaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, -1.66377)
-shape = SubResource("BoxShape3D_tjsd2")
+shape = SubResource("BoxShape3D_4m8x8")
 
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/MuseumTables/ObjectsStaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, 1.88994)
-shape = SubResource("BoxShape3D_tjsd2")
+shape = SubResource("BoxShape3D_dg0wa")
 
 [node name="CollisionShape3D4" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/MuseumTables/ObjectsStaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, 5.1656)
-shape = SubResource("BoxShape3D_tjsd2")
+shape = SubResource("BoxShape3D_arwmn")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="OfficeNode/DressingNode/office_museum/MuseumTables/ObjectsStaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.513062, -5.05615)
-shape = SubResource("BoxShape3D_tjsd2")
+shape = SubResource("BoxShape3D_xevso")
 
 [node name="AnomalyDisplay" type="Node3D" parent="OfficeNode/DressingNode/office_museum"]
 unique_name_in_owner = true
@@ -2325,22 +2337,27 @@ display_id = 32
 
 [node name="AnomalyDisplayElement36" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.75699)
+visible = false
 display_id = 33
 
 [node name="AnomalyDisplayElement37" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.39623)
+visible = false
 display_id = 34
 
 [node name="AnomalyDisplayElement38" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -5.02378)
+visible = false
 display_id = 35
 
 [node name="AnomalyDisplayElement39" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442643, 1.0326, -4.61337)
+visible = false
 display_id = 36
 
 [node name="AnomalyDisplayElement40" parent="OfficeNode/DressingNode/office_museum/AnomalyDisplay" instance=ExtResource("68_r5sll")]
 transform = Transform3D(1.31134e-07, 0, 1, 0, 1, 0, -1, 0, 1.31134e-07, 0.442642, 1.0326, -4.20149)
+visible = false
 display_id = 37
 
 [node name="VacuumObstacles" type="StaticBody3D" parent="OfficeNode/DressingNode/office_museum"]
@@ -2384,6 +2401,7 @@ pose = 1
 
 [node name="office_design" type="Node3D" parent="OfficeNode/DressingNode"]
 unique_name_in_owner = true
+visible = false
 
 [node name="LobbyChair5" parent="OfficeNode/DressingNode/office_design" instance=ExtResource("13_jym3p")]
 transform = Transform3D(-0.803483, 0, 0.595328, 0, 1, 0, -0.595328, 0, -0.803483, -3.34094, 0.00768454, 24.0467)

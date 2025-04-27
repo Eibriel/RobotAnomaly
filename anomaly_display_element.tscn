@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://di52qnvxit3q2"]
+[gd_scene load_steps=9 format=3 uid="uid://di52qnvxit3q2"]
 
 [ext_resource type="PackedScene" uid="uid://coulw5ubmqyvj" path="res://objects/robot_gi1_figure.glb" id="1_7agnt"]
 [ext_resource type="Script" uid="uid://w7edst2tqa8i" path="res://anomaly_display_element.gd" id="1_lvupd"]
@@ -6,10 +6,18 @@
 [ext_resource type="ArrayMesh" uid="uid://ctccerv78uw74" path="res://meshes/door_storage.res" id="4_4481y"]
 [ext_resource type="ArrayMesh" uid="uid://db7vcteah6xsb" path="res://meshes/door_storage_frame.res" id="5_dag7g"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4481y"]
+albedo_color = Color(0.186587, 0.141011, 0.029407, 1)
+metallic = 1.0
+metallic_specular = 0.43
+roughness = 0.58
+
 [sub_resource type="BoxMesh" id="BoxMesh_lvupd"]
+material = SubResource("StandardMaterial3D_4481y")
 size = Vector3(0.3, 0.02, 0.15)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lvupd"]
+material = SubResource("StandardMaterial3D_4481y")
 size = Vector2(0.2, 0.05)
 
 [node name="AnomalyDisplayElement" type="Node3D"]
@@ -29,7 +37,6 @@ mesh = SubResource("PlaneMesh_lvupd")
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.00416481, 0.155)
 pixel_size = 0.001
-modulate = Color(0, 0, 0, 1)
 text = "??"
 font = ExtResource("3_hg5q3")
 font_size = 20
