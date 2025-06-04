@@ -31,7 +31,7 @@ stream_6/stream = ExtResource("9_8xocb")
 script = ExtResource("1_2c5vg")
 
 [node name="Roomba" parent="." instance=ExtResource("1_uecmn")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.018388, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 collision_layer = 512

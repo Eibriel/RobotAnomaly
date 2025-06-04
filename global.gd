@@ -46,6 +46,9 @@ func _process(delta: float) -> void:
 		print("Instantiate robot")
 
 func resetting() -> void:
+	set_underground_vignete(0)
+	set_rumble_vignete(0)
+	set_blood_vignete(0)
 	robot_stack.resize(0)
 
 func male_robot_add_blood() -> void:
