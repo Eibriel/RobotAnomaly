@@ -254,15 +254,21 @@ func _ready() -> void:
 	%PlayTestMenu.visible = false
 	%ReviewQuitButton.visible = false
 	%WishlistQuitButton.visible = false
+	%ResetButton.focus_neighbor_bottom = %QuitButton.get_path()
+	%ResetButton.focus_next = %QuitButton.get_path()
 	if Global.is_playtest():
 		#%PlayTestMenu.visible = true
 		%FPSLabel.visible = true
 		%QuitButton.visible = false
 		%ReviewQuitButton.visible = true
+		%ResetButton.focus_neighbor_bottom = %ReviewQuitButton.get_path()
+		%ResetButton.focus_next = %ReviewQuitButton.get_path()
 	if Global.is_demo():
 		#%PlayTestMenu.visible = true
 		%QuitButton.visible = false
 		%WishlistQuitButton.visible = true
+		%ResetButton.focus_neighbor_bottom = %WishlistQuitButton.get_path()
+		%ResetButton.focus_next = %WishlistQuitButton.get_path()
 		
 	
 	if Global.recording_trailer:
@@ -1979,6 +1985,7 @@ func pause() -> void:
 	%PauseMenu.visible = true
 	%ResetGameMenu.visible = false
 	%InitialMenu.visible = true
+	%SettingsMenu.visible = false
 	%HowToPlay.visible = false
 	%DisplaySettingsMenu.visible = false
 	%AudioSettingsMenu.visible = false
@@ -1987,6 +1994,7 @@ func pause() -> void:
 	$PauseSound.pitch_scale = 1.0
 	$PauseSound.play()
 	%PauseMenu.modulate.a = 0.0
+	%ResumeButton.grab_focus()
 	var pause_tween := get_tree().create_tween().bind_node(%PauseMenu)
 	pause_tween.tween_property(%PauseMenu, "modulate:a", 1.0, 0.5)
 	get_tree().paused = true
@@ -1999,6 +2007,7 @@ func end_demo():
 	demo_ended = true
 	get_tree().paused = true
 	%EndDemoMenu.visible = true
+	%ConfirmResetButton.grab_focus()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	GamePlatform.setTimelineGameMode(GamePlatform.TIMELINE_MODE.MENUS)
 
@@ -2020,7 +2029,7 @@ func _input(event: InputEvent) -> void:
 		#day += 1
 		#load_main()
 		Global.player.rumble()
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("pause"):
 		pause()
 	if event is InputEventMouseButton:
 		if event.pressed:
@@ -2628,6 +2637,7 @@ func show_menu_tween(menu: Control) -> void:
 
 func _on_quit_button_pressed() -> void:
 	%QuitGameMenu.visible = true
+	%CancelQuitButton.grab_focus()
 	show_menu_tween(%QuitGameMenu)
 	if Global.is_playtest():
 		GlobalSteam.open_url("https://app.formbricks.com/s/cm8g8koty0003id03r7u9aciy")
@@ -2637,6 +2647,7 @@ func _on_quit_button_pressed() -> void:
 func _on_reset_button_pressed() -> void:
 	#%ResetButton.visible = false
 	%ResetGameMenu.visible = true
+	%CancelResetButton.grab_focus()
 	show_menu_tween(%ResetGameMenu)
 
 func _on_confirm_reset_button_pressed() -> void:
@@ -2646,45 +2657,57 @@ func _on_confirm_reset_button_pressed() -> void:
 
 func _on_cancel_reset_button_pressed() -> void:
 	#%ResetButton.visible = true
+	%ResumeButton.grab_focus()
 	%ResetGameMenu.visible = false
 
 func _on_how_to_play_button_pressed() -> void:
 	%HowToPlay.visible = true
+	%HowToPlayBackButton.grab_focus()
 	show_menu_tween(%HowToPlay)
 
 func _on_how_to_play_back_button_pressed() -> void:
 	%HowToPlay.visible = false
+	%ResumeButton.grab_focus()
 
 func _on_settings_button_pressed() -> void:
 	%SettingsMenu.visible = true
+	%SettingsBackButton.grab_focus()
 	show_menu_tween(%SettingsMenu)
 
 func _on_settings_back_button_pressed() -> void:
 	%SettingsMenu.visible = false
+	%ResumeButton.grab_focus()
 
 func _on_audio_settings_button_pressed() -> void:
 	%AudioSettingsMenu.visible = true
+	%AudioSettingsBackButton.grab_focus()
 	show_menu_tween(%AudioSettingsMenu)
 
 func _on_display_settings_button_pressed() -> void:
 	%DisplaySettingsMenu.visible = true
+	%DisplaySettingsBackButton.grab_focus()
 	show_menu_tween(%DisplaySettingsMenu)
 
 func _on_audio_settings_back_button_pressed() -> void:
 	%AudioSettingsMenu.visible = false
+	%SettingsBackButton.grab_focus()
 
 func _on_display_settings_back_button_pressed() -> void:
 	%DisplaySettingsMenu.visible = false
+	%SettingsBackButton.grab_focus()
 
 func _on_gameplay_settings_button_pressed() -> void:
 	%GameplaySettingsMenu.visible = true
+	%GameplaySettingsBackButton.grab_focus()
 	show_menu_tween(%GameplaySettingsMenu)
 
 func _on_gameplay_settings_back_button_pressed() -> void:
 	%GameplaySettingsMenu.visible = false
+	%SettingsBackButton.grab_focus()
 
 func _on_cancel_quit_button_pressed() -> void:
 	%QuitGameMenu.visible = false
+	%ResumeButton.grab_focus()
 
 func _on_confirm_quit_button_pressed() -> void:
 	save_game_state()
@@ -2712,3 +2735,7 @@ func _on_wishlist_button_pressed() -> void:
 
 func _on_presskit_button_pressed() -> void:
 	GlobalSteam.open_url("https://impress.games/press-kit/eibriel/robot-anomaly")
+
+
+func _on_pause_menu_unpause() -> void:
+	unpause.call_deferred()

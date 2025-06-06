@@ -1,4 +1,4 @@
-[gd_scene load_steps=212 format=3 uid="uid://c4utrcpde6y22"]
+[gd_scene load_steps=213 format=3 uid="uid://c4utrcpde6y22"]
 
 [ext_resource type="Script" uid="uid://b7i30wv8lorlb" path="res://base.gd" id="1_ut1kh"]
 [ext_resource type="PackedScene" uid="uid://coeaj8kxwl40n" path="res://character.tscn" id="2_c28jh"]
@@ -134,6 +134,7 @@
 [ext_resource type="Theme" uid="uid://n14cpwc2qtoc" path="res://themes/menu_title.tres" id="115_n6axq"]
 [ext_resource type="AudioStream" uid="uid://b0l16olsaxemf" path="res://sounds/stinger_b.ogg" id="120_ryshc"]
 [ext_resource type="Texture2D" uid="uid://j7c3q5367bfw" path="res://textures/small_arrow.png" id="121_qwwm2"]
+[ext_resource type="Script" uid="uid://1kuteq7ab37b" path="res://pause_menu.gd" id="130_dg0wa"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ksmmt"]
 render_priority = 1
@@ -3483,21 +3484,39 @@ uppercase = true
 layout_mode = 2
 
 [node name="ConfirmResetButton" type="Button" parent="Control/EndDemoMenu/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../WishlistButton")
+focus_next = NodePath("../WishlistButton")
+focus_previous = NodePath(".")
 text = "RESET GAME"
 
 [node name="WishlistButton" type="Button" parent="Control/EndDemoMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ConfirmResetButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ConfirmQuitButton")
+focus_next = NodePath("../ConfirmQuitButton")
+focus_previous = NodePath("../ConfirmResetButton")
 text = "WISHLIST"
 
 [node name="ConfirmQuitButton" type="Button" parent="Control/EndDemoMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../WishlistButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ConfirmResetButton")
+focus_next = NodePath("../ConfirmResetButton")
+focus_previous = NodePath("../WishlistButton")
 text = "QUIT"
 
 [node name="PauseMenu" type="Control" parent="Control"]
 unique_name_in_owner = true
 process_mode = 2
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3505,6 +3524,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("115_jic3x")
+script = ExtResource("130_dg0wa")
 
 [node name="PauseBackground" type="ColorRect" parent="Control/PauseMenu"]
 layout_mode = 1
@@ -3549,7 +3569,14 @@ uppercase = true
 layout_mode = 2
 
 [node name="ResumeButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../WishlistQuitButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../SettingsButton")
+focus_next = NodePath("../SettingsButton")
+focus_previous = NodePath("../WishlistQuitButton")
 text = "RESUME"
 
 [node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
@@ -3557,32 +3584,69 @@ layout_mode = 2
 
 [node name="SettingsButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ResumeButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../HowToPlayButton")
+focus_next = NodePath("../HowToPlayButton")
+focus_previous = NodePath("../ResumeButton")
 text = "SETTINGS"
 
 [node name="HowToPlayButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../SettingsButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ResetButton")
+focus_next = NodePath("../ResetButton")
+focus_previous = NodePath("../SettingsButton")
 text = "HOW TO PLAY"
 
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 layout_mode = 2
 
 [node name="ResetButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../HowToPlayButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../QuitButton")
+focus_next = NodePath("../QuitButton")
+focus_previous = NodePath("../HowToPlayButton")
 text = "RESET GAME"
 
 [node name="QuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ResetButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ReviewQuitButton")
+focus_next = NodePath("../ReviewQuitButton")
+focus_previous = NodePath("../ResetButton")
 text = "QUIT"
 
 [node name="ReviewQuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../QuitButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../../../PlayTestMenu/WishlistButton")
+focus_next = NodePath("../../../../PlayTestMenu/WishlistButton")
+focus_previous = NodePath("../QuitButton")
 text = "PROVIDE FEEDBACK AND QUIT"
 
 [node name="WishlistQuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ReviewQuitButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../../../PlayTestMenu/WishlistButton")
+focus_next = NodePath("../../../../PlayTestMenu/WishlistButton")
+focus_previous = NodePath("../ReviewQuitButton")
 text = "WISHLIST AND QUIT"
 
 [node name="SettingsMenu" type="Control" parent="Control/PauseMenu"]
@@ -3629,7 +3693,14 @@ uppercase = true
 layout_mode = 2
 
 [node name="SettingsBackButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../GameplaySettingsButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../AudioSettingsButton")
+focus_next = NodePath("../AudioSettingsButton")
+focus_previous = NodePath("../GameplaySettingsButton")
 text = "BACK"
 
 [node name="HSeparator3" type="HSeparator" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
@@ -3637,14 +3708,32 @@ layout_mode = 2
 
 [node name="AudioSettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../SettingsBackButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../DisplaySettingsButton")
+focus_next = NodePath("../DisplaySettingsButton")
+focus_previous = NodePath("../SettingsBackButton")
 text = "AUDIO LANGUAGE"
 
 [node name="DisplaySettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../AudioSettingsButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../GameplaySettingsButton")
+focus_next = NodePath("../GameplaySettingsButton")
+focus_previous = NodePath("../AudioSettingsButton")
 text = "DISPLAY"
 
 [node name="GameplaySettingsButton" type="Button" parent="Control/PauseMenu/SettingsMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../DisplaySettingsButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../SettingsBackButton")
+focus_next = NodePath("../SettingsBackButton")
+focus_previous = NodePath("../DisplaySettingsButton")
 text = "GAMEPLAY"
 
 [node name="HowToPlay" type="Control" parent="Control/PauseMenu"]
@@ -3751,6 +3840,7 @@ horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="HowToPlayBackButton" type="Button" parent="Control/PauseMenu/HowToPlay"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -3763,10 +3853,17 @@ offset_right = 26.0
 offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath(".")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath(".")
+focus_next = NodePath(".")
+focus_previous = NodePath(".")
 text = "BACK"
 
 [node name="DisplaySettingsMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -3808,7 +3905,14 @@ uppercase = true
 layout_mode = 2
 
 [node name="DisplaySettingsBackButton" type="Button" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../UIScaleSlider")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../FullscreenCheckBox")
+focus_next = NodePath("../FullscreenCheckBox")
+focus_previous = NodePath("../UIScaleSlider")
 text = "BACK"
 
 [node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
@@ -3817,18 +3921,36 @@ layout_mode = 2
 [node name="FullscreenCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../DisplaySettingsBackButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../VSyncCheckBox")
+focus_next = NodePath("../VSyncCheckBox")
+focus_previous = NodePath("../DisplaySettingsBackButton")
 text = "FULLSCREEN"
 flat = true
 
 [node name="VSyncCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../FullscreenCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../MaxFPSSpin")
+focus_next = NodePath("../MaxFPSSpin")
+focus_previous = NodePath("../FullscreenCheckBox")
 text = "VSYNC"
 flat = true
 
 [node name="MaxFPSSpin" type="SpinBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../VSyncCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../QualityMenu")
+focus_next = NodePath("../QualityMenu")
+focus_previous = NodePath("../VSyncCheckBox")
 min_value = 30.0
 max_value = 240.0
 value = 30.0
@@ -3848,6 +3970,13 @@ uppercase = true
 [node name="QualityMenu" type="OptionButton" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../MaxFPSSpin")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../FilterCheckBox")
+focus_next = NodePath("../FilterCheckBox")
+focus_previous = NodePath("../MaxFPSSpin")
+action_mode = 1
 item_count = 4
 popup/item_0/text = "LOW"
 popup/item_0/id = 0
@@ -3864,12 +3993,24 @@ layout_mode = 2
 [node name="FilterCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../QualityMenu")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../CursorCheckBox")
+focus_next = NodePath("../CursorCheckBox")
+focus_previous = NodePath("../QualityMenu")
 text = "SCREEN FILTER"
 flat = true
 
 [node name="CursorCheckBox" type="CheckBox" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../FilterCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../UIScaleLabel")
+focus_next = NodePath("../UIScaleLabel")
+focus_previous = NodePath("../FilterCheckBox")
 text = "CURSOR ALWAYS ON"
 flat = true
 
@@ -3880,6 +4021,12 @@ text = "UI SCALE"
 [node name="UIScaleSlider" type="HSlider" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../CursorCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../DisplaySettingsBackButton")
+focus_next = NodePath("../DisplaySettingsBackButton")
+focus_previous = NodePath("../CursorCheckBox")
 min_value = 0.5
 max_value = 1.5
 step = 0.5
@@ -3931,7 +4078,14 @@ uppercase = true
 layout_mode = 2
 
 [node name="AudioSettingsBackButton" type="Button" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../LanguageMenu")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../VolumeSlider")
+focus_next = NodePath("../VolumeSlider")
+focus_previous = NodePath("../LanguageMenu")
 text = "BACK"
 
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
@@ -3944,12 +4098,25 @@ text = "VOLUME"
 [node name="VolumeSlider" type="HSlider" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../AudioSettingsBackButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../LanguageMenu")
+focus_next = NodePath("../LanguageMenu")
+focus_previous = NodePath("../AudioSettingsBackButton")
 value = 50.0
 rounded = true
 
 [node name="LanguageMenu" type="OptionButton" parent="Control/PauseMenu/AudioSettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../VolumeSlider")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../AudioSettingsBackButton")
+focus_next = NodePath("../AudioSettingsBackButton")
+focus_previous = NodePath("../VolumeSlider")
+action_mode = 1
 item_count = 7
 popup/item_0/text = "English"
 popup/item_0/id = 0
@@ -4009,7 +4176,14 @@ uppercase = true
 layout_mode = 2
 
 [node name="GameplaySettingsBackButton" type="Button" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../InvertYCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../MouseSenSlider")
+focus_next = NodePath("../MouseSenSlider")
+focus_previous = NodePath("../InvertYCheckBox")
 text = "BACK"
 
 [node name="HSeparator2" type="HSeparator" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
@@ -4022,6 +4196,12 @@ text = "MOUSE SENSIBILITY"
 [node name="MouseSenSlider" type="HSlider" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../GameplaySettingsBackButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../MouseAccSlider")
+focus_next = NodePath("../MouseAccSlider")
+focus_previous = NodePath("../GameplaySettingsBackButton")
 step = 0.1
 value = 50.0
 
@@ -4032,6 +4212,12 @@ text = "CAMERA ACCELERATION"
 [node name="MouseAccSlider" type="HSlider" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../MouseSenSlider")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../CameraShakeSlider")
+focus_next = NodePath("../CameraShakeSlider")
+focus_previous = NodePath("../MouseSenSlider")
 min_value = 1.0
 max_value = 30.0
 step = 0.1
@@ -4044,6 +4230,12 @@ text = "CAMERA SHAKE"
 [node name="CameraShakeSlider" type="HSlider" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../MouseAccSlider")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../InvertXCheckBox")
+focus_next = NodePath("../InvertXCheckBox")
+focus_previous = NodePath("../MouseAccSlider")
 max_value = 1.0
 step = 0.01
 value = 1.0
@@ -4054,11 +4246,23 @@ layout_mode = 2
 [node name="InvertXCheckBox" type="CheckBox" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../CameraShakeSlider")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../InvertYCheckBox")
+focus_next = NodePath("../InvertYCheckBox")
+focus_previous = NodePath("../CameraShakeSlider")
 text = "INVERT X"
 
 [node name="InvertYCheckBox" type="CheckBox" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../InvertXCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../GameplaySettingsBackButton")
+focus_next = NodePath("../GameplaySettingsBackButton")
+focus_previous = NodePath("../InvertXCheckBox")
 text = "INVERT Y"
 
 [node name="ResetGameMenu" type="Control" parent="Control/PauseMenu"]
@@ -4107,10 +4311,23 @@ text = "ARE YOU SURE?"
 
 [node name="ConfirmResetButton" type="Button" parent="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../CancelResetButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../CancelResetButton")
+focus_next = NodePath("../CancelResetButton")
+focus_previous = NodePath("../CancelResetButton")
 text = "YES RESET GAME"
 
 [node name="CancelResetButton" type="Button" parent="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ConfirmResetButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ConfirmResetButton")
+focus_next = NodePath("../ConfirmResetButton")
+focus_previous = NodePath("../ConfirmResetButton")
 text = "CANCEL"
 
 [node name="QuitGameMenu" type="Control" parent="Control/PauseMenu"]
@@ -4148,10 +4365,23 @@ grow_vertical = 2
 
 [node name="ConfirmQuitButton" type="Button" parent="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../CancelQuitButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../CancelQuitButton")
+focus_next = NodePath("../CancelQuitButton")
+focus_previous = NodePath("../CancelQuitButton")
 text = "QUIT"
 
 [node name="CancelQuitButton" type="Button" parent="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ConfirmQuitButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../ConfirmQuitButton")
+focus_next = NodePath("../ConfirmQuitButton")
+focus_previous = NodePath("../ConfirmQuitButton")
 text = "CANCEL"
 
 [node name="FollowMeMenu" type="Control" parent="Control/PauseMenu"]
@@ -4188,14 +4418,32 @@ horizontal_alignment = 2
 [node name="FollowItchioButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../../InitialMenu/VBoxContainer2/ResumeButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../FollowSteamButton")
+focus_next = NodePath("../FollowSteamButton")
+focus_previous = NodePath("../../../InitialMenu/VBoxContainer2/ResumeButton")
 text = "Itch.io"
 
 [node name="FollowSteamButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../FollowItchioButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../FollowMastodonButton")
+focus_next = NodePath("../FollowMastodonButton")
+focus_previous = NodePath("../FollowItchioButton")
 text = "Steam"
 
 [node name="FollowMastodonButton" type="Button" parent="Control/PauseMenu/FollowMeMenu/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../FollowSteamButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../../InitialMenu/VBoxContainer2/ResumeButton")
+focus_next = NodePath("../../../InitialMenu/VBoxContainer2/ResumeButton")
+focus_previous = NodePath("../FollowSteamButton")
 text = "Newsletter"
 
 [node name="PlayTestMenu" type="VBoxContainer" parent="Control"]
@@ -4213,18 +4461,42 @@ grow_vertical = 0
 
 [node name="WishlistButton" type="Button" parent="Control/PlayTestMenu"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../PauseMenu/InitialMenu/VBoxContainer2/ResumeButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../FeedbackButton")
+focus_next = NodePath("../FeedbackButton")
+focus_previous = NodePath("../../PauseMenu/InitialMenu/VBoxContainer2/ResumeButton")
 text = "WISHLIST"
 
 [node name="FeedbackButton" type="Button" parent="Control/PlayTestMenu"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../WishlistButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../TranslationIssueButton")
+focus_next = NodePath("../TranslationIssueButton")
+focus_previous = NodePath("../WishlistButton")
 text = "SEND FEEDBACK"
 
 [node name="TranslationIssueButton" type="Button" parent="Control/PlayTestMenu"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../FeedbackButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../PresskitButton")
+focus_next = NodePath("../PresskitButton")
+focus_previous = NodePath("../FeedbackButton")
 text = "REPORT TRANSLATION ISSUE"
 
 [node name="PresskitButton" type="Button" parent="Control/PlayTestMenu"]
 layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../TranslationIssueButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../PauseMenu/FollowMeMenu/VBoxContainer/FollowItchioButton")
+focus_next = NodePath("../../PauseMenu/FollowMeMenu/VBoxContainer/FollowItchioButton")
+focus_previous = NodePath("../TranslationIssueButton")
 text = "Presskit"
 
 [node name="LoadingControl" type="Control" parent="Control"]
@@ -4336,6 +4608,7 @@ visible = false
 [connection signal="pressed" from="Control/EndDemoMenu/VBoxContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
 [connection signal="pressed" from="Control/EndDemoMenu/VBoxContainer/WishlistButton" to="." method="_on_wishlist_button_pressed"]
 [connection signal="pressed" from="Control/EndDemoMenu/VBoxContainer/ConfirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]
+[connection signal="unpause" from="Control/PauseMenu" to="." method="_on_pause_menu_unpause"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
