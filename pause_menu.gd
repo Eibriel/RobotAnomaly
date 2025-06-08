@@ -2,6 +2,8 @@ extends Control
 
 signal unpause
 
+var demo_ended := false
+
 func _input(event: InputEvent) -> void:
 	# NOTE
 	# added controller button to ui_accept
@@ -14,4 +16,5 @@ func _input(event: InputEvent) -> void:
 			focused.emit_signal("drag_ended", true)
 
 	if event.is_action_pressed("pause"):
-		unpause.emit()
+		if not demo_ended:
+			unpause.emit()

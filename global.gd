@@ -118,8 +118,10 @@ func noise_executed() -> void:
 func is_demo() -> bool:
 	#return OS.has_feature("demo")
 	if not is_export():
-		#return true
+		return true
 		pass
+	if OS.has_feature("web"):
+		return true
 	return OS.get_cmdline_user_args().has("--demo")
 
 func is_steam() -> bool:

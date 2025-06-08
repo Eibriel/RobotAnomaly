@@ -932,7 +932,6 @@ func update_events(delta: float) -> void:
 	maybe_enable_event(delta)
 	
 	const execute_threshold := 0.3
-	
 	if current_events.has(EVENTS.VENTILATION):
 		if is_point_centered(%EventVentilationVisible, 0.3, 0.6, 10.0):
 			event_execute_time[EVENTS.VENTILATION] += delta
@@ -945,9 +944,10 @@ func update_events(delta: float) -> void:
 			%EventVentilationAudio.position.x = 4.148
 			current_events.erase(EVENTS.VENTILATION)
 			#seen_events.append(EVENTS.VENTILATION)
-			%RobotEventVentilation.play_animation("EventVentilation")
+			#%RobotEventVentilation.play_animation("EventVentilation")
 			$Stinger.play()
 			var tween := create_tween()
+			tween.tween_callback(%RobotEventVentilation.play_animation.bind("EventVentilation")).set_delay(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 			#tween.tween_interval(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
@@ -970,9 +970,10 @@ func update_events(delta: float) -> void:
 			reset_events_timer(EVENTS.REPORT)
 			current_events.erase(EVENTS.REPORT)
 			#seen_events.append(EVENTS.REPORT)
-			%RobotEventReport.play_animation("EventReport")
+			#%RobotEventReport.play_animation("EventReport")
 			$Stinger.play()
 			var tween := create_tween()
+			tween.tween_callback(%RobotEventReport.play_animation.bind("EventReport")).set_delay(0.1)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 			#tween.tween_interval(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
@@ -994,9 +995,10 @@ func update_events(delta: float) -> void:
 			reset_events_timer(EVENTS.EXIT)
 			current_events.erase(EVENTS.EXIT)
 			#seen_events.append(EVENTS.EXIT)
-			%RobotEventExit.play_animation("EventExit")
+			#%RobotEventExit.play_animation("EventExit")
 			$Stinger.play()
 			var tween := create_tween()
+			tween.tween_callback(%RobotEventExit.play_animation.bind("EventExit")).set_delay(0.1)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 			#tween.tween_interval(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
@@ -1017,9 +1019,10 @@ func update_events(delta: float) -> void:
 			reset_events_timer(EVENTS.CEILING)
 			current_events.erase(EVENTS.CEILING)
 			#seen_events.append(EVENTS.CEILING)
-			%RobotEventCeiling.play_animation("EventCeiling")
+			#%RobotEventCeiling.play_animation("EventCeiling")
 			$Stinger.play()
 			var tween := create_tween()
+			tween.tween_callback(%RobotEventCeiling.play_animation.bind("EventCeiling")).set_delay(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", 0.015, 0.05)
 			#tween.tween_interval(0.2)
 			#tween.tween_property($WorldEnvironment.environment, "tonemap_exposure", target_exposure, 0.05)
@@ -1039,9 +1042,10 @@ func update_events(delta: float) -> void:
 			event_execute_time[EVENTS.LINE] = 0.0
 			reset_events_timer(EVENTS.LINE)
 			current_events.erase(EVENTS.LINE)
-			%RobotEventLine.play_animation("EventLine")
+			#%RobotEventLine.play_animation("EventLine")
 			$Stinger.play()
 			var tween := create_tween()
+			tween.tween_callback(%RobotEventLine.play_animation.bind("EventLine")).set_delay(0.2)
 			tween.tween_interval(0.733)
 			tween.tween_callback(%RobotEventLine.set_visible.bind(false))
 	if current_events.has(EVENTS.STAIRS):
@@ -1054,9 +1058,10 @@ func update_events(delta: float) -> void:
 			event_execute_time[EVENTS.STAIRS] = 0.0
 			reset_events_timer(EVENTS.STAIRS)
 			current_events.erase(EVENTS.STAIRS)
-			%RobotEventStairs.play_animation("RunningStairs")
+			#%RobotEventStairs.play_animation("RunningStairs")
 			#$Stinger.play()
 			var tween := create_tween()
+			tween.tween_callback(%RobotEventStairs.play_animation.bind("RunningStairs")).set_delay(0.2)
 			tween.tween_interval(2.0)
 			tween.tween_callback(%RobotEventStairs.set_visible.bind(false))
 
@@ -2005,6 +2010,7 @@ func pause() -> void:
 func end_demo():
 	$PauseSound.play()
 	demo_ended = true
+	%PauseMenu.demo_ended = true
 	get_tree().paused = true
 	%EndDemoMenu.visible = true
 	%ConfirmResetButton.grab_focus()
@@ -2026,9 +2032,10 @@ func unpause(is_initial:=false) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_text_delete"):
-		#day += 1
-		#load_main()
-		Global.player.rumble()
+		if not Global.is_export():
+			#day += 1
+			#load_main()
+			Global.player.rumble()
 	if event.is_action_pressed("pause"):
 		pause()
 	if event is InputEventMouseButton:
