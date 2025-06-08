@@ -4537,6 +4537,8 @@ offset_top = -24.0
 offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("115_jic3x")
+value = 50.0
 show_percentage = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

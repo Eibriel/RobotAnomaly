@@ -2669,47 +2669,57 @@ func _on_cancel_reset_button_pressed() -> void:
 
 func _on_how_to_play_button_pressed() -> void:
 	%HowToPlay.visible = true
+	%InitialMenu.visible = false
 	%HowToPlayBackButton.grab_focus()
 	show_menu_tween(%HowToPlay)
 
 func _on_how_to_play_back_button_pressed() -> void:
 	%HowToPlay.visible = false
+	%InitialMenu.visible = true
 	%ResumeButton.grab_focus()
 
 func _on_settings_button_pressed() -> void:
 	%SettingsMenu.visible = true
+	%InitialMenu.visible = false
 	%SettingsBackButton.grab_focus()
 	show_menu_tween(%SettingsMenu)
 
 func _on_settings_back_button_pressed() -> void:
 	%SettingsMenu.visible = false
+	%InitialMenu.visible = true
 	%ResumeButton.grab_focus()
 
 func _on_audio_settings_button_pressed() -> void:
 	%AudioSettingsMenu.visible = true
+	%SettingsMenu.visible = false
 	%AudioSettingsBackButton.grab_focus()
 	show_menu_tween(%AudioSettingsMenu)
 
 func _on_display_settings_button_pressed() -> void:
 	%DisplaySettingsMenu.visible = true
+	%SettingsMenu.visible = false
 	%DisplaySettingsBackButton.grab_focus()
 	show_menu_tween(%DisplaySettingsMenu)
 
 func _on_audio_settings_back_button_pressed() -> void:
 	%AudioSettingsMenu.visible = false
+	%SettingsMenu.visible = true
 	%SettingsBackButton.grab_focus()
 
 func _on_display_settings_back_button_pressed() -> void:
 	%DisplaySettingsMenu.visible = false
+	%SettingsMenu.visible = true
 	%SettingsBackButton.grab_focus()
 
 func _on_gameplay_settings_button_pressed() -> void:
 	%GameplaySettingsMenu.visible = true
+	%SettingsMenu.visible = false
 	%GameplaySettingsBackButton.grab_focus()
 	show_menu_tween(%GameplaySettingsMenu)
 
 func _on_gameplay_settings_back_button_pressed() -> void:
 	%GameplaySettingsMenu.visible = false
+	%SettingsMenu.visible = true
 	%SettingsBackButton.grab_focus()
 
 func _on_cancel_quit_button_pressed() -> void:
