@@ -12,9 +12,9 @@ config_version=5
 
 config/name="Robot Anomaly"
 config/description="Anomaly game about finding deviant robots"
-run/main_scene="res://base.tscn"
+run/main_scene="uid://b3sxh0m8wgp65"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 boot_splash/fullsize=false
 config/icon="uid://jrtig6k02mbh"
@@ -28,6 +28,8 @@ GamePlatform="*res://game_platform.gd"
 
 [display]
 
+window/size/mode=3
+window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 window/stretch/scale=0.8

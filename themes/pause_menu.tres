@@ -42,6 +42,8 @@ corner_detail = 5
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xfs5m"]
 bg_color = Color(0.6, 0.5258, 0.282, 1)
 corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
 [resource]

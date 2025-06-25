@@ -4265,6 +4265,35 @@ focus_next = NodePath("../GameplaySettingsBackButton")
 focus_previous = NodePath("../InvertXCheckBox")
 text = "INVERT Y"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="IgnoreControllersCheckBox" type="CheckBox" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../../InvertXCheckBox")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../../GameplaySettingsBackButton")
+focus_next = NodePath("../../GameplaySettingsBackButton")
+focus_previous = NodePath("../../InvertXCheckBox")
+text = "IGNORE CONTROLLERS"
+
+[node name="AsteriscLabel" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "*"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="AsteriscLabel" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "*"
+
+[node name="RestartGameToApplyLabel" type="Label" parent="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "RESTART TO APPLY"
+
 [node name="ResetGameMenu" type="Control" parent="Control/PauseMenu"]
 unique_name_in_owner = true
 visible = false
@@ -4538,7 +4567,6 @@ offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("115_jic3x")
-value = 50.0
 show_percentage = false
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -4640,6 +4668,7 @@ visible = false
 [connection signal="drag_ended" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/CameraShakeSlider" to="." method="_on_camera_shake_slider_drag_ended"]
 [connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/InvertXCheckBox" to="." method="_on_invert_x_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/InvertYCheckBox" to="." method="_on_invert_y_check_box_toggled"]
+[connection signal="toggled" from="Control/PauseMenu/GameplaySettingsMenu/VBoxContainer/HBoxContainer/IgnoreControllersCheckBox" to="." method="_on_ignore_controllers_check_box_toggled"]
 [connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/ConfirmResetButton" to="." method="_on_confirm_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/ResetGameMenu/ConfirmResetContainer/CancelResetButton" to="." method="_on_cancel_reset_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/QuitGameMenu/ConfirmResetContainer/ConfirmQuitButton" to="." method="_on_confirm_quit_button_pressed"]

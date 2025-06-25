@@ -181,6 +181,7 @@ func _ready() -> void:
 	load_game_state()
 	load_game_settings()
 	load_game_stats()
+	handle_joypad_settings()
 	
 	%RobotArm/AnimationPlayer.get_animation("HandTest").loop_mode = Animation.LoopMode.LOOP_LINEAR
 	%RobotArm/AnimationPlayer.play("HandTest")
@@ -1315,6 +1316,38 @@ func save_game_settings() -> void:
 	prints("game_settings.window_position", game_settings.window_position)
 	prints("game_settings.window_screen", game_settings.window_screen)
 	prints("game_settings.window_size", game_settings.window_size)
+	var usin_godot_settings:= false
+	if usin_godot_settings:
+		# NOTE Settings not saving, godot bug
+		# https://github.com/godotengine/godot/issues/83494
+		ProjectSettings.set_initial_value("display/window/size/mode", DisplayServer.WINDOW_MODE_WINDOWED)
+		if game_settings.full_screen:
+			ProjectSettings.set_setting("display/window/size/mode", DisplayServer.WINDOW_MODE_FULLSCREEN)
+		else:
+			ProjectSettings.set_setting("display/window/size/mode", DisplayServer.WINDOW_MODE_WINDOWED)
+		ProjectSettings.set_setting("display/window/size/initial_position", DisplayServer.window_get_position())
+		ProjectSettings.set_setting("display/window/size/initial_screen", DisplayServer.window_get_current_screen())
+		ProjectSettings.set_setting("display/window/size/viewport_width", DisplayServer.window_get_size().x)
+		ProjectSettings.set_setting("display/window/size/viewport_height", DisplayServer.window_get_size().y)
+		ProjectSettings.save_custom("override.cfg")
+	else:
+		var override_template = """; Initial Window config
+config_version=5
+[display]
+window/size/viewport_width=%d
+window/size/viewport_height=%d
+window/size/initial_position=Vector2i(%d, %d)
+window/size/mode=%d""" % [
+			DisplayServer.window_get_size().x,
+			DisplayServer.window_get_size().y,
+			DisplayServer.window_get_position().x,
+			DisplayServer.window_get_position().y,
+			DisplayServer.window_get_mode()
+		]
+		var path := OS.get_executable_path().get_base_dir().path_join("override.cfg")
+		var file = FileAccess.open(path,FileAccess.WRITE)
+		file.store_string(override_template)
+	#
 	ResourceSaver.save(game_settings, settings_path)
 
 ## From file
@@ -1351,6 +1384,7 @@ func load_settings() -> void:
 	%CursorCheckBox.set_pressed_no_signal(game_settings.cursor_on)
 	%InvertXCheckBox.set_pressed_no_signal(game_settings.invert_x)
 	%InvertYCheckBox.set_pressed_no_signal(game_settings.invert_y)
+	%IgnoreControllersCheckBox.set_pressed_no_signal(game_settings.ignore_controllers)
 	%MaxFPSSpin.set_value_no_signal(game_settings.max_fps)
 	%UIScaleSlider.set_value_no_signal(game_settings.ui_scale)
 	%QualityMenu.selected = game_settings.quality
@@ -1401,12 +1435,11 @@ func load_settings() -> void:
 			$DirectionalLight3D.shadow_enabled = true
 	TranslationServer.set_locale(game_settings.locale_names.find_key(game_settings.language))
 	
-	if game_settings.window_size != Vector2.ZERO:
-		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
-			get_window().current_screen = game_settings.window_screen
-			get_window().size = game_settings.window_size
-			get_window().set_deferred("position", game_settings.window_position)
-	
+	#if game_settings.window_size != Vector2.ZERO:
+		#if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED:
+			#get_window().current_screen = game_settings.window_screen
+			#get_window().size = game_settings.window_size
+			#get_window().set_deferred("position", game_settings.window_position)
 	
 	if game_settings.ui_scale > 1.5:
 		game_settings.ui_scale = 1.5
@@ -1420,6 +1453,32 @@ func load_settings() -> void:
 	prints("game_settings.window_position", game_settings.window_position)
 	prints("game_settings.window_screen", game_settings.window_screen)
 	prints("game_settings.window_size", game_settings.window_size)
+
+func handle_joypad_settings():
+	prints("joypads", Input.get_connected_joypads())
+	
+	var actions := InputMap.get_actions()
+	for action in actions:
+		var inputs := InputMap.action_get_events(action)
+		for input in inputs:
+			if input is InputEventJoypadButton or input is InputEventJoypadMotion:
+				# -1 seems to be "all devices", 99 is unreasonable
+				input.device = -1 if !game_settings.ignore_controllers else 99
+				# NOTE sending events to prevent
+				# infinite events
+				const send_stop_events := false
+				if send_stop_events and game_settings.ignore_controllers:
+					var cancel_event
+					if input is InputEventJoypadButton:
+						cancel_event = InputEventJoypadButton.new()
+						cancel_event.button_index = input.button_index
+						cancel_event.pressed = false
+						cancel_event.pressure = 0.0
+					if input is InputEventJoypadMotion:
+						cancel_event = InputEventJoypadMotion.new()
+						cancel_event.axis = input.axis
+						cancel_event.axis_value = 0.0
+					Input.parse_input_event.call_deferred(cancel_event)
 
 func load_game_stats() -> void:
 	if not is_instance_of(load(stats_path), GameStatsResource) or\
@@ -2618,6 +2677,11 @@ func _on_invert_x_check_box_toggled(toggled_on: bool) -> void:
 
 func _on_invert_y_check_box_toggled(toggled_on: bool) -> void:
 	game_settings.invert_y = toggled_on
+	save_game_settings()
+	load_settings()
+
+func _on_ignore_controllers_check_box_toggled(toggled_on: bool) -> void:
+	game_settings.ignore_controllers = toggled_on
 	save_game_settings()
 	load_settings()
 

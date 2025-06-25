@@ -37,6 +37,8 @@ extends Resource
 
 @export var ui_scale: float = 1.0
 
+@export var ignore_controllers := false
+
 enum locale_names {
 	en,
 	es_AR,

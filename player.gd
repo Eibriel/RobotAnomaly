@@ -47,6 +47,9 @@ func update_breathing_tween() -> void:
 
 func _input(event: InputEvent) -> void:
 	if movement_locked: return
+	#if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		#if Global.game_settings.ignore_controllers:
+			#event.get_rid()
 	if event is InputEventMouseMotion:
 		look_rot.y -= (event.screen_relative.x * sensitivity)
 		look_rot.x -= (event.screen_relative.y * sensitivity)

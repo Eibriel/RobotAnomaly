@@ -38,6 +38,7 @@ func _process(delta: float) -> void:
 	noise_timer = max(noise_timer, 0)
 	if angry_timer >= 0:
 		angry_timer += delta
+	if not robot_cache: return
 	if stack_timer > 0.1 and robot_stack.size() < 50:
 		var r := ROBOT.instantiate()
 		robot_cache.add_child(r)
