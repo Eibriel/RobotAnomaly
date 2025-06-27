@@ -1320,7 +1320,7 @@ func save_game_settings() -> void:
 	if usin_godot_settings:
 		# NOTE Settings not saving, godot bug
 		# https://github.com/godotengine/godot/issues/83494
-		ProjectSettings.set_initial_value("display/window/size/mode", DisplayServer.WINDOW_MODE_WINDOWED)
+		#ProjectSettings.set_initial_value("display/window/size/mode", DisplayServer.WINDOW_MODE_WINDOWED)
 		if game_settings.full_screen:
 			ProjectSettings.set_setting("display/window/size/mode", DisplayServer.WINDOW_MODE_FULLSCREEN)
 		else:
@@ -1334,8 +1334,8 @@ func save_game_settings() -> void:
 		var override_template = """; Initial Window config
 config_version=5
 [display]
-window/size/viewport_width=%d
-window/size/viewport_height=%d
+window/size/window_width_override=%d
+window/size/window_height_override=%d
 window/size/initial_position=Vector2i(%d, %d)
 window/size/mode=%d""" % [
 			DisplayServer.window_get_size().x,
