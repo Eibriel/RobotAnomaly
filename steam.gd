@@ -40,9 +40,16 @@ var _achievements = {
 	"WAKE_UP_REACHED": false,
 	"TRAPPED_REACHED": false,
 	"MASTERMIND_REACHED": false,
-	"ONE_HOUR_GAME": false,
-	"TWO_HOUR_GAME": false,
+	#"ONE_HOUR_GAME": false,
+	#"TWO_HOUR_GAME": false,
 	"LIGHT_SWITCH_INSPECTOR": false,
+	"TWEENS_KILL": false,
+	"DOOR_KILL": false,
+	"FOLLOW_KILL": false,
+	"PRIVATE_SPACE": false,
+	"PERFECTION": false,
+	"FLOOR_COMPLETED": false,
+	"FLOOR_FAILED": false,
 }
 
 var stats: Dictionary

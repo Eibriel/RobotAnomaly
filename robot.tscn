@@ -385,6 +385,21 @@ bus = &"Robots"
 emission_angle_enabled = true
 emission_angle_degrees = 43.0
 
+[node name="RobotServoAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54175, 0)
+stream = ExtResource("10_20614")
+volume_db = -80.0
+unit_size = 5.0
+autoplay = true
+bus = &"Robots"
+
+[node name="Label3D" type="Label3D" parent="RobotBody/RobotServoAudioPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.362793)
+visible = false
+pixel_size = 0.001
+text = "000"
+
 [node name="BaseShadowPlane" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.478086, 0.012)
 cast_shadow = 0

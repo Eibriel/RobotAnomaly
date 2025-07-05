@@ -437,7 +437,66 @@ func _process(delta: float) -> void:
 	update_radial(delta)
 	if follows_player_speed > 0:
 		walk_towards_player(delta, follows_player_speed)
+	
+	handle_motor_sound(delta)
 
+func handle_motor_sound(_delta:float) -> void:
+	%RobotServoAudioPlayer/Label3D.text = ""
+	var volume := 0.0
+	if !is_visible_in_tree() or is_demo or is_event or !anim.is_playing() or anim.current_animation == "Idle":
+		volume = 0.0
+	else:
+		volume = update_servo_volume()
+	%RobotServoAudioPlayer.volume_linear = volume
+	var servo_pitch := preload("res://curves/robot_angle_to_servo_pitch.tres").sample_baked(volume)
+	%RobotServoAudioPlayer.pitch_scale = servo_pitch
+	%RobotServoAudioPlayer/Label3D.text += "%f - %f - %f" % [volume, linear_to_db(volume), servo_pitch]
+	#if frame_bones_rotation != 0:
+	#	prints(frame_bones_rotation, volume, visible)
+
+var bone_rotation_prev:Dictionary[String,Quaternion] = {}
+var bones_rotation := 0.0
+func update_servo_volume() -> float:
+	var monitored_bones:Array[String] = [
+		"waist",
+		"chest",
+		"head",
+		#
+		"clavicle.L",
+		"shoulder.L",
+		"upperArm.L",
+		"upperArmKnot.L",
+		"foreArmKnot.L",
+		"palmKnot.L",
+		"thigh.L",
+		"knee.L",
+		"calf.L",
+		#
+		"clavicle.R",
+		"shoulder.R",
+		"upperArm.R",
+		"upperArmKnot.R",
+		"foreArmKnot.R",
+		"palmKnot.R",
+		"thigh.R",
+		"knee.R",
+		"calf.R",
+	]
+	var frame_bones_rotation := 0.0
+	for b in monitored_bones:
+		var bone_id := skeleton.find_bone(b)
+		if bone_id == -1: continue
+		var bone_rotation := skeleton.get_bone_pose_rotation(bone_id)
+		if bone_rotation_prev.has(b):
+			var bone_angle := bone_rotation.angle_to(bone_rotation_prev[b])
+			frame_bones_rotation += bone_angle
+			if bone_angle > 0:
+				%RobotServoAudioPlayer/Label3D.text += "%s %f \n" % [b, bone_angle]
+				%RobotServoAudioPlayer/Label3D.text += "%f %f \n" % [bone_rotation.w, bone_rotation_prev[b].w]
+			#	prints(bone_angle, b)
+		bone_rotation_prev[b] = bone_rotation
+	bones_rotation = lerp(bones_rotation, frame_bones_rotation, 0.2)
+	return preload("res://curves/robot_angle_to_servo.tres").sample_baked(bones_rotation)
 
 func update_radial(_delta: float) -> void:
 	#pressing_off_button -= delta * 2.0
@@ -518,6 +577,7 @@ func update_door_open() -> void:
 	if dist < 1.0:
 		#anomaly_failed.emit()
 		grab_player()
+		GamePlatform.set_achievement("DOOR_KILL")
 	if dist < 4.0:
 		Global.player.rumble(0.1)
 
@@ -534,6 +594,7 @@ func update_blocking_path() -> void:
 		min_distance = 2.0
 	if robot_pos.distance_to(player_pos) < min_distance:
 		grab_player()
+		GamePlatform.set_achievement("TWEENS_KILL")
 		#anomaly_failed.emit()
 	var dist := robot_pos.distance_to(player_pos)
 	if dist < 4.0:
@@ -572,6 +633,7 @@ func update_follow(delta: float) -> void:
 			#anomaly_failed.emit()
 			grab_player()
 			follow_completed = true
+			GamePlatform.set_achievement("FOLLOW_KILL")
 
 func walk_towards_player(delta:float, speed: float) -> bool:
 	var player_pos := Global.player.global_position
@@ -631,7 +693,8 @@ func set_glitch(new_glitch: GLITCHES, _is_demo := false) -> void:
 		silence_motor()
 
 func silence_motor() -> void:
-	%RobotMotorAudioPlayer.volume_db = -60
+	%RobotMotorAudioPlayer.volume_db = -80
+	%RobotServoAudioPlayer.volume_db = -80
 
 func scale_robot(scale_val:float) -> void:
 	%robotObject.scale = Vector3.ONE * scale_val
@@ -1028,6 +1091,7 @@ func grab_battery() -> void:
 	glitch_executed = true
 	anim.play("GrabsBattery")
 	Global.player.rumble(0.1)
+	GamePlatform.set_achievement("PRIVATE_SPACE")
 	# TODO add looking_player
 	# when it's fixed
 	#looking_player = true

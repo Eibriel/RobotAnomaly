@@ -33,6 +33,7 @@ window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 window/stretch/scale=0.8
+window/size/mode.editor=0
 
 [input]
 

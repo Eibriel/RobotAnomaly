@@ -1599,6 +1599,8 @@ func update_museum() -> void:
 			tween_particles.tween_callback(%CongratsParticlesBig2.set_emitting.bind(true))
 			museum_explosion_executed = true
 			GamePlatform.set_achievement("MASTERMIND_REACHED")
+			if not game_state.floor_failed:
+				GamePlatform.set_achievement("PERFECTION")
 			%MuseumTables.visible = true
 			%MuseumTables.position.y = 0
 			%AnomalyDisplay.visible = true
@@ -2236,8 +2238,11 @@ func _on_finished(success: bool, scenario: int, _last: bool) -> void:
 	%LevelReport.update_report(section.report)
 	if success:
 		GamePlatform.game_event(GamePlatform.EVENT.SUCCESS)
+		GamePlatform.set_achievement("FLOOR_COMPLETED")
 	else:
 		GamePlatform.game_event(GamePlatform.EVENT.FAILED)
+		game_state.floor_failed = true
+		GamePlatform.set_achievement("FLOOR_FAILED")
 	if not success:
 		process_failed_queue(scenario)
 		load_main()
