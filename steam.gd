@@ -156,6 +156,7 @@ func get_achievement(value: String) -> bool:
 		return false
 
 func _fire_Steam_Achievement(value: String) -> void:
+	if not initialized: return
 	# Set the achievement to an in-game variable
 	if not _achievements.has(value):
 		print("Achievement %s don't exist" % value)

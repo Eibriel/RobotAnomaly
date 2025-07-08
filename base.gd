@@ -131,7 +131,7 @@ var reset_save := false
 var override_state := true
 var state_override := GameStateResource.new()
 var fail_all := false
-var force_events := false
+var force_events := true
 #var force_completed_scenarios := 10
 
 # Trailer

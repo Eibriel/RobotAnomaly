@@ -211,6 +211,9 @@ func _ready() -> void:
 	## an animation is running, don't know why
 	anim.process_thread_group = Node.PROCESS_THREAD_GROUP_MAIN_THREAD
 	anim.process_thread_messages = true
+	#const RobotAnim = preload("res://robot_anim.gd")
+	#anim.set_script(RobotAnim)
+	#anim = %robotObject.get_node("AnimationPlayer") as AnimationPlayer
 	
 	var motor_sound_delay := create_tween()
 	motor_sound_delay.tween_interval(randf()*2)
@@ -440,63 +443,140 @@ func _process(delta: float) -> void:
 	
 	handle_motor_sound(delta)
 
-func handle_motor_sound(_delta:float) -> void:
+func handle_motor_sound(delta:float) -> void:
 	%RobotServoAudioPlayer/Label3D.text = ""
 	var volume := 0.0
-	if !is_visible_in_tree() or is_demo or is_event or !anim.is_playing() or anim.current_animation == "Idle":
+	var servo_pitch := 1.0
+	var head_volume := 0.0
+	var head_pitch := 1.0
+	# or is_event
+	if !is_visible_in_tree() or is_demo:
 		volume = 0.0
+		servo_pitch = 1.0
+		head_volume = 0.0
+		head_pitch = 1.0
 	else:
-		volume = update_servo_volume()
-	%RobotServoAudioPlayer.volume_linear = volume
-	var servo_pitch := preload("res://curves/robot_angle_to_servo_pitch.tres").sample_baked(volume)
-	%RobotServoAudioPlayer.pitch_scale = servo_pitch
+		var values := update_servo_values(delta)
+		volume = values[0]
+		servo_pitch = values[1]
+		head_volume = values[2]
+		head_pitch = values[3]
+	if volume > 0:
+		if %RobotServoAudioPlayer.stream_paused:
+			%RobotServoAudioPlayer.stream_paused = false
+		%RobotServoAudioPlayer.volume_linear = volume
+		%RobotServoAudioPlayer.pitch_scale = servo_pitch
+	else:
+		%RobotServoAudioPlayer.stream_paused = true
+	if head_volume > 0:
+		if %RobotHeadServoAudioPlayer.stream_paused:
+			%RobotHeadServoAudioPlayer.stream_paused = false
+		%RobotHeadServoAudioPlayer.volume_linear = head_volume
+		%RobotHeadServoAudioPlayer.pitch_scale = head_pitch
+	else:
+		%RobotHeadServoAudioPlayer.stream_paused = true
 	%RobotServoAudioPlayer/Label3D.text += "%f - %f - %f" % [volume, linear_to_db(volume), servo_pitch]
+	%RobotHeadServoAudioPlayer/Label3D.text = "%f" % head_volume
+	#%RobotServoAudioPlayer/Label3D.text += "\nMax: %f - Min: %f" % [max_volume, min_volume]
 	#if frame_bones_rotation != 0:
 	#	prints(frame_bones_rotation, volume, visible)
 
 var bone_rotation_prev:Dictionary[String,Quaternion] = {}
 var bones_rotation := 0.0
-func update_servo_volume() -> float:
-	var monitored_bones:Array[String] = [
-		"waist",
-		"chest",
-		"head",
-		#
-		"clavicle.L",
-		"shoulder.L",
-		"upperArm.L",
-		"upperArmKnot.L",
-		"foreArmKnot.L",
-		"palmKnot.L",
-		"thigh.L",
-		"knee.L",
-		"calf.L",
-		#
-		"clavicle.R",
-		"shoulder.R",
-		"upperArm.R",
-		"upperArmKnot.R",
-		"foreArmKnot.R",
-		"palmKnot.R",
-		"thigh.R",
-		"knee.R",
-		"calf.R",
-	]
+var head_rotation := 0.0
+const ROBOT_ANGLE_TO_SERVO = preload("res://curves/robot_angle_to_servo.tres")
+const ROBOT_ANGLE_TO_SERVO_PITCH = preload("res://curves/robot_angle_to_servo_pitch.tres")
+func update_servo_values(delta: float) -> Array[float]:
 	var frame_bones_rotation := 0.0
-	for b in monitored_bones:
-		var bone_id := skeleton.find_bone(b)
-		if bone_id == -1: continue
-		var bone_rotation := skeleton.get_bone_pose_rotation(bone_id)
-		if bone_rotation_prev.has(b):
-			var bone_angle := bone_rotation.angle_to(bone_rotation_prev[b])
-			frame_bones_rotation += bone_angle
-			if bone_angle > 0:
-				%RobotServoAudioPlayer/Label3D.text += "%s %f \n" % [b, bone_angle]
-				%RobotServoAudioPlayer/Label3D.text += "%f %f \n" % [bone_rotation.w, bone_rotation_prev[b].w]
-			#	prints(bone_angle, b)
-		bone_rotation_prev[b] = bone_rotation
-	bones_rotation = lerp(bones_rotation, frame_bones_rotation, 0.2)
-	return preload("res://curves/robot_angle_to_servo.tres").sample_baked(bones_rotation)
+	#var anim
+	#if anim.is_playing():
+	#	anim.get_animation(anim.current_animation).length
+	if !anim.is_playing() or anim.speed_scale == 0.0 or anim.get_playing_speed() == 0.0: # or anim.get_animation(anim.current_animation).length < 0.1: #anim.current_animation == "Idle":
+		pass
+	else:
+		const monitored_bones:Array[String] = [
+			"waist",
+			"chest",
+			"head",
+			#
+			"clavicle.L",
+			"shoulder.L",
+			"upperArm.L",
+			"upperArmKnot.L",
+			"foreArmKnot.L",
+			"palmKnot.L",
+			"thigh.L",
+			"knee.L",
+			"calf.L",
+			#
+			"clavicle.R",
+			"shoulder.R",
+			"upperArm.R",
+			"upperArmKnot.R",
+			"foreArmKnot.R",
+			"palmKnot.R",
+			"thigh.R",
+			"knee.R",
+			"calf.R",
+		]
+		const step := 0.1
+		if false:
+			for b in monitored_bones:
+				if looking_player and b == "head": continue
+				if b == "head": continue
+				var bone_id := skeleton.find_bone(b)
+				assert(bone_id != -1, "Bone not found")
+				if bone_id == -1: continue
+				var bone_rotation := skeleton.get_bone_pose_rotation(bone_id)
+				if bone_rotation_prev.has(b):
+					var bone_angle := bone_rotation.angle_to(bone_rotation_prev[b])
+					frame_bones_rotation += bone_angle
+					if bone_angle > 0:
+						%RobotServoAudioPlayer/Label3D.text += "%s %f \n" % [b, bone_angle]
+						%RobotServoAudioPlayer/Label3D.text += "%f %f \n" % [bone_rotation.w, bone_rotation_prev[b].w]
+					#	prints(bone_angle, b)
+				bone_rotation_prev[b] = bone_rotation
+			#bones_rotation = lerp(bones_rotation, frame_bones_rotation, 0.8)
+		else:
+			var animation := anim.get_animation(anim.current_animation)
+			%RobotServoAudioPlayer/Label3D.text += "SPEED: %f - L:%f\n" % [anim.speed_scale, animation.length]
+			for bone_name in monitored_bones:
+				var tid := animation.find_track("Armature/Skeleton3D:%s" % bone_name, Animation.TYPE_ROTATION_3D)
+				if tid == -1: continue
+				var value_a:Quaternion = animation.rotation_track_interpolate(
+					tid, anim.current_animation_position)
+				var value_b:Quaternion = animation.rotation_track_interpolate(
+					tid, anim.current_animation_position + step)
+				var bone_angle := value_a.angle_to(value_b) * anim.get_playing_speed()
+				#var bone_angle:float = (1.0-max(0, value_a.dot(value_b))) * anim.speed_scale
+				if bone_angle > 0:
+					%RobotServoAudioPlayer/Label3D.text += "%s %f \n" % [bone_name, bone_angle]
+				frame_bones_rotation += bone_angle
+			if anim.current_animation_position + step > animation.length:
+				frame_bones_rotation = 0.0
+			if animation.length == 0.0:
+				frame_bones_rotation = 0.0
+	#frame_bones_rotation += head_rotation * 0.3
+	%RobotServoAudioPlayer/Label3D.text += "%f \n" % [frame_bones_rotation]
+	bones_rotation = (frame_bones_rotation / delta) * 0.1
+	var volume := ROBOT_ANGLE_TO_SERVO.sample_baked(bones_rotation*0.2) * 0.7
+	var pitch := ROBOT_ANGLE_TO_SERVO_PITCH.sample_baked(bones_rotation)
+	assert(pitch > 0)
+	#
+	head_rotation = (head_rotation / delta) * 0.1
+	var head_volume = ROBOT_ANGLE_TO_SERVO.sample_baked(head_rotation) * 0.2
+	var head_pitch = ROBOT_ANGLE_TO_SERVO_PITCH.sample_baked(head_rotation)
+	#
+	#if is_event:
+		#head_volume *= 0.3
+	#head_volume = 0.0
+	#
+	return [
+		volume,
+		pitch,
+		head_volume,
+		head_pitch
+	]
 
 func update_radial(_delta: float) -> void:
 	#pressing_off_button -= delta * 2.0
@@ -634,6 +714,7 @@ func update_follow(delta: float) -> void:
 			grab_player()
 			follow_completed = true
 			GamePlatform.set_achievement("FOLLOW_KILL")
+			%RobotStepsAudioPlayer.stop()
 
 func walk_towards_player(delta:float, speed: float) -> bool:
 	var player_pos := Global.player.global_position
@@ -938,10 +1019,16 @@ func disable_colliders() -> void:
 	for c:CollisionShape3D in %RobotStaticBody.get_children():
 		c.disabled = true
 
+var clear_pose := false
+var last_head_rotation:Quaternion
 func follow_head(delta: float) -> void:
 	if not looking_player or not power_on:
-		skeleton.clear_bones_global_pose_override()
+		if clear_pose:
+			skeleton.clear_bones_global_pose_override()
+			clear_pose = false
+		head_rotation = 0.0
 		return
+	clear_pose = true
 	var head_attachment: Node3D= %robotObject.get_node("Armature/Skeleton3D/Head_Attachment/Head_Attachment")
 	var head_id := skeleton.find_bone("head")
 	var player_eyes := Global.player.global_position + Vector3(0, 1.7, 0)
@@ -952,9 +1039,18 @@ func follow_head(delta: float) -> void:
 	
 	neck_rotation_y = lerp_angle(neck_rotation_y, deg_to_rad(neck_rotation.y), 2 * delta)
 	
+	#var old_rotation := skeleton.get_bone_pose_rotation(head_id)
 	var new_rotation := Quaternion.from_euler(
 		Vector3(deg_to_rad(neck_rotation.x), neck_rotation_y, 0))
 	skeleton.set_bone_pose_rotation(head_id, new_rotation)
+	
+	if not last_head_rotation:
+		last_head_rotation = new_rotation
+	else:
+		head_rotation = new_rotation.angle_to(last_head_rotation)
+		last_head_rotation = new_rotation
+	#if is_event:
+		#head_rotation = 0.0
 	
 
 func follow_head_old(_delta: float) -> void:

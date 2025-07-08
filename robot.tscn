@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cp3bk1xsmjnxj"]
+[gd_scene load_steps=37 format=3 uid="uid://cp3bk1xsmjnxj"]
 
 [ext_resource type="Script" uid="uid://dhmmamycpna87" path="res://robot.gd" id="1_0iowa"]
 [ext_resource type="PackedScene" uid="uid://i62gmp8ivyp7" path="res://objects/robot.glb" id="2_kdi4s"]
@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://332rjuogcwrr" path="res://sounds/draining_power_b.ogg" id="11_b7g11"]
 [ext_resource type="AudioStream" uid="uid://bhqqesjcqokyw" path="res://sounds/robot_sound_off.mp3" id="11_sdwbx"]
 [ext_resource type="AudioStream" uid="uid://donnwumhhs781" path="res://sounds/ExecutiveAttack.ogg" id="15_xfmxk"]
+[ext_resource type="AudioStream" uid="uid://c6sdwl1u0s8hf" path="res://sounds/robot_sound_02.ogg" id="16_awah6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lloov"]
 metallic = 1.0
@@ -330,7 +331,7 @@ bus = &"Robots"
 [node name="RobotStepsAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
 unique_name_in_owner = true
 stream = ExtResource("6_bkaji")
-bus = &"Robots"
+bus = &"Servos"
 
 [node name="RobotLaughAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
 unique_name_in_owner = true
@@ -388,13 +389,30 @@ emission_angle_degrees = 43.0
 [node name="RobotServoAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.54175, 0)
-stream = ExtResource("10_20614")
+stream = ExtResource("16_awah6")
+attenuation_model = 1
+volume_db = -80.0
+max_db = 6.0
+autoplay = true
+bus = &"Servos"
+
+[node name="Label3D" type="Label3D" parent="RobotBody/RobotServoAudioPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.362793)
+visible = false
+pixel_size = 0.001
+text = "000"
+
+[node name="RobotHeadServoAudioPlayer" type="AudioStreamPlayer3D" parent="RobotBody"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1142, 0)
+stream = ExtResource("16_awah6")
+attenuation_model = 1
 volume_db = -80.0
 unit_size = 5.0
 autoplay = true
-bus = &"Robots"
+bus = &"Servos"
 
-[node name="Label3D" type="Label3D" parent="RobotBody/RobotServoAudioPlayer"]
+[node name="Label3D" type="Label3D" parent="RobotBody/RobotHeadServoAudioPlayer"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.362793)
 visible = false
 pixel_size = 0.001

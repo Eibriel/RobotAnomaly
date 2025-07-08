@@ -90,6 +90,9 @@ func reset_timers() -> void:
 	noise_executed()
 
 func should_robots_be_angry() -> bool:
+	if OS.has_feature("editor"):
+		#return true
+		pass
 	if angry_timer > 17*60:
 		return true
 	return false
