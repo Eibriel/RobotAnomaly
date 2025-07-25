@@ -53,7 +53,7 @@ float remap(float p_value, float p_istart, float p_istop, float p_ostart, float 
 
 vec4 alpha_over(vec4 color_background, vec4 color_foreground) {
 	return vec4(
-		mix(color_background.rgb*color_background.a, color_foreground.rgb, color_foreground.a),
+		mix(color_background.rgb*color_background.a, color_foreground.rgb*color_foreground.a, color_foreground.a),
 		clamp(color_background.a+color_foreground.a, 0.0, 1.0));
 }
 
