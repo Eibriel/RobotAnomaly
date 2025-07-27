@@ -44,6 +44,9 @@ float lerp(float a, float b, float w) {
 }
 
 float inverse_lerp(float p_from, float p_to, float p_value) {
+	if (p_to - p_from == 0.0) {
+		return 1.0;
+	}
 	return (p_value - p_from) / (p_to - p_from);
 }
 
