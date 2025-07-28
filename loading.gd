@@ -81,4 +81,6 @@ func change_scene() -> void:
 	var new_scene: PackedScene = ResourceLoader.load_threaded_get(game_scene_path)
 	#get_tree().change_scene_to_packed(new_scene)
 	get_node("/root/Loading").queue_free()
-	get_tree().root.add_child(new_scene.instantiate())
+	var game_scene := new_scene.instantiate()
+	get_tree().root.add_child(game_scene)
+	get_tree().current_scene = game_scene
