@@ -3425,6 +3425,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="FadeBlack" type="ColorRect" parent="Control"]
 unique_name_in_owner = true

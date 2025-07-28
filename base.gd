@@ -216,7 +216,7 @@ func _ready() -> void:
 		disable_event(EVENTS[e], true)
 	#
 	#next_event_in = get_next_event_time() + 60.0
-	turn_lights_on()
+	turn_lights_off(0.0, false, false)
 	target_exposure = 6.0
 	#
 	if Global.is_export():
@@ -568,21 +568,21 @@ func update_light_anomunt() -> void:
 	if lights_on:
 		RenderingServer.global_shader_parameter_set("lights_percent", %MainOfficeWithCollision.lights_percent)
 
-func turn_lights_on() -> void:
+func turn_lights_on(sound: bool = true) -> void:
 	prints("turn_lights_on")
 	lights_locked = false
 	event_light_timer = randf_range(60.0*7, 60.0*15)
 	if lights_on: return
 	#prints("robots_are_angry", robots_are_angry)
 	#if robots_are_angry: return
-	%LightSwitch3.turn_on_off()
+	%LightSwitch3.turn_on_off(sound)
 	lights_on = true
 	lights_timer = 0.0
 
-func turn_lights_off(delay:=0.0, lock_lights: bool = false) -> void:
+func turn_lights_off(delay:=0.0, lock_lights: bool = false, sound: bool = true) -> void:
 	lights_locked = lock_lights
 	if delay == 0.0:
-		%LightSwitch3.turn_on_off()
+		%LightSwitch3.turn_on_off(sound)
 		lights_on = false
 		lights_timer = 0.0
 	else:
@@ -1943,6 +1943,7 @@ func fadeblack_show_tween() -> void:
 func fadewhite_show_tween() -> void:
 	var tween := create_tween()
 	tween.tween_callback($AudioStreamPlayer.play)
+	tween.tween_callback(turn_lights_on.bind(false)).set_delay(1.0)
 	tween.tween_property(%FadeWhite, "modulate:a", 0.0, 2.0)
 	tween.parallel().tween_callback(Global.player.unlock_movement).set_delay(0.5)
 

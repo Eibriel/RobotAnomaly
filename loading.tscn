@@ -1,8 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3sxh0m8wgp65"]
+[gd_scene load_steps=12 format=3 uid="uid://b3sxh0m8wgp65"]
 
 [ext_resource type="Script" uid="uid://db0fip1kkqc83" path="res://loading.gd" id="1_gov4d"]
 [ext_resource type="Texture2D" uid="uid://g0iglb2ra8vj" path="res://textures/EibrielLogo.png" id="2_pg7vo"]
+[ext_resource type="FontFile" uid="uid://bsg6fknwl6vl2" path="res://fonts/FiraSansCondensed-Bold.ttf" id="2_xvgud"]
 [ext_resource type="Theme" uid="uid://i4ukwmbjgbqv" path="res://themes/pause_menu.tres" id="3_1l04a"]
+[ext_resource type="Texture2D" uid="uid://i2fjgiobq1jx" path="res://textures/robot_anomaly_logo.png" id="3_ypwvy"]
+[ext_resource type="PackedScene" uid="uid://c7k1k6b3kywp2" path="res://objects/props/WoodCrateOpen.gltf" id="4_wc73m"]
+[ext_resource type="ArrayMesh" uid="uid://dgr3y7c3cei3s" path="res://meshes/static_robot.res" id="5_xvgud"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ypwvy"]
+font = ExtResource("2_xvgud")
+font_size = 30
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.745098)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wc73m"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_xvgud"]
+sky_material = SubResource("ProceduralSkyMaterial_wc73m")
+
+[sub_resource type="Environment" id="Environment_ypwvy"]
+background_mode = 2
+background_energy_multiplier = 0.0
+sky = SubResource("Sky_xvgud")
+tonemap_mode = 2
 
 [node name="Loading" type="Control"]
 layout_mode = 3
@@ -12,6 +35,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gov4d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -517.0
+offset_top = 7.0
+offset_right = -117.0
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RobotAnomalyLogo2" type="TextureRect" parent="VBoxContainer"]
+modulate = Color(1, 1, 1, 0.862745)
+custom_minimum_size = Vector2(400, 200)
+layout_mode = 2
+texture = ExtResource("3_ypwvy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StartLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "PRESS KEY TO START"
+label_settings = SubResource("LabelSettings_ypwvy")
+horizontal_alignment = 1
+autowrap_mode = 2
+justification_flags = 161
 
 [node name="WhiteColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -57,3 +112,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="StaticRobot" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -0.101202, 0.127599, 0.337137)
+mesh = ExtResource("5_xvgud")
+skeleton = NodePath("../..")
+
+[node name="WoodCrateOpen" parent="Node3D" instance=ExtResource("4_wc73m")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.106331, 1.19209e-07, -0.113537)
+
+[node name="WoodCrateOpen2" parent="Node3D" instance=ExtResource("4_wc73m")]
+transform = Transform3D(0.57024, 0, 0.821478, 0, 1, 0, -0.821478, 0, 0.57024, -2.19589, 3.57628e-07, 0.229527)
+
+[node name="WoodCrateOpen3" parent="Node3D" instance=ExtResource("4_wc73m")]
+transform = Transform3D(0.456192, 0, 0.657182, 0, 0.8, 0, -0.657182, 0, 0.456192, -1.72098, 0.362421, -0.577831)
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+unique_name_in_owner = true
+transform = Transform3D(0.827596, 0.0367207, 0.560121, -0.220258, 0.939073, 0.263873, -0.516305, -0.341751, 0.785261, 0.0752476, 2.2562, 2.10358)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Node3D"]
+unique_name_in_owner = true
+transform = Transform3D(0.991159, 0.0581592, -0.119257, -0.0875668, 0.961999, -0.258631, 0.0996833, 0.266787, 0.958586, -0.635017, 0.896807, 2.58393)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D"]
+environment = SubResource("Environment_ypwvy")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
+transform = Transform3D(-0.866023, -0.423322, -0.266086, 0, -0.532169, 0.846638, -0.500003, 0.733208, 0.460871, -0.468405, 0.540861, 0.811294)
+visible = false
+shadow_enabled = true

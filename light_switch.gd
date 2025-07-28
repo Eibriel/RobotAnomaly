@@ -22,11 +22,12 @@ func _ready() -> void:
 			$LightSwitchNew.visible = false
 	switch_up.visible = false
 
-func turn_on_off() -> void:
+func turn_on_off(sound: bool = true) -> void:
 	GamePlatform.stats["light_switch"] += 1
 	switch_up.visible = !switch_up.visible
 	switch_down.visible = !switch_down.visible
-	if switch_down.visible:
-		$SwitchOffAudio.play()
-	else:
-		$SwitchOnAudio.play()
+	if sound:
+		if switch_down.visible:
+			$SwitchOffAudio.play()
+		else:
+			$SwitchOnAudio.play()
