@@ -27,7 +27,7 @@ extends Resource
 
 @export var invert_y := false
 
-@export var quality: int = 3
+@export var quality: int = 1
 
 @export var window_position: Vector2
 
