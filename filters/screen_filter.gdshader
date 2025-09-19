@@ -68,7 +68,7 @@ float reduce_color(float raw, float dither, int depth) {
 
 void fragment() {
 	vec4 screen_color = texture(SCREEN_TEXTURE, SCREEN_UV);
-	
+
 	vec4 raw = texture(SCREEN_TEXTURE, SCREEN_UV);
 	ivec2 uv = ivec2(FRAGCOORD.xy / float(dither_size));
 
@@ -86,7 +86,7 @@ void fragment() {
 	} else {
 		screen_color.rgb = raw.rgb;
 	}
-	
+
 	vec4 texture_color = texture(TEXTURE, UV);
 	vec3 mix_color = mix(screen_color, screen_color * vec4(1.0, 0.1, 0.1, 1.0), blood_vignete).rgb;
 

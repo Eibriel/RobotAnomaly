@@ -128,7 +128,7 @@ var force_anomaly := Robot.GLITCHES.NONE
 var linear_game := false
 var force_dressing := DRESSING.NONE
 var reset_save := false
-var override_state := true
+var override_state := false
 var state_override := GameStateResource.new()
 var fail_all := false
 var force_events := true
@@ -407,13 +407,14 @@ func fix_scenario_order(sel_scenarios: Array[Robot.GLITCHES], com_scenarios: Arr
 	can_be_moved.erase(Robot.GLITCHES.DOOR_OPEN)
 	#can_be_moved.erase(Robot.GLITCHES.LIGHTS_OFF)
 	can_be_moved.erase(Robot.GLITCHES.GRABS_BATTERY)
+	can_be_moved.erase(Robot.GLITCHES.OCTOPUS)
 	var completed_amound := com_scenarios.size()
 	var adjusted_floor_amount := FLOORS_AMOUNT - completed_amound
 	var adjusted_intro_amount := INTRO_AMOUNT - completed_amound
 	prints("adjusted_floor_amount", adjusted_floor_amount)
 	prints("adjusted_intro_amount", adjusted_intro_amount)
 	# TODO None anomaly spread evenly and without repetition
-	# First Anomaly must be red eyes
+	# First Anomaly must be Octopus
 	if sel_scenarios[0] != Robot.GLITCHES.OCTOPUS:
 		var none_key = sel_scenarios.find(Robot.GLITCHES.OCTOPUS)
 		if none_key >= 0:
@@ -1387,10 +1388,12 @@ func load_settings() -> void:
 	%IgnoreControllersCheckBox.set_pressed_no_signal(game_settings.ignore_controllers)
 	%MaxFPSSpin.set_value_no_signal(game_settings.max_fps)
 	%UIScaleSlider.set_value_no_signal(game_settings.ui_scale)
+	%FOVSlider.set_value_no_signal(game_settings.fov)
 	%QualityMenu.selected = game_settings.quality
 	Global.player.sensitivity = remap(game_settings.mouse_sensibility, 0, 100, 0.01, 2.0)
 	Global.player.rotation_accel = game_settings.mouse_acceleration
 	Global.player.camera_shake = game_settings.camera_shake
+	Global.player.fov = game_settings.fov
 	Global.player.update_breathing_tween()
 	var volume_level := remap(game_settings.volume_level, 0, 100, -30, 20)
 	var sfx_index := AudioServer.get_bus_index("Master")
@@ -2704,6 +2707,12 @@ func _on_quality_option_button_item_selected(index: int) -> void:
 func _on_ui_scale_slider_drag_ended(value_changed: bool) -> void:
 	if value_changed:
 		game_settings.ui_scale = %UIScaleSlider.value
+		save_game_settings()
+		load_settings()
+
+func _on_fov_slider_drag_ended(value_changed: bool) -> void:
+	if value_changed:
+		game_settings.fov = %FOVSlider.value
 		save_game_settings()
 		load_settings()
 

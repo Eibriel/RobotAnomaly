@@ -10,6 +10,7 @@ const ACCEL := 5.0
 @export var min_angle := -80.0
 @export var max_angle := 90.0
 @export var height := 1.9
+@export var fov := 1.0
 
 @onready var head = $Head
 
@@ -36,6 +37,7 @@ func _ready() -> void:
 	update_breathing_tween()
 
 func update_breathing_tween() -> void:
+	%CharacterCamera.fov = 37.8 * fov
 	if breathing_tween:
 		breathing_tween.stop()
 	breathing_tween = create_tween()

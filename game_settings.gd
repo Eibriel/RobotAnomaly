@@ -39,6 +39,8 @@ extends Resource
 
 @export var ignore_controllers := false
 
+@export var fov := 1.0
+
 enum locale_names {
 	en,
 	es_AR,

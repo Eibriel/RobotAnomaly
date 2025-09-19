@@ -3913,11 +3913,11 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../UIScaleSlider")
+focus_neighbor_top = NodePath("../FOVSlider")
 focus_neighbor_right = NodePath(".")
 focus_neighbor_bottom = NodePath("../FullscreenCheckBox")
 focus_next = NodePath("../FullscreenCheckBox")
-focus_previous = NodePath("../UIScaleSlider")
+focus_previous = NodePath("../FOVSlider")
 text = "BACK"
 
 [node name="HSeparator" type="HSeparator" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
@@ -4013,8 +4013,8 @@ layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../FilterCheckBox")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../UIScaleLabel")
-focus_next = NodePath("../UIScaleLabel")
+focus_neighbor_bottom = NodePath("../UIScaleSlider")
+focus_next = NodePath("../UIScaleSlider")
 focus_previous = NodePath("../FilterCheckBox")
 text = "CURSOR ALWAYS ON"
 flat = true
@@ -4029,12 +4029,32 @@ layout_mode = 2
 focus_neighbor_left = NodePath(".")
 focus_neighbor_top = NodePath("../CursorCheckBox")
 focus_neighbor_right = NodePath(".")
-focus_neighbor_bottom = NodePath("../DisplaySettingsBackButton")
-focus_next = NodePath("../DisplaySettingsBackButton")
+focus_neighbor_bottom = NodePath("../FOVSlider")
+focus_next = NodePath("../FOVSlider")
 focus_previous = NodePath("../CursorCheckBox")
 min_value = 0.5
 max_value = 1.5
 step = 0.5
+value = 1.0
+tick_count = 3
+ticks_on_borders = true
+
+[node name="FOVLabel" type="Label" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+layout_mode = 2
+text = "FOV"
+
+[node name="FOVSlider" type="HSlider" parent="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../UIScaleSlider")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../DisplaySettingsBackButton")
+focus_next = NodePath("../DisplaySettingsBackButton")
+focus_previous = NodePath("../UIScaleSlider")
+min_value = 0.5
+max_value = 1.5
+step = 0.1
 value = 1.0
 tick_count = 3
 ticks_on_borders = true
@@ -4664,6 +4684,7 @@ visible = false
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FilterCheckBox" to="." method="_on_filter_check_box_toggled"]
 [connection signal="toggled" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/CursorCheckBox" to="." method="_on_cursor_check_box_toggled"]
 [connection signal="drag_ended" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/UIScaleSlider" to="." method="_on_ui_scale_slider_drag_ended"]
+[connection signal="drag_ended" from="Control/PauseMenu/DisplaySettingsMenu/VBoxContainer/FOVSlider" to="." method="_on_fov_slider_drag_ended"]
 [connection signal="pressed" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/AudioSettingsBackButton" to="." method="_on_audio_settings_back_button_pressed"]
 [connection signal="drag_ended" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
 [connection signal="item_selected" from="Control/PauseMenu/AudioSettingsMenu/VBoxContainer/LanguageMenu" to="." method="_on_language_menu_item_selected"]
