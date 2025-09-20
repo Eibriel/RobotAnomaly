@@ -15,9 +15,9 @@ gradient = SubResource("Gradient_7uuk1")
 frequency = 0.0337
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xh7xq"]
-seamless = true
-color_ramp = SubResource("Gradient_3ui8n")
 noise = SubResource("FastNoiseLite_cco5x")
+color_ramp = SubResource("Gradient_3ui8n")
+seamless = true
 
 [resource]
 resource_name = "Robot_Clothes"
