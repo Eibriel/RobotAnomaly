@@ -264,13 +264,18 @@ func _ready() -> void:
 		%ReviewQuitButton.visible = true
 		%ResetButton.focus_neighbor_bottom = %ReviewQuitButton.get_path()
 		%ResetButton.focus_next = %ReviewQuitButton.get_path()
+	if false:
+		if Global.is_demo():
+			#%PlayTestMenu.visible = true
+			%QuitButton.visible = false
+			%WishlistQuitButton.visible = true
+			%ResetButton.focus_neighbor_bottom = %WishlistQuitButton.get_path()
+			%ResetButton.focus_next = %WishlistQuitButton.get_path()
 	if Global.is_demo():
-		#%PlayTestMenu.visible = true
-		%QuitButton.visible = false
-		%WishlistQuitButton.visible = true
-		%ResetButton.focus_neighbor_bottom = %WishlistQuitButton.get_path()
-		%ResetButton.focus_next = %WishlistQuitButton.get_path()
-		
+		%ResetButton.focus_neighbor_bottom = %WishlistButton2.get_path()
+		%ResetButton.focus_next = %WishlistButton2.get_path()
+		%QuitButton.focus_neighbor_top = %WishlistButton2.get_path()
+		%QuitButton.focus_previous = %WishlistButton2.get_path()
 	
 	if Global.recording_trailer:
 		%LogLabel.visible = false
@@ -298,8 +303,13 @@ func print_help() -> void:
 func post_shader_cache() -> void:
 	%FadeWhite.visible = true
 	%FadeBlack.visible = true
-	if Global.is_playtest() or Global.is_demo():
+	if Global.is_playtest():
 		%PlayTestMenu.visible = true
+	if Global.is_demo():
+		#%PlayTestMenu.visible = true
+		%WishlistButton2.visible = true
+	else:
+		%WishlistButton2.visible = false
 
 	%DressingNode.position.z = 0
 	%ShaderCache.visible = false
@@ -2727,8 +2737,8 @@ func _on_quit_button_pressed() -> void:
 	show_menu_tween(%QuitGameMenu)
 	if Global.is_playtest():
 		GlobalSteam.open_url("https://app.formbricks.com/s/cm8g8koty0003id03r7u9aciy")
-	if Global.is_demo():
-		GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/?utm_source=ingame_ra")
+	#if Global.is_demo():
+	#	GlobalSteam.open_url("https://store.steampowered.com/app/3583330/Robot_Anomaly/?utm_source=ingame_ra")
 
 func _on_reset_button_pressed() -> void:
 	#%ResetButton.visible = false

@@ -1097,7 +1097,7 @@ transform = Transform3D(0.0477566, -0.987483, 0.150323, 0.849819, 0.119254, 0.51
 transform = Transform3D(-0.0368649, -0.999276, -0.00940965, 0.199854, -0.0165982, 0.979685, -0.979132, 0.0342356, 0.200322, -1.46895, 0.698585, -0.824353)
 
 [node name="WoodCrateCover16" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(0.9037059, -0.043172613, 0.42597052, -0.4258881, 0.011542843, 0.9047022, -0.04397524, -0.9990009, -0.007955371, -2.91893, 0.583778, -1.58907)
+transform = Transform3D(0.90370584, -0.04317261, 0.42597052, -0.42588806, 0.011542842, 0.9047022, -0.043975238, -0.99900085, -0.007955371, -2.91893, 0.583778, -1.58907)
 
 [node name="WoodCrateCover3" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.0725591, -0.0740007, -0.015988, 0.99713, 1.13852, 0.0481619, 4.58074)
@@ -1106,7 +1106,7 @@ transform = Transform3D(0.480565, -0.876693, 0.0216076, 0.873831, 0.480785, 0.07
 transform = Transform3D(1.5865e-09, -1, 4.36826e-08, -0.247709, -4.27142e-08, -0.968834, 0.968834, -9.28353e-09, -0.247709, 3.97783, 0.663728, 6.97771)
 
 [node name="WoodCrateCover14" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
-transform = Transform3D(0.9687829, 0.010179706, -0.2476976, -0.2477102, -8.967092e-07, -0.96883404, -0.0098626595, 0.99994797, 0.002520751, 1.03041, 0.663728, 5.46366)
+transform = Transform3D(0.9687829, 0.010179705, -0.2476976, -0.2477102, -8.9670914e-07, -0.96883404, -0.0098626595, 0.9999479, 0.002520751, 1.03041, 0.663728, 5.46366)
 
 [node name="WoodCrateCover15" parent="OfficeNode/DressingNode/office_start/WoodCratesCovers" instance=ExtResource("21_1edtk")]
 transform = Transform3D(0.968784, 0.0101751, -0.247696, -0.247709, -4.27142e-08, -0.968834, -0.00985798, 0.999948, 0.00252042, 1.03041, 0.663728, 8.33021)
@@ -3620,6 +3620,17 @@ focus_next = NodePath("../QuitButton")
 focus_previous = NodePath("../HowToPlayButton")
 text = "RESET GAME"
 
+[node name="WishlistButton2" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../ResetButton")
+focus_neighbor_right = NodePath(".")
+focus_neighbor_bottom = NodePath("../QuitButton")
+focus_next = NodePath("../QuitButton")
+focus_previous = NodePath("../ResetButton")
+text = "WISHLIST"
+
 [node name="QuitButton" type="Button" parent="Control/PauseMenu/InitialMenu/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -4667,6 +4678,7 @@ visible = false
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ResetButton" to="." method="_on_reset_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/WishlistButton2" to="." method="_on_wishlist_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/QuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/ReviewQuitButton" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="Control/PauseMenu/InitialMenu/VBoxContainer2/WishlistQuitButton" to="." method="_on_quit_button_pressed"]
