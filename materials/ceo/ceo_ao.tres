@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=8 format=3 uid="uid://b2cv37yl6qdxk"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b2cv37yl6qdxk"]
 
 [ext_resource type="Texture2D" uid="uid://da3cunnjg5cnu" path="res://textures/CEO_AO.png" id="1_2y77x"]
 [ext_resource type="Shader" uid="uid://b6prd1fbvivel" path="res://materials/ceo/ceo_floor_ao.gdshader" id="2_luobu"]

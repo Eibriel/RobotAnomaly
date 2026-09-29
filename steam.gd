@@ -54,8 +54,9 @@ var _achievements = {
 
 var stats: Dictionary
 
+var current_app_id:int
+
 func _init() -> void:
-	var current_app_id:int
 	if Global.is_playtest():
 		current_app_id = APP_ID_PLAYTEST
 	elif Global.is_demo():
@@ -101,7 +102,7 @@ func initialize_steam() -> void:
 		print("Steam is not running")
 		return
 	
-	var initialize_response: Dictionary = Steam.steamInitEx(true)
+	var initialize_response: Dictionary = Steam.steamInitEx(current_app_id)
 	print("Did Steam initialize?: %s " % initialize_response)
 
 	if initialize_response['status'] > 0:
@@ -109,7 +110,8 @@ func initialize_steam() -> void:
 		return
 	
 	initialized = true
-	is_on_steam_deck = Steam.isSteamRunningOnSteamDeck()
+	var steam_config = Steam.getSteamHardwareDefaultConfig()
+	is_on_steam_deck = steam_config == Steam.STEAM_HARDWARE_DEFAULT_CONFIG_STEAM_DECK
 	is_online = Steam.loggedOn()
 	is_owned = Steam.isSubscribed()
 	steam_id = Steam.getSteamID()

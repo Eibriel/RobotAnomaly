@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://cyqp5spqxuur0"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cyqp5spqxuur0"]
 
 [ext_resource type="Texture2D" uid="uid://be1l4gv2pewiu" path="res://objects/props/props_textures/WoodCrate_High_Base.png" id="1_18hgk"]
 [ext_resource type="Texture2D" uid="uid://dnpb52l3brwxn" path="res://objects/props/props_textures/WoodCrate_High_MR.png" id="2_782x3"]

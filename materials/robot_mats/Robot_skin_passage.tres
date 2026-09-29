@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=8 format=3 uid="uid://dvynrgypa86j4"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dvynrgypa86j4"]
 
 [ext_resource type="Texture2D" uid="uid://53i6sjk2vr61" path="res://textures/robot_bake/RobotOcclussion_Bake.png" id="1_11c35"]
 

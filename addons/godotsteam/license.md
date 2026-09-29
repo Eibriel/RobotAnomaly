@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2015-Current | GP Garcia and Contributors
+Copyright (c) 2015-Current | GP Garcia, Chris Ridenour, and Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -28,7 +28,8 @@ func _ready() -> void:
 	mat.emission_texture = grad
 	mat.emission_energy_multiplier = 2.0
 	grad.gradient = Gradient.new()
-	grad.gradient.colors[1] = Color.BLACK
+	grad.gradient.set_color(1, Color.BLACK)
+	#grad.gradient.colors[1] = Color.BLACK
 	grad.gradient.interpolation_mode = Gradient.GRADIENT_INTERPOLATE_CONSTANT
 	$Progress.set_surface_override_material(0, mat)
 
@@ -37,17 +38,22 @@ func _process(delta: float) -> void:
 	var text := mat.albedo_texture.gradient as Gradient
 	var limited_value := clampf(value, 0.0, 100.0)
 	if limited_value < 100:
-		text.offsets[1] = limited_value / 100.0
+		#text.offsets[1] = limited_value / 100.0
+		text.set_offset(1, limited_value / 100.0)
 	else:
-		text.offsets[1] = 0.99
+		#text.offsets[1] = 0.99
+		text.set_offset(1, 0.99)
 	match color_scheme:
 		COLOR_SCHEME.WHITE:
-			text.colors[0] = Color.WHITE
+			#text.colors[0] = Color.WHITE
+			text.set_color(0, Color.WHITE)
 		COLOR_SCHEME.RED_GREEN:
 			if value >= 100 or true:
-				text.colors[0] = Color.RED
+				#text.colors[0] = Color.RED
+				text.set_color(0, Color.RED)
 			else:
-				text.colors[0] = Color.GREEN
+				#text.colors[0] = Color.GREEN
+				text.set_color(0, Color.GREEN)
 	
 	if time_no_change == 0:
 		if not is_feedbacking:

@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://ct6ya1121r44a"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ct6ya1121r44a"]
 
 [ext_resource type="Texture2D" uid="uid://cul0eckatggap" path="res://textures/walls_floor/T_uikpbgjdy_8K_B.png" id="1_217lv"]
 [ext_resource type="Texture2D" uid="uid://dowahgjxs5op6" path="res://textures/baked_light/WallsFloorRoof_Bake_Div.png" id="2_k2vc4"]

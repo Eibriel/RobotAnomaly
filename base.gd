@@ -2647,7 +2647,7 @@ func _on_volume_slider_drag_ended(value_changed: bool) -> void:
 		load_settings()
 
 func _on_language_menu_item_selected(index: int) -> void:
-	game_settings.language = index
+	game_settings.language = index as GameSettingsResource.locale_names
 	save_game_settings()
 	load_settings()
 

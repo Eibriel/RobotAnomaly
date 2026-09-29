@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://brfh302dlpvub"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://brfh302dlpvub"]
 
 [ext_resource type="Texture2D" uid="uid://78jjxdpexugg" path="res://objects/props/props_textures/Wood_High_Small_Base.png" id="1_6pvp4"]
 [ext_resource type="Texture2D" uid="uid://di7cju48i5mn2" path="res://objects/props/props_textures/Wood_High_Small_MR.png" id="2_v6obg"]

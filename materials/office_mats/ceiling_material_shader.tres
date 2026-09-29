@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bvd3td7awq4t"]
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bvd3td7awq4t"]
 
 [ext_resource type="Texture2D" uid="uid://bxan7wk2ve8pi" path="res://textures/walls_floor/ceiling_text.jpg" id="1_no4vq"]
 [ext_resource type="Texture2D" uid="uid://dowahgjxs5op6" path="res://textures/baked_light/WallsFloorRoof_Bake_Div.png" id="2_l06wr"]
